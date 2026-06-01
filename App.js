@@ -1,11 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import Header from './src/components/Header';
+import CadastroScreen from './src/pages/CadastroScreen';
+import LoginScreen from './src/pages/LoginScreen';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Header />
+      <CadastroScreen />
+      <LoginScreen />
     </View>
   );
 }
@@ -13,6 +15,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9fafb',
+    justifyContent: 'center',
+    backgroundColor: '#ffffff',
+    fontFamily: 'Inter',
   },
 });
