@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
 
     description: {
         textAlign: "center",
-        fontSize: 12,
+        fontSize: 14,
         color: "#666",
     },
 });

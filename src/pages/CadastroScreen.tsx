@@ -216,10 +216,6 @@ const styles = StyleSheet.create({
   formContainer: {
     padding: 24,
     borderRadius: 16,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 3, // sombra para android
   },
 
   cardContainer: {
