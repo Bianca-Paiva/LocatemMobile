@@ -11,7 +11,7 @@ export default function Header() {
             style={styles.headerContainer}
         >
             <Image
-                source={require('../../assets/LogoLocatem.png')}
+                source={require('../../assets/images/LogoLocatem.png')}
                 style={styles.logoImg}
             />
             <Text style={styles.logoTexto}>

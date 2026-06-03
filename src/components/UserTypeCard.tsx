@@ -1,6 +1,14 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function UserTypeCard({ title, description, icon, selected, onPress }) {
+interface UserTypeCardProps {
+    title: string;
+    description: string;
+    icon: ImageSourcePropType;
+    selected: boolean;
+    onPress: () => void;
+}
+
+export default function UserTypeCard({ title, description, icon, selected, onPress }: UserTypeCardProps) {
     return (
         <TouchableOpacity
             style={[

@@ -1,4 +1,6 @@
-export const formatDocument = (value, userType) => {
+export type UserType = "locatario" | "locador";
+
+export const formatDocument = ( value: string, userType: UserType ): string => {
 
     const onlyNumbers = value.replace(/\D/g, '');
 
