@@ -6,10 +6,11 @@ interface PasswordInputProps {
   placeholder: string;
   keyboardType: KeyboardTypeOptions;
   value: string;
+  marginBottom?: number;
   onChangeText: (text: string) => void;
 }
 
-export default function PasswordInput({ text, placeholder, keyboardType, value, onChangeText }: PasswordInputProps) {
+export default function PasswordInput({ text, placeholder, keyboardType, value, onChangeText, marginBottom = 20, }: PasswordInputProps) {
     
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -17,7 +18,7 @@ export default function PasswordInput({ text, placeholder, keyboardType, value, 
     <View>
       <Text style={styles.inputLabel}>{text}</Text>
 
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer, { marginBottom }]}>
         <TextInput
           style={styles.input}
           placeholder={placeholder}
@@ -56,7 +57,6 @@ const styles = StyleSheet.create({
 
   inputContainer: {
     position: "relative",
-    marginBottom: 20,
   },
 
   input: {
