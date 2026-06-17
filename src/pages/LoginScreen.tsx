@@ -1,7 +1,12 @@
-import { useState } from "react";
+import {useState} from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 import { validateEmail, validatePassword } from "../utils/validationsCadastro";
+
+// importacao dos elementos de navegação
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../routes/AppRoutes';
 
 // Components ↓
 import Input from "../components/Input";
@@ -10,6 +15,9 @@ import BtnPrincipal from "../components/BtnPrincipal";
 import AuthRedirect from "../components/AuthRedirect";
 
 export default function LoginScreen() {
+
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+ 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
