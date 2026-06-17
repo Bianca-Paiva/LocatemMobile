@@ -2,10 +2,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import CadastroScreen from "../pages/CadastroScreen";
 import LoginScreen from "../pages/LoginScreen";
+import { HomeScreen } from "../pages/home/HomeScreen";
 
 export type RootStackParamList = {
   LoginScreen: undefined,
   CadastroScreen: undefined,
+  HomeScreen: undefined,
 }
 
 const Stack = createStackNavigator();
@@ -25,6 +27,10 @@ export default function AppRoutes() {
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}
+      />
+      <Stack.Screen
+        name="HomeScreen"
+        component={HomeScreen}
       />
     </Stack.Navigator>
   );

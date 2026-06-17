@@ -1,6 +1,8 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 
+import { ChatButton } from "./ChatButton";
+
 export default function Header() {
     return (
         <LinearGradient
@@ -10,13 +12,9 @@ export default function Header() {
             end={{ x: 0, y: 1 }}
             style={styles.headerContainer}
         >
-            <Image
-                source={require('../../assets/images/LogoLocatem.png')}
-                style={styles.logoImg}
-            />
-            <Text style={styles.logoTexto}>
-                LOCATEM
-            </Text>
+        <View style={styles.btnChat}>
+             <ChatButton ></ChatButton>
+        </View>  
         </LinearGradient>
     );
 }
@@ -43,4 +41,7 @@ const styles = StyleSheet.create({
         color: "#000",
         letterSpacing: 1,
     },
+    btnChat:{
+        
+    }
 })

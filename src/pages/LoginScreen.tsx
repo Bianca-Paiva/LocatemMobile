@@ -1,26 +1,26 @@
 import {useState} from 'react';
 import { ScrollView, StyleSheet, Text, View, TouchableOpacity } from "react-native";
-
+ 
 import { validateEmail, validatePassword } from "../utils/validationsCadastro";
-
+ 
 // importacao dos elementos de navegação
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../routes/AppRoutes';
-
+ 
 // Components ↓
 import Input from "../components/Input";
 import PasswordInput from "../components/PasswordInput";
 import BtnPrincipal from "../components/BtnPrincipal";
 import AuthRedirect from "../components/AuthRedirect";
-
+ 
 export default function LoginScreen() {
-
+ 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+ 
   const handleLogin = () => {
     // E-MAIL ↓
     if (!validateEmail(email)) {
@@ -35,13 +35,13 @@ export default function LoginScreen() {
       return;
     }
   };
-
+ 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.containerTitulo}>
         <Text style={styles.titulo}>Entrar</Text>
       </View>
-
+ 
       <View style={styles.formContainer}>
         <Input
           text="E-mail"
@@ -63,10 +63,17 @@ export default function LoginScreen() {
             <Text>Esqueceu sua senha?</Text>
           </TouchableOpacity>
         </View>
+ 
+        <BtnPrincipal 
+            title="Entrar" 
+            onPress={ () => {
+              handleLogin();
+              navigation.navigate('HomeScreen')
 
-        <BtnPrincipal title="Entrar" onPress={handleLogin} />
+            }} 
+            />
       </View>
-
+ 
       <AuthRedirect
         text="Não tenho uma conta? "
         buttonText="Cadastrar"
@@ -75,7 +82,7 @@ export default function LoginScreen() {
     </ScrollView>
   );
 }
-
+ 
 const styles = StyleSheet.create({
   containerTitulo: {
     display: "flex",
@@ -94,14 +101,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#f9fafb",
     paddingVertical: 100,
   },
-
+ 
   formContainer: {
     padding: 24,
     borderRadius: 16,
   },
-
+ 
   esqueceuSenha: {
     marginTop: 0,
     marginBottom: 24,
   },
 });
+ 
