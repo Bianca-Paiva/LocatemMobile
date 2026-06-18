@@ -10,7 +10,7 @@ import { RootStackParamList } from '../routes/AppRoutes';
 import { ChatButton } from "./ChatButton";
 import SearchInput from "./SearchInput";
 
-export default function Header() {
+export default function LongHeader() {
 
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 

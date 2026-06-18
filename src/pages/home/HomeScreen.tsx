@@ -8,7 +8,8 @@ import { RootStackParamList } from '../../routes/AppRoutes';
 
 // Components ↓
 import Input from '../../components/Input';
-import Header from "../../components/Header";
+import LongHeader from "../../components/Header";
+import { ChatButton } from "../../components/ChatButton";
 
 export const HomeScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -16,14 +17,19 @@ export const HomeScreen = () => {
     return(
         <View style={styles.container}>
             <ScrollView>
-                <Header></Header>
 
+                <LongHeader/>
+
+                
             </ScrollView>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container:{},
+    container:{
+        flex: 1,
+        backgroundColor: "#ffff",
+    },
 
 });
