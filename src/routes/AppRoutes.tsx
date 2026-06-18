@@ -34,12 +34,27 @@ export default function AppRoutes() {
       <Stack.Screen
         name="RecoveryRequisitionScreen"
         component={RecoveryRequisitionScreen}
-        options={{headerShown: true, title:""}}
+        options={{
+          headerShown: true, 
+          title:"",
+          headerStyle: {
+            backgroundColor: "#f9fafb",
+          },
+          headerShadowVisible: false,
+        }}
       />
 
       <Stack.Screen
         name="ReceiveTokenScreen"
-        component={ReceiveTokenScreen}/>
+        component={ReceiveTokenScreen}
+        options={{
+          headerShown: true, 
+          title:"",
+          headerStyle: {
+            backgroundColor: "#f9fafb",
+          },
+          headerShadowVisible: false,
+        }}/>
     </Stack.Navigator>
   );
 }

@@ -1,24 +1,26 @@
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, TextStyle } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 interface AuthRedirectProps {
     text: string;
     buttonText: string;
     route: string;
+    textStyle?: TextStyle;
+    buttonTextStyle?: TextStyle;
 }
 
-export default function AuthRedirect({ text, buttonText, route }: AuthRedirectProps) {    
+export default function AuthRedirect({ text, buttonText, route, textStyle, buttonTextStyle }: AuthRedirectProps) {    
 
     const navigation = useNavigation<any>();
 
     return (
         <View style={styles.footerContainer}>
-            <Text style={styles.footerText}>{text}</Text>
+            <Text style={[styles.footerText, textStyle]}>{text}</Text>
 
             <TouchableOpacity
                 onPress={() => navigation.navigate(route)}
             >
-                <Text style={styles.registerText}>
+                <Text style={[styles.registerText, buttonTextStyle]}>
                     {buttonText}
                 </Text>
             </TouchableOpacity>
