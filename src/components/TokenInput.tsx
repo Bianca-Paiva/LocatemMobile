@@ -1,4 +1,4 @@
-import { use, useRef } from "react";
+import { useRef, useState } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, KeyboardTypeOptions } from "react-native";
 
 interface TokenInputProps{
@@ -11,6 +11,8 @@ export default function TokenInput({value, onChange}: TokenInputProps){
     // Armazena referências para os 5 TextInputs.
     // Permite manipular os campos diretamente, como mover o foco.
     const inputs = useRef<(TextInput | null)[]>([]);
+
+    const [focusedIndex, setFocusedIndex] = useState(0);
 
     /**
         Atualiza o valor do token na posição informada
@@ -36,6 +38,7 @@ export default function TokenInput({value, onChange}: TokenInputProps){
         // move automaticamente o foco para o próximo input.
         if(text && index < 4){
             inputs.current[index +1]?.focus();
+            setFocusedIndex(index + 1);
         }
     };
 
@@ -50,7 +53,11 @@ export default function TokenInput({value, onChange}: TokenInputProps){
                     ref={(ref) => {
                         inputs.current[index] = ref;
                     }}
-                    style={styles.input}
+                    onFocus={() => setFocusedIndex(index)}
+                    style={[
+                        styles.input,
+                        (value[index] || focusedIndex === index) && styles.inputActive
+                    ]}
                     keyboardType="numeric"
                     maxLength={1}
                     value={value[index] || ""}
@@ -67,6 +74,23 @@ export default function TokenInput({value, onChange}: TokenInputProps){
 }
 
 const styles = StyleSheet.create({
-    container:{},
-    input:{}
+    container:{
+        flexDirection: "row",
+        justifyContent:"space-between",
+        width : "100%",
+        marginTop:12,
+    },
+    input:{
+        width: 52,
+        height:64,
+        borderWidth: 1,
+        borderColor: "#D9D9D9",
+        borderRadius: 12,
+        textAlign: "center",
+        fontSize: 24,
+    },
+    inputActive:{
+        borderColor:"#FFD700",
+        borderWidth:2,
+    },
 })
