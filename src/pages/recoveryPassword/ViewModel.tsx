@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Alert } from "react-native";
 
 // valores da força  da senha
 export type PasswordStrength = "empty" | "weak" | "good" | "strong";
@@ -36,11 +37,13 @@ export default function useRecoveryPasswordViewModel() {
     //não deixar ir se a senha forem diferentes
     if (password !== confirmPassword) {
       console.log("Erro: As senhas não conferem!");
+      Alert.alert("Erro", "Senha inválida");
       return;
     }
 
     //-> API para efetivar a troca de senha
     console.log("Sucesso: Senha valida e pronta para envio");
+    Alert.alert("Sucesso", "Senha válida e pronta para envio");
   };
 
   return {

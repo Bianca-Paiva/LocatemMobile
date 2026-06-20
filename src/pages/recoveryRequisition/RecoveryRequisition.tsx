@@ -18,7 +18,10 @@ import { RootStackParamList } from "../../routes/AppRoutes";
 export const RecoveryRequisitionScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
-    const {onEmailChange, userEmail } = RecoveryRequisitionViewModel();
+    const {onEmailChange, userEmail, validateSendEmail } = RecoveryRequisitionViewModel();
+
+
+
     return(
         <View style={styles.container}>
             <View style={styles.textContainer}>
@@ -36,9 +39,9 @@ export const RecoveryRequisitionScreen = () => {
                 />
                 <BtnPrincipal
                 title="Enviar"
-                onPress={() => {
+                onPress={() => validateSendEmail(() => {
                     navigation.navigate("ReceiveTokenScreen");
-                }}
+                })} 
                 />
             </View>
 

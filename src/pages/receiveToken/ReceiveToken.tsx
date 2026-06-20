@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   StyleSheet,
   Text,
@@ -8,16 +8,18 @@ import {
   Platform,
 } from "react-native";
 
-// Componentes isolados do projeto
+// Componentes Reutilizáveis
 import BtnPrincipal from "../../components/BtnPrincipal";
 import TokenInput from "../../components/TokenInput";
 
-// Navegação e Tipagem do TypeScript
+// Navegação e Tipagem
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../../routes/AppRoutes";
 
-// Tipagem exata para garantir que a navegação não quebre
+// Importando a camada de lógica isolada
+import useReceiveTokenViewModel from "./ViewModel";
+
 type ReceiveTokenScreenProp = StackNavigationProp<
   RootStackParamList,
   "ReceiveTokenScreen"
@@ -26,52 +28,25 @@ type ReceiveTokenScreenProp = StackNavigationProp<
 export default function ReceiveTokenScreen() {
   const navigation = useNavigation<ReceiveTokenScreenProp>();
 
-  // Estados da tela
-  const [token, setToken] = useState(""); // Guarda o código digitado nos quadradinhos
-  const [timer, setTimer] = useState(50); // Controla os segundos restantes do botão de reenvio
-
-  // Regra do Cronômetro Regressivo
-  useEffect(() => {
-    // Se o tempo acabou (chegou a 0), interrompe a função
-    if (timer === 0) return;
-
-    // Cria o relógio que diminui 1 segundo do estado 'timer' a cada 1000ms
-    const interval = setInterval(() => {
-      setTimer((prev) => prev - 1);
-    }, 1000);
-
-    // Limpeza obrigatória: Destrói o relógio velho antes de criar o novo.
-    // Sem isso, o app acumula processos na memória e trava (memory leak).
-    return () => clearInterval(interval);
-  }, [timer]); // Este array faz o useEffect rodar novamente toda vez que o 'timer' muda
-
-  // Ação: Reenviar o código
-  const handleResendToken = () => {
-    // Só permite o reenvio se o cronômetro estiver zerado
-    if (timer === 0) {
-      setTimer(50); // Reseta o relógio na tela
-      // TODO: Inserir a chamada da API para reenviar o token por email aqui
-    }
-  };
-
-  // Ação: Verificar se o código está correto
-  const handleVerifyToken = () => {
-    // TODO: Inserir a chamada da API para validar o token preenchido
-    console.log("Token digitado", token);
-
-    navigation.navigate("RecoveryPasswordScreen");
-  };
+  // Consome as variáveis de estado e funções geradas pelo ViewModel
+  const {
+    token,
+    setToken,
+    timer,
+    handleResendToken,
+    handleVerifyToken,
+  } = useReceiveTokenViewModel();
 
   return (
     <View style={styles.safeArea}>
-      {/* Impede que o teclado cubra os elementos da tela no iOS */}
+      {/* Container dinâmico que impede o teclado nativo de esmagar o layout (foco em iOS) */}
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
+        {/* Bloco Superior: Textos e Formulário */}
         <View style={styles.content}>
           
-          {/* Cabeçalho da tela */}
           <View style={styles.textContainer}>
             <Text style={styles.title}>Código de verificação</Text>
             <Text style={styles.subtitle}>
@@ -79,27 +54,26 @@ export default function ReceiveTokenScreen() {
             </Text>
           </View>
 
-          {/* Área interativa (Inputs e Link de Reenvio) */}
           <View style={styles.formContainer}>
-            
-            {/* Componente dos 5 quadrados interligados */}
+            {/* Input Especializado: Recebe o token e a função para atualizá-lo */}
             <TokenInput value={token} onChange={setToken} />
 
-            {/* Link de reenvio com detecção de clique (Pressable) */}
+            {/* Botão de Reenvio: Usa Pressable para gerenciar estilos dinâmicos baseados no toque */}
             <Pressable
               onPress={handleResendToken}
-              disabled={timer > 0} // Trava o botão enquanto houver tempo no relógio
+              disabled={timer > 0} // Desativa o clique nativamente se o tempo for maior que 0
               style={styles.resendContainer}
             >
-              {/* Render prop que descobre se o dedo do usuário está pressionando a tela */}
+              {/* Função Render Prop: detecta automaticamente quando o usuário encosta o dedo */}
               {({ pressed }) => (
                 <Text
                   style={[
                     styles.resendText,
-                    { color: pressed ? "#FFD700" : "#0A0A0A" }, // Amarelo durante o toque, preto solto
-                    timer > 0 && styles.resendTextDisabled, // Aplica estilo cinza se bloqueado
+                    { color: pressed ? "#FFD700" : "#0A0A0A" }, // Amarelo no clique, Preto solto
+                    timer > 0 && styles.resendTextDisabled, // Cinza se estiver bloqueado
                   ]}
                 >
+                  {/* Feedback visual dinâmico do cronômetro */}
                   {timer > 0 ? `Reenviar Token em ${timer}s` : "Reenviar Token"}
                 </Text>
               )}
@@ -107,19 +81,25 @@ export default function ReceiveTokenScreen() {
           </View>
         </View>
 
-        {/* Botão de ação principal */}
+        {/* Bloco Inferior: Botão de Ação Principal */}
         <View style={styles.buttonContainer}>
-          <BtnPrincipal title="Verificar Código" onPress={handleVerifyToken} />
+          <BtnPrincipal 
+            title="Verificar Código" 
+            onPress={() => handleVerifyToken(() => {
+              // Passa a navegação como um "Callback" para o ViewModel disparar no sucesso
+              navigation.navigate("RecoveryPasswordScreen");
+            })} 
+          />
         </View>
       </KeyboardAvoidingView>
     </View>
   );
 }
 
-// Estilização estrutural e visual (Baseada no Figma)
+// Estilização 100% voltada para a estruturação (Flexbox) e fidelidade ao Figma
 const styles = StyleSheet.create({
   safeArea: {
-    flex: 1, // Força a view a cobrir a tela inteira
+    flex: 1,
     backgroundColor: "#f9fafb",
   },
   container: {
@@ -131,7 +111,7 @@ const styles = StyleSheet.create({
   content: {},
   textContainer: {
     marginBottom: 40,
-    alignItems: "center", // Centraliza título e subtítulo no eixo X
+    alignItems: "center",
   },
   title: {
     fontSize: 28,
@@ -143,13 +123,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#666666",
     lineHeight: 22,
-    textAlign: "center", // Garante que textos com quebra de linha fiquem centralizados
+    textAlign: "center",
   },
   formContainer: {
-    width: "100%", // Garante que os inputs utilizem o espaço da tela
+    width: "100%",
   },
   resendContainer: {
-    alignSelf: "flex-end", // Empurra o link para o canto direito
+    alignSelf: "flex-end", // Posiciona o botão de texto no canto direito
     marginTop: 16,
     paddingVertical: 8,
   },
@@ -158,10 +138,10 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   resendTextDisabled: {
-    color: "#A3A3A3", // Cor inativa (cinza) quando o cronômetro roda
+    color: "#A3A3A3", // Tonalidade exata para indicar inatividade
   },
   buttonContainer: {
     width: "100%",
-    marginTop: 125, // Afasta o botão do formulário e joga ele para o meio da tela
+    marginTop: 125, // Afasta o botão do formulário mantendo-o visível e acessível
   },
 });

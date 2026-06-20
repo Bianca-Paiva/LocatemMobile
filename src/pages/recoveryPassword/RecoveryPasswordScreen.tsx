@@ -1,92 +1,111 @@
 import React from "react";
-import {StyleSheet, Text, View, KeyboardAvoidingView, Platform} from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView, // 1. Adicionamos a importação do ScrollView
+} from "react-native";
 
-//Componentes
+// Componentes
 import BtnPrincipal from "../../components/BtnPrincipal";
 import PasswordInput from "../../components/PasswordInput";
 
-//Navegação
+// Navegação
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../../routes/AppRoutes";
 
-//ViewModel
+// ViewModel
 import useRecoveryPasswordViewModel from "./ViewModel";
 
 export default function RecoveryPasswordScreen() {
-    //variaveis e funções da ViewModel
-    const { password, setPassword, confirmPassword,
+  // Consome as variáveis e funções da inteligência da tela
+  const {
+    password,
+    setPassword,
+    confirmPassword,
     setConfirmPassword,
     strength,
     handleSubmit,
-    } = useRecoveryPasswordViewModel();
+  } = useRecoveryPasswordViewModel();
 
-    //Dicionario visual
-    const strengthConfig = {
-        empty : {color:"#D9D9D9", text:"", bars:0},
-        weak : {color:"#E11D48", text:"Fraca", bars:1},
-        good : {color:"#FFC300", text:"Boa", bars:2},
-        strong : {color:"#6FE824", text:"Forte", bars:3},
-    };
+  // Dicionário visual para as barras de força
+  const strengthConfig = {
+    empty: { color: "#D9D9D9", text: "", bars: 0 },
+    weak: { color: "#E11D48", text: "Fraca", bars: 1 },
+    good: { color: "#FFC300", text: "Boa", bars: 2 },
+    strong: { color: "#6FE824", text: "Forte", bars: 3 },
+  };
 
-    //Pega a configuração visual atual
-    const currentConfig = strengthConfig[strength];
+  // Pega a configuração visual de acordo com o que foi digitado
+  const currentConfig = strengthConfig[strength];
 
-    return(
-        <View style={styles.safeArea}>
+  return (
+    <View style={styles.safeArea}>
+      {/* O KeyboardAvoidingView gerencia o espaço que o teclado ocupa na tela */}
       <KeyboardAvoidingView
         style={styles.container}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <View style={styles.content}>
-          <View style={styles.textContainer}>
-            <Text style={styles.title}>Informe sua nova{"\n"}senha</Text>
-          </View>
-
-          <View style={styles.formContainer}>
-            {/* Input Senha */}
-            <PasswordInput
-              text="Digite sua nova senha"
-              placeholder="••••••••"
-              keyboardType="default"
-              value={password}
-              onChangeText={setPassword}
-              marginBottom={16} // Ajuste de margem para o indicador de força ficar próximo
-            />
-
-            {/* Bloco das barrinhas de força */}
-            <View style={styles.strengthContainer}>
-              <View style={styles.barsContainer}>
-                <View style={[styles.bar, currentConfig.bars >= 1 && { backgroundColor: currentConfig.color }]} />
-                <View style={[styles.bar, currentConfig.bars >= 2 && { backgroundColor: currentConfig.color }]} />
-                <View style={[styles.bar, currentConfig.bars >= 3 && { backgroundColor: currentConfig.color }]} />
-              </View>
-              
-              {/* Mostra o texto "Segurança: Fraca/Boa/Forte" */}
-              {strength !== "empty" && (
-                <Text style={styles.strengthText}>
-                  Segurança: <Text style={{ color: currentConfig.color }}>{currentConfig.text}</Text>
-                </Text>
-              )}
+        {/* 2. ScrollView engloba todo o conteúdo.  */}
+        <ScrollView
+          contentContainerStyle={styles.scrollContainer}
+          showsVerticalScrollIndicator={false} // Esconde a barrinha feia de rolagem lateral
+          keyboardShouldPersistTaps="handled" // Permite clicar no botão mesmo com o teclado aberto
+        >
+          <View style={styles.content}>
+            <View style={styles.textContainer}>
+              <Text style={styles.title}>Informe sua nova{"\n"}senha</Text>
             </View>
 
-            {/* Input Confirmar Senha */}
-            <PasswordInput
-              text="Confirme sua nova senha"
-              placeholder="••••••••"
-              keyboardType="default"
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-            />
-          </View>
-        </View>
+            <View style={styles.formContainer}>
+              {/* Input Senha Nova */}
+              <PasswordInput
+                text="Digite sua nova senha"
+                placeholder="••••••••"
+                keyboardType="default"
+                value={password}
+                onChangeText={setPassword}
+                marginBottom={16}
+              />
 
-        <View style={styles.buttonContainer}>
-          <BtnPrincipal title="Alterar Senha" onPress={handleSubmit} />
-        </View>
+              {/* Bloco do Indicador de Força */}
+              <View style={styles.strengthContainer}>
+                <View style={styles.barsContainer}>
+                  <View style={[styles.bar, currentConfig.bars >= 1 && { backgroundColor: currentConfig.color }]} />
+                  <View style={[styles.bar, currentConfig.bars >= 2 && { backgroundColor: currentConfig.color }]} />
+                  <View style={[styles.bar, currentConfig.bars >= 3 && { backgroundColor: currentConfig.color }]} />
+                </View>
+
+                {strength !== "empty" && (
+                  <Text style={styles.strengthText}>
+                    Segurança: <Text style={{ color: currentConfig.color }}>{currentConfig.text}</Text>
+                  </Text>
+                )}
+              </View>
+
+              {/* Input Confirmar Senha */}
+              <PasswordInput
+                text="Confirme sua nova senha"
+                placeholder="••••••••"
+                keyboardType="default"
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+              />
+            </View>
+          </View>
+
+          {/* O Botão agora fica DENTRO do ScrollView, logo abaixo do conteúdo.
+              Isso garante que o usuário consiga rolar até ele. */}
+          <View style={styles.buttonContainer}>
+            <BtnPrincipal title="Alterar Senha" onPress={handleSubmit} />
+          </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </View>
-    );
+  );
 }
 
 const styles = StyleSheet.create({
@@ -95,13 +114,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#f9fafb",
   },
   container: {
-    flex: 1,
+
+  },
+  // 3. Movemos os paddings do container principal para o interior do ScrollView
+  scrollContainer: {
+    flexGrow: 1,
     paddingHorizontal: 24,
     paddingTop: 40,
-    paddingBottom: 24,
+    paddingBottom: 60
   },
   content: {
-    
+    flex: 1, // Empurra o botão para baixo se sobrar espaço na tela
   },
   textContainer: {
     marginBottom: 107,
