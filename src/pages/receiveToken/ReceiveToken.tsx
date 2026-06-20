@@ -58,6 +58,8 @@ export default function ReceiveTokenScreen() {
   const handleVerifyToken = () => {
     // TODO: Inserir a chamada da API para validar o token preenchido
     console.log("Token digitado", token);
+
+    navigation.navigate("RecoveryPasswordScreen");
   };
 
   return (
