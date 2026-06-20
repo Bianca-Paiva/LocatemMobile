@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, KeyboardTypeOptions } from "react-native";
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, KeyboardTypeOptions, NativeSyntheticEvent, TextInputKeyPressEvent } from "react-native";
 
 interface TokenInputProps{
     value:string,
@@ -13,6 +13,14 @@ export default function TokenInput({value, onChange}: TokenInputProps){
     const inputs = useRef<(TextInput | null)[]>([]);
 
     const [focusedIndex, setFocusedIndex] = useState(0);
+
+    const handleKeyPress =(e: TextInputKeyPressEvent, index:number) => {
+        //Aqui se a tecla de apagar for acionada  e o input estiver vazio e não ser o primeiro
+        if(e.nativeEvent.key ==='Backspace' && !value[index] && index > 0){
+            inputs.current[index - 1]?.focus();
+            setFocusedIndex(index - 1);
+        }
+    }
 
     /**
         Atualiza o valor do token na posição informada
@@ -66,6 +74,7 @@ export default function TokenInput({value, onChange}: TokenInputProps){
                     onChangeText={(text) =>
                     handleChange(text, index)
                     }
+                    onKeyPress={(e) => handleKeyPress(e, index)}
                 />
             ))}
 
@@ -76,18 +85,19 @@ export default function TokenInput({value, onChange}: TokenInputProps){
 const styles = StyleSheet.create({
     container:{
         flexDirection: "row",
-        justifyContent:"space-between",
+        justifyContent:"center",
+        gap:9,
         width : "100%",
         marginTop:12,
     },
     input:{
-        width: 52,
-        height:64,
+        width: 60,
+        height:86,
         borderWidth: 1,
         borderColor: "#D9D9D9",
         borderRadius: 12,
         textAlign: "center",
-        fontSize: 24,
+        fontSize: 28,
     },
     inputActive:{
         borderColor:"#FFD700",
