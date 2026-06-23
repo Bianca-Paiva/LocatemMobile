@@ -3,11 +3,17 @@ import { createStackNavigator } from "@react-navigation/stack";
 import CadastroScreen from "../pages/CadastroScreen";
 import LoginScreen from "../pages/LoginScreen";
 import { HomeScreen } from "../pages/home/HomeScreen";
+import ReceiveTokenScreen from "../pages/receiveToken/ReceiveToken";
+import { RecoveryRequisitionScreen } from "../pages/recoveryRequisition/RecoveryRequisition";
+import RecoveryPasswordScreen from "../pages/recoveryPassword/RecoveryPasswordScreen";
 
 export type RootStackParamList = {
   LoginScreen: undefined,
   CadastroScreen: undefined,
   HomeScreen: undefined,
+  RecoveryRequisitionScreen: undefined,
+  ReceiveTokenScreen: undefined,
+  RecoveryPasswordScreen:undefined,
 }
 
 const Stack = createStackNavigator();
@@ -32,6 +38,44 @@ export default function AppRoutes() {
         name="HomeScreen"
         component={HomeScreen}
       />
+
+      <Stack.Screen
+        name="RecoveryRequisitionScreen"
+        component={RecoveryRequisitionScreen}
+        options={{
+          headerShown: true, 
+          title:"",
+          headerStyle: {
+            backgroundColor: "#f9fafb",
+          },
+          headerShadowVisible: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="ReceiveTokenScreen"
+        component={ReceiveTokenScreen}
+        options={{
+          headerShown: true, 
+          title:"",
+          headerStyle: {
+            backgroundColor: "#f9fafb",
+          },
+          headerShadowVisible: false,
+        }}/>
+
+        <Stack.Screen
+          name="RecoveryPasswordScreen"
+          component={RecoveryPasswordScreen}
+          options={{
+          headerShown: true, 
+          title:"",
+          headerStyle: {
+            backgroundColor: "#f9fafb",
+          },
+          headerShadowVisible: false,
+        }}
+        />
     </Stack.Navigator>
   );
 }

@@ -30,7 +30,7 @@ export default function LoginScreen() {
     // SENHA ↓
     if (!validatePassword(password)) {
       alert(
-        "A senha deve possuir no mínimo 8 caracteres, uma letra e um número.",
+        "Não foi possível realizar o login. Verifique suas credenciais.",
       );
       return;
     }
@@ -59,7 +59,9 @@ export default function LoginScreen() {
             onChangeText={setPassword}
             marginBottom={5}
           />
-          <TouchableOpacity style={styles.esqueceuSenha} onPress={() => alert("Funcionalidade de recuperação de senha ainda não implementada.")}  >
+          <TouchableOpacity style={styles.esqueceuSenha} onPress={() => {
+            navigation.navigate('RecoveryRequisitionScreen');
+          }}  >
             <Text>Esqueceu sua senha?</Text>
           </TouchableOpacity>
         </View>
