@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../routes/AppRoutes';
 
-import { ChatButton } from "./ChatButton";
+import { ChatButton } from "./IconButton";
 import SearchInput from "./SearchInput";
 
 export default function LongHeader() {
@@ -82,4 +82,5 @@ const styles = StyleSheet.create({
     searchContainer:{
         flex:1,
     }
-})
+   
+});
