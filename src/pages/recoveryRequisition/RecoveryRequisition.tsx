@@ -4,7 +4,7 @@ import { StyleSheet, View, Text, TouchableOpacity, Image, TextInput } from "reac
 //componentes
 import Input from "../../components/Input";
 import BtnPrincipal from "../../components/BtnPrincipal";
-import AuthRedirect from "../../components/AuthRedirect";
+import {AuthRedirect} from "../../components/AuthRedirect";
 
 //ViewModel
 import RecoveryRequisitionViewModel from "./ViewModel";

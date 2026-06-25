@@ -1,5 +1,6 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
+import styles from "./styles";
 
 export default function Header() {
     return (
@@ -20,27 +21,3 @@ export default function Header() {
         </LinearGradient>
     );
 }
-
-const styles = StyleSheet.create({
-    headerContainer: {
-        width: "100%",
-        height: 140, // altura do header
-        flexDirection: "row",
-        alignItems: "center",
-        paddingHorizontal: 20,
-        gap: 10,
-    },
-
-    logoImg: {
-        width: 35,
-        height: 35,
-        resizeMode: "contain", // mantém proporção da imagem
-    },
-
-    logoTexto: {
-        fontSize: 27,
-        fontWeight: "800",
-        color: "#000",
-        letterSpacing: 1,
-    },
-})

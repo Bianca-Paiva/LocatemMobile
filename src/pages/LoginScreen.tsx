@@ -12,7 +12,7 @@ import { RootStackParamList } from '../routes/AppRoutes';
 import Input from "../components/Input";
 import PasswordInput from "../components/PasswordInput";
 import BtnPrincipal from "../components/BtnPrincipal";
-import AuthRedirect from "../components/AuthRedirect";
+import {AuthRedirect} from "../components/AuthRedirect";
 
 export default function LoginScreen() {
 

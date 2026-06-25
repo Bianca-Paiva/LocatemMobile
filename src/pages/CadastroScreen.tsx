@@ -16,7 +16,7 @@ import UserTypeCard from "../components/UserTypeCard";
 import Input from "../components/Input";
 import PasswordInput from "../components/PasswordInput";
 import BtnPrincipal from "../components/BtnPrincipal";
-import AuthRedirect from "../components/AuthRedirect";
+import {AuthRedirect} from "../components/AuthRedirect";
 
 export default function CadastroScreen() {
   const [userType, setUserType] = useState<UserType>("locatario");
