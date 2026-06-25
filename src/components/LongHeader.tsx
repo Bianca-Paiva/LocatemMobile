@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../routes/AppRoutes';
 
-import { ChatButton } from "./IconButton";
+import { IconButton } from "./IconButton";
 import SearchInput from "./SearchInput";
 
 export default function LongHeader() {
@@ -36,7 +36,7 @@ export default function LongHeader() {
                 onChangeText={setSearch}
              />  
 
-             <ChatButton
+             <IconButton
                  onPress={ () => {
                  navigation.navigate('HomeScreen')
                 }} 
@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingHorizontal: 20,
         gap: 10,
+      
     },
 
     logoImg: {
@@ -78,6 +79,7 @@ const styles = StyleSheet.create({
        alignItems:"center",
        width:"100%",
        gap:10,
+       
     },
     searchContainer:{
         flex:1,
