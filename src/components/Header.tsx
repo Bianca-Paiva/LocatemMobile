@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../routes/AppRoutes';
 
-import { ChatButton } from "./ChatButton";
+import { IconButton } from "./IconButton";
 import SearchInput from "./SearchInput";
 
 export default function Header() {
@@ -36,7 +36,7 @@ export default function Header() {
                 onChangeText={setSearch}
              />  
 
-             <ChatButton
+             <IconButton
                  onPress={ () => {
                  navigation.navigate('HomeScreen')
                 }} 

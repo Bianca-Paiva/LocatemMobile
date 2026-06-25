@@ -7,9 +7,9 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../routes/AppRoutes';
 
 // Components ↓
-import Input from '../../components/Input';
 import LongHeader from "../../components/Header";
-import { ChatButton } from "../../components/ChatButton";
+
+import BarNav from "../../components/BarNav"
 
 export const HomeScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -19,9 +19,10 @@ export const HomeScreen = () => {
             <ScrollView>
 
                 <LongHeader/>
-
+              
                 
             </ScrollView>
+            <BarNav/>
         </View>
     );
 };
@@ -31,5 +32,5 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#ffff",
     },
-
+   
 });

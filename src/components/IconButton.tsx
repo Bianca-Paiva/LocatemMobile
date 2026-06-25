@@ -6,7 +6,7 @@ interface Props {
     onPress?: () => void,
 }
 
-export const ChatButton = ({ image,onPress }: Props) => {
+export const IconButton = ({ image,onPress }: Props) => {
     return (
         <TouchableOpacity
             onPress={onPress}
@@ -14,7 +14,7 @@ export const ChatButton = ({ image,onPress }: Props) => {
         >
             <Image 
                source={image}
-               style={ styles.bntChat}
+               style={ styles.bntIcon}
             />
          </TouchableOpacity>
     )
@@ -22,7 +22,7 @@ export const ChatButton = ({ image,onPress }: Props) => {
 
 const styles = StyleSheet.create({
    
-    bntChat:{
+    bntIcon:{
         width: 25,
         height: 25,
     },
