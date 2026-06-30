@@ -3,6 +3,7 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, KeyboardTyp
 import styles from "./styles";
 import {PasswordInputProps} from './types';
 
+
 export default function PasswordInput({ text, placeholder, keyboardType, value, onChangeText, marginBottom = 20, }: PasswordInputProps) {
     
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -29,8 +30,8 @@ export default function PasswordInput({ text, placeholder, keyboardType, value, 
           <Image
             source={
               showPassword
-                ? require("../../assets/images/olhoAberto.png")
-                : require("../../assets/images/olhoFechado.png")
+                ? require("../../../assets/images/olhoAberto.png")
+                : require("../../../assets/images/olhoFechado.png")
             }
             style={styles.eyeIcon}
           />
