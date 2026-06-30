@@ -1,41 +1,28 @@
-import { useState } from 'react';
 import { ScrollView, Text, View, TouchableOpacity } from "react-native";
-
-import { validateEmail, validatePassword } from "../../utils/validationsCadastro";
+import { Controller } from "react-hook-form"; 
 
 // Importação dos elementos de navegação
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../routes/AppRoutes';
 
-// Componentes personalizados
+// Componentes
 import Input from "../../components/Input";
 import PasswordInput from "../../components/PasswordInput";
 import BtnPrincipal from "../../components/BtnPrincipal";
 import { AuthRedirect } from "../../components/AuthRedirect";
 
-// Estilos Isolados ↓
+// Estilos
 import { styles } from "./styles";
+
+// Importando (Custom Hook)
+import { useLogin } from "./useLogin";
 
 export default function LoginScreen() {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
- 
-  // NOTA DO MENTOR: Estes states e a função handleLogin vão sair daqui no próximo passo!
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = () => {
-    // Validação temporária por e-mail
-    if (!validateEmail(email)) {
-      alert("Digite um e-mail válido.");
-      return;
-    }
-    // Validação temporária por senha
-    if (!validatePassword(password)) {
-      alert("Não foi possível realizar o login. Verifique as suas credenciais.");
-      return;
-    }
-  };
+  
+  // Extraímos tudo o que precisamos do nosso hook
+  const { control, errors, isLoading, handleSignIn } = useLogin();
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -44,23 +31,51 @@ export default function LoginScreen() {
       </View>
 
       <View style={styles.formContainer}>
-        <Input
-          text="E-mail"
-          placeholder="seu@email.com"
-          keyboardType="email-address"
-          value={email}
-          onChangeText={setEmail}
+        
+        {/* INPUT DE E-MAIL CONTROLADO */}
+        <Controller
+          control={control}
+          name="email"
+          render={({ field: { onChange, value } }) => (
+            <>
+              <Input
+                text="E-mail"
+                placeholder="seu@email.com"
+                keyboardType="email-address"
+                value={value}
+                onChangeText={onChange}
+              />
+              {/* Exibição do erro de E-mail abaixo do input */}
+              {errors.email && (
+                <Text style={styles.erroTexto}>{errors.email.message}</Text>
+              )}
+            </>
+          )}
         />
         
-        <View>
-          <PasswordInput
-            text="Senha"
-            placeholder="Coloque sua senha"
-            keyboardType="default"
-            value={password}
-            onChangeText={setPassword}
-            marginBottom={5}
+        <View style={{ marginTop: 16 }}>
+          {/* INPUT DE SENHA CONTROLADO */}
+          <Controller
+            control={control}
+            name="password"
+            render={({ field: { onChange, value } }) => (
+              <>
+                <PasswordInput
+                  text="Senha"
+                  placeholder="Coloque sua senha"
+                  keyboardType="default"
+                  value={value}
+                  onChangeText={onChange}
+                  marginBottom={5}
+                />
+                {/* Exibição do erro de Senha abaixo do input */}
+                {errors.password && (
+                  <Text style={styles.erroTexto}>{errors.password.message}</Text>
+                )}
+              </>
+            )}
           />
+
           <TouchableOpacity 
             style={styles.esqueceuSenha} 
             onPress={() => navigation.navigate('RecoveryRequisitionScreen')}  
@@ -69,7 +84,12 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
 
-        <BtnPrincipal title="Entrar" onPress={handleLogin} />
+        <BtnPrincipal 
+          title={isLoading ? "Carregando..." : "Entrar"} 
+          onPress={handleSignIn} 
+          // Se o teu BtnPrincipal aceitar a prop disabled, descomenta a linha abaixo:
+          // disabled={isLoading} 
+        />
       </View>
 
       <AuthRedirect
