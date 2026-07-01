@@ -1,10 +1,7 @@
 import { useRef, useState } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, KeyboardTypeOptions, NativeSyntheticEvent, TextInputKeyPressEvent } from "react-native";
-
-interface TokenInputProps{
-    value:string,
-    onChange:(value: string) => void;
-}
+import {TokenInputProps} from './types';
+import styles from "./styles";
 
 export default function TokenInput({value, onChange}: TokenInputProps){
 
@@ -81,26 +78,3 @@ export default function TokenInput({value, onChange}: TokenInputProps){
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container:{
-        flexDirection: "row",
-        justifyContent:"center",
-        gap:9,
-        width : "100%",
-        marginTop:12,
-    },
-    input:{
-        width: 60,
-        height:86,
-        borderWidth: 1,
-        borderColor: "#D9D9D9",
-        borderRadius: 12,
-        textAlign: "center",
-        fontSize: 28,
-    },
-    inputActive:{
-        borderColor:"#FFD700",
-        borderWidth:2,
-    },
-})
