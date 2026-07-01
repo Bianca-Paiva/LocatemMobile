@@ -7,9 +7,9 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../routes/AppRoutes';
 
 // Components ↓
-import LongHeader from "../../components/Header";
-
-import BarNav from "../../components/BarNav"
+import LongHeader from "../../components/LongHeader";
+import Banner from "../../components/Banner";
+import BarNav from "../../components/BarNav";
 
 export const HomeScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -19,9 +19,10 @@ export const HomeScreen = () => {
             <ScrollView>
 
                 <LongHeader/>
-              
+                <Banner/>
                 
             </ScrollView>
+   
             <BarNav/>
         </View>
     );
