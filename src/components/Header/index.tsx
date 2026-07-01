@@ -18,6 +18,12 @@ export default function Header() {
 
     const [search, setSearch] = useState("")
 
+     function pesquisar() {
+        navigation.navigate("SearchScreen", {
+            search,
+        });
+    }
+
     return (
         <View>
              <LinearGradient
@@ -30,19 +36,21 @@ export default function Header() {
         <View style={styles.topo}>
 
              <SearchInput
-                image={require('../../assets/images/lupa.png')}
+                image={require('../../../assets/images/lupa.png')}
                 style={styles.searchContainer}
                 placeholder="Pesquisar"
                 keyboardType="default"
                 value={search}
                 onChangeText={setSearch}
+                onSubmitEditing={pesquisar}
+                
              />  
 
              <IconButton
                  onPress={ () => {
                  navigation.navigate('HomeScreen')
                 }} 
-                image={require('../../assets/images/chat-Icon.png')}
+                image={require('../../../assets/images/chat-Icon.png')}
              />
 
         </View>  

@@ -7,9 +7,10 @@ interface InputProps {
   value: string;
   style: any;
   onChangeText: (text: string) => void;
+  onSubmitEditing?: () => void;
 }
 
-export default function SearchInput({ image, placeholder, keyboardType, value, onChangeText, style}: InputProps) {
+export default function SearchInput({ image, placeholder, keyboardType, value, onChangeText, style, onSubmitEditing }: InputProps) {
   return (
     <View style={[styles.searchContainer, style]}>
       <Image
@@ -24,6 +25,7 @@ export default function SearchInput({ image, placeholder, keyboardType, value, o
         keyboardType={keyboardType}
         value={value}
         onChangeText={onChangeText}
+        onSubmitEditing={onSubmitEditing}
       />
     </View>
   );

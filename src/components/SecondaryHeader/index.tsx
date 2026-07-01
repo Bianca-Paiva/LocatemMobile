@@ -5,12 +5,12 @@ import { LinearGradient } from 'expo-linear-gradient';
 // importacao dos elementos de navegação
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../routes/AppRoutes';
+import { RootStackParamList } from '../../routes/AppRoutes';
 
-import { IconButton } from "./IconButton";
-import SearchInput from "./SearchInput";
+import { IconButton } from "../IconButton";
+import SearchInput from "../SearchInput";
 
-export default function LongHeader() {
+export default function SecondaryHeader() {
 
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
@@ -27,8 +27,13 @@ export default function LongHeader() {
         >
         <View style={styles.topo}>
 
+             <IconButton
+                 onPress={ () => navigation.goBack()}
+                image={require('../../../assets/images/icons/seta.png')}
+             />
+
              <SearchInput
-                image={require('../../assets/images/lupa.png')}
+                image={require('../../../assets/images/lupa.png')}
                 style={styles.searchContainer}
                 placeholder="Pesquisar"
                 keyboardType="default"
@@ -40,7 +45,7 @@ export default function LongHeader() {
                  onPress={ () => {
                  navigation.navigate('HomeScreen')
                 }} 
-                image={require('../../assets/images/chat-Icon.png')}
+                image={require('../../../assets/images/chat-Icon.png')}
              />
 
         </View>  
