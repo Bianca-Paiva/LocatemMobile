@@ -1,8 +1,8 @@
 import { createStackNavigator } from "@react-navigation/stack";
 
-import CadastroScreen from "../pages/CadastroScreen";
-import LoginScreen from "../pages/LoginScreen";
-import { HomeScreen } from "../pages/home/HomeScreen";
+import {HomeScreen} from "../pages/home/HomeScreen";
+import CadastroScreen from "../pages/Cadastro";
+import LoginScreen from "../pages/Login";
 import ReceiveTokenScreen from "../pages/receiveToken/ReceiveToken";
 import { RecoveryRequisitionScreen } from "../pages/recoveryRequisition/RecoveryRequisition";
 import RecoveryPasswordScreen from "../pages/recoveryPassword/RecoveryPasswordScreen";
