@@ -3,6 +3,7 @@ import { View, ScrollView } from 'react-native';
 import { ImageCarousel } from '../ProductScreen/components/ImageCarousel';
 import { mockProductData } from '../../mocks/productMock'; // <-- Importando o Mock
 import { ProductHeaderInfo } from './components/ProductHeaderInfo';
+import { RentalOptionsForm } from './components/RentalOptionsForm';
 
 export function ProductScreen() {
   // Simulando o dado chegando
@@ -20,6 +21,7 @@ export function ProductScreen() {
           price={product.dailyRentalPrice}
         />
 
+        <RentalOptionsForm availableVoltages={product.availableVoltageOptions} />
         
     </ScrollView>
   );
