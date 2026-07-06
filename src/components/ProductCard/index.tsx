@@ -18,14 +18,22 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) =>
       onPress={onPress}
       activeOpacity={0.7}
     >
+      <View style={styles.imageContainer}>
       <Image 
-        source={{ uri: imageUrl }} 
+       source={
+        typeof imageUrl === "string"
+          ? { uri: imageUrl }
+          : imageUrl
+      }
         style={styles.image} 
         resizeMode="cover"
       />
+      </View>
       
       <View style={styles.contentContainer}>
-        <Text style={styles.title} numberOfLines={2}>
+        {/* Limita o título a 2 linhas */}
+        {/* Adiciona "..." caso ultrapasse o limite */}
+        <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
           {title}
         </Text>
         

@@ -6,3 +6,6 @@ https://zod.dev/
 
 ## Para instalar tais dependencias 
     npx expo install react-hook-form zod @hookform/resolvers
+
+## Para instalar pacote de icons do expo
+    npm install react-native-vector-icons
