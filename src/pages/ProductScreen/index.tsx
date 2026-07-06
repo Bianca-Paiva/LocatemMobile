@@ -1,13 +1,25 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
+
+
+//===================== Importando o Mock ====================
+import { mockProductData } from '../../mocks/productMock';
+
+//===================== Importando os Componentes ====================
 import { ImageCarousel } from '../ProductScreen/components/ImageCarousel';
-import { mockProductData } from '../../mocks/productMock'; // <-- Importando o Mock
 import { ProductHeaderInfo } from './components/ProductHeaderInfo';
 import { RentalOptionsForm } from './components/RentalOptionsForm';
+import { ActionButtons } from './components/ActionButtons';
 
 export function ProductScreen() {
-  // Simulando o dado chegando
   const product = mockProductData;
+
+  const handleRent = () => {
+    console.log('Botão de Locar pressionado');
+  }
+  const handleAddToCart = () => {
+    console.log('Botão de Adicionar ao Carrinho pressionado');
+  }
 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: '#FAFAFA' }}>
@@ -22,6 +34,11 @@ export function ProductScreen() {
         />
 
         <RentalOptionsForm availableVoltages={product.availableVoltageOptions} />
+
+        <ActionButtons
+        onRent={handleRent} 
+        onAddToCart={handleAddToCart}
+        />
         
     </ScrollView>
   );

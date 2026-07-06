@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: '#FFD600',
         height: 48,
         borderRadius: 10,
         justifyContent: 'center',
@@ -12,10 +11,25 @@ const styles = StyleSheet.create({
     },
 
     buttonText: {
-        color: '#000000',
         fontSize: 16,
         fontWeight: 'bold'
     },
+
+    //Variant primario
+    primaryBackground: {
+        backgroundColor: '#FFD600',
+    },
+    primaryText: {
+        color: '#000000',
+    },
+
+    //Variant secundario
+    secondaryBackground: {
+        backgroundColor: '#F5E3B3',
+    },
+    secondaryText: {
+        color: '#6E5000',
+    }
 });
 
 export default styles;
