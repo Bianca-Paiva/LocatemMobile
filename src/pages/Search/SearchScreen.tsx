@@ -48,7 +48,9 @@ export const SearchScreen = () => {
                     }}
                     />
                 </View>
-                
+                <View style={styles.gridContainer}>
+                    
+                </View>
                                 
             </ScrollView>
    

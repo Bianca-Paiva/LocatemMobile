@@ -26,7 +26,6 @@ export default function SecondaryHeader() {
             style={styles.headerContainer}
         >
         <View style={styles.topo}>
-
              <IconButton
                  onPress={ () => navigation.goBack()}
                 image={require('../../../assets/images/icons/seta.png')}

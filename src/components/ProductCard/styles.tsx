@@ -2,11 +2,12 @@ import { StyleSheet, Platform } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    width: 180,        // largura fixa
+    height: 260,       // altura fixa
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
     marginBottom: 16,
-    marginHorizontal: 8,
+    marginRight: 10,   // espaçamento entre os cards
     // Garante que a imagem não mije para fora das bordas arredondadas do container
     overflow: 'hidden',
     
@@ -22,9 +23,18 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.06,
     shadowRadius: 8,
   },
+  imageContainer: {
+  height: 150,
+  padding: 10,
+  justifyContent: "center",
+  alignItems: "center",
+  backgroundColor: "#FFF",
+},
   image: {
     width: '100%',
     height: 130,
+    padding: 50,
+    resizeMode: 'contain', // Mantém a imagem inteira visível sem cortar, ajustando ao espaço do card
     backgroundColor: '#F3F4F6', // Cor de fundo de carregamento caso a imagem demore
   },
   contentContainer: {
