@@ -72,5 +72,9 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         marginRight: 20,
     },
+    gridContainer:{
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "space-between",},
    
 });
