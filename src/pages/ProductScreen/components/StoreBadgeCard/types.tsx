@@ -10,4 +10,7 @@ export interface StoreBadgeCardProps {
 
     //Imagem do badge da loja
     storeBadgeImage?: string;
+
+    //Icone para ir visitar a loja
+    onVisitStorePress?: () => void;
 }

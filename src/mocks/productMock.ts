@@ -10,6 +10,7 @@ export interface StoreInfo{
     storeName: string;
     averageReputation: number;
     isVerifiedStore: boolean;
+    storeBadgeImage?: string;
 }
 
 export interface TechnicalSpecs{
@@ -44,13 +45,14 @@ export const mockProductData: ProductMockData = {
     storeName: "HomePro Pro Store",
     averageReputation: 4.9,
     isVerifiedStore: true,
+    storeBadgeImage: "https://via.placeholder.com/100x100.png?text=Store+Badge"//Colocar imagem real do badge da loja aqui
   },
   fullDescription: "Ideal para uso doméstico e profissional leve. Perfeita para montagem de móveis, instalações e pequenos reparos...",
   technicalSpecs: {
-    powerSource: "Bateria de Íons de Lítio 12V",
-    maxTorque: "30 Nm",
-    chuckSize: "10mm (3/8 polegadas)",
-    includedAccessories: "2 baterias, carregador, maleta, kit de brocas...",
+    powerSource: "Bateria de Íons de Lítio 18V máx",
+    maxTorque: "65 Nm",
+    chuckSize: "13mm Sem chave",
+    includedAccessories: "2 baterias, carregador, estojo rígido, conjunto de 10 bits",
   },
   productImages: [
     "https://via.placeholder.com/400x400.png?text=Furadeira+1",
