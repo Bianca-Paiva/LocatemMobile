@@ -7,6 +7,7 @@ import LoginScreen from "../pages/Login";
 import ReceiveTokenScreen from "../pages/receiveToken/ReceiveToken";
 import { RecoveryRequisitionScreen } from "../pages/recoveryRequisition/RecoveryRequisition";
 import RecoveryPasswordScreen from "../pages/recoveryPassword/RecoveryPasswordScreen";
+import { CarrinhoScreen } from "../pages/Carrinho/CarrinhoScreen";
 
 export type RootStackParamList = {
   LoginScreen: undefined,
@@ -16,6 +17,7 @@ export type RootStackParamList = {
   RecoveryRequisitionScreen: undefined,
   ReceiveTokenScreen: undefined,
   RecoveryPasswordScreen:undefined,
+  CarrinhoScreen: undefined,
 }
 
 const Stack = createStackNavigator();
@@ -43,6 +45,10 @@ export default function AppRoutes() {
        <Stack.Screen
         name="SearchScreen"
         component={SearchScreen}
+      />
+      <Stack.Screen
+        name="CarrinhoScreen"
+        component={CarrinhoScreen}
       />
 
       <Stack.Screen

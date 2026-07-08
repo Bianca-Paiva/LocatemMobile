@@ -71,7 +71,7 @@ export default function SecondaryHeader({
                     {/* Botão do chat */}
                     <IconButton
                         image={require("../../../assets/images/chat-Icon.png")}
-                        onPress={() => navigation.navigate("HomeScreen")}
+                        onPress={() => navigation.navigate("CarrinhoScreen")}
                     />
 
                 </View>
