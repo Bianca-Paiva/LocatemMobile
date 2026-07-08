@@ -12,7 +12,7 @@ import BarNav from "../../components/BarNav";
 import { ProductCard } from "../../components/ProductCard";
 
 // Mock
-import { mockProducts } from "./useHome";
+import { mockProducts } from "../../components/DadosMock/MockDados";
 
 export const HomeScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();

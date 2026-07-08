@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 130,
-    padding: 50,
+    padding: 20,
     resizeMode: 'contain', // Mantém a imagem inteira visível sem cortar, ajustando ao espaço do card
     backgroundColor: '#F3F4F6', // Cor de fundo de carregamento caso a imagem demore
   },

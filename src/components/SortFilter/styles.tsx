@@ -4,6 +4,8 @@ export default StyleSheet.create({
 
   container: {
     width: 140,
+    position: "relative",
+
   },
 
   button: {
@@ -30,9 +32,13 @@ export default StyleSheet.create({
     marginTop: 5,
 
     backgroundColor: "#FFF",
-
-    borderRadius: 15,
-
+        position: "absolute",
+    top: 45,          // abaixo do botão
+    left: 0,
+    width: 150,
+    borderRadius: 12,
+    zIndex: 1000,
+    
     elevation: 5,
 
     shadowColor: "#000",
