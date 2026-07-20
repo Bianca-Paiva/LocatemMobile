@@ -12,6 +12,8 @@ import { RentalOptionsForm } from './components/RentalOptionsForm';
 import { ActionButtons } from './components/ActionButtons';
 import { StoreBadgeCard } from './components/StoreBadgeCard';
 import { Accordion } from './components/Accordion';
+import { ReviewsSummary } from './components/ReviewsSummary';
+import { CustomerFeedbackCard } from './components/CustomerFeedback';
 
 export function ProductScreen() {
   const product = mockProductData;
@@ -83,6 +85,26 @@ export function ProductScreen() {
             </View>
           </View>
         </Accordion>
+
+        {/* Título da Seção */}
+        <Text style={{ fontSize: 18, fontWeight: '700', color: '#1A1A1A', marginHorizontal: 20, marginTop: 24, marginBottom: 16 }}>
+          Avaliações
+        </Text>
+
+        <ReviewsSummary 
+          averageRating={product.overallAverageRating}
+          totalReviews={product.totalCustomerReviewsCount}
+        />
+
+        {product.custumerFeedback.map((review) => (
+          <CustomerFeedbackCard 
+            key={review.id}
+            reviewerName={review.reviewerName}
+            starRating={review.starRating}
+            feedbackMessage={review.feedbackMessage}
+            hasAttachedPhotos={review.hasAttachedPhotos}
+          />
+        ))}
         
     </ScrollView>
   );
