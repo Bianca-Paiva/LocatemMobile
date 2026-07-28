@@ -30,7 +30,7 @@ export default function Header() {
         <View style={styles.topo}>
 
              <SearchInput
-                image={require('../../assets/images/lupa.png')}
+                image={require('../../../assets/images/icons/lupa.png')}
                 style={styles.searchContainer}
                 placeholder="Pesquisar"
                 keyboardType="default"
@@ -42,7 +42,7 @@ export default function Header() {
                  onPress={ () => {
                  navigation.navigate('HomeScreen')
                 }} 
-                image={require('../../assets/images/chat-Icon.png')}
+                image={require('../../../assets/images/chat-Icon.png')}
              />
 
         </View>  
