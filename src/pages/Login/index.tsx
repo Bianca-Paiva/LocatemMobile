@@ -86,10 +86,11 @@ export default function LoginScreen() {
 
         <BtnPrincipal 
           title={isLoading ? "Carregando..." : "Entrar"} 
-          onPress={ () => {
-            navigation.navigate('HomeScreen')
-            {handleSignIn}
-          }} 
+          
+            onPress={ () => {
+                 navigation.navigate('HomeScreen')
+                 {handleSignIn} 
+                }}
           // Se o teu BtnPrincipal aceitar a prop disabled, descomenta a linha abaixo:
          
         />
