@@ -1,3 +1,5 @@
+import { ImageSourcePropType } from 'react-native';
+
 export interface CustomerFeedback {
   id: string;
   reviewerName: string;         
@@ -27,10 +29,10 @@ export interface ProductMockData {
     totalCustomerReviewsCount: number;
     dailyRentalPrice: number;
     availableVoltageOptions: string[];
-    storeInfo: StoreInfo;
+    storeInfo: StoreInfo;   
     fullDescription: string;
     technicalSpecs: TechnicalSpecs;
-    productImages: string[];
+    productImages: ImageSourcePropType[];
     custumerFeedback: CustomerFeedback[];
 }
 
@@ -55,9 +57,9 @@ export const mockProductData: ProductMockData = {
     includedAccessories: "2 baterias, carregador, estojo rígido, conjunto de 10 bits",
   },
   productImages: [
-    "https://via.placeholder.com/400x400.png?text=Furadeira+1",
-    "https://via.placeholder.com/400x400.png?text=Furadeira+2",
-    "https://via.placeholder.com/400x400.png?text=Furadeira+3"
+    require("../../assets/images/imagesProdutos/Furadeira1.webp"),
+    require("../../assets/images/imagesProdutos/img-carrossel-2.png"),
+    require("../../assets/images/imagesProdutos/img-carrossel-3.png")
   ],
   custumerFeedback: [
     {

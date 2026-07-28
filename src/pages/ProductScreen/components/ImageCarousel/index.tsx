@@ -9,6 +9,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; // Assumindo que usa Expo ou react-native-vector-icons
+import { ImageSourcePropType } from 'react-native';
 
 import { styles } from './styles';
 import { ImageCarouselProps } from './types';
@@ -26,10 +27,10 @@ export function ImageCarousel({ images }: ImageCarouselProps) {
     setActiveIndex(roundIndex);
   };
 
-  const renderItem = ({ item }: { item: string }) => (
+  const renderItem = ({ item }: { item: ImageSourcePropType }) => (
     <View style={styles.imageContainer}>
       <Image 
-        source={{ uri: item }} 
+        source={item} 
         style={styles.image} 
         resizeMode="contain" // Mantém a proporção da imagem (ideal para produtos)
       />

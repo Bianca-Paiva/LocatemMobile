@@ -28,7 +28,7 @@ export function ProductScreen() {
   return (
     <ScrollView style={{ flex: 1, backgroundColor: '#FAFAFA' }}>
        {/* Carousel de Imagens */}
-       <ImageCarousel images={product.productImages} />
+       <ImageCarousel images={product.productImages}/>
 
         {/* Informações do Produto Ex:(Valores e etc.) */}
        <ProductHeaderInfo 
