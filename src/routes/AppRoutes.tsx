@@ -1,6 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 
-import {HomeScreen} from "../pages/home/HomeScreen";
+import {HomeScreen} from "../pages/Home/HomeScreen";
+import {SearchScreen} from "../pages/Search/SearchScreen";
 import CadastroScreen from "../pages/Cadastro";
 import LoginScreen from "../pages/Login";
 import ReceiveTokenScreen from "../pages/receiveToken/ReceiveToken";
@@ -12,6 +13,7 @@ export type RootStackParamList = {
   LoginScreen: undefined,
   CadastroScreen: undefined,
   HomeScreen: undefined,
+  SearchScreen: { search: string },
   RecoveryRequisitionScreen: undefined,
   ReceiveTokenScreen: undefined,
   RecoveryPasswordScreen:undefined,
@@ -39,6 +41,10 @@ export default function AppRoutes() {
       <Stack.Screen
         name="HomeScreen"
         component={HomeScreen}
+      />
+       <Stack.Screen
+        name="SearchScreen"
+        component={SearchScreen}
       />
 
       <Stack.Screen

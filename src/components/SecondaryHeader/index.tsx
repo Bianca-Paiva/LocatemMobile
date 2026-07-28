@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
 // ===========================
@@ -16,41 +15,25 @@ import { IconButton } from "../IconButton";
 import SearchInput from "../SearchInput";
 
 // ===========================
-// Estilos
+// Tipagem das Props
 // ===========================
-import styles from "./styles";
+type SecondaryHeaderProps = {
+    search: string;
+    setSearch: (text: string) => void;
+    buscarProduto: () => void;
+};
 
-export default function Header() {
+export default function SecondaryHeader({
+    search,
+    setSearch,
+    buscarProduto,
+}: SecondaryHeaderProps) {
 
     // ===========================
     // Hook de Navegação
     // ===========================
     const navigation =
         useNavigation<StackNavigationProp<RootStackParamList>>();
-
-    // ===========================
-    // Estados
-    // ===========================
-
-    // Texto digitado na barra de pesquisa
-    const [search, setSearch] = useState("");
-
-    // ===========================
-    // Funções
-    // ===========================
-
-    // Navega para a tela de busca
-    // enviando o texto pesquisado
-    function pesquisar() {
-
-        // Evita pesquisas vazias
-        if (!search.trim()) return;
-
-        navigation.navigate("SearchScreen", {
-            search: search.trim(),
-        });
-
-    }
 
     // ===========================
     // Renderização
@@ -68,6 +51,12 @@ export default function Header() {
 
                 <View style={styles.topo}>
 
+                    {/* Botão para voltar */}
+                    <IconButton
+                        image={require("../../../assets/images/icons/seta.png")}
+                        onPress={() => navigation.goBack()}
+                    />
+
                     {/* Campo de pesquisa */}
                     <SearchInput
                         image={require("../../../assets/images/lupa.png")}
@@ -76,7 +65,7 @@ export default function Header() {
                         keyboardType="default"
                         value={search}
                         onChangeText={setSearch}
-                        onSubmitEditing={pesquisar}
+                        onSubmitEditing={buscarProduto}
                     />
 
                     {/* Botão do chat */}
@@ -92,3 +81,34 @@ export default function Header() {
         </View>
     );
 }
+
+// ===========================
+// Estilos
+// ===========================
+const styles = StyleSheet.create({
+
+    // Container do cabeçalho
+    headerContainer: {
+        width: "100%",
+        height: 140,
+        flexDirection: "row",
+        alignItems: "center",
+        paddingHorizontal: 20,
+        gap: 10,
+    },
+
+    // Conteúdo do cabeçalho
+    topo: {
+        marginTop: 25,
+        flexDirection: "row",
+        alignItems: "center",
+        width: "100%",
+        gap: 10,
+    },
+
+    // Campo de pesquisa
+    searchContainer: {
+        flex: 1,
+    },
+
+});

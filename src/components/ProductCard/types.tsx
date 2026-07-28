@@ -1,8 +1,8 @@
-import {GestureResponderEvent} from 'react-native';
+import { GestureResponderEvent, ImageSourcePropType } from "react-native";
 
 export interface Product {
     id : string;
-    imageUrl: string;
+    imageUrl: string | ImageSourcePropType;
     title: string;
     storeName: string;
     price : number;
