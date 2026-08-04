@@ -7,7 +7,7 @@ import LoginScreen from "../pages/Login";
 import ReceiveTokenScreen from "../pages/receiveToken/ReceiveToken";
 import { RecoveryRequisitionScreen } from "../pages/recoveryRequisition/RecoveryRequisition";
 import RecoveryPasswordScreen from "../pages/recoveryPassword/RecoveryPasswordScreen";
-import { ProductScreen } from "../pages/ProductScreen";
+import  ProductScreen  from "../pages/ProductScreen";
 
 export type RootStackParamList = {
   LoginScreen: undefined,
@@ -89,7 +89,7 @@ export default function AppRoutes() {
           name="ProductScreen"
           component={ProductScreen}
           options={{
-          headerShown: true, 
+          headerShown: false, 
           title:"",
           headerStyle: {
             backgroundColor: "#f9fafb",
