@@ -4,8 +4,9 @@ import { View, Text, TouchableOpacity, Image, ImageSourcePropType } from 'react-
 // Importação do StyleSheet isolado
 import { styles } from './styles';
 
-// Mantenha os caminhos corretos conforme a estrutura de pastas que vimos no seu VS Code
-
+//importacao dos componentes filhos
+import TempoDropdown from '../TempoDropown';
+import SeletorQuantidade from '../SeletorQuantidade';
 
 interface ProdutoInfoProps {
   title: string;
