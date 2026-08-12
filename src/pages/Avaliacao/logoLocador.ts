@@ -4,8 +4,8 @@ const LOGO_POR_LOCADOR: Record<
   string,
   ImageSourcePropType
 > = {
-  'MS Ferramentas': require('../../assets/LogosLojas/logoLojaMS.png'),
-  'JB Ferramentas': require('../../assets/LogosLojas/logoLojaJB.png'),
+  'MS Ferramentas': require('../../../../assets/images/LogosLojas/logoLojaMS.png'),
+  'JB Ferramentas': require('../../../../assets/images/LogosLojas/logoLojaJB.png'),
 };
 
 /**

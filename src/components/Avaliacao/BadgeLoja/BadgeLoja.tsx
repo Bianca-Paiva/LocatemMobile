@@ -51,7 +51,7 @@ export function BadgeLoja({
         </Text>
 
         <Image
-          source={require('../../../assets/verificadoAzul.png')}
+          source={require('../../../../assets/images/verificadoAzul.png')}
           style={styles.verificado}
           resizeMode="contain"
         />

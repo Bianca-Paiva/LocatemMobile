@@ -86,7 +86,7 @@ export function ModalAvaliacao({
     ImageSourcePropType | null
   > = {
     locador: produto.loja.logo,
-    entrega: require('../../../assets/images/icons/IconCaminhao.png'),
+    entrega: require('../../../../assets/images/icons/IconCaminhao.png'),
     produto: produto.imagem,
   };
 
@@ -112,8 +112,7 @@ export function ModalAvaliacao({
             >
               <ChevronLeft
                 size={18}
-                
-                ="#6B6860"
+                color="#6B6860"
               />
 
               <Text style={styles.voltarTexto}>
