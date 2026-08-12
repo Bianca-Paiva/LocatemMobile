@@ -8,6 +8,7 @@ import {
   Pressable,
   ScrollView,
   TextInput,
+  ImageSourcePropType,
 } from 'react-native';
 
 import {
@@ -82,10 +83,10 @@ export function ModalAvaliacao({
 
   const iconesPorSub: Record<
     ChaveSubAvaliacao,
-    any
+    ImageSourcePropType | null
   > = {
     locador: produto.loja.logo,
-    entrega: require('../../../assets/Icons/IconCaminhao.png'),
+    entrega: require('../../../assets/images/icons/IconCaminhao.png'),
     produto: produto.imagem,
   };
 
@@ -97,8 +98,9 @@ export function ModalAvaliacao({
       onRequestClose={aoFechar}
     >
       <View style={styles.overlay}>
+        <View  style={styles.modal}>
         <ScrollView
-          style={styles.modal}
+
           showsVerticalScrollIndicator={false}
         >
           {/* Header */}
@@ -110,7 +112,8 @@ export function ModalAvaliacao({
             >
               <ChevronLeft
                 size={18}
-                color="#6B6860"
+                
+                ="#6B6860"
               />
 
               <Text style={styles.voltarTexto}>
@@ -309,6 +312,7 @@ export function ModalAvaliacao({
             }
           />
         </ScrollView>
+        </View>
       </View>
     </Modal>
   );

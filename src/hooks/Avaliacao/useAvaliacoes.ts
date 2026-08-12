@@ -237,7 +237,7 @@ export function useAvaliacoes() {
               subAvaliacoes: {
                 ...produto.subAvaliacoes,
 
-                valor,
+                [chave]: valor,
               },
             }
           : produto

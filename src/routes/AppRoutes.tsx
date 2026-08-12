@@ -1,6 +1,6 @@
 import { createStackNavigator } from "@react-navigation/stack";
 
-import {HomeScreen} from "../pages/Home/HomeScreen";
+import {HomeScreen} from "../pages/home/HomeScreen";
 import {SearchScreen} from "../pages/Search/SearchScreen";
 import CadastroScreen from "../pages/Cadastro";
 import LoginScreen from "../pages/Login";
@@ -16,6 +16,7 @@ export type RootStackParamList = {
   RecoveryRequisitionScreen: undefined,
   ReceiveTokenScreen: undefined,
   RecoveryPasswordScreen:undefined,
+  Avaliacao: undefined,
 }
 
 const Stack = createStackNavigator();
@@ -81,6 +82,18 @@ export default function AppRoutes() {
           },
           headerShadowVisible: false,
         }}
+        />
+        <Stack.Screen
+          name="Avaliacao"
+          component={require("../pages/Avaliacao/Avaliacao").default}
+          options={{
+            headerShown: true, 
+            title:"",
+            headerStyle: {
+              backgroundColor: "#f9fafb",
+            },
+            headerShadowVisible: false,
+          }}
         />
     </Stack.Navigator>
   );
