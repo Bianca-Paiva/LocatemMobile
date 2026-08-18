@@ -10,3 +10,6 @@ https://zod.dev/
 
 ## Icons
     npx expo install @expo/vector-icons
+
+## Utilizar o linear gradient
+    npx expo install expo-linear-gradient
