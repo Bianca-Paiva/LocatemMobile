@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import type { ProdutoSelecionado } from '../../context/ProdutoContext';
+import type { Produto } from '../../types/produto.types';
 import type {
     ResumoReservaCalculado,
     SolicitarReservaFormState,

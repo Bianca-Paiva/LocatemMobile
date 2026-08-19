@@ -7,6 +7,12 @@ import LoginScreen from "../pages/Login";
 import ReceiveTokenScreen from "../pages/receiveToken/ReceiveToken";
 import { RecoveryRequisitionScreen } from "../pages/recoveryRequisition/RecoveryRequisition";
 import RecoveryPasswordScreen from "../pages/recoveryPassword/RecoveryPasswordScreen";
+import { Avaliacao } from "../pages/Avaliacao/Avaliacao";
+import DetalhesReserva from "../pages/Reservas/DetalhesReserva/DetalhesReserva";
+import MinhasReservas from "../pages/Reservas/MinhasReservas/MinhasReservas";
+import SolicitarReserva from "../pages/Reservas/SolicitarReserva/SolicitarReserva";
+import SolicitacaoEnviada from "../pages/Reservas/SolicitacaoEnviada/SolicitacaoEnviada";
+
 
 export type RootStackParamList = {
   LoginScreen: undefined,
@@ -17,6 +23,11 @@ export type RootStackParamList = {
   ReceiveTokenScreen: undefined,
   RecoveryPasswordScreen:undefined,
   Avaliacao: undefined,
+  DetalhesReserva: undefined,
+  MinhasReservas: undefined,
+  SolicitarReserva: undefined,
+  SolicitacaoEnviada: undefined,
+  
 }
 
 const Stack = createStackNavigator();
@@ -85,7 +96,7 @@ export default function AppRoutes() {
         />
         <Stack.Screen
           name="Avaliacao"
-          component={require("../pages/Avaliacao/Avaliacao").default}
+          component={Avaliacao}
           options={{
             headerShown: true, 
             title:"",
@@ -95,6 +106,55 @@ export default function AppRoutes() {
             headerShadowVisible: false,
           }}
         />
+        <Stack.Screen
+          name="DetalhesReserva"
+          component={DetalhesReserva}
+          options={{
+            headerShown: true,
+            title:"",
+            headerStyle: {
+             backgroundColor: "#f9fafb",
+            },
+            headerShadowVisible: false,
+          }}
+          />
+          <Stack.Screen
+          name="MinhasReservas"
+          component={MinhasReservas}
+           options={{
+            headerShown: true,
+            title:"",
+            headerStyle: {
+             backgroundColor: "#f9fafb",
+            },
+            headerShadowVisible: false,
+          }}
+          />
+          <Stack.Screen
+          name="SolicitarReserva"
+          component={SolicitarReserva}
+           options={{
+            headerShown: true,
+            title:"",
+            headerStyle: {
+             backgroundColor: "#f9fafb",
+            },
+            headerShadowVisible: false,
+          }}
+          />
+          <Stack.Screen
+          name="SolicitacaoEnviada"
+          component={SolicitacaoEnviada}
+           options={{
+            headerShown: true,
+            title:"",
+            headerStyle: {
+             backgroundColor: "#f9fafb",
+            },
+            headerShadowVisible: false,
+          }}
+          />
+
     </Stack.Navigator>
   );
 }

@@ -9,7 +9,7 @@ export const produtosAvaliacaoMock: ProdutoAvaliacao[] = [
         id: '1',
         nome: 'Furadeira Parafusadeira The Black Tools',
         dataLocacao: 'Locado em 02 de Agosto',
-        imagem: require('../../../assets/images/imagesProdutos/furadeiraParafusadeira.png'),
+        imagem: require('../../../assets/images/imagesProdutos/Furadeira1.webp'),
         status: 'pendente',
         notaGlobal: 0,
         subAvaliacoes: { locador: 0, entrega: 0, produto: 0 },

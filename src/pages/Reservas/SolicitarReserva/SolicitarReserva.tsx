@@ -10,12 +10,16 @@ import {
   ScrollView,
 } from 'react-native';
 
+import { useNavigation } from '@react-navigation/native';
+import type { Produto } from '../../../types/produto.types';
 import Header from '../../../components/Header';
 import CabecalhoPagina from '../../../components/CabecalhoPagina/CabecalhoPagina';
 import ProdutoResumoCard from '../../../components/SolicitarReserva/ProdutoResumoCard/ProdutoResumoCard';
 import CampoData from '../../../components/SolicitarReserva/CampoData/CampoData';
 import HorarioDropdown from '../../../components/SolicitarReserva/HorarioDropdown/HorarioDropdown';
+
 import SeletorQuantidade from '../../../components/Inputs/SeletorQuantidade/SeletorQuantidade';
+
 import EnderecoEntrega from '../../../components/SolicitarReserva/EnderecoEntrega/EnderecoEntrega';
 import ResumoReserva from '../../../components/SolicitarReserva/ResumoReserva/ResumoReserva';
 
@@ -31,19 +35,33 @@ import {
 
 import { styles } from './styles';
 
-const PRODUTO_VAZIO = {
+const PRODUTO_VAZIO: Produto = {
+  id: 0,
+
   title: '',
   brand: '',
   price: '0',
+
   images: [],
-  imageVerificado: '',
-  imageNota: '',
+
+  imageVerificado:
+    require('../../../assets/verificadoAzul.png'),
+
+  imageNota:
+    require('../../../assets/StarFullYellow.png'),
+
   rating: 0,
   reviewCount: 0,
+
   locador: '',
   localizacao: '',
   categoria: '',
+
   estoqueDisponivel: 1,
+
+  paymentMethods: [],
+
+  available: false,
 };
 
 interface SolicitarReservaProps {
@@ -63,9 +81,9 @@ export default function SolicitarReserva({
 
   useEffect(() => {
     if (!produtoSelecionado) {
-      navigate('home');
+      navigate('HomeScreen');
     }
-  }, [produtoSelecionado]);
+  }, [produtoSelecionado, navigate]);
 
   const produto =
     produtoSelecionado ??

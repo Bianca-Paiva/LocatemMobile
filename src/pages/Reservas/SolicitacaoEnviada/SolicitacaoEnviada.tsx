@@ -7,9 +7,9 @@ import {
   ScrollView,
 } from 'react-native';
 
-import checkIcon from '../../../assets/images/icons/checkIcon.png';
+import { useNavigation } from '@react-navigation/native';
 
-import ResumoSolicitacaoCard from '../../../components/SolicitacaoEnviada/ResumoSolicitacaoCard/ResumoSolicitacaoCard';
+import ResumoSolicitacaoCard from '../../../components/SolicitacaoEnviada/ResumoSolicitacaoCard';
 import { useReservaStore } from '../../../hooks/Reservas/useReservaStore';
 
 import { styles } from './styles';
@@ -54,7 +54,7 @@ export default function SolicitacaoEnviada({
     >
       <View style={styles.iconCircle}>
         <Image
-          source={checkIcon}
+          source={require('../../../../assets/images/icons/iconCheck.png')}
           style={styles.icon}
           resizeMode="contain"
         />
