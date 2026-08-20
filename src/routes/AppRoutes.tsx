@@ -20,7 +20,7 @@ export type RootStackParamList = {
   ProductScreen: undefined,
 }
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 export default function AppRoutes() {
   return (
