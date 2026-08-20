@@ -1,7 +1,7 @@
 import { View, Text, TextInput } from 'react-native';
 import { Image } from 'react-native';
 
-import calendarioIcon from '../../../assets/images/icons/iconCalendarioReservas.png';
+import calendarioIcon from '../../../../assets/images/icons/iconCalendarioReservas.png';
 import { styles } from './styles';
 
 interface CampoDataProps {

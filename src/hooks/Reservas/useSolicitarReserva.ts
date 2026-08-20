@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react';
-import type { Produto } from '../../types/produto.types';
+import type { ProdutoSelecionado } from '../../context/ProdutoContext';
 import type {
     ResumoReservaCalculado,
     SolicitarReservaFormState,
 } from '../../pages/Reservas/SolicitarReserva/SolicitarReserva.types';
 import { validateCEP, validatePhone, validateFullName } from '../masks';
+import { ImageSourcePropType } from 'react-native';
 
 const MESES_ABREVIADOS = [
     'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
@@ -175,7 +176,7 @@ export function useSolicitarReserva({ produto }: UseSolicitarReservaParams) {
     // Monta os dados prontos para virar uma ReservaData no contexto global de reservas
     const montarDadosReserva = () => ({
         produto: produto.title,
-        imagem: produto.images?.[0] ?? '',
+        imagem: ImageSourcePropType,
         periodo: `${formatarDataCurta(form.dataEntrega)} – ${formatarDataCurta(form.dataDevolucao)} ${parseDataIso(form.dataDevolucao)?.getFullYear() ?? ''}`,
         locador: produto.locador,
         status: 'pendente' as const,

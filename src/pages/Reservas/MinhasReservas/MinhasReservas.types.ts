@@ -1,3 +1,5 @@
+import { ImageSourcePropType } from "react-native";
+
 /** Status possíveis de uma solicitação de reserva */
 export type StatusReserva =
   | 'pendente' // Aguardando aprovação do locador
@@ -17,7 +19,7 @@ export type FiltroReserva = 'todas' | StatusReserva;
 export interface ReservaData {
   id: string;
   produto: string;
-  imagem: string;
+  imagem: ImageSourcePropType;
   periodo: string; /** Período já formatado para exibição, ex: "15 Jul – 18 Jul 2026" */
   locador: string;
   status: StatusReserva;

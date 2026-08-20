@@ -6,9 +6,7 @@ import {
   Image,
 } from 'react-native';
 
-const calendarioIcon = require(
-  '../../../assets/iconCalendarioReservas.png'
-);
+const calendarioIcon = require('../../../../assets/images/icons/iconCalendarioReservas.png');
 
 import { styles } from './styles';
 

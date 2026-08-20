@@ -45,10 +45,10 @@ const PRODUTO_VAZIO: Produto = {
   images: [],
 
   imageVerificado:
-    require('../../../assets/verificadoAzul.png'),
+    require('../../../../assets/images/verificadoAzul.png'),
 
   imageNota:
-    require('../../../assets/StarFullYellow.png'),
+    require('../../../../assets/images/StarFullYellow.png'),
 
   rating: 0,
   reviewCount: 0,

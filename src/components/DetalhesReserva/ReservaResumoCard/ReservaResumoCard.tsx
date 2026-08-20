@@ -21,9 +21,7 @@ import { formatarIntervaloHorario } from '../../../utils/horario';
 import { styles } from './styles';
 
 // Ícone de avaliação
-const starIcon = require(
-  '../../../assets/StarFullYellow.png'
-);
+const starIcon = require( '../../../../assets/images/StarFullYellow.png');
 
 interface ReservaResumoCardProps {
   reserva: ReservaData;

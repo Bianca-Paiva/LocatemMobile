@@ -1,5 +1,5 @@
 import type { ReservaData, StatusReserva } from './MinhasReservas.types';
-import { PRODUTOS_MOCK } from '../../../mocks/produtos.mock.ts';
+import { PRODUTOS_MOCK } from '../../../mocks/produtos.mock';
 import { toReservaProdutoBase } from '../../../mocks/produtos.adapters';
 
 

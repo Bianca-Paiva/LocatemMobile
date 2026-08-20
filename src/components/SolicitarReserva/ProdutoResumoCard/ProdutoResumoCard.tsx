@@ -26,7 +26,7 @@ export default function ProdutoResumoCard({
     <View style={styles.card}>
       <View style={styles.miniatura}>
         <Image
-          source={{ uri: images?.[0] }}
+          source={images[0]}
           style={styles.imagem}
           resizeMode="cover"
         />
@@ -62,7 +62,7 @@ export default function ProdutoResumoCard({
         >
           <View style={styles.avaliacao}>
             <Image
-              source={require("../../../assets/images/StarFullYellow.png")}
+              source={require("../../../../assets/images/StarFullYellow.png")}
               style={
                 styles.iconePequenoStar
               }

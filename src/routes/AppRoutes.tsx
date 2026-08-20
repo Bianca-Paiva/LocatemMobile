@@ -1,4 +1,8 @@
 import { createStackNavigator } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
+import type { StackNavigationProp} from "@react-navigation/stack";
+
+// Pages
 
 import {HomeScreen} from "../pages/home/HomeScreen";
 import {SearchScreen} from "../pages/Search/SearchScreen";
@@ -28,6 +32,63 @@ export type RootStackParamList = {
   SolicitarReserva: undefined,
   SolicitacaoEnviada: undefined,
   
+}
+
+/**
+ * As telas do fluxo de Reservas (DetalhesReserva, MinhasReservas,
+ * SolicitarReserva, SolicitacaoEnviada) foram escritas recebendo uma prop
+ * `navigate: (route: string) => void`, usando chaves "de tela" em minúsculo
+ * (ex.: 'minhasReservas', 'detalhesReserva') em vez dos nomes registrados
+ * no `RootStackParamList` (ex.: 'MinhasReservas', 'DetalhesReserva').
+ *
+ * Esse mapa traduz essas chaves para os nomes reais de rota, e o hook abaixo
+ * gera a função `navigate` que essas telas esperam a partir da navegação
+ * real do React Navigation.
+ *
+ * TODO: 'produtoDetalhe' ainda não tem uma tela própria no RootStackParamList;
+ * por ora cai em 'HomeScreen' até essa tela ser implementada.
+ */
+
+const MAPA_ROTAS_LEGADAS: Record<string, keyof RootStackParamList> = {
+  home: "HomeScreen",
+  HomeScreen: "HomeScreen",
+  busca: "SearchScreen",
+  avaliacao: "Avaliacao",
+  detalhesReserva: "DetalhesReserva",
+  minhasReservas: "MinhasReservas",
+  solicitarReserva: "SolicitarReserva",
+  solicitacaoEnviada: "SolicitacaoEnviada",
+  produtoDetalhe: "HomeScreen",
+};
+
+function useLegacyNavigate() {
+  const navigation =
+    useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  return (route: string) => {
+    const nomeReal = MAPA_ROTAS_LEGADAS[route] ?? (route as keyof RootStackParamList);
+    navigation.navigate(nomeReal as any);
+  };
+}
+
+function DetalhesReservaScreen() {
+  const navigate = useLegacyNavigate();
+  return <DetalhesReserva navigate={navigate} />;
+}
+
+function MinhasReservasScreen() {
+  const navigate = useLegacyNavigate();
+  return <MinhasReservas navigate={navigate} />;
+}
+
+function SolicitarReservaScreen() {
+  const navigate = useLegacyNavigate();
+  return <SolicitarReserva navigate={navigate} />;
+}
+
+function SolicitacaoEnviadaScreen() {
+  const navigate = useLegacyNavigate();
+  return <SolicitacaoEnviada navigate={navigate} />;
 }
 
 const Stack = createStackNavigator();
@@ -108,7 +169,7 @@ export default function AppRoutes() {
         />
         <Stack.Screen
           name="DetalhesReserva"
-          component={DetalhesReserva}
+          component={DetalhesReservaScreen}
           options={{
             headerShown: true,
             title:"",
@@ -120,7 +181,7 @@ export default function AppRoutes() {
           />
           <Stack.Screen
           name="MinhasReservas"
-          component={MinhasReservas}
+          component={MinhasReservasScreen}
            options={{
             headerShown: true,
             title:"",
@@ -132,7 +193,7 @@ export default function AppRoutes() {
           />
           <Stack.Screen
           name="SolicitarReserva"
-          component={SolicitarReserva}
+          component={SolicitarReservaScreen}
            options={{
             headerShown: true,
             title:"",
@@ -144,7 +205,7 @@ export default function AppRoutes() {
           />
           <Stack.Screen
           name="SolicitacaoEnviada"
-          component={SolicitacaoEnviada}
+          component={SolicitacaoEnviadaScreen}
            options={{
             headerShown: true,
             title:"",

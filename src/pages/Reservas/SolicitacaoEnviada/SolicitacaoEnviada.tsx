@@ -54,7 +54,7 @@ export default function SolicitacaoEnviada({
     >
       <View style={styles.iconCircle}>
         <Image
-          source={require('../../../../assets/images/icons/iconCheck.png')}
+          source={require('../../../../assets/images/icons/checkIcon.png')}
           style={styles.icon}
           resizeMode="contain"
         />

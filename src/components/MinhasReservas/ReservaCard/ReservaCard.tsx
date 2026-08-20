@@ -13,15 +13,11 @@ import type {
 
 import StatusBadge from '../EtiquetaStatus/EtiquetaStatus';
 
-const calendarioIcon = require(
-  '../../../assets/iconCalendarioReservas.png'
-);
+const calendarioIcon = require('../../../../assets/images/icons/iconCalendarioReservas.png');
 
-const userIcon = require(
-  '../../../assets/IconUser.png'
-);
+const userIcon = require('../../../../assets/images/icons/user.png');
 
-import { styles } from './Styles';
+import { styles } from './styles';
 
 interface ReservaCardProps {
   reserva: ReservaData;
