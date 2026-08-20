@@ -13,3 +13,8 @@ https://zod.dev/
 
 ## Utilizar o linear gradient
     npx expo install expo-linear-gradient
+
+## Zustand             
+
+
+    npm install zustand
