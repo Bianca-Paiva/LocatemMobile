@@ -53,7 +53,6 @@ export const styles = StyleSheet.create({
 
     fontWeight: '600',
 
-    color: '#6B6860',
   },
 
   produto: {
@@ -71,8 +70,8 @@ export const styles = StyleSheet.create({
   },
 
   produtoImagem: {
-    width: 90,
-    height: 90,
+    width: 95,
+    height: 95,
 
     borderRadius: 10,
 

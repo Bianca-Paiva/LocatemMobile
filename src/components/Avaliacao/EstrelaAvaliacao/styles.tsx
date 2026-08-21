@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
   fileira: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 3,
   },
   estrelaPress: {
     justifyContent: 'center',

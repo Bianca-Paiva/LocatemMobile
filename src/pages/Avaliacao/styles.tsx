@@ -4,7 +4,7 @@ const { width } = Dimensions.get('window');
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 30,
+    paddingTop: 5,
     paddingHorizontal: 18,
     paddingBottom: 48,
   },
@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
 
   tabBtn: {
     paddingVertical: 12,
-    paddingHorizontal: 24,
+    paddingHorizontal: 60,
   },
 
   tabBtnActive: {

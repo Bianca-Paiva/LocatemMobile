@@ -335,8 +335,10 @@ export const PRODUTOS_MOCK: Produto[] = [
         title: 'Serra Tico-Tico de Bancada',
         brand: 'Bosch',
         price: '50,00',
-        images: [require('../../assets/images/imagesProdutos/serra-circular-profissional.png')],
-        imageVerificado: require('../../assets/images/verificadoAzul.png'),
+        images:[
+            require('../../assets/images/imagesProdutos/serraCircularProfissional.png')
+        ],
+        imageVerificado: require ('../../assets/images/verificadoAzul.png'),
         imageNota: require('../../assets/images/StarFullYellow.png'),
         rating: 4.4,
         reviewCount: 76,

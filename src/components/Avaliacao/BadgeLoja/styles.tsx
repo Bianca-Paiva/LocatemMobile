@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
 
-    marginBottom: 8,
+    marginBottom: 5,
   },
 
   logoContainer: {
@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
 
     overflow: 'hidden',
 
-    marginRight: 6,
+    marginRight: 4,
   },
 
   logoAusente: {

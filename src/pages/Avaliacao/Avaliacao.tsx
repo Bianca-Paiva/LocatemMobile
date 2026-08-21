@@ -18,6 +18,7 @@ import { EstadoVazio } from '../../components/Avaliacao/EstadoVazio/EstadoVazio'
 import { useAvaliacoes } from '../../hooks/Avaliacao/useAvaliacoes';
 
 import { styles } from './styles';
+import BarNav from '../../components/BarNav';
 
 export const Avaliacao = () => {
   const [abaAtiva, setAbaAtiva] =
@@ -55,10 +56,10 @@ export const Avaliacao = () => {
       <Header />
 
       <View style={styles.container}>
-        <CabecalhoPagina
+        {/* <CabecalhoPagina
           titulo="Minhas Avaliações"
           subtitulo="Avalie os produtos que você locou."
-        />
+        /> */}
 
         {/* Tabs */}
 
@@ -108,6 +109,7 @@ export const Avaliacao = () => {
               Realizadas
             </Text>
           </Pressable>
+         
         </View>
 
         {/* Pendentes */}
@@ -196,6 +198,7 @@ export const Avaliacao = () => {
           visivel={toastVisivel}
         />
       </View>
+       <BarNav></BarNav>
     </>
   );
 };

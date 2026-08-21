@@ -159,24 +159,17 @@ export default function AppRoutes() {
           name="Avaliacao"
           component={Avaliacao}
           options={{
-            headerShown: true, 
+            headerShown: false, 
             title:"",
-            headerStyle: {
-              backgroundColor: "#f9fafb",
-            },
-            headerShadowVisible: false,
           }}
         />
         <Stack.Screen
           name="DetalhesReserva"
           component={DetalhesReservaScreen}
           options={{
-            headerShown: true,
+            headerShown: false,
             title:"",
-            headerStyle: {
-             backgroundColor: "#f9fafb",
-            },
-            headerShadowVisible: false,
+        
           }}
           />
           <Stack.Screen
@@ -185,10 +178,7 @@ export default function AppRoutes() {
            options={{
             headerShown: true,
             title:"",
-            headerStyle: {
-             backgroundColor: "#f9fafb",
-            },
-            headerShadowVisible: false,
+         
           }}
           />
           <Stack.Screen
@@ -197,10 +187,6 @@ export default function AppRoutes() {
            options={{
             headerShown: true,
             title:"",
-            headerStyle: {
-             backgroundColor: "#f9fafb",
-            },
-            headerShadowVisible: false,
           }}
           />
           <Stack.Screen
@@ -209,10 +195,6 @@ export default function AppRoutes() {
            options={{
             headerShown: true,
             title:"",
-            headerStyle: {
-             backgroundColor: "#f9fafb",
-            },
-            headerShadowVisible: false,
           }}
           />
 

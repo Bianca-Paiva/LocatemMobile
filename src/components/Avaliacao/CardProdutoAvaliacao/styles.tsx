@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   grupo: {
-    marginBottom: 8,
+    marginBottom: 4,
   },
 
   card: {
@@ -13,9 +13,9 @@ export const styles = StyleSheet.create({
 
     borderRadius: 12,
 
-    padding: 20,
+    padding: 25,
 
-    marginBottom: 12,
+    marginBottom: 10,
 
     // equivalente visual do shadow
     shadowColor: '#000',
@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.05,
     shadowRadius: 4,
 
-    elevation: 2,
+    elevation: 3,
   },
 
   conteudo: {
@@ -36,8 +36,8 @@ export const styles = StyleSheet.create({
   },
 
   imagem: {
-    width: 90,
-    height: 90,
+    width: 95,
+    height: 95,
 
     borderRadius: 8,
 
