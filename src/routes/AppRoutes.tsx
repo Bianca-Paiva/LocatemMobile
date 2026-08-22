@@ -8,6 +8,7 @@ import ReceiveTokenScreen from "../pages/receiveToken/ReceiveToken";
 import { RecoveryRequisitionScreen } from "../pages/recoveryRequisition/RecoveryRequisition";
 import RecoveryPasswordScreen from "../pages/recoveryPassword/RecoveryPasswordScreen";
 import  ProductScreen  from "../pages/ProductScreen";
+import CadastroFerramentaScreen from "../pages/CadastroFerramenta";
 
 export type RootStackParamList = {
   LoginScreen: undefined,
@@ -18,6 +19,7 @@ export type RootStackParamList = {
   ReceiveTokenScreen: undefined,
   RecoveryPasswordScreen:undefined,
   ProductScreen: undefined,
+  CadastroFerramentaScreen: undefined,
 }
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -96,6 +98,14 @@ export default function AppRoutes() {
           },
           headerShadowVisible: false,
         }}
+        />
+
+        <Stack.Screen
+          name="CadastroFerramentaScreen"
+          component={CadastroFerramentaScreen}
+          options={{
+            headerShown: false,
+          }}
         />
     </Stack.Navigator>
   );
