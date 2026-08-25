@@ -257,7 +257,6 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
                         </TouchableOpacity>
                     </View>
 
-<<<<<<< HEAD
                     <TouchableOpacity
                         style={styles.carrinhoBtn}
                         onPress={() => handleNavigate()}
@@ -289,30 +288,11 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
                         style={styles.barraPesquisaInput}
                         placeholder="Qual ferramenta você precisa hoje?"
                         placeholderTextColor="#8A8A8A"
-=======
-                    {/* Campo de pesquisa */}
-                    <SearchInput
-                        image={require("../../../assets/images/icons/lupa.png")}
-                        style={styles.searchContainer}
-                        placeholder="Pesquisar"
-                        keyboardType="default"
->>>>>>> origin/master
                         value={search}
                         onChangeText={setSearch}
                         onSubmitEditing={pesquisar}
                         returnKeyType="search"
                     />
-<<<<<<< HEAD
-=======
-
-             {/* <IconButton
-                 onPress={ () => {
-                 navigation.navigate('HomeScreen')
-                }} 
-                image={require('../../../assets/images/chat-Icon.png')}
-             /> */}
-
->>>>>>> origin/master
                 </View>
             </LinearGradient>
 

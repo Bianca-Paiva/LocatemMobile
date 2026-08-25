@@ -2,11 +2,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 import type { StackNavigationProp} from "@react-navigation/stack";
 
-<<<<<<< HEAD
-=======
 // Pages
-
->>>>>>> origin/master
+import ProductScreen from "../pages/ProductScreen";
 import {HomeScreen} from "../pages/home/HomeScreen";
 import {SearchScreen} from "../pages/Search/SearchScreen";
 import CadastroScreen from "../pages/Cadastro";
@@ -14,16 +11,12 @@ import LoginScreen from "../pages/Login";
 import ReceiveTokenScreen from "../pages/receiveToken/ReceiveToken";
 import { RecoveryRequisitionScreen } from "../pages/recoveryRequisition/RecoveryRequisition";
 import RecoveryPasswordScreen from "../pages/recoveryPassword/RecoveryPasswordScreen";
-<<<<<<< HEAD
-import  ProductScreen  from "../pages/ProductScreen";
-=======
 import { Avaliacao } from "../pages/Avaliacao/Avaliacao";
 import DetalhesReserva from "../pages/Reservas/DetalhesReserva/DetalhesReserva";
 import MinhasReservas from "../pages/Reservas/MinhasReservas/MinhasReservas";
 import SolicitarReserva from "../pages/Reservas/SolicitarReserva/SolicitarReserva";
 import SolicitacaoEnviada from "../pages/Reservas/SolicitacaoEnviada/SolicitacaoEnviada";
 
->>>>>>> origin/master
 
 export type RootStackParamList = {
   LoginScreen: undefined,
@@ -33,14 +26,12 @@ export type RootStackParamList = {
   RecoveryRequisitionScreen: undefined,
   ReceiveTokenScreen: undefined,
   RecoveryPasswordScreen:undefined,
-<<<<<<< HEAD
-  ProductScreen: undefined,
-=======
   Avaliacao: undefined,
   DetalhesReserva: undefined,
   MinhasReservas: undefined,
   SolicitarReserva: undefined,
   SolicitacaoEnviada: undefined,
+  ProductScreen: undefined,
   
 }
 
@@ -69,6 +60,7 @@ const MAPA_ROTAS_LEGADAS: Record<string, keyof RootStackParamList> = {
   solicitarReserva: "SolicitarReserva",
   solicitacaoEnviada: "SolicitacaoEnviada",
   produtoDetalhe: "HomeScreen",
+  
 };
 
 function useLegacyNavigate() {
@@ -99,7 +91,6 @@ function SolicitarReservaScreen() {
 function SolicitacaoEnviadaScreen() {
   const navigate = useLegacyNavigate();
   return <SolicitacaoEnviada navigate={navigate} />;
->>>>>>> origin/master
 }
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -169,7 +160,6 @@ export default function AppRoutes() {
           headerShadowVisible: false,
         }}
         />
-<<<<<<< HEAD
 
         <Stack.Screen
           name="ProductScreen"
@@ -183,7 +173,6 @@ export default function AppRoutes() {
           headerShadowVisible: false,
         }}
         />
-=======
         <Stack.Screen
           name="Avaliacao"
           component={Avaliacao}
@@ -227,7 +216,6 @@ export default function AppRoutes() {
           }}
           />
 
->>>>>>> origin/master
     </Stack.Navigator>
   );
 }
