@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   cabecalho: {
+    flexDirection: 'column',
     gap: 4,
     marginBottom: 30,
     width: '100%',
@@ -11,6 +12,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    flexWrap: 'wrap',
     gap: 12,
     width: '100%',
   },
@@ -18,11 +20,11 @@ export const styles = StyleSheet.create({
   titulo: {
     fontSize: 22,
     fontWeight: '800',
-    color: 'var(--color-text-dark)', // substituir pela cor do tema
+    color: '#1F2937',
   },
 
   subtitulo: {
     fontSize: 13,
-    color: 'var(--color-text-muted)', // substituir pela cor do tema
+    color: '#6B7280',
   },
 });

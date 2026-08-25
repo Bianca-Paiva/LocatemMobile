@@ -29,7 +29,7 @@ export default function BarNav() {
                 />
                      <IconButton
                       onPress={ () => {
-                    navigation.navigate('HomeScreen')
+                    navigation.navigate('MinhasReservas')
                     }} 
                     image={require('../../assets/images/icons/agenda.png')}
                 />
