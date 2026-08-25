@@ -1,8 +1,8 @@
 export interface ProdutoSemelhante {
-  id?: number;
+  id?: string |number;
   title: string;
   brand: string;
-  price: string;
+  price: string | number;
   images: string[];
   imageVerificado?: string;
   imageNota?: string;

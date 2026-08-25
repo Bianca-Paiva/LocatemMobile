@@ -1,80 +1,102 @@
+// 🚀 ARQUITETURA: Importamos o tipo de imagem nativo do React Native
 import { ImageSourcePropType } from 'react-native';
 
-export interface CustomerFeedback {
-  id: string;
-  reviewerName: string;         
-  starRating: number;           
-  feedbackMessage: string;      
-  hasAttachedPhotos: boolean;   
+// ── 1. TIPAGENS LOCAIS ──────────────────────────────────────────────
+// Mantemos o padrão em português para encaixar perfeitamente nos componentes que já criamos.
+
+export interface EspecificacaoTecnica {
+  label: string;
+  valor: string;
 }
 
-export interface StoreInfo{
-    storeName: string;
-    averageReputation: number;
-    isVerifiedStore: boolean;
-    storeBadgeImage?: string;
+export interface AvaliacaoProduto {
+  nome: string;
+  rating: number;
+  tempo: string;
+  texto: string;
+  fotos: ImageSourcePropType[]; // Adaptado para aceitar require() nativo
+  utilCount: number;
 }
 
-export interface TechnicalSpecs{
-    powerSource: string;
-    maxTorque: string;
-    chuckSize: string;
-    includedAccessories: string;
-}
+// ── 2. DADOS MOCKADOS ───────────────────────────────────────────────
 
-export interface ProductMockData {
-    id: string;
-    productTitle: string;
-    overallAverageRating: number;
-    totalCustomerReviewsCount: number;
-    dailyRentalPrice: number;
-    availableVoltageOptions: string[];
-    storeInfo: StoreInfo;   
-    fullDescription: string;
-    technicalSpecs: TechnicalSpecs;
-    productImages: ImageSourcePropType[];
-    custumerFeedback: CustomerFeedback[];
-}
-
-export const mockProductData: ProductMockData = {
+// 🚀 REGRA DE NEGÓCIO: O Fallback Produto é usado caso a tela abra sem um produto selecionado.
+export const FALLBACK_PRODUTO = {
   id: "PROD-001",
-  productTitle: "Furadeira Parafusadeira Sem Fio A Bateria 10mm Com Maleta E Acessórios The Black Tools",
-  overallAverageRating: 4.8,
-  totalCustomerReviewsCount: 120,
-  dailyRentalPrice: 15.00,
-  availableVoltageOptions: ["12V", "20V", "Bivolt"],
-  storeInfo: {
-    storeName: "HomePro Pro Store",
-    averageReputation: 4.9,
-    isVerifiedStore: true,
-    storeBadgeImage: "https://via.placeholder.com/100x100.png?text=Store+Badge"//Colocar imagem real do badge da loja aqui
-  },
-  fullDescription: "Ideal para uso doméstico e profissional leve. Perfeita para montagem de móveis, instalações e pequenos reparos...",
-  technicalSpecs: {
-    powerSource: "Bateria de Íons de Lítio 18V máx",
-    maxTorque: "65 Nm",
-    chuckSize: "13mm Sem chave",
-    includedAccessories: "2 baterias, carregador, estojo rígido, conjunto de 10 bits",
-  },
-  productImages: [
+  title: "Furadeira Parafusadeira Sem Fio A Bateria 10mm The Black Tools",
+  price: 15.00,
+  rating: 4.8,
+  reviewCount: 120,
+  brand: "The Black Tools",
+  locador: "HomePro Pro Store",
+  estoqueDisponivel: 5,
+  tipoAprovacao: 'manual', // Importante para o fluxo de reserva que construímos
+  
+  // ATENÇÃO: Ajuste os caminhos dos requires conforme a sua pasta 'assets' real
+  images: [
     require("../../assets/images/imagesProdutos/Furadeira1.webp"),
-    require("../../assets/images/imagesProdutos/img-carrossel-2.png"),
-    require("../../assets/images/imagesProdutos/img-carrossel-3.png")
+    // require("../../assets/images/imagesProdutos/img-carrossel-2.png"),
   ],
-  custumerFeedback: [
-    {
-      id: "REV-01",
-      reviewerName: "João Silva",
-      starRating: 5,
-      feedbackMessage: "Furadeira muito boa. Usei pra montar um guarda-roupas e sobrou bateria. Recomendo!",
-      hasAttachedPhotos: false
-    },
-    {
-      id: "REV-02",
-      reviewerName: "Maria Souza",
-      starRating: 4,
-      feedbackMessage: "A entrega foi rápida e o produto atendeu minhas expectativas.",
-      hasAttachedPhotos: true
-    }
-  ]
+  imageVerificado: require("../../assets/verificadoAzul.png"),
+  imageNota: require("../../assets/IconLike.png"), 
 };
+
+// Reutilizamos a lógica de cards da Home
+export const MOCK_SEMELHANTES = [
+  {
+    id: "PROD-002",
+    title: "Serra Tico-Tico 400W",
+    brand: "Bosch",
+    price: 25.00,
+    images: [require("../../assets/images/imagesProdutos/Furadeira1.webp")], // Exemplo
+    rating: 4.5,
+    reviewCount: 89,
+    imageVerificado: require("../../assets/verificadoAzul.png"),
+    imageNota: require("../../assets/IconLike.png"),
+  },
+  {
+    id: "PROD-003",
+    title: "Parafusadeira de Impacto",
+    brand: "Makita",
+    price: 20.00,
+    images: [require("../../assets/images/imagesProdutos/Furadeira1.webp")], // Exemplo
+    rating: 4.9,
+    reviewCount: 210,
+    imageVerificado: require("../../assets/verificadoAzul.png"),
+    imageNota: require("../../assets/IconLike.png"),
+  }
+];
+
+export const MOCK_ESPECIFICACOES: EspecificacaoTecnica[] = [
+  { label: 'Potência de saída', valor: 'Bateria de Íon-lítio de 18V máx' },
+  { label: 'Torque máximo', valor: '65 Nm' },
+  { label: 'Tamanho do mandril', valor: '13mm Sem chave' },
+  { label: 'Acessórios incluídos', valor: '2 baterias, carregador, estojo rígido, conjunto de 10 bits' },
+];
+
+export const MOCK_AVALIACOES: AvaliacaoProduto[] = [
+  {
+    nome: 'João Silva',
+    rating: 5,
+    tempo: 'Há 2 dias',
+    texto: 'Furadeira muito boa, usei pra montar um guarda-roupa inteiro. Super potente e a bateria durou o projeto todo.',
+    fotos: [], // Se tiver fotos locais, use require() aqui
+    utilCount: 12,
+  },
+  {
+    nome: 'Maria Souza',
+    rating: 4,
+    tempo: 'Há 1 semana',
+    texto: 'A entrega foi rápida e o produto atendeu minhas expectativas perfeitamente.',
+    fotos: [],
+    utilCount: 5,
+  },
+  {
+    nome: 'Pedro Ribeiro',
+    rating: 4,
+    tempo: 'Há 2 semanas',
+    texto: 'Máquina limpa e pronta para uso. Recomendo.',
+    fotos: [],
+    utilCount: 2,
+  },
+];
