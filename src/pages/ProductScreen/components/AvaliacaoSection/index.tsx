@@ -6,8 +6,8 @@ import { AvaliacaoSectionProps } from './types';
 import { styles } from './styles';
 
 // Importação dos assets
-const IconLike = require('../../../assets/IconLike.png');
-const IconLikePreenchido = require('../../../assets/IconLikePreenchido.png');
+const IconLike = require('../../../../../assets/images/IconLike.png');
+const IconLikePreenchido = require('../../../../../assets/images/IconLikePreenchido.png');
 
 // --- Funções Auxiliares Isoladas ---
 function Estrelas({ rating, size = 14 }: { rating: number; size?: number }) {

@@ -37,8 +37,8 @@ export const FALLBACK_PRODUTO = {
     require("../../assets/images/imagesProdutos/Furadeira1.webp"),
     // require("../../assets/images/imagesProdutos/img-carrossel-2.png"),
   ],
-  imageVerificado: require("../../assets/verificadoAzul.png"),
-  imageNota: require("../../assets/IconLike.png"), 
+  imageVerificado: require("../../assets/images/verificadoAzul.png"),
+  imageNota: require("../../assets/images/IconLike.png"), 
 };
 
 // Reutilizamos a lógica de cards da Home
@@ -51,8 +51,8 @@ export const MOCK_SEMELHANTES = [
     images: [require("../../assets/images/imagesProdutos/Furadeira1.webp")], // Exemplo
     rating: 4.5,
     reviewCount: 89,
-    imageVerificado: require("../../assets/verificadoAzul.png"),
-    imageNota: require("../../assets/IconLike.png"),
+    imageVerificado: require("../../assets/images/verificadoAzul.png"),
+    imageNota: require("../../assets/images/IconLike.png"),
   },
   {
     id: "PROD-003",
@@ -62,8 +62,8 @@ export const MOCK_SEMELHANTES = [
     images: [require("../../assets/images/imagesProdutos/Furadeira1.webp")], // Exemplo
     rating: 4.9,
     reviewCount: 210,
-    imageVerificado: require("../../assets/verificadoAzul.png"),
-    imageNota: require("../../assets/IconLike.png"),
+    imageVerificado: require("../../assets/images/verificadoAzul.png"),
+    imageNota: require("../../assets/images/IconLike.png"),
   }
 ];
 

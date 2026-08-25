@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { ScrollView, View, SafeAreaView } from 'react-native';
+import { ScrollView, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
@@ -42,7 +43,7 @@ export default function ProductScreen() {
   const scrollViewRef = useRef<ScrollView>(null); 
 
   // ── CONEXÃO COM O ESTADO GLOBAL (ZUSTAND) ────────────────────────
-  // 🚀 ARQUITETURA: A tela apenas "lê" ou "despacha" ações, a lógica pesada fica nos hooks.
+  //  ARQUITETURA: A tela apenas "lê" ou "despacha" ações, a lógica pesada fica nos hooks.
   const { produtoSelecionado, setProdutoSelecionado } = useProdutoStore();
   const { adicionarReserva } = useReservaStore();
   const { adicionarNotificacao } = useNotificationStore();
@@ -181,14 +182,6 @@ export default function ProductScreen() {
         onClose={() => setModalAberto(false)}
         onContinuar={handleContinuar}
         onAdicionarCarrinho={handleAdicionarAoCarrinhoConfirmado}
-      /> */}
-
-      {/* <SuccessModal
-        open={successAberto}
-        title="Solicitação enviada!"
-        message="Sua solicitação de locação foi enviada ao locador, que tem até 24h para responder. Você pode acompanhar o status em Minhas Locações."
-        buttonText="Ver Minhas Locações"
-        onConfirm={handleFecharSuccess}
       /> */}
     </SafeAreaView>
   );

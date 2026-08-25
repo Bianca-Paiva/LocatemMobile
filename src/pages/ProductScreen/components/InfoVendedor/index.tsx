@@ -5,7 +5,7 @@ import { InfoVendedorProps } from './types';
 import { styles } from './styles';
 
 // Assumindo que a imagem esteja nessa rota, ajuste se necessário
-const verificadoImg = require('../../../assets/verificadoAzul.png');
+const verificadoImg = require('../../../../../assets/images/verificadoAzul.png');
 
 export function InfoVendedor({
   nome,
