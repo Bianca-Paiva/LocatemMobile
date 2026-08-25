@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import type { StackNavigationProp} from "@react-navigation/stack";
 
 // Pages
-
+import ProductScreen from "../pages/ProductScreen";
 import {HomeScreen} from "../pages/home/HomeScreen";
 import {SearchScreen} from "../pages/Search/SearchScreen";
 import CadastroScreen from "../pages/Cadastro";
@@ -31,6 +31,7 @@ export type RootStackParamList = {
   MinhasReservas: undefined,
   SolicitarReserva: undefined,
   SolicitacaoEnviada: undefined,
+  ProductScreen: undefined,
   
 }
 
@@ -59,6 +60,7 @@ const MAPA_ROTAS_LEGADAS: Record<string, keyof RootStackParamList> = {
   solicitarReserva: "SolicitarReserva",
   solicitacaoEnviada: "SolicitacaoEnviada",
   produtoDetalhe: "HomeScreen",
+  
 };
 
 function useLegacyNavigate() {
@@ -91,7 +93,7 @@ function SolicitacaoEnviadaScreen() {
   return <SolicitacaoEnviada navigate={navigate} />;
 }
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 export default function AppRoutes() {
   return (
@@ -151,6 +153,19 @@ export default function AppRoutes() {
           component={RecoveryPasswordScreen}
           options={{
           headerShown: true, 
+          title:"",
+          headerStyle: {
+            backgroundColor: "#f9fafb",
+          },
+          headerShadowVisible: false,
+        }}
+        />
+
+        <Stack.Screen
+          name="ProductScreen"
+          component={ProductScreen}
+          options={{
+          headerShown: false, 
           title:"",
           headerStyle: {
             backgroundColor: "#f9fafb",

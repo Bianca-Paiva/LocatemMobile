@@ -18,7 +18,6 @@ import { EstadoVazio } from '../../components/Avaliacao/EstadoVazio/EstadoVazio'
 import { useAvaliacoes } from '../../hooks/Avaliacao/useAvaliacoes';
 
 import { styles } from './styles';
-import BarNav from '../../components/BarNav';
 
 export const Avaliacao = () => {
   const [abaAtiva, setAbaAtiva] =
@@ -198,7 +197,6 @@ export const Avaliacao = () => {
           visivel={toastVisivel}
         />
       </View>
-       <BarNav></BarNav>
     </>
   );
 };
