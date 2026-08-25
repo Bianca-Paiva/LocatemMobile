@@ -59,7 +59,7 @@ export default function SecondaryHeader({
 
                     {/* Campo de pesquisa */}
                     <SearchInput
-                        image={require("../../../assets/images/lupa.png")}
+                        image={require("../../../assets/images/icons/lupa.png")}
                         style={styles.searchContainer}
                         placeholder="Pesquisar"
                         keyboardType="default"

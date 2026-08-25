@@ -9,3 +9,17 @@ https://zod.dev/
 
 ## Para instalar pacote de icons do expo
     npm install react-native-vector-icons
+    
+## Utilizado para exibir ícones do sistema, como o ícone de imagem indisponível (`ImageOff`)
+    npx expo install lucide-react-native
+
+### DateTime Picker
+
+Utilizado para substituir o componente HTML `<input type="date">` da versão Web.  
+O pacote fornece um seletor de data nativo para Android e iOS, permitindo que o usuário escolha datas por meio da interface padrão do sistema operacional.
+
+Instalação:
+
+```bash
+npx expo install @react-native-community/datetimepicker
+``
