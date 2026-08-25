@@ -39,20 +39,16 @@ const BANNERS_MOCK: BannerData[] = [
     altText: 'As melhores parafusadeiras com desconto',
     link: '',
   },
-  {
-    id: 3,
-    image: require('../../assets/images/banner3.png'),
-    altText: 'Alugue a partir de 29,90',
-    link: '',
-  },
+  
+ 
     {
-    id: 4,
+    id: 3,
     image: require('../../assets/images/banner4.png'),
     altText: 'Alugue a partir de 29,90',
     link: '',
   },
      {
-    id: 5,
+    id: 4,
     image: require('../../assets/images/banner0.png'),
     altText: 'Alugue a partir de 29,90',
     link: '',
