@@ -92,7 +92,7 @@ export default function LoginScreen() {
                  {handleSignIn} 
                 }}
           // Se o teu BtnPrincipal aceitar a prop disabled, descomenta a linha abaixo:
-          // disabled={isLoading} 
+         
         />
       </View>
 

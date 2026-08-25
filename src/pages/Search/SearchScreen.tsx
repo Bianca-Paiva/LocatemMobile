@@ -21,7 +21,6 @@ import { RootStackParamList } from "../../routes/AppRoutes";
 // ===========================
 // Componentes
 // ===========================
-import BarNav from "../../components/BarNav";
 import SecondaryHeader from "../../components/SecondaryHeader";
 import SortFilter from "../../components/SortFilter";
 import FilterDrawer from "../../components/FilterDrawer";
@@ -198,8 +197,6 @@ export const SearchScreen = () => {
 
       </ScrollView>
 
-      {/* Barra de navegação inferior */}
-      <BarNav />
 
     </View>
   );

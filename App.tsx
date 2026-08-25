@@ -1,6 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 
 import AppRoutes from "./src/routes/AppRoutes";
+import CadastroScreen from "./src/pages/Cadastro/index";
 
 import { useFonts } from "expo-font";
 import {
