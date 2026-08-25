@@ -79,12 +79,12 @@ export default function Header() {
                         onSubmitEditing={pesquisar}
                     />
 
-             <IconButton
+             {/* <IconButton
                  onPress={ () => {
                  navigation.navigate('HomeScreen')
                 }} 
                 image={require('../../../assets/images/chat-Icon.png')}
-             />
+             /> */}
 
                 </View>
 

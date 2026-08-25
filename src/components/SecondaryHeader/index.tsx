@@ -69,10 +69,10 @@ export default function SecondaryHeader({
                     />
 
                     {/* Botão do chat */}
-                    <IconButton
+                    {/* <IconButton
                         image={require("../../../assets/images/chat-Icon.png")}
                         onPress={() => navigation.navigate("HomeScreen")}
-                    />
+                    /> */}
 
                 </View>
 

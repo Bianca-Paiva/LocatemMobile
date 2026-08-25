@@ -100,19 +100,22 @@ export default function AppRoutes() {
         headerShown: false,
       }}
     >
+
       <Stack.Screen
-        name="CadastroScreen"
-        component={CadastroScreen}
+        name="HomeScreen"
+        component={HomeScreen}
       />
 
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}
       />
+
       <Stack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
+        name="CadastroScreen"
+        component={CadastroScreen}
       />
+      
        <Stack.Screen
         name="SearchScreen"
         component={SearchScreen}
