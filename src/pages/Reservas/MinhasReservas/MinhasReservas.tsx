@@ -147,10 +147,10 @@ export default function MinhasReservas({
           false
         }
       >
-        <CabecalhoPagina
+        {/* <CabecalhoPagina
           titulo="Minhas Reservas"
           subtitulo="Acompanhe todas as suas solicitações de reserva."
-        />
+        /> */}
 
         <ReservaAbas
           filtro={filtro}

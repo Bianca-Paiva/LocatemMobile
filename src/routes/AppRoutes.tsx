@@ -206,7 +206,7 @@ export default function AppRoutes() {
           name="MinhasReservas"
           component={MinhasReservasScreen}
            options={{
-            headerShown: true,
+            headerShown: false,
             title:"",
          
           }}
@@ -215,7 +215,7 @@ export default function AppRoutes() {
           name="SolicitarReserva"
           component={SolicitarReservaScreen}
            options={{
-            headerShown: true,
+            headerShown: false,
             title:"",
           }}
           />
@@ -223,7 +223,7 @@ export default function AppRoutes() {
           name="SolicitacaoEnviada"
           component={SolicitacaoEnviadaScreen}
            options={{
-            headerShown: true,
+            headerShown: false,
             title:"",
           }}
           />

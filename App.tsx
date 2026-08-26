@@ -11,6 +11,7 @@ import {
 } from "@expo-google-fonts/inter";
 
 import { FerramentasProvider } from "./src/context/FerramentasContext";
+import { ReservaProvider } from "./src/context/ReservaContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -25,9 +26,11 @@ export default function App() {
 
   return (
     <FerramentasProvider>
-      <NavigationContainer>
+      <ReservaProvider>
+        <NavigationContainer>
         <AppRoutes />
       </NavigationContainer>
+      </ReservaProvider>
     </FerramentasProvider>
   );
 }
