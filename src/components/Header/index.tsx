@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import type { ReactNode } from "react";
 import {
     View,
     Text,
@@ -18,7 +17,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 // ===========================
 // Navegação
 // ===========================
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { Route, useNavigation, useRoute } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RootStackParamList } from "../../routes/AppRoutes";
 
@@ -158,7 +157,8 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
         },
         {
             label: "Minhas Reservas",
-            // sem screen própria ainda — adicione "route" aqui quando a tela existir
+            route: "MinhasReservas" as ScreenName,
+           
             renderIcon: (active) => (
                 <MaterialCommunityIcons
                     name={active ? "calendar-blank" : "calendar-blank-outline"}
@@ -192,7 +192,8 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
         },
         {
             label: "Avaliações",
-            // sem screen própria ainda — adicione "route" aqui quando a tela existir
+            route: "Avaliacao" as ScreenName,
+
             renderIcon: (active) => (
                 <MaterialCommunityIcons
                     name={active ? "star" : "star-outline"}
