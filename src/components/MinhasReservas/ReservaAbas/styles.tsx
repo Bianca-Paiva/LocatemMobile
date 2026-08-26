@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
   },
 
   tabAtiva: {
-    backgroundColor: '#D6B656',
+    backgroundColor: '#ffda24ff',
   },
 
   tabTexto: {
