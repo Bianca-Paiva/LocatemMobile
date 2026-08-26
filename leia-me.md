@@ -23,3 +23,16 @@ Instalação:
 ```bash
 npx expo install @react-native-community/datetimepicker
 ``
+
+-- 
+npm install date-fns
+
+--
+npm install react-native-draggable-flatlist
+npx expo install react-native-draggable-flatlist
+
+--
+npx expo install react-native-reanimated
+
+--
+npx expo install react-native-worklets

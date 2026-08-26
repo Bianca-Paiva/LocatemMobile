@@ -104,7 +104,7 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
         if (!search.trim()) return;
         navigation.navigate("SearchScreen" , {
             search: search.trim(),
-        } as never);
+        } );
     }
 
     function handleNavigate(targetRoute?: ScreenName) {
@@ -116,7 +116,7 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
 
     // ===========================
     // Itens do menu lateral
-    // (ajuste os "route" abaixo para baterem com o seu RootStackParamList)
+    // (routes batendo com o RootStackParamList real, em ../../routes/AppRoutes)
     // ===========================
     const navItems: NavItem[] = [
         {
@@ -133,6 +133,8 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
         },
         {
             label: "Carrinho",
+            // ainda não existe uma CartScreen no RootStackParamList — sem "route"
+            // por enquanto o item só fecha o menu (mesmo comportamento da Web)
             renderIcon: (active) => (
                 <MaterialCommunityIcons
                     name={active ? "cart" : "cart-outline"}
@@ -143,8 +145,20 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
             ),
         },
         {
+            label: "Cadastrar Ferramenta",
+            route: "CadastroFerramentaScreen" as ScreenName,
+            renderIcon: (active) => (
+                <MaterialCommunityIcons
+                    name={active ? "plus-box" : "plus-box-outline"}
+                    size={22}
+                    color="#0A0A0A"
+                    style={styles.navItemIcon}
+                />
+            ),
+        },
+        {
             label: "Minhas Reservas",
-            route: "MinhasReservasScreen" as ScreenName,
+            // sem screen própria ainda — adicione "route" aqui quando a tela existir
             renderIcon: (active) => (
                 <MaterialCommunityIcons
                     name={active ? "calendar-blank" : "calendar-blank-outline"}
@@ -178,7 +192,7 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
         },
         {
             label: "Avaliações",
-            route: "AvaliacoesScreen" as ScreenName,
+            // sem screen própria ainda — adicione "route" aqui quando a tela existir
             renderIcon: (active) => (
                 <MaterialCommunityIcons
                     name={active ? "star" : "star-outline"}
@@ -190,7 +204,7 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
         },
         {
             label: "Notificações",
-            route: "NotificacoesScreen" as ScreenName,
+            // sem screen própria ainda — adicione "route" aqui quando a tela existir
             renderIcon: (active) => (
                 <MaterialCommunityIcons
                     name={active ? "bell" : "bell-outline"}
