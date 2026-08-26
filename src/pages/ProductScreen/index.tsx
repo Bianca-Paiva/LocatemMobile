@@ -109,8 +109,8 @@ export default function ProductScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <Header/>
+    <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
+      
 
       {/* 🚀 UX MOBILE: ScrollView ocultando a barra lateral para visual mais limpo */}
       <ScrollView 
@@ -118,7 +118,11 @@ export default function ProductScreen() {
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
       >
+
+        <Header/>
         <View style={styles.contentContainer}>
+
+          
           
           {/* ── SEÇÃO HERO (Imagens e Ações Principais) ── */}
           <View style={styles.heroSection}>

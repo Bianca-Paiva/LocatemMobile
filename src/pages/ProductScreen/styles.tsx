@@ -7,7 +7,6 @@ export const styles = StyleSheet.create({
   // Garante que o fundo seja branco e ocupe a tela toda, respeitando o entalhe do celular
   safeArea: {
     flex: 1,
-    backgroundColor: '#ffffff',
   },
   
   // Substitui a .produtoDetalheMain
