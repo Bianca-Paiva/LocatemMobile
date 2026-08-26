@@ -15,6 +15,7 @@ import AcoesReserva from '../../../components/DetalhesReserva/AcoesReserva/Acoes
 
 import { useReservaStore } from '../../../hooks/Reservas/useReservaStore';
 
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './styles';
 
 interface DetalhesReservaProps {
@@ -83,6 +84,7 @@ export default function DetalhesReserva({
 
   return (
     <>
+     <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
       <Header />
 
       <ScrollView
@@ -134,6 +136,7 @@ export default function DetalhesReserva({
           }
         />
       </ScrollView>
+      </SafeAreaView>
     </>
   );
 }

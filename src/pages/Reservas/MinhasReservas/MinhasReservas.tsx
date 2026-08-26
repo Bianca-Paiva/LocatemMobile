@@ -13,6 +13,7 @@ import EstadoVazio from '../../../components/MinhasReservas/EstadoVazio/EstadoVa
 import { useMinhasReservas } from '../../../hooks/Reservas/useMinhasReservas';
 import { useReservaStore } from '../../../hooks/Reservas/useReservaStore';
 
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './styles';
 
 interface MinhasReservasProps {
@@ -136,8 +137,11 @@ export default function MinhasReservas({
 
   return (
     <>
-      <Header />
+     
 
+    <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
+       <Header />
+    
       <ScrollView
         style={styles.container}
         contentContainerStyle={
@@ -186,6 +190,7 @@ export default function MinhasReservas({
           </View>
         )}
       </ScrollView>
+    </SafeAreaView>
     </>
   );
 }

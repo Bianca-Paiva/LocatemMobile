@@ -18,4 +18,7 @@ export const styles = StyleSheet.create({
   conteudo: {
     gap: 18,
   },
+   safeArea: {
+    flex: 1,
+  },
 });

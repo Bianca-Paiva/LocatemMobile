@@ -45,4 +45,7 @@ export const styles = StyleSheet.create({
   lista: {
     gap: gapLista,
   },
+  safeArea: {
+    flex: 1,
+  },
 });
