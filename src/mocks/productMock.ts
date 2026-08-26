@@ -35,10 +35,12 @@ export const FALLBACK_PRODUTO = {
   // ATENÇÃO: Ajuste os caminhos dos requires conforme a sua pasta 'assets' real
   images: [
     require("../../assets/images/imagesProdutos/Furadeira1.webp"),
+    require("../../assets/images/imagesProdutos/img-carrossel-2.png"),
+    require("../../assets/images/imagesProdutos/img-carrossel-3.png")
     // require("../../assets/images/imagesProdutos/img-carrossel-2.png"),
   ],
   imageVerificado: require("../../assets/images/verificadoAzul.png"),
-  imageNota: require("../../assets/images/IconLike.png"), 
+  imageNota: require("../../assets/images/icons/StarFullYellow.png"), 
 };
 
 // Reutilizamos a lógica de cards da Home
