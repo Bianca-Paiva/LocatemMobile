@@ -4,13 +4,18 @@ import { BtnPrincipalProps } from "./types";
 import  styles  from "./styles";
 
 
-export default function BtnPrincipal({ title, onPress }: BtnPrincipalProps) {
+export default function BtnPrincipal({ title, variant = 'primary', onPress }: BtnPrincipalProps) {
     return (
         <TouchableOpacity
-            style={styles.button}
+            style={[
+                styles.button,
+                variant === 'primary' ? styles.primaryBackground : styles.secondaryBackground
+            ]}
             onPress={onPress}
         >
-            <Text style={styles.buttonText}>
+            <Text style={[styles.buttonText,
+                variant === 'primary' ? styles.primaryText : styles.secondaryText
+            ]}>
                 {title}
             </Text>
         </TouchableOpacity>

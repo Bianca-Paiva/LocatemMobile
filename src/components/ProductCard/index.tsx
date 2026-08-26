@@ -3,6 +3,11 @@ import { TouchableOpacity, Image, Text, View } from 'react-native';
 import { ProductCardProps } from './types';
 import styles from './styles';
 
+// Importação dos elementos de navegação
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../routes/AppRoutes';
+
 export const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) => {
   const { imageUrl, title, storeName, price, period } = product;
 
@@ -12,10 +17,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) =>
     currency: 'BRL',
   }).format(price);
 
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
   return (
     <TouchableOpacity 
       style={styles.container} 
-      onPress={onPress}
+      onPress={ () => {
+                 navigation.navigate('ProductScreen')
+                 {onPress} 
+                }}
       activeOpacity={0.7}
     >
       <View style={styles.imageContainer}>

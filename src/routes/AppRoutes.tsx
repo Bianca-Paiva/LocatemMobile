@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import type { StackNavigationProp} from "@react-navigation/stack";
 
 // Pages
-
+import ProductScreen from "../pages/ProductScreen";
 import {HomeScreen} from "../pages/home/HomeScreen";
 import {SearchScreen} from "../pages/Search/SearchScreen";
 import CadastroScreen from "../pages/Cadastro";
@@ -16,7 +16,7 @@ import DetalhesReserva from "../pages/Reservas/DetalhesReserva/DetalhesReserva";
 import MinhasReservas from "../pages/Reservas/MinhasReservas/MinhasReservas";
 import SolicitarReserva from "../pages/Reservas/SolicitarReserva/SolicitarReserva";
 import SolicitacaoEnviada from "../pages/Reservas/SolicitacaoEnviada/SolicitacaoEnviada";
-
+import CadastroFerramentaScreen from "../pages/CadastroFerramenta";
 
 export type RootStackParamList = {
   LoginScreen: undefined,
@@ -31,6 +31,8 @@ export type RootStackParamList = {
   MinhasReservas: undefined,
   SolicitarReserva: undefined,
   SolicitacaoEnviada: undefined,
+  ProductScreen: undefined,
+  CadastroFerramentaScreen: undefined,
   
 }
 
@@ -59,6 +61,8 @@ const MAPA_ROTAS_LEGADAS: Record<string, keyof RootStackParamList> = {
   solicitarReserva: "SolicitarReserva",
   solicitacaoEnviada: "SolicitacaoEnviada",
   produtoDetalhe: "HomeScreen",
+  CadastroFerramentaScreen: "CadastroFerramentaScreen",
+  
 };
 
 function useLegacyNavigate() {
@@ -89,9 +93,10 @@ function SolicitarReservaScreen() {
 function SolicitacaoEnviadaScreen() {
   const navigate = useLegacyNavigate();
   return <SolicitacaoEnviada navigate={navigate} />;
+
 }
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 export default function AppRoutes() {
   return (
@@ -100,19 +105,22 @@ export default function AppRoutes() {
         headerShown: false,
       }}
     >
+
       <Stack.Screen
-        name="CadastroScreen"
-        component={CadastroScreen}
+        name="HomeScreen"
+        component={HomeScreen}
       />
 
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}
       />
+
       <Stack.Screen
-        name="HomeScreen"
-        component={HomeScreen}
+        name="CadastroScreen"
+        component={CadastroScreen}
       />
+      
        <Stack.Screen
         name="SearchScreen"
         component={SearchScreen}
@@ -155,6 +163,28 @@ export default function AppRoutes() {
           headerShadowVisible: false,
         }}
         />
+
+        <Stack.Screen
+          name="ProductScreen"
+          component={ProductScreen}
+          options={{
+          headerShown: false, 
+          title:"",
+          headerStyle: {
+            backgroundColor: "#f9fafb",
+          },
+          headerShadowVisible: false,
+        }}
+        />
+
+        <Stack.Screen
+          name="CadastroFerramentaScreen"
+          component={CadastroFerramentaScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
         <Stack.Screen
           name="Avaliacao"
           component={Avaliacao}
@@ -176,7 +206,7 @@ export default function AppRoutes() {
           name="MinhasReservas"
           component={MinhasReservasScreen}
            options={{
-            headerShown: true,
+            headerShown: false,
             title:"",
          
           }}
@@ -185,7 +215,7 @@ export default function AppRoutes() {
           name="SolicitarReserva"
           component={SolicitarReservaScreen}
            options={{
-            headerShown: true,
+            headerShown: false,
             title:"",
           }}
           />
@@ -193,7 +223,7 @@ export default function AppRoutes() {
           name="SolicitacaoEnviada"
           component={SolicitacaoEnviadaScreen}
            options={{
-            headerShown: true,
+            headerShown: false,
             title:"",
           }}
           />
