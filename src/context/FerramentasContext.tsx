@@ -1,51 +1,89 @@
-// Store em memória (sem AsyncStorage, sem backend) — como combinado, os dados
-// somem quando o app fecha. Serve só pra testar o fluxo de cadastro ponta a ponta.
-import { createContext, useContext, useMemo, useState } from 'react';
+// Contexto global de "Minhas Ferramentas".
+// Guarda em memória (sem backend por enquanto) as ferramentas que o usuário
+// cadastrou, e expõe as ações que a tela "Minhas Ferramentas" e a tela
+// "Cadastrar Ferramenta" precisam: adicionar, editar, remover e
+// ativar/desativar um anúncio.
+import React, { createContext, useContext, useState, useMemo } from 'react';
 import type { ReactNode } from 'react';
 import type { CadastroFerramentaFormState } from '../pages/CadastroFerramenta/CadastroFerramenta.types';
 
-export interface FerramentaCadastrada extends CadastroFerramentaFormState {
+export type StatusFerramenta = 'ativa' | 'inativa';
+
+export interface Ferramenta extends CadastroFerramentaFormState {
   id: string;
-  criadaEm: string; // ISO string
+  status: StatusFerramenta;
+  criadoEm: string;
 }
 
-interface FerramentasContextValue {
-  ferramentas: FerramentaCadastrada[];
-  adicionarFerramenta: (form: CadastroFerramentaFormState) => FerramentaCadastrada;
+interface FerramentasContextData {
+  ferramentas: Ferramenta[];
+  adicionarFerramenta: (form: CadastroFerramentaFormState) => void;
+  editarFerramenta: (id: string, form: CadastroFerramentaFormState) => void;
   removerFerramenta: (id: string) => void;
+  alternarStatusFerramenta: (id: string) => void;
+  obterFerramenta: (id: string) => Ferramenta | undefined;
 }
 
-const FerramentasContext = createContext<FerramentasContextValue | null>(null);
+const FerramentasContext = createContext<FerramentasContextData | undefined>(undefined);
 
 export function FerramentasProvider({ children }: { children: ReactNode }) {
-  const [ferramentas, setFerramentas] = useState<FerramentaCadastrada[]>([]);
+  const [ferramentas, setFerramentas] = useState<Ferramenta[]>([]);
 
   const adicionarFerramenta = (form: CadastroFerramentaFormState) => {
-    const nova: FerramentaCadastrada = {
+    const nova: Ferramenta = {
       ...form,
       id: `ferramenta-${Date.now()}`,
-      criadaEm: new Date().toISOString(),
+      status: 'ativa',
+      criadoEm: new Date().toISOString(),
     };
     setFerramentas((atual) => [nova, ...atual]);
-    return nova;
+  };
+
+  const editarFerramenta = (id: string, form: CadastroFerramentaFormState) => {
+    setFerramentas((atual) =>
+      atual.map((f) => (f.id === id ? { ...f, ...form } : f)),
+    );
   };
 
   const removerFerramenta = (id: string) => {
     setFerramentas((atual) => atual.filter((f) => f.id !== id));
   };
 
+  const alternarStatusFerramenta = (id: string) => {
+    setFerramentas((atual) =>
+      atual.map((f) =>
+        f.id === id
+          ? { ...f, status: f.status === 'ativa' ? 'inativa' : 'ativa' }
+          : f,
+      ),
+    );
+  };
+
+  const obterFerramenta = (id: string) => ferramentas.find((f) => f.id === id);
+
   const value = useMemo(
-    () => ({ ferramentas, adicionarFerramenta, removerFerramenta }),
+    () => ({
+      ferramentas,
+      adicionarFerramenta,
+      editarFerramenta,
+      removerFerramenta,
+      alternarStatusFerramenta,
+      obterFerramenta,
+    }),
     [ferramentas],
   );
 
-  return <FerramentasContext.Provider value={value}>{children}</FerramentasContext.Provider>;
+  return (
+    <FerramentasContext.Provider value={value}>
+      {children}
+    </FerramentasContext.Provider>
+  );
 }
 
 export function useFerramentas() {
-  const ctx = useContext(FerramentasContext);
-  if (!ctx) {
-    throw new Error('useFerramentas precisa ser usado dentro de <FerramentasProvider>.');
+  const context = useContext(FerramentasContext);
+  if (!context) {
+    throw new Error('useFerramentas precisa ser usado dentro de um <FerramentasProvider>.');
   }
-  return ctx;
+  return context;
 }

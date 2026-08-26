@@ -169,10 +169,11 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
             ),
         },
         {
-            label: "Minhas Locações",
-            renderIcon: () => (
+            label: "Minhas Ferramentas",
+            route: "MinhasFerramentasScreen" as ScreenName,
+            renderIcon: (active) => (
                 <MaterialCommunityIcons
-                    name="package-variant-closed"
+                    name={active ? "toolbox" : "toolbox-outline"}
                     size={22}
                     color="#0A0A0A"
                     style={styles.navItemIcon}

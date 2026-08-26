@@ -6,6 +6,7 @@ export default StyleSheet.create({
     gap: 16,
     width: '100%',
   },
+
   dropzone: {
     width: '100%',
     borderWidth: 1.5,
@@ -17,9 +18,11 @@ export default StyleSheet.create({
     paddingHorizontal: 16,
     alignItems: 'center',
   },
+
   dropzoneErro: {
     borderColor: colors.error,
   },
+
   iconeUpload: {
     width: 52,
     height: 52,
@@ -29,6 +32,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     marginBottom: 14,
   },
+
   textoPrincipal: {
     fontSize: 15,
     fontWeight: '700',
@@ -36,23 +40,27 @@ export default StyleSheet.create({
     marginBottom: 4,
     textAlign: 'center',
   },
+
   textoSecundario: {
     fontSize: 13,
     color: colors.textMuted,
     marginBottom: 16,
     textAlign: 'center',
   },
+
   link: {
     color: '#B8860B',
     fontWeight: '600',
     textDecorationLine: 'underline',
   },
+
   badges: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
     gap: 8,
   },
+
   badge: {
     fontSize: 11,
     fontWeight: '600',
@@ -63,67 +71,75 @@ export default StyleSheet.create({
     paddingHorizontal: 10,
     overflow: 'hidden',
   },
-  grade: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 10,
-  },
-  miniatura: {
-    position: 'relative',
-    width: '31%',
-    aspectRatio: 1,
-    borderRadius: 10,
-    overflow: 'hidden',
-    backgroundColor: colors.bgInput,
-    borderWidth: 1,
-    borderColor: '#EEE',
-  },
+
+grade: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  gap: 4,
+},
+
+miniatura: {
+  position: 'relative',
+  width: '49%',
+  aspectRatio: 1,
+  borderRadius: 14,
+  overflow: 'hidden',
+  backgroundColor: colors.bgInput,
+  borderWidth: 1,
+  borderColor: '#EEE',
+},
+
   miniaturaArrastando: {
     opacity: 0.55,
   },
+
   imagem: {
     width: '100%',
     height: '100%',
   },
+
   selo: {
     position: 'absolute',
-    top: 5,
-    left: 5,
+    top: 8,
+    left: 8,
     backgroundColor: colors.primary,
     color: colors.textDark,
-    fontSize: 9,
+    fontSize: 10,
     fontWeight: '800',
     letterSpacing: 0.3,
-    paddingVertical: 2,
-    paddingHorizontal: 6,
-    borderRadius: 5,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 6,
     overflow: 'hidden',
     zIndex: 1,
   },
+
   botaoRemover: {
     position: 'absolute',
-    top: 5,
-    right: 5,
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    backgroundColor: 'rgba(0,0,0,0.55)',
+    top: 8,
+    right: 8,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: 'rgba(0,0,0,0.6)',
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 1,
   },
-  alcaArrastar: {
-    position: 'absolute',
-    bottom: 5,
-    right: 5,
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    backgroundColor: 'rgba(0,0,0,0.45)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 1,
-  },
+
+ alcaArrastar: {
+  position: 'absolute',
+  bottom: 8,
+  right: 8,
+  width: 34,
+  height: 34,
+  borderRadius: 17,
+  backgroundColor: 'rgba(0,0,0,0.5)',
+  alignItems: 'center',
+  justifyContent: 'center',
+  zIndex: 1,
+},
+
   botaoAdicionarMais: {
     width: '100%',
     height: 46,
@@ -136,11 +152,13 @@ export default StyleSheet.create({
     flexDirection: 'row',
     gap: 6,
   },
+
   botaoAdicionarMaisTexto: {
     fontSize: 13,
     fontWeight: '700',
     color: colors.textDark,
   },
+
   error: {
     fontSize: 13,
     color: colors.error,

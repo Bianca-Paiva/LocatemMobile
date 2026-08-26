@@ -17,6 +17,7 @@ import MinhasReservas from "../pages/Reservas/MinhasReservas/MinhasReservas";
 import SolicitarReserva from "../pages/Reservas/SolicitarReserva/SolicitarReserva";
 import SolicitacaoEnviada from "../pages/Reservas/SolicitacaoEnviada/SolicitacaoEnviada";
 import CadastroFerramentaScreen from "../pages/CadastroFerramenta";
+import MinhasFerramentasScreen from "../pages/MinhasFerramentas";
 
 export type RootStackParamList = {
   LoginScreen: undefined,
@@ -32,7 +33,8 @@ export type RootStackParamList = {
   SolicitarReserva: undefined,
   SolicitacaoEnviada: undefined,
   ProductScreen: undefined,
-  CadastroFerramentaScreen: undefined,
+  CadastroFerramentaScreen: { ferramentaId?: string } | undefined,
+  MinhasFerramentasScreen: undefined,
   
 }
 
@@ -180,6 +182,14 @@ export default function AppRoutes() {
         <Stack.Screen
           name="CadastroFerramentaScreen"
           component={CadastroFerramentaScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="MinhasFerramentasScreen"
+          component={MinhasFerramentasScreen}
           options={{
             headerShown: false,
           }}
