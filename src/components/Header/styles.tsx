@@ -120,21 +120,21 @@ const styles = StyleSheet.create({
     // DRAWER (menu lateral)
     // ===========================
     drawer: {
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: DRAWER_WIDTH,
-        height: SCREEN_HEIGHT,
-        backgroundColor: "#FFFFFF",
-    },
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: DRAWER_WIDTH,
+    height: "100%",
+    backgroundColor: "#FFFFFF",
+},
 
     drawerCabecalho: {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
         paddingHorizontal: 16,
-        paddingTop: Platform.OS === "ios" ? 54 : 18,
-        paddingBottom: 18,
+        paddingTop: Platform.OS === "ios" ? 64 : 43,
+        paddingBottom: 13,
         borderBottomWidth: 1,
         borderBottomColor: "#F1F1F1",
     },
