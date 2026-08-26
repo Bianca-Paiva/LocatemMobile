@@ -16,7 +16,6 @@ import DetalhesReserva from "../pages/Reservas/DetalhesReserva/DetalhesReserva";
 import MinhasReservas from "../pages/Reservas/MinhasReservas/MinhasReservas";
 import SolicitarReserva from "../pages/Reservas/SolicitarReserva/SolicitarReserva";
 import SolicitacaoEnviada from "../pages/Reservas/SolicitacaoEnviada/SolicitacaoEnviada";
-
 import CadastroFerramentaScreen from "../pages/CadastroFerramenta";
 
 export type RootStackParamList = {
@@ -33,6 +32,7 @@ export type RootStackParamList = {
   SolicitarReserva: undefined,
   SolicitacaoEnviada: undefined,
   ProductScreen: undefined,
+  CadastroFerramentaScreen: undefined,
   
 }
 
@@ -61,6 +61,7 @@ const MAPA_ROTAS_LEGADAS: Record<string, keyof RootStackParamList> = {
   solicitarReserva: "SolicitarReserva",
   solicitacaoEnviada: "SolicitacaoEnviada",
   produtoDetalhe: "HomeScreen",
+  CadastroFerramentaScreen: "CadastroFerramentaScreen",
   
 };
 
@@ -92,7 +93,7 @@ function SolicitarReservaScreen() {
 function SolicitacaoEnviadaScreen() {
   const navigate = useLegacyNavigate();
   return <SolicitacaoEnviada navigate={navigate} />;
-  CadastroFerramentaScreen: undefined,
+
 }
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -184,13 +185,6 @@ export default function AppRoutes() {
           }}
         />
 
-        <Stack.Screen
-          name="CadastroFerramentaScreen"
-          component={CadastroFerramentaScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
         <Stack.Screen
           name="Avaliacao"
           component={Avaliacao}

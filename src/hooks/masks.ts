@@ -71,17 +71,7 @@ export function maskPhone(value: string): string {
         .replace(/(\d{5})(\d)/, '$1-$2')     // Coloca o hífen após o 5º dígito do número (para celular): (11) 99999-9999
 }
 
-/**
- * Aplica a máscara de CEP (99999-999) em tempo de digitação.
- * value String bruta contendo o texto digitado pelo usuário.
- */
-export function maskCEP(value: string): string {
-    // 1. Remove tudo que não for número e limita a 8 dígitos
-    const digits = value.replace(/\D/g, '').substring(0, 8)
 
-    // 2. Coloca o hífen após o 5º dígito: 12345-678
-    return digits.replace(/(\d{5})(\d)/, '$1-$2')
-}
 
 /**
  * Valida se o CEP possui a quantidade de dígitos correta.
