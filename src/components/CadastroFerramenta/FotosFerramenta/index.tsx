@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import {
   View,
@@ -14,10 +14,17 @@ import * as ImagePicker from 'expo-image-picker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import {
-  NestableDraggableFlatList,
-  ScaleDecorator,
-  type RenderItemParams,
-} from 'react-native-draggable-flatlist';
+  Gesture,
+  GestureDetector,
+} from 'react-native-gesture-handler';
+
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+
+import { scheduleOnRN } from 'react-native-worklets';
 
 import styles from './styles';
 
@@ -26,216 +33,438 @@ import colors from '../../../theme/colors';
 import type { FotosFerramentaProps } from './types';
 
 const MAXIMO_FOTOS = 8;
+const ESPACO = 8;
+const ALTURA_FOTO = 180;
+const COLUNAS = 2;
 
 interface ItemFoto {
   key: string;
   uri: string;
 }
 
+interface FotoArrastavelProps {
+  item: ItemFoto;
+  index: number;
+  largura: number;
+  onMover: (
+    indiceInicial: number,
+    translationX: number,
+    translationY: number,
+  ) => void;
+  onRemover: (uri: string) => void;
+  onArrasteMudou: (ativo: boolean) => void;
+}
+
+function FotoArrastavel({
+  item,
+  index,
+  largura,
+  onMover,
+  onRemover,
+  onArrasteMudou,
+}: FotoArrastavelProps) {
+  const translateX = useSharedValue(0);
+  const translateY = useSharedValue(0);
+  const ativa = useSharedValue(false);
+
+  const gesture = Gesture.Pan()
+    .activateAfterLongPress(300)
+
+    .onStart(() => {
+      ativa.value = true;
+      scheduleOnRN(onArrasteMudou, true);
+    })
+
+    .onUpdate((event) => {
+      translateX.value = event.translationX;
+      translateY.value = event.translationY;
+    })
+
+    .onEnd((event) => {
+      const x = event.translationX;
+      const y = event.translationY;
+
+      translateX.value = withSpring(0);
+      translateY.value = withSpring(0);
+
+      ativa.value = false;
+
+      scheduleOnRN(
+        onMover,
+        index,
+        x,
+        y,
+      );
+
+      scheduleOnRN(onArrasteMudou, false);
+    })
+
+    .onFinalize(() => {
+      translateX.value = withSpring(0);
+      translateY.value = withSpring(0);
+
+      if (ativa.value) {
+        scheduleOnRN(onArrasteMudou, false);
+      }
+
+      ativa.value = false;
+    });
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateX: translateX.value,
+        },
+        {
+          translateY: translateY.value,
+        },
+        {
+          scale: ativa.value ? 1.04 : 1,
+        },
+      ],
+
+      zIndex: ativa.value ? 100 : 1,
+
+      elevation: ativa.value ? 10 : 1,
+    };
+  });
+
+  return (
+    <GestureDetector gesture={gesture}>
+      <Animated.View
+        style={[
+          styles.miniatura,
+          {
+            width: largura,
+            height: ALTURA_FOTO,
+          },
+          animatedStyle,
+        ]}
+      >
+        <Image
+          source={{
+            uri: item.uri,
+          }}
+          style={styles.imagem}
+          resizeMode="cover"
+        />
+
+        {index === 0 && (
+          <View style={styles.selo}>
+            <Text style={styles.seloTexto}>
+              CAPA
+            </Text>
+          </View>
+        )}
+
+        <TouchableOpacity
+          style={styles.botaoRemover}
+          onPress={() => onRemover(item.uri)}
+          activeOpacity={0.8}
+          accessibilityLabel="Remover foto"
+        >
+          <MaterialCommunityIcons
+            name="close"
+            size={18}
+            color="#FFF"
+          />
+        </TouchableOpacity>
+
+        <View
+          pointerEvents="none"
+          style={styles.indicadorArraste}
+        >
+          <MaterialCommunityIcons
+            name="drag"
+            size={19}
+            color="#FFF"
+          />
+        </View>
+      </Animated.View>
+    </GestureDetector>
+  );
+}
+
 export default function FotosFerramenta({
   fotos,
   onChange,
   error,
-  shake,
+  onDragStateChange,
 }: FotosFerramentaProps) {
-  const [carregando, setCarregando] = useState(false);
+  const [carregando, setCarregando] =
+    useState(false);
+
+  const [larguraGrade, setLarguraGrade] =
+    useState(0);
 
   const vagas = Math.max(
     0,
     MAXIMO_FOTOS - fotos.length,
   );
 
-  /*
-   * Criamos uma chave ESTÁVEL baseada na posição atual.
-   *
-   * O URI continua sendo a informação real da foto.
-   * A key serve somente para o DraggableFlatList identificar
-   * cada item durante o gesto.
-   */
-  const itens: ItemFoto[] = fotos.map((uri, index) => ({
-    key: `${index}-${uri}`,
-    uri,
-  }));
+  const itens: ItemFoto[] = useMemo(
+    () =>
+      fotos.map((uri) => ({
+        key: uri,
+        uri,
+      })),
+    [fotos],
+  );
 
-  const solicitarEEscolherFotos = async () => {
-    if (vagas === 0) {
-      return;
-    }
+  const larguraFoto =
+    larguraGrade > 0
+      ? (larguraGrade - ESPACO) / COLUNAS
+      : 0;
 
-    try {
-      setCarregando(true);
+  // Wrapper estável (sempre definido) pra poder ser chamado a partir do
+  // worklet do gesture mesmo quando o pai não passou onDragStateChange.
+  const notificarArraste = useCallback(
+    (ativo: boolean) => {
+      onDragStateChange?.(ativo);
+    },
+    [onDragStateChange],
+  );
 
-      const permissaoAtual =
-        await ImagePicker.getMediaLibraryPermissionsAsync();
-
-      let permissao = permissaoAtual;
-
-      if (permissaoAtual.status !== 'granted') {
-        permissao =
-          await ImagePicker.requestMediaLibraryPermissionsAsync();
+  const solicitarEEscolherFotos =
+    useCallback(async () => {
+      if (vagas === 0) {
+        return;
       }
 
-      if (permissao.status !== 'granted') {
-        if (permissao.canAskAgain === false) {
-          Alert.alert(
-            'Acesso à galeria necessário',
-            'Pra adicionar fotos da ferramenta, permita o acesso às suas fotos nas configurações do app.',
-            [
-              {
-                text: 'Agora não',
-                style: 'cancel',
-              },
-              {
-                text: 'Abrir Configurações',
-                onPress: () => Linking.openSettings(),
-              },
-            ],
-          );
-        } else {
-          Alert.alert(
-            'Permissão negada',
-            'Não foi possível acessar suas fotos sem essa permissão.',
-          );
+      try {
+        setCarregando(true);
+
+        /*
+         * Sempre solicitamos a permissão diretamente.
+         * No Android, se ainda não foi concedida,
+         * o sistema mostra o diálogo.
+         *
+         * OBS: no Expo Go, a permissão de fotos é concedida por app
+         * (Expo Go) e não por projeto — se já foi concedida antes,
+         * o sistema não mostra o diálogo de novo pra este app específico.
+         */
+        const permissao =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+        if (!permissao.granted) {
+          if (
+            permissao.canAskAgain === false
+          ) {
+            Alert.alert(
+              'Acesso à galeria necessário',
+              'Permita o acesso às fotos nas configurações do aplicativo.',
+              [
+                {
+                  text: 'Agora não',
+                  style: 'cancel',
+                },
+                {
+                  text: 'Abrir Configurações',
+                  onPress: () =>
+                    Linking.openSettings(),
+                },
+              ],
+            );
+          } else {
+            Alert.alert(
+              'Permissão necessária',
+              'Precisamos de acesso às suas fotos para cadastrar a ferramenta.',
+            );
+          }
+
+          return;
         }
 
-        return;
+        const resultado =
+          await ImagePicker.launchImageLibraryAsync(
+            {
+              mediaTypes: ['images'],
+              allowsMultipleSelection: true,
+              selectionLimit: vagas,
+              quality: 0.7,
+            },
+          );
+
+        if (resultado.canceled) {
+          return;
+        }
+
+        const novasUris =
+          resultado.assets.map(
+            (asset) => asset.uri,
+          );
+
+        onChange(
+          [...fotos, ...novasUris].slice(
+            0,
+            MAXIMO_FOTOS,
+          ),
+        );
+      } catch (erro) {
+        console.error(
+          'Erro ao selecionar imagens:',
+          erro,
+        );
+
+        Alert.alert(
+          'Erro',
+          'Não foi possível abrir a galeria.',
+        );
+      } finally {
+        setCarregando(false);
       }
+    }, [fotos, onChange, vagas]);
 
-      const resultado =
-        await ImagePicker.launchImageLibraryAsync({
-          mediaTypes: ImagePicker.MediaTypeOptions.Images,
-          allowsMultipleSelection: true,
-          selectionLimit: vagas,
-          quality: 0.7,
-        });
-
-      if (resultado.canceled) {
-        return;
-      }
-
-      const novasUris = resultado.assets.map(
-        (asset) => asset.uri,
-      );
-
+  const removerFoto = useCallback(
+    (uri: string) => {
       onChange(
-        [...fotos, ...novasUris].slice(
-          0,
-          MAXIMO_FOTOS,
+        fotos.filter(
+          (foto) => foto !== uri,
         ),
       );
-    } finally {
-      setCarregando(false);
-    }
-  };
-
-  const removerFoto = (uri: string) => {
-    onChange(
-      fotos.filter((foto) => foto !== uri),
-    );
-  };
+    },
+    [fotos, onChange],
+  );
 
   /*
-   * ESTE É O PONTO MAIS IMPORTANTE.
-   *
-   * O DraggableFlatList nos devolve o array já reorganizado.
-   *
-   * Então, se o usuário fizer:
-   *
-   * FOTO 1
-   * FOTO 2
-   * FOTO 3
-   *
-   * e arrastar FOTO 3 para a primeira posição:
-   *
-   * FOTO 3
-   * FOTO 1
-   * FOTO 2
-   *
-   * onChange recebe exatamente essa ordem.
-   *
-   * Como o formulário considera fotos[0] como capa,
-   * FOTO 3 passa automaticamente a ser a CAPA.
+   * Recebe a posição final da foto e calcula
+   * qual posição da grade está debaixo dela.
    */
-  const handleDragEnd = ({
-    data,
-  }: {
-    data: ItemFoto[];
-  }) => {
-    const novaOrdem = data.map(
-      (item) => item.uri,
+  const moverFoto = useCallback(
+    (
+      indiceInicial: number,
+      translationX: number,
+      translationY: number,
+    ) => {
+      if (
+        larguraFoto <= 0 ||
+        fotos.length <= 1
+      ) {
+        return;
+      }
+
+      const colunaInicial =
+        indiceInicial % COLUNAS;
+
+      const linhaInicial = Math.floor(
+        indiceInicial / COLUNAS,
+      );
+
+      const centroInicialX =
+        colunaInicial *
+          (larguraFoto + ESPACO) +
+        larguraFoto / 2;
+
+      const centroInicialY =
+        linhaInicial *
+          (ALTURA_FOTO + ESPACO) +
+        ALTURA_FOTO / 2;
+
+      const centroFinalX =
+        centroInicialX + translationX;
+
+      const centroFinalY =
+        centroInicialY + translationY;
+
+      let coluna = Math.floor(
+        centroFinalX /
+          (larguraFoto + ESPACO),
+      );
+
+      let linha = Math.floor(
+        centroFinalY /
+          (ALTURA_FOTO + ESPACO),
+      );
+
+      const totalLinhas = Math.ceil(
+        fotos.length / COLUNAS,
+      );
+
+      coluna = Math.max(
+        0,
+        Math.min(
+          COLUNAS - 1,
+          coluna,
+        ),
+      );
+
+      linha = Math.max(
+        0,
+        Math.min(
+          totalLinhas - 1,
+          linha,
+        ),
+      );
+
+      let destino =
+        linha * COLUNAS + coluna;
+
+      destino = Math.max(
+        0,
+        Math.min(
+          fotos.length - 1,
+          destino,
+        ),
+      );
+
+      if (
+        destino === indiceInicial
+      ) {
+        return;
+      }
+
+      const novaOrdem = [...fotos];
+
+      const [fotoMovida] =
+        novaOrdem.splice(
+          indiceInicial,
+          1,
+        );
+
+      novaOrdem.splice(
+        destino,
+        0,
+        fotoMovida,
+      );
+
+      onChange(novaOrdem);
+    },
+    [
+      fotos,
+      larguraFoto,
+      onChange,
+    ],
+  );
+
+  const linhas: ItemFoto[][] = [];
+
+  for (
+    let i = 0;
+    i < itens.length;
+    i += COLUNAS
+  ) {
+    linhas.push(
+      itens.slice(i, i + COLUNAS),
     );
-
-    onChange(novaOrdem);
-  };
-
-  const renderItem = ({
-    item,
-    drag,
-    isActive,
-    getIndex,
-  }: RenderItemParams<ItemFoto>) => {
-    const index = getIndex() ?? 0;
-
-    return (
-      <ScaleDecorator>
-        <TouchableOpacity
-          style={[
-            styles.miniatura,
-            isActive && styles.miniaturaArrastando,
-          ]}
-          onLongPress={drag}
-          delayLongPress={350}
-          disabled={isActive}
-          activeOpacity={0.9}
-        >
-          <Image
-            source={{ uri: item.uri }}
-            style={styles.imagem}
-            resizeMode="cover"
-          />
-
-          {index === 0 && (
-            <View style={styles.selo}>
-              <Text style={styles.seloTexto}>
-                CAPA
-              </Text>
-            </View>
-          )}
-
-          <TouchableOpacity
-            style={styles.botaoRemover}
-            onPress={() => removerFoto(item.uri)}
-            activeOpacity={0.8}
-            accessibilityLabel="Remover foto"
-          >
-            <MaterialCommunityIcons
-              name="close"
-              size={18}
-              color="#FFF"
-            />
-          </TouchableOpacity>
-
-          <View style={styles.indicadorArraste}>
-            <MaterialCommunityIcons
-              name="drag"
-              size={19}
-              color="#FFF"
-            />
-          </View>
-        </TouchableOpacity>
-      </ScaleDecorator>
-    );
-  };
+  }
 
   return (
     <View style={styles.wrapper}>
       <TouchableOpacity
         style={[
           styles.dropzone,
-          error ? styles.dropzoneErro : null,
+          error
+            ? styles.dropzoneErro
+            : null,
         ]}
-        onPress={solicitarEEscolherFotos}
-        disabled={vagas === 0 || carregando}
+        onPress={
+          solicitarEEscolherFotos
+        }
+        disabled={
+          vagas === 0 ||
+          carregando
+        }
         activeOpacity={0.85}
       >
         <View style={styles.iconeUpload}>
@@ -246,13 +475,17 @@ export default function FotosFerramenta({
           />
         </View>
 
-        <Text style={styles.textoPrincipal}>
+        <Text
+          style={styles.textoPrincipal}
+        >
           {carregando
             ? 'Abrindo galeria...'
             : 'Toque para enviar arquivos'}
         </Text>
 
-        <Text style={styles.textoSecundario}>
+        <Text
+          style={styles.textoSecundario}
+        >
           Selecione as fotos{' '}
           <Text style={styles.link}>
             direto da sua galeria
@@ -261,7 +494,8 @@ export default function FotosFerramenta({
 
         <View style={styles.badges}>
           <Text style={styles.badge}>
-            Até 8 fotos — {fotos.length}/8 adicionadas
+            Até 8 fotos —{' '}
+            {fotos.length}/8 adicionadas
           </Text>
 
           <Text style={styles.badge}>
@@ -269,40 +503,93 @@ export default function FotosFerramenta({
           </Text>
 
           <Text style={styles.badge}>
-            A 1ª foto será a capa — segure e arraste pra
-            reordenar
+            A 1ª foto será a capa — segure
+            e arraste pra reordenar
           </Text>
         </View>
       </TouchableOpacity>
 
       {fotos.length > 0 && (
         <>
-          <NestableDraggableFlatList
-            data={itens}
-            onDragEnd={handleDragEnd}
-            keyExtractor={(item) => item.key}
-            renderItem={renderItem}
-            numColumns={2}
-            columnWrapperStyle={styles.grade}
-            scrollEnabled={false}
-            activationDistance={0}
-          />
+          <View
+            style={styles.gradeFotos}
+            onLayout={(event) => {
+              setLarguraGrade(
+                event.nativeEvent.layout.width,
+              );
+            }}
+          >
+            {linhas.map(
+              (linha, numeroLinha) => (
+                <View
+                  key={`linha-${numeroLinha}`}
+                  style={styles.gradeLinha}
+                >
+                  {linha.map(
+                    (item, posicaoNaLinha) => {
+                      const index =
+                        numeroLinha *
+                          COLUNAS +
+                        posicaoNaLinha;
+
+                      return (
+                        <FotoArrastavel
+                          key={item.key}
+                          item={item}
+                          index={index}
+                          largura={
+                            larguraFoto
+                          }
+                          onMover={
+                            moverFoto
+                          }
+                          onRemover={
+                            removerFoto
+                          }
+                          onArrasteMudou={
+                            notificarArraste
+                          }
+                        />
+                      );
+                    },
+                  )}
+
+                  {linha.length === 1 && (
+                    <View
+                      style={{
+                        width:
+                          larguraFoto,
+                      }}
+                    />
+                  )}
+                </View>
+              ),
+            )}
+          </View>
 
           {vagas > 0 && (
             <TouchableOpacity
-              style={styles.botaoAdicionarMais}
-              onPress={solicitarEEscolherFotos}
+              style={
+                styles.botaoAdicionarMais
+              }
+              onPress={
+                solicitarEEscolherFotos
+              }
               disabled={carregando}
               activeOpacity={0.8}
             >
               <MaterialCommunityIcons
                 name="plus"
                 size={16}
-                color={colors.textDark}
+                color={
+                  colors.textDark
+                }
               />
 
               <Text
-                style={styles.botaoAdicionarMaisTexto}
+                style={
+                  styles.botaoAdicionarMaisTexto
+                }
               >
                 Adicionar mais fotos
               </Text>

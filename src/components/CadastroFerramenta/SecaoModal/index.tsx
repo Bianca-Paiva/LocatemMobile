@@ -1,6 +1,3 @@
-// Modal de tela cheia que abre quando o usuário toca em um SecaoCard.
-// É aqui que o formulário "grande" de cada seção da Web vira uma tela dedicada no mobile.
-
 import {
   View,
   Text,
@@ -10,9 +7,13 @@ import {
   Platform,
 } from 'react-native';
 
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+// Importante: ScrollView vem daqui (react-native-gesture-handler), não de
+// 'react-native'. Essa versão participa do mesmo sistema de reconhecimento
+// de gestos usado pelo Gesture.Pan() do FotosFerramenta, permitindo que o
+// scroll ceda a vez pro gesto de arrastar reordenar as fotos.
+import { ScrollView } from 'react-native-gesture-handler';
 
-import { NestableScrollContainer } from 'react-native-draggable-flatlist';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import styles from './styles';
 
@@ -28,6 +29,7 @@ export default function SecaoModal({
   obrigatorio,
   subtitulo,
   children,
+  scrollEnabled = true,
 }: SecaoModalProps) {
   return (
     <Modal
@@ -37,7 +39,11 @@ export default function SecaoModal({
     >
       <KeyboardAvoidingView
         style={styles.safe}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        behavior={
+          Platform.OS === 'ios'
+            ? 'padding'
+            : undefined
+        }
       >
         <View style={styles.cabecalho}>
           <View style={styles.iconeBadge}>
@@ -52,7 +58,9 @@ export default function SecaoModal({
             <Text style={styles.titulo}>
               {titulo}
               {obrigatorio ? (
-                <Text style={styles.obrigatorio}> *</Text>
+                <Text style={styles.obrigatorio}>
+                  {' '}*
+                </Text>
               ) : null}
             </Text>
 
@@ -74,23 +82,14 @@ export default function SecaoModal({
           </TouchableOpacity>
         </View>
 
-        {/* 
-          IMPORTANTE:
-          Este container substitui o ScrollView comum porque dentro dele
-          existe uma NestableDraggableFlatList.
-          
-          Isso permite que:
-          - o modal continue rolando normalmente;
-          - a lista de fotos receba o gesto de arrastar;
-          - seja possível arrastar uma foto para outra posição.
-        */}
-        <NestableScrollContainer
+        <ScrollView
           contentContainerStyle={styles.conteudo}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
+          scrollEnabled={scrollEnabled}
         >
           {children}
-        </NestableScrollContainer>
+        </ScrollView>
 
         <View style={styles.rodape}>
           <TouchableOpacity

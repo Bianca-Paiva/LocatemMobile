@@ -73,20 +73,22 @@ export default StyleSheet.create({
     overflow: 'hidden',
   },
 
-  // =========================================
-  // GRADE DE FOTOS
-  // =========================================
+  /* ==============================
+     GRADE
+     ============================== */
 
-  grade: {
+  gradeFotos: {
+    width: '100%',
+    gap: 8,
+  },
+
+  gradeLinha: {
     width: '100%',
     flexDirection: 'row',
     gap: 8,
-    marginBottom: 8,
   },
 
   miniatura: {
-    flex: 1,
-    height: 180,
     borderRadius: 14,
     overflow: 'hidden',
     backgroundColor: colors.bgInput,
@@ -95,23 +97,14 @@ export default StyleSheet.create({
     position: 'relative',
   },
 
-  miniaturaArrastando: {
-    opacity: 0.75,
-    transform: [
-      {
-        scale: 1.04,
-      },
-    ],
-  },
-
   imagem: {
     width: '100%',
     height: '100%',
   },
 
-  // =========================================
-  // CAPA
-  // =========================================
+  /* ==============================
+     CAPA
+     ============================== */
 
   selo: {
     position: 'absolute',
@@ -131,9 +124,9 @@ export default StyleSheet.create({
     letterSpacing: 0.3,
   },
 
-  // =========================================
-  // REMOVER
-  // =========================================
+  /* ==============================
+     REMOVER
+     ============================== */
 
   botaoRemover: {
     position: 'absolute',
@@ -148,9 +141,9 @@ export default StyleSheet.create({
     zIndex: 20,
   },
 
-  // =========================================
-  // INDICADOR DE ARRASTE
-  // =========================================
+  /* ==============================
+     ARRASTE
+     ============================== */
 
   indicadorArraste: {
     position: 'absolute',
@@ -165,9 +158,9 @@ export default StyleSheet.create({
     zIndex: 10,
   },
 
-  // =========================================
-  // ADICIONAR MAIS
-  // =========================================
+  /* ==============================
+     ADICIONAR MAIS
+     ============================== */
 
   botaoAdicionarMais: {
     width: '100%',

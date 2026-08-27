@@ -1,19 +1,19 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer } from '@react-navigation/native';
 
-import AppRoutes from "./src/routes/AppRoutes";
+import AppRoutes from './src/routes/AppRoutes';
 
-import { useFonts } from "expo-font";
+import { useFonts } from 'expo-font';
 
 import {
   Inter_400Regular,
   Inter_500Medium,
   Inter_700Bold,
-} from "@expo-google-fonts/inter";
+} from '@expo-google-fonts/inter';
 
-import { FerramentasProvider } from "./src/context/FerramentasContext";
-import { ReservaProvider } from "./src/context/ReservaContext";
+import { FerramentasProvider } from './src/context/FerramentasContext';
+import { ReservaProvider } from './src/context/ReservaContext';
 
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
