@@ -2,8 +2,8 @@
 import { useMemo, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-// Ajuste este import caso o hook de navegação da sua tela anterior tenha outro nome/local.
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
+import type { RootStackParamList } from '../../routes/AppRoutes';
 
 import SecaoCard from '../../components/CadastroFerramenta/SecaoCard';
 import SecaoModal from '../../components/CadastroFerramenta/SecaoModal';
@@ -30,11 +30,23 @@ import type { CadastroFerramentaFormState, SecaoId } from './CadastroFerramenta.
 import styles from './styles';
 import colors from '../../theme/colors';
 
+type CadastroFerramentaRoute = RouteProp<RootStackParamList, 'CadastroFerramentaScreen'>;
+
 export default function CadastroFerramentaScreen() {
   const navigation = useNavigation();
-  const { adicionarFerramenta } = useFerramentas();
+  const route = useRoute<CadastroFerramentaRoute>();
+  const { adicionarFerramenta, editarFerramenta, obterFerramenta } = useFerramentas();
 
-  const [form, setForm] = useState<CadastroFerramentaFormState>(criarFormularioVazio());
+  // Se veio um "ferramentaId" pela navegação (clique em "Editar" na tela
+  // Minhas Ferramentas), a tela entra em modo edição: carrega os dados
+  // daquela ferramenta no formulário e, ao publicar, atualiza em vez de criar.
+  const ferramentaId = route.params?.ferramentaId;
+  const ferramentaEmEdicao = ferramentaId ? obterFerramenta(ferramentaId) : undefined;
+  const modoEdicao = Boolean(ferramentaEmEdicao);
+
+  const [form, setForm] = useState<CadastroFerramentaFormState>(
+    () => ferramentaEmEdicao ?? criarFormularioVazio(),
+  );
   const [secaoAberta, setSecaoAberta] = useState<SecaoId | null>(null);
   const [tentouPublicar, setTentouPublicar] = useState(false);
 
@@ -82,7 +94,20 @@ export default function CadastroFerramentaScreen() {
       return;
     }
 
-  
+    if (modoEdicao && ferramentaId) {
+      editarFerramenta(ferramentaId, form);
+      Alert.alert('Ferramenta atualizada!', 'As alterações foram salvas.', [
+        {
+          text: 'OK',
+          onPress: () => {
+            if (navigation.canGoBack()) navigation.goBack();
+          },
+        },
+      ]);
+      return;
+    }
+
+    // Sem backend ainda: guarda só em memória (contexto), pra testar o fluxo completo.
     adicionarFerramenta(form);
 
     Alert.alert('Ferramenta cadastrada!', 'Sua ferramenta foi salva (armazenamento local de testes).', [
@@ -196,7 +221,9 @@ export default function CadastroFerramentaScreen() {
         </TouchableOpacity>
 
         <View style={styles.cabecalhoTextos}>
-          <Text style={styles.titulo}>Cadastrar Ferramenta</Text>
+          <Text style={styles.titulo}>
+            {modoEdicao ? 'Editar Ferramenta' : 'Cadastrar Ferramenta'}
+          </Text>
           <Text style={styles.subtitulo}>Toque em cada card para preencher a seção</Text>
         </View>
       </View>
@@ -220,7 +247,9 @@ export default function CadastroFerramentaScreen() {
       <View style={styles.barraInferior}>
         <Text style={styles.progresso}>{totalCompletas} de {SECOES.length} seções completas</Text>
         <TouchableOpacity style={styles.botaoPublicar} onPress={handlePublicar} activeOpacity={0.85}>
-          <Text style={styles.botaoPublicarTexto}>Publicar Ferramenta</Text>
+          <Text style={styles.botaoPublicarTexto}>
+            {modoEdicao ? 'Salvar Alterações' : 'Publicar Ferramenta'}
+          </Text>
         </TouchableOpacity>
       </View>
 
