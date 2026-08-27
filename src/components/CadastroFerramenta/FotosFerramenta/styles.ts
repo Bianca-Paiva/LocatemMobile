@@ -1,10 +1,11 @@
 import { StyleSheet } from 'react-native';
+
 import colors from '../../../theme/colors';
 
 export default StyleSheet.create({
   wrapper: {
-    gap: 16,
     width: '100%',
+    gap: 16,
   },
 
   dropzone: {
@@ -72,25 +73,35 @@ export default StyleSheet.create({
     overflow: 'hidden',
   },
 
-grade: {
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  gap: 4,
-},
+  // =========================================
+  // GRADE DE FOTOS
+  // =========================================
 
-miniatura: {
-  position: 'relative',
-  width: '49%',
-  aspectRatio: 1,
-  borderRadius: 14,
-  overflow: 'hidden',
-  backgroundColor: colors.bgInput,
-  borderWidth: 1,
-  borderColor: '#EEE',
-},
+  grade: {
+    width: '100%',
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 8,
+  },
+
+  miniatura: {
+    flex: 1,
+    height: 180,
+    borderRadius: 14,
+    overflow: 'hidden',
+    backgroundColor: colors.bgInput,
+    borderWidth: 1,
+    borderColor: '#EEEEEE',
+    position: 'relative',
+  },
 
   miniaturaArrastando: {
-    opacity: 0.55,
+    opacity: 0.75,
+    transform: [
+      {
+        scale: 1.04,
+      },
+    ],
   },
 
   imagem: {
@@ -98,47 +109,65 @@ miniatura: {
     height: '100%',
   },
 
+  // =========================================
+  // CAPA
+  // =========================================
+
   selo: {
     position: 'absolute',
     top: 8,
     left: 8,
     backgroundColor: colors.primary,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderRadius: 6,
+    zIndex: 10,
+  },
+
+  seloTexto: {
     color: colors.textDark,
     fontSize: 10,
     fontWeight: '800',
     letterSpacing: 0.3,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    borderRadius: 6,
-    overflow: 'hidden',
-    zIndex: 1,
   },
+
+  // =========================================
+  // REMOVER
+  // =========================================
 
   botaoRemover: {
     position: 'absolute',
     top: 8,
     right: 8,
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(0,0,0,0.65)',
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 1,
+    zIndex: 20,
   },
 
- alcaArrastar: {
-  position: 'absolute',
-  bottom: 8,
-  right: 8,
-  width: 34,
-  height: 34,
-  borderRadius: 17,
-  backgroundColor: 'rgba(0,0,0,0.5)',
-  alignItems: 'center',
-  justifyContent: 'center',
-  zIndex: 1,
-},
+  // =========================================
+  // INDICADOR DE ARRASTE
+  // =========================================
+
+  indicadorArraste: {
+    position: 'absolute',
+    bottom: 8,
+    right: 8,
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: 'rgba(0,0,0,0.55)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 10,
+  },
+
+  // =========================================
+  // ADICIONAR MAIS
+  // =========================================
 
   botaoAdicionarMais: {
     width: '100%',

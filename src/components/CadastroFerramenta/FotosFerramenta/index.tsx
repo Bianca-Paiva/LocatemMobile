@@ -1,10 +1,5 @@
-// Equivalente mobile do FotosFerramenta da Web. Não existe "arrastar arquivo do
-// computador" no celular, então o fluxo aqui é: tocar -> pedir permissão da
-// galeria -> abrir o seletor nativo -> usuário escolhe as fotos.
-// A 1ª foto continua sendo a capa, e dá pra reordenar segurando e arrastando
-// a miniatura (usa react-native-draggable-flatlist, ver README de instalação).
-
 import { useState } from 'react';
+
 import {
   View,
   Text,
@@ -12,17 +7,22 @@ import {
   Image,
   Alert,
   Linking,
-  Platform,
 } from 'react-native';
+
 import * as ImagePicker from 'expo-image-picker';
+
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import DraggableFlatList, {
-  RenderItemParams,
+
+import {
+  NestableDraggableFlatList,
   ScaleDecorator,
+  type RenderItemParams,
 } from 'react-native-draggable-flatlist';
 
 import styles from './styles';
+
 import colors from '../../../theme/colors';
+
 import type { FotosFerramentaProps } from './types';
 
 const MAXIMO_FOTOS = 8;
@@ -39,17 +39,28 @@ export default function FotosFerramenta({
   shake,
 }: FotosFerramentaProps) {
   const [carregando, setCarregando] = useState(false);
-  const vagas = Math.max(0, MAXIMO_FOTOS - fotos.length);
 
+  const vagas = Math.max(
+    0,
+    MAXIMO_FOTOS - fotos.length,
+  );
+
+  /*
+   * Criamos uma chave ESTÁVEL baseada na posição atual.
+   *
+   * O URI continua sendo a informação real da foto.
+   * A key serve somente para o DraggableFlatList identificar
+   * cada item durante o gesto.
+   */
   const itens: ItemFoto[] = fotos.map((uri, index) => ({
-    key: `${uri}-${index}`,
+    key: `${index}-${uri}`,
     uri,
   }));
 
-  // Pede permissão da galeria e, se autorizado, abre o seletor nativo.
-  // Se o usuário já negou permanentemente, oferece um atalho pras Configurações do app.
   const solicitarEEscolherFotos = async () => {
-    if (vagas === 0) return;
+    if (vagas === 0) {
+      return;
+    }
 
     try {
       setCarregando(true);
@@ -70,7 +81,10 @@ export default function FotosFerramenta({
             'Acesso à galeria necessário',
             'Pra adicionar fotos da ferramenta, permita o acesso às suas fotos nas configurações do app.',
             [
-              { text: 'Agora não', style: 'cancel' },
+              {
+                text: 'Agora não',
+                style: 'cancel',
+              },
               {
                 text: 'Abrir Configurações',
                 onPress: () => Linking.openSettings(),
@@ -87,19 +101,27 @@ export default function FotosFerramenta({
         return;
       }
 
-      const resultado = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsMultipleSelection: true,
-        selectionLimit: vagas,
-        quality: 0.7,
-      });
+      const resultado =
+        await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsMultipleSelection: true,
+          selectionLimit: vagas,
+          quality: 0.7,
+        });
 
-      if (resultado.canceled) return;
+      if (resultado.canceled) {
+        return;
+      }
 
-      const novasUris = resultado.assets.map((asset) => asset.uri);
+      const novasUris = resultado.assets.map(
+        (asset) => asset.uri,
+      );
 
       onChange(
-        [...fotos, ...novasUris].slice(0, MAXIMO_FOTOS),
+        [...fotos, ...novasUris].slice(
+          0,
+          MAXIMO_FOTOS,
+        ),
       );
     } finally {
       setCarregando(false);
@@ -107,11 +129,43 @@ export default function FotosFerramenta({
   };
 
   const removerFoto = (uri: string) => {
-    onChange(fotos.filter((f) => f !== uri));
+    onChange(
+      fotos.filter((foto) => foto !== uri),
+    );
   };
 
-  const handleDragEnd = ({ data }: { data: ItemFoto[] }) => {
-    onChange(data.map((item) => item.uri));
+  /*
+   * ESTE É O PONTO MAIS IMPORTANTE.
+   *
+   * O DraggableFlatList nos devolve o array já reorganizado.
+   *
+   * Então, se o usuário fizer:
+   *
+   * FOTO 1
+   * FOTO 2
+   * FOTO 3
+   *
+   * e arrastar FOTO 3 para a primeira posição:
+   *
+   * FOTO 3
+   * FOTO 1
+   * FOTO 2
+   *
+   * onChange recebe exatamente essa ordem.
+   *
+   * Como o formulário considera fotos[0] como capa,
+   * FOTO 3 passa automaticamente a ser a CAPA.
+   */
+  const handleDragEnd = ({
+    data,
+  }: {
+    data: ItemFoto[];
+  }) => {
+    const novaOrdem = data.map(
+      (item) => item.uri,
+    );
+
+    onChange(novaOrdem);
   };
 
   const renderItem = ({
@@ -130,42 +184,44 @@ export default function FotosFerramenta({
             isActive && styles.miniaturaArrastando,
           ]}
           onLongPress={drag}
+          delayLongPress={350}
           disabled={isActive}
           activeOpacity={0.9}
         >
-          {index === 0 && (
-            <Text style={styles.selo}>CAPA</Text>
-          )}
-
           <Image
             source={{ uri: item.uri }}
             style={styles.imagem}
             resizeMode="cover"
           />
 
+          {index === 0 && (
+            <View style={styles.selo}>
+              <Text style={styles.seloTexto}>
+                CAPA
+              </Text>
+            </View>
+          )}
+
           <TouchableOpacity
             style={styles.botaoRemover}
             onPress={() => removerFoto(item.uri)}
+            activeOpacity={0.8}
             accessibilityLabel="Remover foto"
           >
             <MaterialCommunityIcons
               name="close"
-              size={17}
+              size={18}
               color="#FFF"
             />
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.alcaArrastar}
-            onLongPress={drag}
-            accessibilityLabel="Segurar e arrastar para reordenar"
-          >
+          <View style={styles.indicadorArraste}>
             <MaterialCommunityIcons
               name="drag"
-              size={17}
+              size={19}
               color="#FFF"
             />
-          </TouchableOpacity>
+          </View>
         </TouchableOpacity>
       </ScaleDecorator>
     );
@@ -213,14 +269,15 @@ export default function FotosFerramenta({
           </Text>
 
           <Text style={styles.badge}>
-            A 1ª foto será a capa — segure e arraste pra reordenar
+            A 1ª foto será a capa — segure e arraste pra
+            reordenar
           </Text>
         </View>
       </TouchableOpacity>
 
       {fotos.length > 0 && (
         <>
-          <DraggableFlatList
+          <NestableDraggableFlatList
             data={itens}
             onDragEnd={handleDragEnd}
             keyExtractor={(item) => item.key}
@@ -228,7 +285,7 @@ export default function FotosFerramenta({
             numColumns={2}
             columnWrapperStyle={styles.grade}
             scrollEnabled={false}
-            activationDistance={Platform.OS === 'ios' ? 0 : 10}
+            activationDistance={0}
           />
 
           {vagas > 0 && (
@@ -236,6 +293,7 @@ export default function FotosFerramenta({
               style={styles.botaoAdicionarMais}
               onPress={solicitarEEscolherFotos}
               disabled={carregando}
+              activeOpacity={0.8}
             >
               <MaterialCommunityIcons
                 name="plus"
@@ -243,7 +301,9 @@ export default function FotosFerramenta({
                 color={colors.textDark}
               />
 
-              <Text style={styles.botaoAdicionarMaisTexto}>
+              <Text
+                style={styles.botaoAdicionarMaisTexto}
+              >
                 Adicionar mais fotos
               </Text>
             </TouchableOpacity>
@@ -252,7 +312,9 @@ export default function FotosFerramenta({
       )}
 
       {error ? (
-        <Text style={styles.error}>{error}</Text>
+        <Text style={styles.error}>
+          {error}
+        </Text>
       ) : null}
     </View>
   );
