@@ -15,6 +15,7 @@ import AcoesReserva from '../../../components/DetalhesReserva/AcoesReserva/Acoes
 
 import { useReservaStore } from '../../../hooks/Reservas/useReservaStore';
 
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './styles';
 
 interface DetalhesReservaProps {
@@ -83,57 +84,60 @@ export default function DetalhesReserva({
 
   return (
     <>
-      <Header />
+     <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
+     
 
       <ScrollView
         style={styles.container}
         showsVerticalScrollIndicator={false}
       >
-        <CabecalhoPagina
-          titulo="Detalhes da Reserva"
-          acao={
-            <EtiquetaStatus
-              status={status}
-            />
-          }
-        />
-
-        <ReservaResumoCard
-          reserva={reservaSelecionada}
-        />
-
-        <PainelStatusReserva
-          status={status}
-          motivoRecusa={motivoRecusa}
-          motivoCancelamento={
-            motivoCancelamento
-          }
-          horaInicio={horaInicio}
-          horaFim={horaFim}
-        />
-
-        <AcoesReserva
-          status={status}
-          onCancelarSolicitacao={
-            handleCancelarSolicitacao
-          }
-          onVerLocacoes={
-            handleVerLocacoes
-          }
-          onAvaliacao={
-            handleAvaliacao
-          }
-          onProsseguirAluguel={
-            handleProsseguirAluguel
-          }
-          onVoltarReservas={
-            handleVoltarReservas
-          }
-          onSolicitarNovaReserva={
-            handleSolicitarNovaReserva
-          }
-        />
+       <Header />
+      <View style={styles.containerCont}>
+        
+         <CabecalhoPagina
+           titulo="Detalhes da Reserva"
+           acao={
+             <EtiquetaStatus
+               status={status}
+             />
+           }
+         />
+         <ReservaResumoCard
+           reserva={reservaSelecionada}
+         />
+         <PainelStatusReserva
+           status={status}
+           motivoRecusa={motivoRecusa}
+           motivoCancelamento={
+             motivoCancelamento
+           }
+           horaInicio={horaInicio}
+           horaFim={horaFim}
+         />
+         <AcoesReserva
+           status={status}
+           onCancelarSolicitacao={
+             handleCancelarSolicitacao
+           }
+           onVerLocacoes={
+             handleVerLocacoes
+           }
+           onAvaliacao={
+             handleAvaliacao
+           }
+           onProsseguirAluguel={
+             handleProsseguirAluguel
+           }
+           onVoltarReservas={
+             handleVoltarReservas
+           }
+           onSolicitarNovaReserva={
+             handleSolicitarNovaReserva
+           }
+         />
+      </View>
       </ScrollView>
+      </SafeAreaView>
     </>
   );
 }

@@ -5,7 +5,7 @@ import type {
     SolicitarReservaFormState,
 } from '../../pages/Reservas/SolicitarReserva/SolicitarReserva.types';
 import { validateCEP, validatePhone, validateFullName } from '../masks';
-import { ImageSourcePropType } from 'react-native';
+import type { ImageSourcePropType } from 'react-native';
 
 const MESES_ABREVIADOS = [
     'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
@@ -176,7 +176,7 @@ export function useSolicitarReserva({ produto }: UseSolicitarReservaParams) {
     // Monta os dados prontos para virar uma ReservaData no contexto global de reservas
     const montarDadosReserva = () => ({
         produto: produto.title,
-        imagem: ImageSourcePropType,
+        imagem: produto.images[0],
         periodo: `${formatarDataCurta(form.dataEntrega)} – ${formatarDataCurta(form.dataDevolucao)} ${parseDataIso(form.dataDevolucao)?.getFullYear() ?? ''}`,
         locador: produto.locador,
         status: 'pendente' as const,

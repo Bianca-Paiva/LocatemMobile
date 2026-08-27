@@ -12,6 +12,7 @@ import { useNavigation } from '@react-navigation/native';
 import ResumoSolicitacaoCard from '../../../components/SolicitacaoEnviada/ResumoSolicitacaoCard';
 import { useReservaStore } from '../../../hooks/Reservas/useReservaStore';
 
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './styles';
 
 interface SolicitacaoEnviadaProps {
@@ -43,6 +44,8 @@ export default function SolicitacaoEnviada({
   }
 
   return (
+    <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
+
     <ScrollView
       style={styles.container}
       contentContainerStyle={
@@ -120,5 +123,6 @@ export default function SolicitacaoEnviada({
         </Pressable>
       </View>
     </ScrollView>
+    </SafeAreaView>
   );
 }

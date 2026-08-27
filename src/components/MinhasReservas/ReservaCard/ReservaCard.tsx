@@ -46,8 +46,8 @@ export default function ReservaCard({
       onPress={() =>
         onVerDetalhes?.(id)
       }
-    >
-      <View style={styles.miniatura}>
+    > 
+    <View style={styles.miniatura}>
         <Image
           source={
             typeof imagem ===
@@ -61,78 +61,62 @@ export default function ReservaCard({
           resizeMode="cover"
         />
       </View>
+    <View style={styles.corpo}>
+    
+        <View style={styles.conteudo}>
+              <Text
+                style={styles.titulo}
+                numberOfLines={2}
+              >
+                {produto}
+              </Text>
 
-      <View style={styles.conteudo}>
-        <Text
-          style={styles.titulo}
-          numberOfLines={2}
-        >
-          {produto}
-        </Text>
+              <View style={ styles.linhaInformacao}>
+                  <Image
+                    source={calendarioIcon}
+                    style={ styles.iconeInfo}
+                  />
 
-        <View
-          style={
-            styles.linhaInformacao
-          }
-        >
-          <Image
-            source={
-              calendarioIcon
-            }
-            style={
-              styles.iconeInfo
-            }
-          />
+                  <Text
+                    style={ styles.textoInfo}>
+                    {periodo}
+                  </Text>
+              </View>
 
-          <Text
-            style={
-              styles.textoInfo
-            }
-          >
-            {periodo}
-          </Text>
+                <View  style={styles.linhaInformacao}>
+                    <Image
+                      source={userIcon}
+                      style={
+                        styles.iconeInfo
+                      }
+                    />
+                    <Text
+                      style={
+                        styles.textoInfo
+                      }
+                    >
+                      Locador: {locador}
+                    </Text>
+                </View>
+
+                  <Text
+                    style={
+                      styles.statusMensagem
+                    }
+                  >
+                    {mensagemStatus}
+                  </Text>
         </View>
 
-        <View
-          style={
-            styles.linhaInformacao
-          }
-        >
-          <Image
-            source={userIcon}
-            style={
-              styles.iconeInfo
-            }
+        <View style={styles.aside}>
+          <StatusBadge
+            status={status}
           />
 
-          <Text
-            style={
-              styles.textoInfo
-            }
-          >
-            Locador: {locador}
+          <Text style={styles.seta}>
+            ›
           </Text>
         </View>
-
-        <Text
-          style={
-            styles.statusMensagem
-          }
-        >
-          {mensagemStatus}
-        </Text>
-      </View>
-
-      <View style={styles.aside}>
-        <StatusBadge
-          status={status}
-        />
-
-        <Text
-          style={styles.seta}
-        >
-          ›
-        </Text>
       </View>
     </Pressable>
   );

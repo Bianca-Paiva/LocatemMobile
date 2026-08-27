@@ -33,6 +33,7 @@ import {
   validatePhone,
 } from '../../../hooks/masks';
 
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './styles';
 
 const PRODUTO_VAZIO: Produto = {
@@ -203,6 +204,7 @@ export default function SolicitarReserva({
 
   return (
     <>
+    <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
       <Header />
 
       <ScrollView
@@ -389,6 +391,7 @@ export default function SolicitarReserva({
           </Pressable>
         </View>
       </ScrollView>
+      </SafeAreaView>
     </>
   );
 }
