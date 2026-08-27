@@ -79,6 +79,11 @@ export const styles = StyleSheet.create({
     color: '#141D23',
     margin: 0,
   },
+  required: {
+    color: '#E11D48',
+    fontSize: 14,
+  },
+
   botoesOpcao: {
     flexDirection: 'row',
     gap: 8,

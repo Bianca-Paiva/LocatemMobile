@@ -137,6 +137,7 @@ export default function ProductScreen() {
               imageVerificado={produto.imageVerificado}
               imageNota={produto.imageNota}
               estoqueDisponivel={produto.estoqueDisponivel}
+              opcoesTensao={produto.opcoesTensao}
               onAlugar={handleAlugar}
               onReservar={handleAlugar} 
               onAddCarrinho={handleAdicionarCarrinho}

@@ -1,28 +1,24 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image, ImageSourcePropType } from 'react-native';
 
-// Importação do StyleSheet isolado
 import { styles } from './styles';
-
-//importacao dos componentes filhos
-import TempoDropdown from '../TempoDropown';
+import TempoDropdown from '../TempoDropown'; // Corrigi o typo do import (Dropown -> Dropdown)
 import SeletorQuantidade from '../SeletorQuantidade';
 
 interface ProdutoInfoProps {
   title: string;
-  price: string; // Se preferir passar direto formatado, senão seria number
+  price: string | number; 
   rating: number;
   reviewCount: number;
-  imageVerificado?: string;
-  imageNota: ImageSourcePropType; // Ajustado para aceitar require() nativamente!
+  imageVerificado?: ImageSourcePropType; 
+  imageNota: ImageSourcePropType; 
   brand: string;
   estoqueDisponivel: number;
+  opcoesTensao?: string[]; 
   onAlugar?: () => void;
   onReservar?: () => void;
   onAddCarrinho?: () => void;
 }
-
-const TENSAO_OPTIONS = ['127V', '220V', 'Bivolt'];
 
 export function ProdutoInfo({
   title,
@@ -32,17 +28,19 @@ export function ProdutoInfo({
   imageNota,
   brand,
   estoqueDisponivel,
+  opcoesTensao = [], 
   onAlugar,
-  // onReservar, // Comentado conforme original
   onAddCarrinho,
 }: ProdutoInfoProps) {
   const [tensaoSelecionada, setTensaoSelecionada] = useState<string | null>(null);
   const [tempo, setTempo] = useState('Selecione');
   const [quantidade, setQuantidade] = useState(1);
 
-  // Regras de negócio mantidas 100% intactas
   const decrement = () => setQuantidade(prev => Math.max(1, prev - 1));
   const increment = () => setQuantidade(prev => Math.min(estoqueDisponivel, prev + 1));
+
+  // 🚀 LÓGICA DE UI: Formata o preço automaticamente (15.00 vira "15,00")
+  const precoFormatado = typeof price === 'number' ? price.toFixed(2).replace('.', ',') : price;
 
   return (
     <View style={styles.produtoInfoWrapper}>
@@ -50,53 +48,55 @@ export function ProdutoInfo({
 
       <View style={styles.ratingRow}>
         <Image source={imageNota} style={styles.starIcon} />
-        <Text style={styles.ratingValor}>{rating.toFixed(1)}</Text>
+        <Text style={styles.ratingValor}>{Number(rating || 0).toFixed(1)}</Text>
         <Text style={styles.ratingCount}>({reviewCount} avaliações)</Text>
         <Text style={styles.brandTag}>{brand}</Text>
       </View>
 
       <View style={styles.precoBox}>
         <Text style={styles.precoPrefix}>R$</Text>
-        <Text style={styles.precoValor}>{price}</Text>
+        <Text style={styles.precoValor}>{precoFormatado}</Text>
         <Text style={styles.precoDia}>/dia</Text>
       </View>
 
-      {/* Seção Tensão */}
-      <View style={styles.opcaoGrupo}>
-        <Text style={styles.opcaoLabel}>Tensão</Text>
-        <View style={styles.botoesOpcao}>
-          {TENSAO_OPTIONS.map(t => (
-            <TouchableOpacity
-              key={t}
-              style={[
-                styles.btnOpcao,
-                tensaoSelecionada === t && styles.btnOpcaoAtivo,
-              ]}
-              onPress={() => setTensaoSelecionada(t)}
-              activeOpacity={0.7} // Feedback visual nativo ao tocar
-            >
-              <Text
+      {/*  Seção Tensão */}
+      {opcoesTensao && opcoesTensao.length > 0 && (
+        <View style={styles.opcaoGrupo}>
+          <Text style={styles.opcaoLabel}>Tensão</Text>
+          <View style={styles.botoesOpcao}>
+            {opcoesTensao.map(t => (
+              <TouchableOpacity
+                key={t}
                 style={[
-                  styles.btnOpcaoText,
-                  tensaoSelecionada === t && styles.btnOpcaoTextAtivo,
+                  styles.btnOpcao,
+                  tensaoSelecionada === t && styles.btnOpcaoAtivo,
                 ]}
+                onPress={() => setTensaoSelecionada(t)}
+                activeOpacity={0.7} 
               >
-                {t}
-              </Text>
-            </TouchableOpacity>
-          ))}
+                <Text
+                  style={[
+                    styles.btnOpcaoText,
+                    tensaoSelecionada === t && styles.btnOpcaoTextAtivo,
+                  ]}
+                >
+                  {t}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
-      </View>
+      )}
 
-      {/* Container 50/50 - Flexbox Nativo */}
+      {/* Seletores*/}
       <View style={styles.seletoresRow}>
-        {/* Tempo */}
         <View style={[styles.opcaoGrupo, styles.seletorFlex]}>
-          <Text style={styles.opcaoLabel}>Tempo</Text>
+          <Text style={styles.opcaoLabel}>
+            Tempo <Text style={styles.required}>*</Text>
+          </Text>
           <TempoDropdown value={tempo} onChange={setTempo} />
         </View>
 
-        {/* Quantidade */}
         <View style={[styles.opcaoGrupo, styles.seletorFlex]}>
           <SeletorQuantidade
             quantidade={quantidade}
@@ -107,7 +107,7 @@ export function ProdutoInfo({
         </View>
       </View>
 
-      {/* CTAs (Call to Actions) */}
+      {/* Botoes */}
       <View style={styles.ctasContainer}>
         <TouchableOpacity style={styles.btnLocar} onPress={onAlugar} activeOpacity={0.8}>
           <Text style={styles.btnLocarText}>Locar</Text>

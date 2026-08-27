@@ -27,9 +27,10 @@ export const FALLBACK_PRODUTO = {
   price: 15.00,
   rating: 4.8,
   reviewCount: 120,
-  brand: "The Black Tools",
+  brand: "HomePro Pro Store",
   locador: "HomePro Pro Store",
   estoqueDisponivel: 5,
+  opcoesTensao: ["127V", "220V", "Bivolt"],
   tipoAprovacao: 'manual', // Importante para o fluxo de reserva que construímos
   
   // ATENÇÃO: Ajuste os caminhos dos requires conforme a sua pasta 'assets' real

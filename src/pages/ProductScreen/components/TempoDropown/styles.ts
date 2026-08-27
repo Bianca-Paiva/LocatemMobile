@@ -1,8 +1,14 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
+    position: 'relative', // Ancoragem para o menu absoluto
+  },
+  containerOpen: {
+    // Essencial para Android (elevation) e iOS (zIndex) para o menu não ficar por trás de outros cards
+    zIndex: 9999,
+    elevation: 9999,
   },
   trigger: {
     flexDirection: 'row',
@@ -11,7 +17,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: 44,
     paddingHorizontal: 12,
-    backgroundColor: '#FFFFFF', // Fallback para var(--color-bg-input)
+    backgroundColor: '#FFFFFF',
     borderWidth: 1.5,
     borderColor: '#e5e7eb',
     borderRadius: 8,
@@ -23,56 +29,40 @@ export const styles = StyleSheet.create({
     color: '#374151',
     fontSize: 14,
   },
-  chevron: {
-    width: 14,
-    height: 14,
-    resizeMode: 'contain',
-    marginLeft: 8,
-    opacity: 0.75,
-  },
-  // --- Estilos do Modal (Substituindo o Dropdown Absoluto) ---
-  modalOverlay: {
-    flex: 1,
-    justifyContent: 'flex-end', // Joga o menu para baixo (Bottom Sheet)
-    backgroundColor: 'rgba(0, 0, 0, 0.4)', // Fundo escurecido ao abrir
-  },
-  menuContainer: {
+  // --- Estilos do Menu Flutuante ---
+  dropdownMenu: {
+    position: 'absolute', // Flutua sobre a tela
+    top: 48, // Altura do botão (44) + 4px de respiro
+    left: 0,
+    right: 0,
     backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-    maxHeight: '50%', // Ocupa no máximo metade da tela
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: Platform.OS === 'ios' ? 32 : 16, // Respiro extra para o iPhone
-    // Sombra para dar profundidade
+    borderWidth: 1,
+    borderColor: '#e5e7eb',
+    borderRadius: 8,
+    maxHeight: 220, // Trava a altura para a FlatList rolar internamente
+    
+    // Sombras nativas para destacar do fundo
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 10,
-  },
-  menuHeader: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#141D23',
-    marginBottom: 12,
-    textAlign: 'center',
+    zIndex: 9999,
   },
   option: {
     width: '100%',
-    paddingVertical: 14,
+    paddingVertical: 12,
     paddingHorizontal: 12,
-    borderRadius: 8,
-    marginBottom: 4,
-    backgroundColor: 'transparent',
+    borderBottomWidth: 1,
+    borderBottomColor: '#f3f4f6', // Linha sutil separando itens
   },
   optionActive: {
-    backgroundColor: '#F5E3B3',
+    backgroundColor: '#FDF7E6', // Amarelinho de seleção
   },
   optionText: {
-    fontSize: 16, // Aumentamos um pouco para facilitar o toque no mobile
+    fontSize: 14,
     color: '#374151',
-    textAlign: 'center', // Centralizado fica mais elegante no Bottom Sheet
+    textAlign: 'left', // Alinhado à esquerda como você pediu
   },
   optionTextActive: {
     color: '#6E5000',

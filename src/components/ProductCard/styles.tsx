@@ -46,6 +46,8 @@ const styles = StyleSheet.create({
     color: '#1F2937', // Tom de cinza escuro/quase preto para legibilidade
     lineHeight: 20,
     marginBottom: 4,
+
+    flexShrink:1,
   },
   storeName: {
     fontSize: 12,
