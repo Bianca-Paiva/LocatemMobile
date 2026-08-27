@@ -140,7 +140,7 @@ export default function MinhasReservas({
      
 
     <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
-       <Header />
+    
     
       <ScrollView
         style={styles.container}
@@ -151,10 +151,13 @@ export default function MinhasReservas({
           false
         }
       >
+           <Header />
         {/* <CabecalhoPagina
           titulo="Minhas Reservas"
           subtitulo="Acompanhe todas as suas solicitações de reserva."
         /> */}
+
+        <View  style={styles.containerCont}>
 
         <ReservaAbas
           filtro={filtro}
@@ -189,6 +192,7 @@ export default function MinhasReservas({
             )}
           </View>
         )}
+        </View>
       </ScrollView>
     </SafeAreaView>
     </>

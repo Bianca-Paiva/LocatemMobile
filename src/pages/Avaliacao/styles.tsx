@@ -4,7 +4,10 @@ const { width } = Dimensions.get('window');
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 5,
+   backgroundColor: '#FFF',
+  },
+    containerCont: {
+   
     paddingHorizontal: 18,
     paddingBottom: 48,
   },
@@ -42,5 +45,11 @@ export const styles = StyleSheet.create({
 
   tabPanel: {
     flex: 1,
+  },
+    safeArea: {
+    flex: 1,
+  },
+    content: {
+    gap: 18,
   },
 });
