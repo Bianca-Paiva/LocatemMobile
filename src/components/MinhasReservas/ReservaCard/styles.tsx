@@ -13,8 +13,8 @@ export const styles = StyleSheet.create({
     borderColor: '#EEEEEE',
 
     borderRadius: 16,
-
-    padding: 14,
+    
+    padding: 20,
   },
 
   miniatura: {
@@ -43,6 +43,7 @@ export const styles = StyleSheet.create({
   corpo: {
     flex: 1,
     justifyContent: 'space-between',
+    
   },
 
   conteudo: {

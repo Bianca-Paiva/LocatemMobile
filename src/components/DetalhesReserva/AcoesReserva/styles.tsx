@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     width: '100%',
 
     // No mobile os botões ficam empilhados
-    gap: 12,
+    gap: 10,
   },
 
   // Botão principal (ação positiva)
@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
 
     borderRadius: 14,
 
-    backgroundColor: '#D6B656',
+    backgroundColor: '#FFD600',
 
     justifyContent: 'center',
 
@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
 
     borderRadius: 14,
 
-    backgroundColor: '#F5E3B3',
+    backgroundColor: '#FFD600',
 
     borderWidth: 1,
 
@@ -54,7 +54,7 @@ export const styles = StyleSheet.create({
 
     backgroundColor: '#FFFFFF',
 
-    borderWidth: 1,
+    borderWidth: 2,
 
     borderColor: '#F3B8B8',
 

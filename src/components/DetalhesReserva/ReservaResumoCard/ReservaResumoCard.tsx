@@ -53,82 +53,84 @@ export default function ReservaResumoCard({
       {/* Cabeçalho do produto */}
       <View style={styles.cabecalhoProduto}>
 
-        {/* Imagem do produto */}
-        <View style={styles.miniatura}>
-          <Image
-            source={
-              typeof imagem === 'string'
-                ? { uri: imagem }
-                : imagem
-            }
-            style={styles.imagem}
-            resizeMode="contain"
-          />
-        </View>
+            {/* Imagem do produto */}
+            <View style={styles.miniatura}>
+              <Image
+                source={
+                  typeof imagem === 'string'
+                    ? { uri: imagem }
+                    : imagem
+                }
+                style={styles.imagem}
+                resizeMode="contain"
+              />
+            </View>
 
-        {/* Área de informações */}
-        <View style={styles.infoProduto}>
+            {/* Área de informações */}
+            <View style={styles.infoProduto}>
 
-          {/* Nome do produto */}
-          <Text
-            style={styles.titulo}
-            numberOfLines={2}
-          >
-            {produto}
-          </Text>
+                  {/* Nome do produto */}
+                  <Text
+                    style={styles.titulo}
+                    numberOfLines={2}
+                  >
+                    {produto}
+                  </Text>
 
-          {/* Categoria */}
-          <Text style={styles.categoria}>
-            {categoria}
-          </Text>
+                  {/* Categoria */}
+                  <Text style={styles.categoria}>
+                    {categoria}
+                  </Text>
 
-          {/* Locador */}
-          <View style={styles.linha}>
-            <User
-              size={14}
-              color="#666"
-            />
+                  {/* Locador */}
+                  <View style={styles.linha}>
+                    <User
+                      size={14}
+                      color="#666"
+                    />
 
-            <Text style={styles.locador}>
-              Locador: {locador}
-            </Text>
-          </View>
+                    <Text style={styles.locador}>
+                      Locador: {locador}
+                    </Text>
+                  </View>
 
-          {/* Avaliação + localização */}
-          <View style={styles.linhaAvaliacao}>
+                  {/* Avaliação + localização */}
+                  <View style={styles.linhaAvaliacao}>
 
-            <Image
-              source={starIcon}
-              style={styles.star}
-              resizeMode="contain"
-            />
+                    <Image
+                      source={starIcon}
+                      style={styles.star}
+                      resizeMode="contain"
+                    />
 
-            <Text style={styles.avaliacao}>
-              {avaliacaoLocador
-                .toFixed(1)
-                .replace('.', ',')}
-            </Text>
+                    <Text style={styles.avaliacao}>
+                      {avaliacaoLocador
+                        .toFixed(1)
+                        .replace('.', ',')}
+                    </Text>
 
-            <Text style={styles.numeroAvaliacoes}>
-              ({numeroAvaliacoes} avaliações)
-            </Text>
+                    <Text style={styles.numeroAvaliacoes}>
+                      ({numeroAvaliacoes} avaliações)
+                    </Text>
 
-            <Text style={styles.separador}>
-              •
-            </Text>
+                    {/* <Text style={styles.separador}>
+                      •
+                    </Text> */}
 
-            <MapPin
-              size={14}
-              color="#666"
-            />
+                  
+                  </View>
+                  <View style={styles.maps}>
+                        <MapPin
+                      size={14}
+                      color="#666"
+                    />
 
-            <Text style={styles.localizacao}>
-              {localizacao}
-            </Text>
+                    <Text style={styles.localizacao}>
+                      {localizacao}
+                    </Text>
+                  </View>
 
-          </View>
-
-        </View>
+            </View>
 
       </View>
 

@@ -135,6 +135,9 @@ export const styles = StyleSheet.create({
     fontSize: 13,
   },
 
+  maps:{
+    flexDirection: 'row',
+  },
   // Separador •
   separador: {
     marginHorizontal: 8,
