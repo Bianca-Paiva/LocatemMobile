@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
-
-// Importação do tipo de props
+import { View, Text, TouchableOpacity, ScrollView, Modal, TouchableWithoutFeedback } from 'react-native';
 import { TempoDropdownProps } from './types';
-// Importação do icone da seta
 import { Feather } from '@expo/vector-icons';
-// Importação dos estilos da tela
 import { styles } from './styles';
 
 const TEMPO_OPTIONS = [
@@ -16,24 +12,29 @@ const TEMPO_OPTIONS = [
   }),
 ];
 
-export default function TempoDropdown({ value, onChange }: TempoDropdownProps) {
+export default function TempoDropdown({ value, onChange, onOpenChange }: TempoDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSelect = (option: string) => {
     onChange(option);
     setIsOpen(false);
+    if (onOpenChange) onOpenChange(false);
+  };
+
+  const toggleDropdown = () => {
+    const newState = !isOpen;
+    setIsOpen(newState);
+    if (onOpenChange) onOpenChange(newState);
   };
 
   return (
-    // 🚀 ARQUITETURA MOBILE: O zIndex dinâmico garante que o container sobreponha o restante da tela
-    <View style={[styles.container, isOpen && styles.containerOpen]}>
+    <View style={styles.container}>
       
       {/* Botão Gatilho */}
       <TouchableOpacity
         style={[styles.trigger, isOpen && styles.triggerAtivo]}
-        onPress={() => setIsOpen(!isOpen)}
+        onPress={toggleDropdown}
         activeOpacity={0.8}
-        accessibilityRole="button"
       >
         <Text style={styles.triggerText}>{value}</Text>
         <Feather
@@ -43,40 +44,54 @@ export default function TempoDropdown({ value, onChange }: TempoDropdownProps) {
         />
       </TouchableOpacity>
 
-      {/* Menu Flutuante (Renderizado condicionalmente sem Modal) */}
-      {isOpen && (
-        <View style={styles.dropdownMenu}>
-          <FlatList
-            data={TEMPO_OPTIONS}
-            keyExtractor={(item) => item}
-            showsVerticalScrollIndicator={true}
-            // ⚠️ OBRIGATÓRIO NO MOBILE: Permite que essa lista role mesmo estando dentro da ScrollView da tela principal
-            nestedScrollEnabled={true} 
-            renderItem={({ item }) => {
-              const isSelected = item === value;
-              return (
-                <TouchableOpacity
-                  style={[
-                    styles.option,
-                    isSelected && styles.optionActive,
-                  ]}
-                  onPress={() => handleSelect(item)}
-                  activeOpacity={0.7}
-                >
-                  <Text
-                    style={[
-                      styles.optionText,
-                      isSelected && styles.optionTextActive,
-                    ]}
-                  >
-                    {item}
-                  </Text>
-                </TouchableOpacity>
-              );
-            }}
-          />
-        </View>
-      )}
+      {/* 🚀 O PULO DO GATO: Modal Transparente para capturar o Scroll */}
+      <Modal
+        visible={isOpen}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={toggleDropdown}
+      >
+        {/* Overlay invisível que fecha o menu se clicar fora */}
+        <TouchableOpacity 
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.2)' }} 
+          activeOpacity={1} 
+          onPress={toggleDropdown}
+        >
+          <TouchableWithoutFeedback>
+            {/* A caixinha flutuante que você desenhou, agora centralizada e rolável! */}
+            <View style={[styles.dropdownMenu, { position: 'relative', top: 0, width: '80%' }]}>
+              <ScrollView
+                showsVerticalScrollIndicator={true}
+                keyboardShouldPersistTaps="handled"
+              >
+                {TEMPO_OPTIONS.map((item) => {
+                  const isSelected = item === value;
+                  return (
+                    <TouchableOpacity
+                      key={item}
+                      style={[
+                        styles.option,
+                        isSelected && styles.optionActive,
+                      ]}
+                      onPress={() => handleSelect(item)}
+                      activeOpacity={0.7}
+                    >
+                      <Text
+                        style={[
+                          styles.optionText,
+                          isSelected && styles.optionTextActive,
+                        ]}
+                      >
+                        {item}
+                      </Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </ScrollView>
+            </View>
+          </TouchableWithoutFeedback>
+        </TouchableOpacity>
+      </Modal>
     </View>
   );
 }

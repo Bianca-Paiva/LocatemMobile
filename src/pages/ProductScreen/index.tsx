@@ -5,7 +5,6 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 // ── 1. IMPORTAÇÃO DE COMPONENTES VISUAIS ───────────────────────────
-// 🚀 ARQUITETURA: Ajuste os caminhos relativos conforme a estrutura real das suas pastas.
 import Header from '../../components/Header';
 import {ImagemCarrossel} from './components/ImageCarrosel';
 import { ProdutoInfo } from './components/ProdutoInfo';
@@ -14,9 +13,6 @@ import { Descricao } from './components/Descricao';
 import { EspecificacoesTecnicas } from './components/EspecificacoesTecnicas';
 import { InfoVendedor } from './components/InfoVendedor';
 import { AvaliacaoSection } from './components/AvaliacaoSection';
-// import SolicitarReservaModal from '../../components/SolicitarReservaModal';
-// import SuccessModal from '../../components/SuccessModal';
-
 
 // ── 2. IMPORTAÇÃO DOS HOOKS GLOBAIS (ZUSTAND) ──────────────────────
 import { useProdutoStore } from '../../hooks/useProdutoStore';
@@ -26,7 +22,6 @@ import { useCarrinhoStore } from '../../hooks/useCarrinhoStore';
 
 // ── 3. IMPORTAÇÃO DE MOCKS E UTILITÁRIOS ───────────────────────────
 import { getLocadorByNome } from '../../mocks/locadoresMock';
-// import { montarReservaPendente, montarNotificacaoSolicitacaoEnviada } from '../../utils/montarReservaData';
 import {
   FALLBACK_PRODUTO,
   MOCK_SEMELHANTES,
@@ -38,25 +33,24 @@ import { styles } from './styles';
 import type { RootStackParamList } from '../../routes/AppRoutes';
 
 export default function ProductScreen() {
-  // ── HOOKS DE NAVEGAÇÃO E REFERÊNCIA ──────────────────────────────
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const scrollViewRef = useRef<ScrollView>(null); 
 
-  // ── CONEXÃO COM O ESTADO GLOBAL (ZUSTAND) ────────────────────────
-  //  ARQUITETURA: A tela apenas "lê" ou "despacha" ações, a lógica pesada fica nos hooks.
   const { produtoSelecionado, setProdutoSelecionado } = useProdutoStore();
   const { adicionarReserva } = useReservaStore();
   const { adicionarNotificacao } = useNotificationStore();
   const { adicionarItem } = useCarrinhoStore();
 
-  // Validação Defensiva: Garante que a tela nunca quebre se o usuário entrar direto sem selecionar nada
   const produto = produtoSelecionado ?? FALLBACK_PRODUTO;
   const locador = getLocadorByNome(produto.locador);
 
-  // ── ESTADOS LOCAIS (MODAIS E FORMULÁRIO) ─────────────────────────
+  // ── ESTADOS LOCAIS (MODAIS, FORMULÁRIO E BLOQUEIO DE SCROLL) ───────
   const [modalAberto, setModalAberto] = useState(false);
   const [modoModal, setModoModal] = useState<'locar' | 'carrinho'>('locar');
   const [successAberto, setSuccessAberto] = useState(false);
+  
+  // 🚀 ARQUITETURA: Estado que controla o travamento da tela principal
+  const [scrollBloqueado, setScrollBloqueado] = useState(false);
 
   const [selecaoProduto, setSelecaoProduto] = useState<{
     quantidade: number;
@@ -65,8 +59,6 @@ export default function ProductScreen() {
   }>({ quantidade: 1, diarias: null, tensao: null });
 
   // ── REGRAS DE NEGÓCIO E AÇÕES ────────────────────────────────────
-
-  // UX: Simula transição de página rolando suavemente para o topo ao clicar num similar
   const handleSemelhante = (p: any) => {
     setProdutoSelecionado(p);
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
@@ -82,25 +74,9 @@ export default function ProductScreen() {
     setModalAberto(true);
   };
 
-//   const handleContinuar = (dados: any) => {
-//     setProdutoSelecionado(produto);
-//     setModalAberto(false);
-
-//     if (produto.tipoAprovacao === 'manual') {
-//       // Fluxo Assíncrono: Grava a reserva pendente e dispara a notificação
-//       const novaReserva = adicionarReserva(montarReservaPendente(produto, dados));
-//       adicionarNotificacao(
-//         montarNotificacaoSolicitacaoEnviada(produto, novaReserva.id, novaReserva.periodo)
-//       );
-//       setSuccessAberto(true);
-//     } else {
-//       // navigation.navigate('PagamentoScreen'); // Rota futura
-//     }
-//   };
-
   const handleFecharSuccess = () => {
     setSuccessAberto(false);
-    navigation.navigate('ProductScreen'); // Arrumar isso para MinhasLocacoes quando a rota estiver pronta
+    navigation.navigate('ProductScreen'); 
   };
 
   const handleAdicionarAoCarrinhoConfirmado = (dados: any) => {
@@ -111,19 +87,17 @@ export default function ProductScreen() {
   return (
     <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
       
-
-      {/* 🚀 UX MOBILE: ScrollView ocultando a barra lateral para visual mais limpo */}
+      {/* 🚀 UX MOBILE: scrollEnabled dinâmico impede a tela de rolar quando o dropdown abre */}
       <ScrollView 
         ref={scrollViewRef}
         contentContainerStyle={styles.scrollContainer}
         showsVerticalScrollIndicator={false}
+        scrollEnabled={!scrollBloqueado} 
       >
 
         <Header/>
         <View style={styles.contentContainer}>
 
-          
-          
           {/* ── SEÇÃO HERO (Imagens e Ações Principais) ── */}
           <View style={styles.heroSection}>
             <ImagemCarrossel images={produto.images} />
@@ -141,16 +115,17 @@ export default function ProductScreen() {
               onAlugar={handleAlugar}
               onReservar={handleAlugar} 
               onAddCarrinho={handleAdicionarCarrinho}
+              onTempoDropdownOpen={setScrollBloqueado} // 🚀 Repassando a função para o ProdutoInfo
             />
           </View>
 
-          {/* ── PRODUTOS SEMELHANTES (Carrossel Horizontal) ── */}
+          {/* ── PRODUTOS SEMELHANTES ── */}
           <ProdutosSemelhantes
             produtos={MOCK_SEMELHANTES}
             onCardClick={handleSemelhante}
           />
 
-          {/* ── INFORMAÇÕES DETALHADAS (Grid Inferior Empilhado) ── */}
+          {/* ── INFORMAÇÕES DETALHADAS ── */}
           <View style={styles.gridInferior}>
             <Descricao texto="Ideal para uso doméstico e profissional leve. Perfeita para montagem de móveis, instalações e pequenos reparos. Compacta, potente e fácil de manusear — resolve o problema sem complicação." />
             
@@ -175,19 +150,6 @@ export default function ProductScreen() {
           </View>
         </View>
       </ScrollView>
-
-      {/* ── MODAIS (Renderizados sobrepondo a tela inteira) ── */}
-      {/* <SolicitarReservaModal
-        aberto={modalAberto}
-        produto={produto}
-        modo={modoModal}
-        quantidadeInicial={selecaoProduto.quantidade}
-        duracaoInicial={selecaoProduto.diarias ?? undefined}
-        tensaoSelecionada={selecaoProduto.tensao}
-        onClose={() => setModalAberto(false)}
-        onContinuar={handleContinuar}
-        onAdicionarCarrinho={handleAdicionarAoCarrinhoConfirmado}
-      /> */}
     </SafeAreaView>
   );
 }

@@ -18,6 +18,7 @@ interface ProdutoInfoProps {
   onAlugar?: () => void;
   onReservar?: () => void;
   onAddCarrinho?: () => void;
+  onTempoDropdownOpen?: (isOpen: boolean) => void;
 }
 
 export function ProdutoInfo({
@@ -31,6 +32,7 @@ export function ProdutoInfo({
   opcoesTensao = [], 
   onAlugar,
   onAddCarrinho,
+  onTempoDropdownOpen
 }: ProdutoInfoProps) {
   const [tensaoSelecionada, setTensaoSelecionada] = useState<string | null>(null);
   const [tempo, setTempo] = useState('Selecione');
@@ -94,7 +96,8 @@ export function ProdutoInfo({
           <Text style={styles.opcaoLabel}>
             Tempo <Text style={styles.required}>*</Text>
           </Text>
-          <TempoDropdown value={tempo} onChange={setTempo} />
+          <TempoDropdown value={tempo} onChange={setTempo}
+          onOpenChange={onTempoDropdownOpen} />
         </View>
 
         <View style={[styles.opcaoGrupo, styles.seletorFlex]}>

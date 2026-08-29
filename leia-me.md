@@ -15,13 +15,6 @@ https://zod.dev/
 
 ### DateTime Picker
 
-## Utilizar o linear gradient
-    npx expo install expo-linear-gradient
-
-## Zustand             
-
-
-    npm install zustand
 Utilizado para substituir o componente HTML `<input type="date">` da versão Web.  
 O pacote fornece um seletor de data nativo para Android e iOS, permitindo que o usuário escolha datas por meio da interface padrão do sistema operacional.
 
