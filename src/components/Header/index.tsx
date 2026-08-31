@@ -26,6 +26,7 @@ import { RootStackParamList } from "../../routes/AppRoutes";
 // ===========================
 import styles, { DRAWER_WIDTH } from "./styles";
 import type { NavItem, ScreenName } from "./types";
+import { useCarrinhoStore } from "../../hooks/useCarrinhoStore";
 
 // ===========================
 // Assets
@@ -38,13 +39,18 @@ interface HeaderProps {
     cartCount?: number;
 }
 
-export default function Header({ cartCount = 0 }: HeaderProps) {
+export default function Header({ cartCount }: HeaderProps) {
     // ===========================
     // Hooks de Navegação
     // ===========================
     const navigation =
         useNavigation<StackNavigationProp<RootStackParamList>>();
     const route = useRoute();
+
+    // Se `cartCount` não for informado por prop, usa a quantidade real de
+    // itens do CarrinhoContext (mesma fonte usada pela tela de Carrinho).
+    const { itens: itensCarrinho } = useCarrinhoStore();
+    const quantidadeCarrinho = cartCount ?? itensCarrinho.length;
 
     // ===========================
     // Estados
@@ -132,8 +138,7 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
         },
         {
             label: "Carrinho",
-            // ainda não existe uma CartScreen no RootStackParamList — sem "route"
-            // por enquanto o item só fecha o menu (mesmo comportamento da Web)
+            route: "CarrinhoScreen" as ScreenName,
             renderIcon: (active) => (
                 <MaterialCommunityIcons
                     name={active ? "cart" : "cart-outline"}
@@ -169,10 +174,11 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
             ),
         },
         {
-            label: "Minhas Locações",
-            renderIcon: () => (
+            label: "Minhas Ferramentas",
+            route: "MinhasFerramentasScreen" as ScreenName,
+            renderIcon: (active) => (
                 <MaterialCommunityIcons
-                    name="package-variant-closed"
+                    name={active ? "toolbox" : "toolbox-outline"}
                     size={22}
                     color="#0A0A0A"
                     style={styles.navItemIcon}
@@ -274,7 +280,7 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
 
                     <TouchableOpacity
                         style={styles.carrinhoBtn}
-                        onPress={() => handleNavigate()}
+                        onPress={() => handleNavigate("CarrinhoScreen" as ScreenName)}
                         accessibilityLabel="Abrir carrinho"
                     >
                         <MaterialCommunityIcons
@@ -282,10 +288,10 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
                             size={24}
                             color="#0A0A0A"
                         />
-                        {cartCount > 0 && (
+                        {quantidadeCarrinho > 0 && (
                             <View style={styles.quantidadeCarrinho}>
                                 <Text style={styles.quantidadeCarrinhoTexto}>
-                                    {cartCount}
+                                    {quantidadeCarrinho}
                                 </Text>
                             </View>
                         )}

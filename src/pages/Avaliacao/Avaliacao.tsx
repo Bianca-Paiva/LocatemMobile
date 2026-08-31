@@ -5,6 +5,7 @@ import {
   Pressable,
   Text,
   View,
+  ScrollView,
 } from 'react-native';
 
 import Header from '../../components/Header';
@@ -14,6 +15,7 @@ import { CardProdutoAvaliacao } from '../../components/Avaliacao/CardProdutoAval
 import { ModalAvaliacao } from '../../components/Avaliacao/ModalAvaliacao/ModalAvaliacao';
 import { ToastConfirmacao } from '../../components/Avaliacao/ToastConfirmacao/ToastConfirmacao';
 import { EstadoVazio } from '../../components/Avaliacao/EstadoVazio/EstadoVazio';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useAvaliacoes } from '../../hooks/Avaliacao/useAvaliacoes';
 
@@ -52,13 +54,14 @@ export const Avaliacao = () => {
 
   return (
     <>
-      <Header />
-
+     <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
       <View style={styles.container}>
-        {/* <CabecalhoPagina
-          titulo="Minhas Avaliações"
-          subtitulo="Avalie os produtos que você locou."
-        /> */}
+
+             
+      <Header />
+        <View style={styles.containerCont}>
+
+              
 
         {/* Tabs */}
 
@@ -196,7 +199,9 @@ export const Avaliacao = () => {
         <ToastConfirmacao
           visivel={toastVisivel}
         />
-      </View>
+        </View>
+       </View>
+      </SafeAreaView>
     </>
   );
 };

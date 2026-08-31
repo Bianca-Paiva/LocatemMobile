@@ -3,11 +3,24 @@
 // galeria -> abrir o seletor nativo -> usuário escolhe as fotos.
 // A 1ª foto continua sendo a capa, e dá pra reordenar segurando e arrastando
 // a miniatura (usa react-native-draggable-flatlist, ver README de instalação).
+
 import { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, Alert, Linking, Platform } from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Alert,
+  Linking,
+  Platform,
+} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import DraggableFlatList, { RenderItemParams, ScaleDecorator } from 'react-native-draggable-flatlist';
+import DraggableFlatList, {
+  RenderItemParams,
+  ScaleDecorator,
+} from 'react-native-draggable-flatlist';
+
 import styles from './styles';
 import colors from '../../../theme/colors';
 import type { FotosFerramentaProps } from './types';
@@ -19,11 +32,19 @@ interface ItemFoto {
   uri: string;
 }
 
-export default function FotosFerramenta({ fotos, onChange, error, shake }: FotosFerramentaProps) {
+export default function FotosFerramenta({
+  fotos,
+  onChange,
+  error,
+  shake,
+}: FotosFerramentaProps) {
   const [carregando, setCarregando] = useState(false);
   const vagas = Math.max(0, MAXIMO_FOTOS - fotos.length);
 
-  const itens: ItemFoto[] = fotos.map((uri, index) => ({ key: `${uri}-${index}`, uri }));
+  const itens: ItemFoto[] = fotos.map((uri, index) => ({
+    key: `${uri}-${index}`,
+    uri,
+  }));
 
   // Pede permissão da galeria e, se autorizado, abre o seletor nativo.
   // Se o usuário já negou permanentemente, oferece um atalho pras Configurações do app.
@@ -33,11 +54,14 @@ export default function FotosFerramenta({ fotos, onChange, error, shake }: Fotos
     try {
       setCarregando(true);
 
-      const permissaoAtual = await ImagePicker.getMediaLibraryPermissionsAsync();
+      const permissaoAtual =
+        await ImagePicker.getMediaLibraryPermissionsAsync();
+
       let permissao = permissaoAtual;
 
       if (permissaoAtual.status !== 'granted') {
-        permissao = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        permissao =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
       }
 
       if (permissao.status !== 'granted') {
@@ -47,12 +71,19 @@ export default function FotosFerramenta({ fotos, onChange, error, shake }: Fotos
             'Pra adicionar fotos da ferramenta, permita o acesso às suas fotos nas configurações do app.',
             [
               { text: 'Agora não', style: 'cancel' },
-              { text: 'Abrir Configurações', onPress: () => Linking.openSettings() },
+              {
+                text: 'Abrir Configurações',
+                onPress: () => Linking.openSettings(),
+              },
             ],
           );
         } else {
-          Alert.alert('Permissão negada', 'Não foi possível acessar suas fotos sem essa permissão.');
+          Alert.alert(
+            'Permissão negada',
+            'Não foi possível acessar suas fotos sem essa permissão.',
+          );
         }
+
         return;
       }
 
@@ -66,7 +97,10 @@ export default function FotosFerramenta({ fotos, onChange, error, shake }: Fotos
       if (resultado.canceled) return;
 
       const novasUris = resultado.assets.map((asset) => asset.uri);
-      onChange([...fotos, ...novasUris].slice(0, MAXIMO_FOTOS));
+
+      onChange(
+        [...fotos, ...novasUris].slice(0, MAXIMO_FOTOS),
+      );
     } finally {
       setCarregando(false);
     }
@@ -80,13 +114,21 @@ export default function FotosFerramenta({ fotos, onChange, error, shake }: Fotos
     onChange(data.map((item) => item.uri));
   };
 
-  const renderItem = ({ item, drag, isActive, getIndex }: RenderItemParams<ItemFoto>) => {
+  const renderItem = ({
+    item,
+    drag,
+    isActive,
+    getIndex,
+  }: RenderItemParams<ItemFoto>) => {
     const index = getIndex() ?? 0;
 
     return (
       <ScaleDecorator>
         <TouchableOpacity
-          style={[styles.miniatura, isActive && styles.miniaturaArrastando]}
+          style={[
+            styles.miniatura,
+            isActive && styles.miniaturaArrastando,
+          ]}
           onLongPress={drag}
           disabled={isActive}
           activeOpacity={0.9}
@@ -95,14 +137,22 @@ export default function FotosFerramenta({ fotos, onChange, error, shake }: Fotos
             <Text style={styles.selo}>CAPA</Text>
           )}
 
-          <Image source={{ uri: item.uri }} style={styles.imagem} resizeMode="cover" />
+          <Image
+            source={{ uri: item.uri }}
+            style={styles.imagem}
+            resizeMode="cover"
+          />
 
           <TouchableOpacity
             style={styles.botaoRemover}
             onPress={() => removerFoto(item.uri)}
             accessibilityLabel="Remover foto"
           >
-            <MaterialCommunityIcons name="close" size={13} color="#FFF" />
+            <MaterialCommunityIcons
+              name="close"
+              size={17}
+              color="#FFF"
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -110,7 +160,11 @@ export default function FotosFerramenta({ fotos, onChange, error, shake }: Fotos
             onLongPress={drag}
             accessibilityLabel="Segurar e arrastar para reordenar"
           >
-            <MaterialCommunityIcons name="drag" size={13} color="#FFF" />
+            <MaterialCommunityIcons
+              name="drag"
+              size={17}
+              color="#FFF"
+            />
           </TouchableOpacity>
         </TouchableOpacity>
       </ScaleDecorator>
@@ -118,28 +172,49 @@ export default function FotosFerramenta({ fotos, onChange, error, shake }: Fotos
   };
 
   return (
-    <View style={[styles.wrapper]}>
+    <View style={styles.wrapper}>
       <TouchableOpacity
-        style={[styles.dropzone, error ? styles.dropzoneErro : null]}
+        style={[
+          styles.dropzone,
+          error ? styles.dropzoneErro : null,
+        ]}
         onPress={solicitarEEscolherFotos}
         disabled={vagas === 0 || carregando}
         activeOpacity={0.85}
       >
         <View style={styles.iconeUpload}>
-          <MaterialCommunityIcons name="tray-arrow-up" size={26} color={colors.amber} />
+          <MaterialCommunityIcons
+            name="tray-arrow-up"
+            size={26}
+            color={colors.amber}
+          />
         </View>
 
         <Text style={styles.textoPrincipal}>
-          {carregando ? 'Abrindo galeria...' : 'Toque para enviar arquivos'}
+          {carregando
+            ? 'Abrindo galeria...'
+            : 'Toque para enviar arquivos'}
         </Text>
+
         <Text style={styles.textoSecundario}>
-          Selecione as fotos <Text style={styles.link}>direto da sua galeria</Text>
+          Selecione as fotos{' '}
+          <Text style={styles.link}>
+            direto da sua galeria
+          </Text>
         </Text>
 
         <View style={styles.badges}>
-          <Text style={styles.badge}>Até 8 fotos — {fotos.length}/8 adicionadas</Text>
-          <Text style={styles.badge}>Mínimo 1 foto obrigatória</Text>
-          <Text style={styles.badge}>A 1ª foto será a capa — segure e arraste pra reordenar</Text>
+          <Text style={styles.badge}>
+            Até 8 fotos — {fotos.length}/8 adicionadas
+          </Text>
+
+          <Text style={styles.badge}>
+            Mínimo 1 foto obrigatória
+          </Text>
+
+          <Text style={styles.badge}>
+            A 1ª foto será a capa — segure e arraste pra reordenar
+          </Text>
         </View>
       </TouchableOpacity>
 
@@ -150,7 +225,7 @@ export default function FotosFerramenta({ fotos, onChange, error, shake }: Fotos
             onDragEnd={handleDragEnd}
             keyExtractor={(item) => item.key}
             renderItem={renderItem}
-            numColumns={3}
+            numColumns={2}
             columnWrapperStyle={styles.grade}
             scrollEnabled={false}
             activationDistance={Platform.OS === 'ios' ? 0 : 10}
@@ -162,14 +237,23 @@ export default function FotosFerramenta({ fotos, onChange, error, shake }: Fotos
               onPress={solicitarEEscolherFotos}
               disabled={carregando}
             >
-              <MaterialCommunityIcons name="plus" size={16} color={colors.textDark} />
-              <Text style={styles.botaoAdicionarMaisTexto}>Adicionar mais fotos</Text>
+              <MaterialCommunityIcons
+                name="plus"
+                size={16}
+                color={colors.textDark}
+              />
+
+              <Text style={styles.botaoAdicionarMaisTexto}>
+                Adicionar mais fotos
+              </Text>
             </TouchableOpacity>
           )}
         </>
       )}
 
-      {error ? <Text style={styles.error}>{error}</Text> : null}
+      {error ? (
+        <Text style={styles.error}>{error}</Text>
+      ) : null}
     </View>
   );
 }

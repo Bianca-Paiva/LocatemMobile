@@ -142,4 +142,7 @@ export const styles = StyleSheet.create({
 
     fontWeight: '700',
   },
+    safeArea: {
+    flex: 1,
+  },
 });

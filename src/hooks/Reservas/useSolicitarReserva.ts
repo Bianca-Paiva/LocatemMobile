@@ -6,6 +6,7 @@ import type {
 } from '../../pages/Reservas/SolicitarReserva/SolicitarReserva.types';
 import { validateCEP, validatePhone, validateFullName } from '../masks';
 import type { ImageSourcePropType } from 'react-native';
+
 const MESES_ABREVIADOS = [
     'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
     'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez',

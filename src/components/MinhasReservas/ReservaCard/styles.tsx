@@ -4,7 +4,7 @@ export const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
 
-    alignItems: 'center',
+    alignItems: 'flex-start',
 
     backgroundColor: '#FFFFFF',
 
@@ -13,8 +13,8 @@ export const styles = StyleSheet.create({
     borderColor: '#EEEEEE',
 
     borderRadius: 16,
-
-    padding: 14,
+    
+    padding: 20,
   },
 
   miniatura: {
@@ -40,20 +40,26 @@ export const styles = StyleSheet.create({
 
     height: '100%',
   },
+  corpo: {
+    flex: 1,
+    justifyContent: 'space-between',
+    
+  },
 
   conteudo: {
-    flex: 1,
+    width: '100%',
+
+   //backgroundColor: 'red', //temporario
   },
 
-  titulo: {
-    fontSize: 14,
+ titulo: {
+  fontSize: 14,
+  fontWeight: '700',
+  color: '#0A0A0A',
+  marginBottom: 6,
 
-    fontWeight: '700',
-
-    color: '#0A0A0A',
-
-    marginBottom: 6,
-  },
+  flexShrink: 1,
+},
 
   linhaInformacao: {
     flexDirection: 'row',
@@ -81,21 +87,20 @@ export const styles = StyleSheet.create({
 
   statusMensagem: {
     marginTop: 6,
-
     fontSize: 12,
-
     color: '#7A7A7A',
+
+    lineHeight: 16,
+    flexShrink: 1,
   },
 
-  aside: {
-    justifyContent: 'space-between',
-
-    alignItems: 'flex-end',
-
-    marginLeft: 10,
-
-    minHeight: 64,
-  },
+aside: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginTop: 10,
+   //backgroundColor: 'blue', //temporario
+},
 
   seta: {
     fontSize: 22,
