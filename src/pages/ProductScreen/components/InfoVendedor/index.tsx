@@ -5,7 +5,7 @@ import { InfoVendedorProps } from './types';
 import { styles } from './styles';
 
 // Assumindo que a imagem esteja nessa rota, ajuste se necessário
-const verificadoImg = require('../../../assets/verificadoAzul.png');
+const verificadoImg = require('../../../../../assets/images/verificadoAzul.png');
 
 export function InfoVendedor({
   nome,
@@ -37,9 +37,17 @@ export function InfoVendedor({
 
         {/* Informações de Nome e Avaliação */}
         <View style={styles.vendedorInfo}>
-          <Text style={styles.vendedorNome} numberOfLines={1}>
-            {nome}
-          </Text>
+          <View style={styles.nomeVendedor}>
+            <Text style={styles.vendedorNome} numberOfLines={1}>
+              {nome}
+            </Text>
+            {/* Selo de Verificado */}
+                    {verificado && (
+            <View style={styles.verificadoBadge}>
+              <Image source={verificadoImg} style={styles.verificadoIcon} />
+            </View>
+                    )}
+          </View>
           
           <View style={styles.ratingRow}>
             <Image source={imageNota} style={styles.starIcon} />
@@ -52,12 +60,7 @@ export function InfoVendedor({
           <Text style={styles.locacoes}>+{locacoes} locações</Text>
         </View>
 
-        {/* Selo de Verificado */}
-        {verificado && (
-          <View style={styles.verificadoBadge}>
-            <Image source={verificadoImg} style={styles.verificadoIcon} />
-          </View>
-        )}
+        
       </View>
 
       {/* Botão de Ver Perfil */}

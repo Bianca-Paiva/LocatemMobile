@@ -183,7 +183,7 @@ export default function AppRoutes() {
           headerShown: false, 
           title:"",
           headerStyle: {
-            backgroundColor: "#f9fafb",
+            
           },
           headerShadowVisible: false,
         }}

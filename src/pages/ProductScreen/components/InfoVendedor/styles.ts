@@ -36,12 +36,14 @@ export const styles = StyleSheet.create({
   },
   vendedorInfo: {
     flex: 1,
+    padding: 0,
   },
   vendedorNome: {
     fontSize: 14,
     fontWeight: '700',
     color: '#0a0a0a',
     marginBottom: 4,
+    flexShrink: 1,
   },
   ratingRow: {
     flexDirection: 'row',
@@ -72,9 +74,8 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   verificadoIcon: {
-    width: 20,
-    height: 20,
-    marginBottom: 10,
+    width: 16,
+    height: 16,
     resizeMode: 'contain',
   },
   btnVerPerfil: {
@@ -93,4 +94,9 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#374151',
   },
+  nomeVendedor:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 2,
+  }
 });

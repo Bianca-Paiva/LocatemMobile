@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
   },
   precoBox: {
     flexDirection: 'row',
-    alignItems: 'flex-end', // Garante o alinhamento baseline no mobile
+    alignItems: 'baseline', // Garante o alinhamento baseline no mobile
     gap: 3,
     paddingTop: 10,
     paddingBottom: 6,
@@ -61,13 +61,11 @@ export const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: '700',
     color: '#0a0a0a',
-    lineHeight: 30,
   },
   precoDia: {
     fontSize: 13,
     color: '#6b7280',
-    marginLeft: 2,
-    marginBottom: 4, // Ajuste fino para alinhar melhor com os textos de 30px
+    marginLeft: 2, 
   },
   opcaoGrupo: {
     flexDirection: 'column',
@@ -79,6 +77,11 @@ export const styles = StyleSheet.create({
     color: '#141D23',
     margin: 0,
   },
+  required: {
+    color: '#E11D48',
+    fontSize: 14,
+  },
+
   botoesOpcao: {
     flexDirection: 'row',
     gap: 8,
