@@ -29,25 +29,34 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.15)',
     alignItems: 'flex-end',
-    paddingTop: 110,
-    paddingRight: 16,
+    paddingTop: 20,
+    paddingRight: 52,
   },
 
-  menu: {
-    width: 170,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    paddingVertical: 6,
-    elevation: 6,
-    shadowColor: '#000',
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 4 },
-  },
+menu: {
+  position: 'absolute',
+
+  top: 150,
+  right: 52,
+
+  width: 170,
+
+  backgroundColor: '#FFF',
+  borderRadius: 16,
+  padding: 8,
+
+  elevation: 8,
+  zIndex: 9999,
+},
 
   option: {
     paddingVertical: 12,
     paddingHorizontal: 16,
+    borderRadius: 12,
+
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
 
   optionActive: {

@@ -7,7 +7,7 @@ import {
   Modal,
 } from 'react-native';
 
-import { ChevronDown } from 'lucide-react-native';
+import { ChevronDown, Check } from 'lucide-react-native';
 
 import type { FilterOption } from '../../../pages/Notificacoes/Notificacoes.types';
 import { styles } from './styles';
@@ -31,12 +31,12 @@ export default function FilterDropdown({ value, onChange }: FilterDropdownProps)
 
   return (
     <View style={styles.container}>
-      <Pressable style={styles.trigger} onPress={() => setIsOpen((prev) => !prev)}>
-        <Text style={styles.triggerText}>{value}</Text>
-        <ChevronDown size={14} color="#4B4B4B" />
-      </Pressable>
+       <Pressable style={styles.trigger} onPress={() => setIsOpen((prev) => !prev)}>
+         <Text style={styles.triggerText}>{value}</Text>
+         <ChevronDown size={14} color="#4B4B4B" style={{transform: [{ rotate: isOpen ? '180deg' : '0deg' }]}} />
+     </Pressable>
 
-      <Modal visible={isOpen} transparent animationType="fade" onRequestClose={() => setIsOpen(false)}>
+       <Modal visible={isOpen} transparent statusBarTranslucent animationType="fade" onRequestClose={() => setIsOpen(false)}>
         <Pressable style={styles.overlay} onPress={() => setIsOpen(false)}>
           <View style={styles.menu}>
             {OPTIONS.map((option) => {
@@ -55,7 +55,7 @@ export default function FilterDropdown({ value, onChange }: FilterDropdownProps)
             })}
           </View>
         </Pressable>
-      </Modal>
+      </Modal> 
     </View>
   );
 }
