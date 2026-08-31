@@ -19,6 +19,7 @@ import SolicitacaoEnviada from "../pages/Reservas/SolicitacaoEnviada/Solicitacao
 import CadastroFerramentaScreen from "../pages/CadastroFerramenta";
 import MinhasFerramentasScreen from "../pages/MinhasFerramentas";
 import Carrinho from "../pages/Carrinho/Carrinho";
+import Notificacoes from "../pages/Notificacoes/Notificacoes";
 
 export type RootStackParamList = {
   LoginScreen: undefined,
@@ -37,6 +38,7 @@ export type RootStackParamList = {
   CadastroFerramentaScreen: { ferramentaId?: string } | undefined,
   MinhasFerramentasScreen: undefined,
   CarrinhoScreen: undefined,
+  NotificacoesScreen: undefined,
   
 }
 
@@ -67,6 +69,7 @@ const MAPA_ROTAS_LEGADAS: Record<string, keyof RootStackParamList> = {
   produtoDetalhe: "HomeScreen",
   CadastroFerramentaScreen: "CadastroFerramentaScreen",
   carrinho: "CarrinhoScreen",
+  notificacoes: "NotificacoesScreen",
   // TODO: ainda não existe tela de Pagamento no mobile — cai em HomeScreen por ora.
   pagamentoPix: "HomeScreen",
   
@@ -106,6 +109,11 @@ function SolicitacaoEnviadaScreen() {
 function CarrinhoScreen() {
   const navigate = useLegacyNavigate();
   return <Carrinho navigate={navigate} />;
+}
+
+function NotificacoesScreen() {
+  const navigate = useLegacyNavigate();
+  return <Notificacoes navigate={navigate} />;
 }
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -251,6 +259,15 @@ export default function AppRoutes() {
           <Stack.Screen
           name="CarrinhoScreen"
           component={CarrinhoScreen}
+           options={{
+            headerShown: false,
+            title:"",
+          }}
+          />
+
+          <Stack.Screen
+          name="NotificacoesScreen"
+          component={NotificacoesScreen}
            options={{
             headerShown: false,
             title:"",
