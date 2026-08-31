@@ -1,15 +1,20 @@
 import { StyleSheet } from 'react-native';
 
+// Paleta espelhando o PeriodoLocacaoDropdown da Web e o HorarioDropdown mobile,
+// mantendo a mesma identidade visual do seletor de período em todo o app.
 export const styles = StyleSheet.create({
   container: {
     width: '100%',
-    position: 'relative', // Ancoragem para o menu absoluto
+    position: 'relative',
   },
+
+  // Essencial para Android (elevation) e iOS (zIndex): sem isso o menu pode
+  // ficar por trás de outros cards (ex.: ProdutosSemelhantes) quando aberto.
   containerOpen: {
-    // Essencial para Android (elevation) e iOS (zIndex) para o menu não ficar por trás de outros cards
     zIndex: 9999,
     elevation: 9999,
   },
+
   trigger: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -17,55 +22,65 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: 44,
     paddingHorizontal: 12,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#FFFFFF', // var(--color-bg-input) na Web
     borderWidth: 1.5,
-    borderColor: '#e5e7eb',
+    borderColor: '#E5E7EB',
     borderRadius: 8,
   },
+
   triggerAtivo: {
     borderColor: '#F9C01A',
   },
+
   triggerText: {
+    flex: 1,
     color: '#374151',
     fontSize: 14,
   },
-  // --- Estilos do Menu Flutuante ---
-  dropdownMenu: {
-    position: 'absolute', // Flutua sobre a tela
-    top: 48, // Altura do botão (44) + 4px de respiro
+
+  chevron: {
+    marginLeft: 8,
+    opacity: 0.75,
+  },
+
+  // Caixa flutuante ancorada logo abaixo do botão (mesma lógica do menu na Web)
+  menu: {
+    position: 'absolute',
+    top: 48, // altura do trigger (44) + 4px de respiro
     left: 0,
     right: 0,
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: '#e5e7eb',
-    borderRadius: 8,
-    maxHeight: 220, // Trava a altura para a FlatList rolar internamente
-    
-    // Sombras nativas para destacar do fundo
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 10,
     zIndex: 9999,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1.5,
+    borderColor: '#E5E7EB',
+    borderRadius: 8,
+    padding: 4,
+    maxHeight: 220,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.1,
+    shadowRadius: 24,
+    elevation: 10,
   },
+
   option: {
     width: '100%',
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f3f4f6', // Linha sutil separando itens
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    borderRadius: 6,
   },
-  optionActive: {
-    backgroundColor: '#FDF7E6', // Amarelinho de seleção
-  },
+
   optionText: {
     fontSize: 14,
     color: '#374151',
-    textAlign: 'left', // Alinhado à esquerda como você pediu
   },
+
+  optionActive: {
+    backgroundColor: '#F5E3B3',
+  },
+
   optionTextActive: {
     color: '#6E5000',
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
 });
