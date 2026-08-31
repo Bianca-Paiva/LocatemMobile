@@ -23,7 +23,7 @@ export default function BarNav() {
                 />
                      <IconButton
                       onPress={ () => {
-                    navigation.navigate('HomeScreen')
+                    navigation.navigate('CarrinhoScreen')
                     }} 
                     image={require('../../assets/images/icons/car.png')}
                 />
