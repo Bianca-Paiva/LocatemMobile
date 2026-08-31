@@ -12,6 +12,7 @@ import {
 
 import { FerramentasProvider } from "./src/context/FerramentasContext";
 import { ReservaProvider } from "./src/context/ReservaContext";
+import { CarrinhoProvider } from "./src/context/CarrinhoContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -27,9 +28,11 @@ export default function App() {
   return (
     <FerramentasProvider>
       <ReservaProvider>
-        <NavigationContainer>
-        <AppRoutes />
-      </NavigationContainer>
+        <CarrinhoProvider>
+          <NavigationContainer>
+            <AppRoutes />
+          </NavigationContainer>
+        </CarrinhoProvider>
       </ReservaProvider>
     </FerramentasProvider>
   );
