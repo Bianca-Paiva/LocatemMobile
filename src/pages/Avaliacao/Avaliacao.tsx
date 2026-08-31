@@ -55,11 +55,7 @@ export const Avaliacao = () => {
   return (
     <>
      <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
-      <ScrollView
-              style={styles.container}
-              contentContainerStyle={
-                styles.content
-              }>
+      <View style={styles.container}>
 
              
       <Header />
@@ -204,7 +200,7 @@ export const Avaliacao = () => {
           visivel={toastVisivel}
         />
         </View>
-       </ScrollView>
+       </View>
       </SafeAreaView>
     </>
   );
