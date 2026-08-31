@@ -211,7 +211,7 @@ export default function Header({ cartCount }: HeaderProps) {
         },
         {
             label: "Notificações",
-            // sem screen própria ainda — adicione "route" aqui quando a tela existir
+            route: "NotificacoesScreen" as ScreenName,
             renderIcon: (active) => (
                 <MaterialCommunityIcons
                     name={active ? "bell" : "bell-outline"}
