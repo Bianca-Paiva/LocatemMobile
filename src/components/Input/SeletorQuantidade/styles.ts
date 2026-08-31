@@ -1,40 +1,76 @@
 import { StyleSheet } from 'react-native';
-import colors from '../../../theme/colors';
 
-export default StyleSheet.create({
+export const styles = StyleSheet.create({
   wrapper: {
-    flexDirection: 'column',
+    width: '100%',
+    gap: 8,
   },
+
   label: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '600',
-    color: colors.textDark,
-    marginBottom: 6,
+    color: '#141D23',
   },
-  stepper: {
+
+  linha: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
-    alignSelf: 'flex-start',
+
+    width: '100%',
   },
-  botao: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
+
+  controle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+
+    width: '100%',
+
     borderWidth: 1.5,
-    borderColor: colors.border,
-    backgroundColor: colors.bgInput,
+    borderColor: '#E5E7EB',
+    borderRadius: 8,
+
+    backgroundColor: '#FFFFFF', // var(--color-bg-input)
+
+    overflow: 'hidden',
+  },
+
+  botao: {
+    width: 44,
+    height: 43,
+
     alignItems: 'center',
     justifyContent: 'center',
   },
+
+  botaoTexto: {
+    fontSize: 18,
+    fontWeight: '500',
+    color: '#141D23',
+  },
+
   botaoDesabilitado: {
-    opacity: 0.4,
+    opacity: 0.5,
   },
+
   valor: {
-    minWidth: 24,
+    flex: 1,
+
+    minWidth: 44,
+
     textAlign: 'center',
-    fontSize: 15,
-    fontWeight: '700',
-    color: colors.textDark,
+
+    fontSize: 13,
+
+    color: '#141D23',
   },
+
+  estoque: {
+    fontSize: 12,
+
+    color: '#8A8F98', // var(--color-text-muted)
+
+    fontWeight: '400',
+  },
+
 });

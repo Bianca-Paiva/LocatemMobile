@@ -20,6 +20,35 @@ export interface AvaliacaoProduto {
 
 // ── 2. DADOS MOCKADOS ───────────────────────────────────────────────
 
+// Avaliações reais da ferramenta de fallback. Declarada antes de `FALLBACK_PRODUTO`
+// porque é referenciada por ele logo abaixo (fonte única, sem duplicar a lista).
+export const MOCK_AVALIACOES: AvaliacaoProduto[] = [
+  {
+    nome: 'João Silva',
+    rating: 5,
+    tempo: 'Há 2 dias',
+    texto: 'Furadeira muito boa, usei pra montar um guarda-roupa inteiro. Super potente e a bateria durou o projeto todo.',
+    fotos: [], // Se tiver fotos locais, use require() aqui
+    utilCount: 12,
+  },
+  {
+    nome: 'Maria Souza',
+    rating: 4,
+    tempo: 'Há 1 semana',
+    texto: 'A entrega foi rápida e o produto atendeu minhas expectativas perfeitamente.',
+    fotos: [],
+    utilCount: 5,
+  },
+  {
+    nome: 'Pedro Ribeiro',
+    rating: 4,
+    tempo: 'Há 2 semanas',
+    texto: 'Máquina limpa e pronta para uso. Recomendo.',
+    fotos: [],
+    utilCount: 2,
+  },
+];
+
 // 🚀 REGRA DE NEGÓCIO: O Fallback Produto é usado caso a tela abra sem um produto selecionado.
 export const FALLBACK_PRODUTO = {
   id: "PROD-001",
@@ -41,7 +70,21 @@ export const FALLBACK_PRODUTO = {
     // require("../../assets/images/imagesProdutos/img-carrossel-2.png"),
   ],
   imageVerificado: require("../../assets/images/verificadoAzul.png"),
-  imageNota: require("../../assets/images/icons/StarFullYellow.png"), 
+  imageNota: require("../../assets/images/icons/StarFullYellow.png"),
+
+  // Itens inclusos que acompanham a ferramenta — alimenta o card "Acessórios Inclusos"
+  // da tela de Produto (adaptado do equivalente Web, `Produto.acessorios`).
+  acessorios: [
+    '1 bateria de Íon-lítio 18V',
+    'Carregador bivolt',
+    'Estojo rígido',
+    'Conjunto de 10 bits',
+  ],
+
+  // Avaliações reais desta ferramenta. `rating`/`reviewCount` acima ficam só como
+  // valor de catálogo — a média e o total exibidos na tela são sempre recalculados
+  // a partir desta lista (ver utils/avaliacoesResumo.ts), nunca lidos direto daqueles campos.
+  avaliacoes: MOCK_AVALIACOES,
 };
 
 // Reutilizamos a lógica de cards da Home
@@ -75,31 +118,4 @@ export const MOCK_ESPECIFICACOES: EspecificacaoTecnica[] = [
   { label: 'Torque máximo', valor: '65 Nm' },
   { label: 'Tamanho do mandril', valor: '13mm Sem chave' },
   { label: 'Acessórios incluídos', valor: '2 baterias, carregador, estojo rígido, conjunto de 10 bits' },
-];
-
-export const MOCK_AVALIACOES: AvaliacaoProduto[] = [
-  {
-    nome: 'João Silva',
-    rating: 5,
-    tempo: 'Há 2 dias',
-    texto: 'Furadeira muito boa, usei pra montar um guarda-roupa inteiro. Super potente e a bateria durou o projeto todo.',
-    fotos: [], // Se tiver fotos locais, use require() aqui
-    utilCount: 12,
-  },
-  {
-    nome: 'Maria Souza',
-    rating: 4,
-    tempo: 'Há 1 semana',
-    texto: 'A entrega foi rápida e o produto atendeu minhas expectativas perfeitamente.',
-    fotos: [],
-    utilCount: 5,
-  },
-  {
-    nome: 'Pedro Ribeiro',
-    rating: 4,
-    tempo: 'Há 2 semanas',
-    texto: 'Máquina limpa e pronta para uso. Recomendo.',
-    fotos: [],
-    utilCount: 2,
-  },
 ];

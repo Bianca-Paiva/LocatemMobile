@@ -37,6 +37,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 5,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
+        avaliacoes: [
+            { nome: 'Marcos Vieira', rating: 5, tempo: 'Há 5 dias', texto: 'Motor forte pro tamanho dela, deu conta de furar madeira e alvenaria leve sem esquentar.', fotos: [], utilCount: 4 },
+            { nome: 'Luciana Prado', rating: 4, tempo: 'Há 2 semanas', texto: 'Bateria segura bem a carga, usei o fim de semana inteiro montando móvel e não descarregou.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [50, 50, 0, 0, 0],
     },
     {
         id: 2,
@@ -57,6 +62,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 4,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
+        avaliacoes: [
+            { nome: 'Fábio Guimarães', rating: 4, tempo: 'Há 5 dias', texto: 'Jato uniforme depois que ajustei o bico certo, ficou bom pro portão que eu queria pintar.', fotos: [], utilCount: 4 },
+            { nome: 'Camila Reis', rating: 5, tempo: 'Há 2 semanas', texto: 'Fácil de limpar depois do uso e o reservatório é grande, rendeu bem pro serviço.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [50, 50, 0, 0, 0],
     },
     {
         id: 3,
@@ -77,6 +87,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 3,
         paymentMethods: ['Pix'],
         available: true,
+        avaliacoes: [
+            { nome: 'Marcos Vieira', rating: 5, tempo: 'Há 5 dias', texto: 'Motor forte pro tamanho dela, deu conta de furar madeira e alvenaria leve sem esquentar.', fotos: [], utilCount: 4 },
+            { nome: 'Luciana Prado', rating: 4, tempo: 'Há 2 semanas', texto: 'Bateria segura bem a carga, usei o fim de semana inteiro montando móvel e não descarregou.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [50, 50, 0, 0, 0],
     },
     {
         id: 4,
@@ -97,6 +112,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 6,
         paymentMethods: ['Cartão de Crédito'],
         available: true,
+        avaliacoes: [
+            { nome: 'Roberto Aquino', rating: 4, tempo: 'Há 5 dias', texto: 'Corta bem grama alta, só senti um pouco de peso depois de um tempo de uso contínuo.', fotos: [], utilCount: 4 },
+            { nome: 'Vanessa Melo', rating: 4, tempo: 'Há 2 semanas', texto: 'Boa pra manutenção do quintal, o fio dura bastante e não precisei recarregar no meio.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [0, 100, 0, 0, 0],
     },
     {
         id: 5,
@@ -117,6 +137,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 5,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
+        avaliacoes: [
+            { nome: 'Marcos Vieira', rating: 4, tempo: 'Há 5 dias', texto: 'Motor forte pro tamanho dela, deu conta de furar madeira e alvenaria leve sem esquentar.', fotos: [], utilCount: 4 },
+            { nome: 'Luciana Prado', rating: 5, tempo: 'Há 2 semanas', texto: 'Bateria segura bem a carga, usei o fim de semana inteiro montando móvel e não descarregou.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [50, 50, 0, 0, 0],
     },
     {
         id: 6,
@@ -137,6 +162,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 2,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
+        avaliacoes: [
+            { nome: 'Anderson Ferraz', rating: 5, tempo: 'Há 5 dias', texto: 'Ferramenta robusta, cumpriu bem o que eu precisava sem complicação nenhuma.', fotos: [], utilCount: 4 },
+            { nome: 'Juliana Marques', rating: 4, tempo: 'Há 2 semanas', texto: 'Ótimo custo-benefício, vale a pena alugar em vez de comprar pra um uso pontual.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [50, 50, 0, 0, 0],
     },
     {
         id: 7,
@@ -157,6 +187,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 5,
         paymentMethods: ['Pix'],
         available: true,
+        avaliacoes: [
+            { nome: 'Marcos Vieira', rating: 4, tempo: 'Há 5 dias', texto: 'Motor forte pro tamanho dela, deu conta de furar madeira e alvenaria leve sem esquentar.', fotos: [], utilCount: 4 },
+            { nome: 'Luciana Prado', rating: 4, tempo: 'Há 2 semanas', texto: 'Bateria segura bem a carga, usei o fim de semana inteiro montando móvel e não descarregou.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [0, 100, 0, 0, 0],
     },
 
     // ── Produtos semelhantes (ProdutoDetalhe) ───────────────────────────
@@ -179,6 +214,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 6,
         paymentMethods: ['Cartão de Crédito'],
         available: true,
+        avaliacoes: [
+            { nome: 'Roberto Aquino', rating: 5, tempo: 'Há 5 dias', texto: 'Corta bem grama alta, só senti um pouco de peso depois de um tempo de uso contínuo.', fotos: [], utilCount: 4 },
+            { nome: 'Vanessa Melo', rating: 4, tempo: 'Há 2 semanas', texto: 'Boa pra manutenção do quintal, o fio dura bastante e não precisei recarregar no meio.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [50, 50, 0, 0, 0],
     },
     {
         id: 11,
@@ -199,6 +239,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 4,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
+        avaliacoes: [
+            { nome: 'Fábio Guimarães', rating: 4, tempo: 'Há 5 dias', texto: 'Jato uniforme depois que ajustei o bico certo, ficou bom pro portão que eu queria pintar.', fotos: [], utilCount: 4 },
+            { nome: 'Camila Reis', rating: 5, tempo: 'Há 2 semanas', texto: 'Fácil de limpar depois do uso e o reservatório é grande, rendeu bem pro serviço.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [50, 50, 0, 0, 0],
     },
     {
         id: 12,
@@ -219,6 +264,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 3,
         paymentMethods: ['Pix'],
         available: true,
+        avaliacoes: [
+            { nome: 'Marcos Vieira', rating: 5, tempo: 'Há 5 dias', texto: 'Motor forte pro tamanho dela, deu conta de furar madeira e alvenaria leve sem esquentar.', fotos: [], utilCount: 4 },
+            { nome: 'Luciana Prado', rating: 4, tempo: 'Há 2 semanas', texto: 'Bateria segura bem a carga, usei o fim de semana inteiro montando móvel e não descarregou.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [50, 50, 0, 0, 0],
     },
     {
         id: 13,
@@ -239,6 +289,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 2,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
+        avaliacoes: [
+            { nome: 'Anderson Ferraz', rating: 4, tempo: 'Há 5 dias', texto: 'Ferramenta robusta, cumpriu bem o que eu precisava sem complicação nenhuma.', fotos: [], utilCount: 4 },
+            { nome: 'Juliana Marques', rating: 5, tempo: 'Há 2 semanas', texto: 'Ótimo custo-benefício, vale a pena alugar em vez de comprar pra um uso pontual.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [50, 50, 0, 0, 0],
     },
     {
         id: 14,
@@ -259,6 +314,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 5,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
+        avaliacoes: [
+            { nome: 'Marcos Vieira', rating: 4, tempo: 'Há 5 dias', texto: 'Motor forte pro tamanho dela, deu conta de furar madeira e alvenaria leve sem esquentar.', fotos: [], utilCount: 4 },
+            { nome: 'Luciana Prado', rating: 5, tempo: 'Há 2 semanas', texto: 'Bateria segura bem a carga, usei o fim de semana inteiro montando móvel e não descarregou.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [50, 50, 0, 0, 0],
     },
 
     // ── Catálogo de busca (Busca) ───────────────────────────────────────
@@ -278,6 +338,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 10,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
+        avaliacoes: [
+            { nome: 'Marcos Vieira', rating: 4, tempo: 'Há 5 dias', texto: 'Motor forte pro tamanho dela, deu conta de furar madeira e alvenaria leve sem esquentar.', fotos: [], utilCount: 4 },
+            { nome: 'Luciana Prado', rating: 5, tempo: 'Há 2 semanas', texto: 'Bateria segura bem a carga, usei o fim de semana inteiro montando móvel e não descarregou.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [50, 50, 0, 0, 0],
     },
     {
         id: 16,
@@ -295,6 +360,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 10,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
+        avaliacoes: [
+            { nome: 'Fábio Guimarães', rating: 4, tempo: 'Há 5 dias', texto: 'Jato uniforme depois que ajustei o bico certo, ficou bom pro portão que eu queria pintar.', fotos: [], utilCount: 4 },
+            { nome: 'Camila Reis', rating: 5, tempo: 'Há 2 semanas', texto: 'Fácil de limpar depois do uso e o reservatório é grande, rendeu bem pro serviço.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [50, 50, 0, 0, 0],
     },
     {
         id: 17,
@@ -312,6 +382,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 10,
         paymentMethods: ['Pix'],
         available: false,
+        avaliacoes: [
+            { nome: 'Marcos Vieira', rating: 4, tempo: 'Há 5 dias', texto: 'Motor forte pro tamanho dela, deu conta de furar madeira e alvenaria leve sem esquentar.', fotos: [], utilCount: 4 },
+            { nome: 'Luciana Prado', rating: 3, tempo: 'Há 2 semanas', texto: 'Bateria segura bem a carga, usei o fim de semana inteiro montando móvel e não descarregou.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [0, 50, 50, 0, 0],
     },
     {
         id: 18,
@@ -329,6 +404,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 10,
         paymentMethods: ['Cartão de Crédito'],
         available: true,
+        avaliacoes: [
+            { nome: 'Roberto Aquino', rating: 4, tempo: 'Há 5 dias', texto: 'Corta bem grama alta, só senti um pouco de peso depois de um tempo de uso contínuo.', fotos: [], utilCount: 4 },
+            { nome: 'Vanessa Melo', rating: 4, tempo: 'Há 2 semanas', texto: 'Boa pra manutenção do quintal, o fio dura bastante e não precisei recarregar no meio.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [0, 100, 0, 0, 0],
     },
     {
         id: 19,
@@ -348,6 +428,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 10,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
+        avaliacoes: [
+            { nome: 'Anderson Ferraz', rating: 4, tempo: 'Há 5 dias', texto: 'Ferramenta robusta, cumpriu bem o que eu precisava sem complicação nenhuma.', fotos: [], utilCount: 4 },
+            { nome: 'Juliana Marques', rating: 5, tempo: 'Há 2 semanas', texto: 'Ótimo custo-benefício, vale a pena alugar em vez de comprar pra um uso pontual.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [50, 50, 0, 0, 0],
     },
     {
         id: 20,
@@ -365,6 +450,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 10,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: false,
+        avaliacoes: [
+            { nome: 'Marcos Vieira', rating: 5, tempo: 'Há 5 dias', texto: 'Motor forte pro tamanho dela, deu conta de furar madeira e alvenaria leve sem esquentar.', fotos: [], utilCount: 4 },
+            { nome: 'Luciana Prado', rating: 4, tempo: 'Há 2 semanas', texto: 'Bateria segura bem a carga, usei o fim de semana inteiro montando móvel e não descarregou.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [50, 50, 0, 0, 0],
     },
     {
         id: 21,
@@ -382,6 +472,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 10,
         paymentMethods: ['Cartão de Crédito'],
         available: true,
+        avaliacoes: [
+            { nome: 'Roberto Aquino', rating: 3, tempo: 'Há 5 dias', texto: 'Corta bem grama alta, só senti um pouco de peso depois de um tempo de uso contínuo.', fotos: [], utilCount: 4 },
+            { nome: 'Vanessa Melo', rating: 3, tempo: 'Há 2 semanas', texto: 'Boa pra manutenção do quintal, o fio dura bastante e não precisei recarregar no meio.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [0, 0, 100, 0, 0],
     },
     {
         id: 22,
@@ -399,6 +494,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 10,
         paymentMethods: ['Pix'],
         available: true,
+        avaliacoes: [
+            { nome: 'Marcos Vieira', rating: 5, tempo: 'Há 5 dias', texto: 'Motor forte pro tamanho dela, deu conta de furar madeira e alvenaria leve sem esquentar.', fotos: [], utilCount: 4 },
+            { nome: 'Luciana Prado', rating: 4, tempo: 'Há 2 semanas', texto: 'Bateria segura bem a carga, usei o fim de semana inteiro montando móvel e não descarregou.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [50, 50, 0, 0, 0],
     },
     {
         id: 23,
@@ -416,6 +516,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 10,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
+        avaliacoes: [
+            { nome: 'Marcos Vieira', rating: 4, tempo: 'Há 5 dias', texto: 'Motor forte pro tamanho dela, deu conta de furar madeira e alvenaria leve sem esquentar.', fotos: [], utilCount: 4 },
+            { nome: 'Luciana Prado', rating: 5, tempo: 'Há 2 semanas', texto: 'Bateria segura bem a carga, usei o fim de semana inteiro montando móvel e não descarregou.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [50, 50, 0, 0, 0],
     },
     {
         id: 24,
@@ -433,6 +538,11 @@ export const PRODUTOS_MOCK: Produto[] = [
         estoqueDisponivel: 10,
         paymentMethods: ['Cartão de Crédito'],
         available: true,
+        avaliacoes: [
+            { nome: 'Marcos Vieira', rating: 4, tempo: 'Há 5 dias', texto: 'Motor forte pro tamanho dela, deu conta de furar madeira e alvenaria leve sem esquentar.', fotos: [], utilCount: 4 },
+            { nome: 'Luciana Prado', rating: 4, tempo: 'Há 2 semanas', texto: 'Bateria segura bem a carga, usei o fim de semana inteiro montando móvel e não descarregou.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [0, 100, 0, 0, 0],
     },
 ];
 

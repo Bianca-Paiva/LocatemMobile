@@ -13,6 +13,7 @@ import { Descricao } from './components/Descricao';
 import { EspecificacoesTecnicas } from './components/EspecificacoesTecnicas';
 import { InfoVendedor } from './components/InfoVendedor';
 import { AvaliacaoSection } from './components/AvaliacaoSection';
+import { Acessorios } from './components/Acessorios';
 
 // ── 2. IMPORTAÇÃO DOS HOOKS GLOBAIS (ZUSTAND) ──────────────────────
 import { useProdutoStore } from '../../hooks/useProdutoStore';
@@ -26,8 +27,8 @@ import {
   FALLBACK_PRODUTO,
   MOCK_SEMELHANTES,
   MOCK_ESPECIFICACOES,
-  MOCK_AVALIACOES
 } from '../../mocks/productMock';
+import { calcularResumoAvaliacoes } from '../../utils/avaliacoesResumo';
 import { styles } from './styles';
 
 import type { RootStackParamList } from '../../routes/AppRoutes';
@@ -43,6 +44,13 @@ export default function ProductScreen() {
 
   const produto = produtoSelecionado ?? FALLBACK_PRODUTO;
   const locador = getLocadorByNome(produto.locador);
+
+  // Média, quantidade e distribuição por estrela desta ferramenta são sempre
+  // calculadas a partir das avaliações reais dela (`produto.avaliacoes`), nunca
+  // lidas direto de `produto.rating`/`produto.reviewCount` (campos fixos do mock,
+  // que podem ficar desatualizados) — mesma regra usada no Web (ver
+  // utils/avaliacoesResumo.ts e components/ProdutoDetalhe/AvaliacaoSection no Web).
+  const resumoAvaliacoes = calcularResumoAvaliacoes(produto.avaliacoes);
 
   // ── ESTADOS LOCAIS (MODAIS, FORMULÁRIO E BLOQUEIO DE SCROLL) ───────
   const [modalAberto, setModalAberto] = useState(false);
@@ -105,8 +113,8 @@ export default function ProductScreen() {
             <ProdutoInfo
               title={produto.title}
               price={produto.price}
-              rating={produto.rating}
-              reviewCount={produto.reviewCount}
+              rating={resumoAvaliacoes.media}
+              reviewCount={resumoAvaliacoes.quantidade}
               brand={produto.brand}
               imageVerificado={produto.imageVerificado}
               imageNota={produto.imageNota}
@@ -140,11 +148,13 @@ export default function ProductScreen() {
 
             <EspecificacoesTecnicas especificacoes={MOCK_ESPECIFICACOES} />
 
+            <Acessorios itens={produto.acessorios} />
+
             <AvaliacaoSection
-              mediaGeral={produto.rating}
-              totalAvaliacoes={produto.reviewCount}
-              distribuicao={[72, 18, 6, 2, 2]}
-              avaliacoes={MOCK_AVALIACOES}
+              mediaGeral={resumoAvaliacoes.media}
+              totalAvaliacoes={resumoAvaliacoes.quantidade}
+              distribuicao={resumoAvaliacoes.distribuicao}
+              avaliacoes={produto.avaliacoes ?? []}
               imageNota={produto.imageNota}
             />
           </View>

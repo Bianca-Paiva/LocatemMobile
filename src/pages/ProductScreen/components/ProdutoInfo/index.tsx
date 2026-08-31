@@ -94,7 +94,7 @@ export function ProdutoInfo({
       <View style={styles.seletoresRow}>
         <View style={[styles.opcaoGrupo, styles.seletorFlex]}>
           <Text style={styles.opcaoLabel}>
-            Tempo <Text style={styles.required}>*</Text>
+            Tempo
           </Text>
           <TempoDropdown value={tempo} onChange={setTempo}
           onOpenChange={onTempoDropdownOpen} />
