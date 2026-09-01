@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, Pressable } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BellOff, Trash2 } from 'lucide-react-native';
+import { Modal } from 'react-native';
 
 import Header from '../../components/Header';
 import CabecalhoPagina from '../../components/CabecalhoPagina/CabecalhoPagina';
@@ -74,6 +75,17 @@ export default function Notificacoes({ navigate }: NotificacoesProps) {
     navigate('busca');
   };
 
+  const [showClearModal, setShowClearModal] = useState(false);
+
+  const handleConfirmClear = () => {
+  clearAll();
+  setShowClearModal(false);
+};
+
+const handleCancelClear = () => {
+  setShowClearModal(false);
+};
+
   return (
     <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
       <ScrollView
@@ -84,23 +96,20 @@ export default function Notificacoes({ navigate }: NotificacoesProps) {
         <Header />
 
         <View style={styles.containerCont}>
-          <CabecalhoPagina
-            titulo="Notificações"
-            acao={
-              <View style={styles.controls}>
+          <CabecalhoPagina titulo="Notificações"/>     
+            
+             <View style={styles.controls}>
                 <FilterDropdown value={filter} onChange={setFilter} />
 
                 <Pressable
                   style={[styles.clearButton, notifications.length === 0 && styles.clearButtonDisabled]}
-                  onPress={clearAll}
+                  onPress={() => setShowClearModal(true)}
                   disabled={notifications.length === 0}
                 >
                   <Trash2 size={16} color="#6B7280" />
                   <Text style={styles.clearButtonText}>Limpar tudo</Text>
                 </Pressable>
               </View>
-            }
-          />
 
           {notifications.length === 0 ? (
             <View style={styles.emptyState}>
@@ -143,6 +152,45 @@ export default function Notificacoes({ navigate }: NotificacoesProps) {
         onAvaliar={handleAvaliar}
         onVerOfertas={handleVerOfertas}
       />
+    <Modal
+        visible={showClearModal}
+        transparent
+        statusBarTranslucent
+        animationType="fade"
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>
+              Limpar notificações
+            </Text>
+
+            <Text style={styles.modalDescription}>
+              Tem certeza que deseja apagar todas as notificações?
+              Essa ação não poderá ser desfeita.
+            </Text>
+
+            <View style={styles.modalActions}>
+              <Pressable
+                onPress={handleCancelClear}
+                style={styles.cancelButton}
+              >
+                <Text style={styles.cancelButtonText}>
+                  Cancelar
+                </Text>
+              </Pressable>
+
+              <Pressable
+                onPress={handleConfirmClear}
+                style={styles.confirmButton}
+              >
+                <Text style={styles.confirmButtonText}>
+                  Sim, limpar tudo
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }

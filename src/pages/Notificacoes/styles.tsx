@@ -29,6 +29,7 @@ export const styles = StyleSheet.create({
   controls: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     gap: 10,
     flexWrap: 'wrap',
   },
@@ -79,4 +80,66 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
     maxWidth: 320,
   },
+
+
+
+// modaç trash
+
+modalOverlay: {
+  flex: 1,
+  backgroundColor: 'rgba(0, 0, 0, 0.15)',
+  justifyContent: 'center',
+  alignItems: 'center',
+  padding: 24,
+},
+
+modalContainer: {
+  width: '100%',
+  maxWidth: 400,
+  backgroundColor: '#FFFFFF',
+  borderRadius: 16,
+  padding: 24,
+},
+
+modalTitle: {
+  fontSize: 18,
+  fontWeight: '700',
+  marginBottom: 12,
+  color: '#111827',
+},
+
+modalDescription: {
+  color: '#6B7280',
+  lineHeight: 22,
+  marginBottom: 24,
+},
+
+modalActions: {
+  flexDirection: 'row',
+  justifyContent: 'flex-end',
+  gap: 12,
+},
+
+cancelButton: {
+  paddingVertical: 10,
+  paddingHorizontal: 16,
+},
+
+cancelButtonText: {
+  color: '#6B7280',
+  fontWeight: '600',
+},
+
+confirmButton: {
+  backgroundColor: '#EF4444',
+  paddingVertical: 10,
+  paddingHorizontal: 16,
+  borderRadius: 8,
+},
+
+confirmButtonText: {
+  color: '#FFFFFF',
+  fontWeight: '700',
+},
+
 });
