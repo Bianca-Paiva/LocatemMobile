@@ -43,7 +43,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) =>
       <View style={styles.contentContainer}>
         {/* Limita o título a 2 linhas */}
         {/* Adiciona "..." caso ultrapasse o limite */}
-        <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">
+        <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
           {title}
         </Text>
         

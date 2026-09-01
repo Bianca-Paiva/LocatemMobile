@@ -1,14 +1,18 @@
-import { useContext } from 'react';
-import { ProdutoContext } from '../context/ProdutoContext';
+import { create } from 'zustand';
 
-export function useProdutoStore() {
-  const ctx = useContext(ProdutoContext);
-
-  if (!ctx) {
-    throw new Error(
-      'useProdutoStore deve ser usado dentro de ProdutoProvider'
-    );
-  }
-
-  return ctx;
+// 🚀 ARQUITETURA: Definimos o contrato do estado para blindar a aplicação de erros.
+interface ProdutoStore {
+  produtoSelecionado: any | null; // Idealmente tipado com a interface 'Product'
+  setProdutoSelecionado: (produto: any) => void;
+  limparSelecao: () => void;
 }
+
+export const useProdutoStore = create<ProdutoStore>((set) => ({
+  produtoSelecionado: null,
+
+  // Atualiza a memória global instantaneamente
+  setProdutoSelecionado: (produto) => set({ produtoSelecionado: produto }),
+
+  // Ação de limpeza para liberar memória RAM quando o usuário sair do fluxo
+  limparSelecao: () => set({ produtoSelecionado: null }),
+}));
