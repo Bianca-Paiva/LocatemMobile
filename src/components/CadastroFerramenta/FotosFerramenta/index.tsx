@@ -1,10 +1,5 @@
-// Equivalente mobile do FotosFerramenta da Web. Não existe "arrastar arquivo do
-// computador" no celular, então o fluxo aqui é: tocar -> pedir permissão da
-// galeria -> abrir o seletor nativo -> usuário escolhe as fotos.
-// A 1ª foto continua sendo a capa, e dá pra reordenar segurando e arrastando
-// a miniatura (usa react-native-draggable-flatlist, ver README de instalação).
+import { useCallback, useMemo, useState } from 'react';
 
-import { useState } from 'react';
 import {
   View,
   Text,
@@ -12,174 +7,450 @@ import {
   Image,
   Alert,
   Linking,
-  Platform,
 } from 'react-native';
+
 import * as ImagePicker from 'expo-image-picker';
+
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import DraggableFlatList, {
-  RenderItemParams,
-  ScaleDecorator,
-} from 'react-native-draggable-flatlist';
+
+import {
+  Gesture,
+  GestureDetector,
+} from 'react-native-gesture-handler';
+
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+
+import { scheduleOnRN } from 'react-native-worklets';
 
 import styles from './styles';
+
 import colors from '../../../theme/colors';
+
 import type { FotosFerramentaProps } from './types';
 
 const MAXIMO_FOTOS = 8;
+const ESPACO = 8;
+const ALTURA_FOTO = 180;
+const COLUNAS = 2;
 
 interface ItemFoto {
   key: string;
   uri: string;
 }
 
+interface FotoArrastavelProps {
+  item: ItemFoto;
+  index: number;
+  largura: number;
+  onMover: (
+    indiceInicial: number,
+    translationX: number,
+    translationY: number,
+  ) => void;
+  onRemover: (uri: string) => void;
+  onArrasteMudou: (ativo: boolean) => void;
+}
+
+function FotoArrastavel({
+  item,
+  index,
+  largura,
+  onMover,
+  onRemover,
+  onArrasteMudou,
+}: FotoArrastavelProps) {
+  const translateX = useSharedValue(0);
+  const translateY = useSharedValue(0);
+  const ativa = useSharedValue(false);
+
+  const gesture = Gesture.Pan()
+    .activateAfterLongPress(300)
+
+    .onStart(() => {
+      ativa.value = true;
+      scheduleOnRN(onArrasteMudou, true);
+    })
+
+    .onUpdate((event) => {
+      translateX.value = event.translationX;
+      translateY.value = event.translationY;
+    })
+
+    .onEnd((event) => {
+      const x = event.translationX;
+      const y = event.translationY;
+
+      translateX.value = withSpring(0);
+      translateY.value = withSpring(0);
+
+      ativa.value = false;
+
+      scheduleOnRN(
+        onMover,
+        index,
+        x,
+        y,
+      );
+
+      scheduleOnRN(onArrasteMudou, false);
+    })
+
+    .onFinalize(() => {
+      translateX.value = withSpring(0);
+      translateY.value = withSpring(0);
+
+      if (ativa.value) {
+        scheduleOnRN(onArrasteMudou, false);
+      }
+
+      ativa.value = false;
+    });
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          translateX: translateX.value,
+        },
+        {
+          translateY: translateY.value,
+        },
+        {
+          scale: ativa.value ? 1.04 : 1,
+        },
+      ],
+
+      zIndex: ativa.value ? 100 : 1,
+
+      elevation: ativa.value ? 10 : 1,
+    };
+  });
+
+  return (
+    <GestureDetector gesture={gesture}>
+      <Animated.View
+        style={[
+          styles.miniatura,
+          {
+            width: largura,
+            height: ALTURA_FOTO,
+          },
+          animatedStyle,
+        ]}
+      >
+        <Image
+          source={{
+            uri: item.uri,
+          }}
+          style={styles.imagem}
+          resizeMode="cover"
+        />
+
+        {index === 0 && (
+          <View style={styles.selo}>
+            <Text style={styles.seloTexto}>
+              CAPA
+            </Text>
+          </View>
+        )}
+
+        <TouchableOpacity
+          style={styles.botaoRemover}
+          onPress={() => onRemover(item.uri)}
+          activeOpacity={0.8}
+          accessibilityLabel="Remover foto"
+        >
+          <MaterialCommunityIcons
+            name="close"
+            size={18}
+            color="#FFF"
+          />
+        </TouchableOpacity>
+
+        <View
+          pointerEvents="none"
+          style={styles.indicadorArraste}
+        >
+          <MaterialCommunityIcons
+            name="drag"
+            size={19}
+            color="#FFF"
+          />
+        </View>
+      </Animated.View>
+    </GestureDetector>
+  );
+}
+
 export default function FotosFerramenta({
   fotos,
   onChange,
   error,
-  shake,
+  onDragStateChange,
 }: FotosFerramentaProps) {
-  const [carregando, setCarregando] = useState(false);
-  const vagas = Math.max(0, MAXIMO_FOTOS - fotos.length);
+  const [carregando, setCarregando] =
+    useState(false);
 
-  const itens: ItemFoto[] = fotos.map((uri, index) => ({
-    key: `${uri}-${index}`,
-    uri,
-  }));
+  const [larguraGrade, setLarguraGrade] =
+    useState(0);
 
-  // Pede permissão da galeria e, se autorizado, abre o seletor nativo.
-  // Se o usuário já negou permanentemente, oferece um atalho pras Configurações do app.
-  const solicitarEEscolherFotos = async () => {
-    if (vagas === 0) return;
+  const vagas = Math.max(
+    0,
+    MAXIMO_FOTOS - fotos.length,
+  );
 
-    try {
-      setCarregando(true);
+  const itens: ItemFoto[] = useMemo(
+    () =>
+      fotos.map((uri) => ({
+        key: uri,
+        uri,
+      })),
+    [fotos],
+  );
 
-      const permissaoAtual =
-        await ImagePicker.getMediaLibraryPermissionsAsync();
+  const larguraFoto =
+    larguraGrade > 0
+      ? (larguraGrade - ESPACO) / COLUNAS
+      : 0;
 
-      let permissao = permissaoAtual;
+  const notificarArraste = useCallback(
+    (ativo: boolean) => {
+      onDragStateChange?.(ativo);
+    },
+    [onDragStateChange],
+  );
 
-      if (permissaoAtual.status !== 'granted') {
-        permissao =
-          await ImagePicker.requestMediaLibraryPermissionsAsync();
-      }
-
-      if (permissao.status !== 'granted') {
-        if (permissao.canAskAgain === false) {
-          Alert.alert(
-            'Acesso à galeria necessário',
-            'Pra adicionar fotos da ferramenta, permita o acesso às suas fotos nas configurações do app.',
-            [
-              { text: 'Agora não', style: 'cancel' },
-              {
-                text: 'Abrir Configurações',
-                onPress: () => Linking.openSettings(),
-              },
-            ],
-          );
-        } else {
-          Alert.alert(
-            'Permissão negada',
-            'Não foi possível acessar suas fotos sem essa permissão.',
-          );
-        }
-
+  const solicitarEEscolherFotos =
+    useCallback(async () => {
+      if (vagas === 0) {
         return;
       }
 
-      const resultado = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsMultipleSelection: true,
-        selectionLimit: vagas,
-        quality: 0.7,
-      });
+      try {
+        setCarregando(true);
 
-      if (resultado.canceled) return;
+        const permissao =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-      const novasUris = resultado.assets.map((asset) => asset.uri);
+        if (!permissao.granted) {
+          if (
+            permissao.canAskAgain === false
+          ) {
+            Alert.alert(
+              'Acesso à galeria necessário',
+              'Permita o acesso às fotos nas configurações do aplicativo.',
+              [
+                {
+                  text: 'Agora não',
+                  style: 'cancel',
+                },
+                {
+                  text: 'Abrir Configurações',
+                  onPress: () =>
+                    Linking.openSettings(),
+                },
+              ],
+            );
+          } else {
+            Alert.alert(
+              'Permissão necessária',
+              'Precisamos de acesso às suas fotos para cadastrar a ferramenta.',
+            );
+          }
 
+          return;
+        }
+
+        const resultado =
+          await ImagePicker.launchImageLibraryAsync(
+            {
+              mediaTypes: ['images'],
+              allowsMultipleSelection: true,
+              selectionLimit: vagas,
+              quality: 0.7,
+            },
+          );
+
+        if (resultado.canceled) {
+          return;
+        }
+
+        const novasUris =
+          resultado.assets.map(
+            (asset) => asset.uri,
+          );
+
+        onChange(
+          [...fotos, ...novasUris].slice(
+            0,
+            MAXIMO_FOTOS,
+          ),
+        );
+      } catch (erro) {
+        console.error(
+          'Erro ao selecionar imagens:',
+          erro,
+        );
+
+        Alert.alert(
+          'Erro',
+          'Não foi possível abrir a galeria.',
+        );
+      } finally {
+        setCarregando(false);
+      }
+    }, [fotos, onChange, vagas]);
+
+  const removerFoto = useCallback(
+    (uri: string) => {
       onChange(
-        [...fotos, ...novasUris].slice(0, MAXIMO_FOTOS),
+        fotos.filter(
+          (foto) => foto !== uri,
+        ),
       );
-    } finally {
-      setCarregando(false);
-    }
-  };
+    },
+    [fotos, onChange],
+  );
 
-  const removerFoto = (uri: string) => {
-    onChange(fotos.filter((f) => f !== uri));
-  };
 
-  const handleDragEnd = ({ data }: { data: ItemFoto[] }) => {
-    onChange(data.map((item) => item.uri));
-  };
+  const moverFoto = useCallback(
+    (
+      indiceInicial: number,
+      translationX: number,
+      translationY: number,
+    ) => {
+      if (
+        larguraFoto <= 0 ||
+        fotos.length <= 1
+      ) {
+        return;
+      }
 
-  const renderItem = ({
-    item,
-    drag,
-    isActive,
-    getIndex,
-  }: RenderItemParams<ItemFoto>) => {
-    const index = getIndex() ?? 0;
+      const colunaInicial =
+        indiceInicial % COLUNAS;
 
-    return (
-      <ScaleDecorator>
-        <TouchableOpacity
-          style={[
-            styles.miniatura,
-            isActive && styles.miniaturaArrastando,
-          ]}
-          onLongPress={drag}
-          disabled={isActive}
-          activeOpacity={0.9}
-        >
-          {index === 0 && (
-            <Text style={styles.selo}>CAPA</Text>
-          )}
+      const linhaInicial = Math.floor(
+        indiceInicial / COLUNAS,
+      );
 
-          <Image
-            source={{ uri: item.uri }}
-            style={styles.imagem}
-            resizeMode="cover"
-          />
+      const centroInicialX =
+        colunaInicial *
+          (larguraFoto + ESPACO) +
+        larguraFoto / 2;
 
-          <TouchableOpacity
-            style={styles.botaoRemover}
-            onPress={() => removerFoto(item.uri)}
-            accessibilityLabel="Remover foto"
-          >
-            <MaterialCommunityIcons
-              name="close"
-              size={17}
-              color="#FFF"
-            />
-          </TouchableOpacity>
+      const centroInicialY =
+        linhaInicial *
+          (ALTURA_FOTO + ESPACO) +
+        ALTURA_FOTO / 2;
 
-          <TouchableOpacity
-            style={styles.alcaArrastar}
-            onLongPress={drag}
-            accessibilityLabel="Segurar e arrastar para reordenar"
-          >
-            <MaterialCommunityIcons
-              name="drag"
-              size={17}
-              color="#FFF"
-            />
-          </TouchableOpacity>
-        </TouchableOpacity>
-      </ScaleDecorator>
+      const centroFinalX =
+        centroInicialX + translationX;
+
+      const centroFinalY =
+        centroInicialY + translationY;
+
+      let coluna = Math.floor(
+        centroFinalX /
+          (larguraFoto + ESPACO),
+      );
+
+      let linha = Math.floor(
+        centroFinalY /
+          (ALTURA_FOTO + ESPACO),
+      );
+
+      const totalLinhas = Math.ceil(
+        fotos.length / COLUNAS,
+      );
+
+      coluna = Math.max(
+        0,
+        Math.min(
+          COLUNAS - 1,
+          coluna,
+        ),
+      );
+
+      linha = Math.max(
+        0,
+        Math.min(
+          totalLinhas - 1,
+          linha,
+        ),
+      );
+
+      let destino =
+        linha * COLUNAS + coluna;
+
+      destino = Math.max(
+        0,
+        Math.min(
+          fotos.length - 1,
+          destino,
+        ),
+      );
+
+      if (
+        destino === indiceInicial
+      ) {
+        return;
+      }
+
+      const novaOrdem = [...fotos];
+
+      const [fotoMovida] =
+        novaOrdem.splice(
+          indiceInicial,
+          1,
+        );
+
+      novaOrdem.splice(
+        destino,
+        0,
+        fotoMovida,
+      );
+
+      onChange(novaOrdem);
+    },
+    [
+      fotos,
+      larguraFoto,
+      onChange,
+    ],
+  );
+
+  const linhas: ItemFoto[][] = [];
+
+  for (
+    let i = 0;
+    i < itens.length;
+    i += COLUNAS
+  ) {
+    linhas.push(
+      itens.slice(i, i + COLUNAS),
     );
-  };
+  }
 
   return (
     <View style={styles.wrapper}>
       <TouchableOpacity
         style={[
           styles.dropzone,
-          error ? styles.dropzoneErro : null,
+          error
+            ? styles.dropzoneErro
+            : null,
         ]}
-        onPress={solicitarEEscolherFotos}
-        disabled={vagas === 0 || carregando}
+        onPress={
+          solicitarEEscolherFotos
+        }
+        disabled={
+          vagas === 0 ||
+          carregando
+        }
         activeOpacity={0.85}
       >
         <View style={styles.iconeUpload}>
@@ -190,13 +461,17 @@ export default function FotosFerramenta({
           />
         </View>
 
-        <Text style={styles.textoPrincipal}>
+        <Text
+          style={styles.textoPrincipal}
+        >
           {carregando
             ? 'Abrindo galeria...'
             : 'Toque para enviar arquivos'}
         </Text>
 
-        <Text style={styles.textoSecundario}>
+        <Text
+          style={styles.textoSecundario}
+        >
           Selecione as fotos{' '}
           <Text style={styles.link}>
             direto da sua galeria
@@ -205,7 +480,8 @@ export default function FotosFerramenta({
 
         <View style={styles.badges}>
           <Text style={styles.badge}>
-            Até 8 fotos — {fotos.length}/8 adicionadas
+            Até 8 fotos —{' '}
+            {fotos.length}/8 adicionadas
           </Text>
 
           <Text style={styles.badge}>
@@ -213,37 +489,94 @@ export default function FotosFerramenta({
           </Text>
 
           <Text style={styles.badge}>
-            A 1ª foto será a capa — segure e arraste pra reordenar
+            A 1ª foto será a capa — segure
+            e arraste pra reordenar
           </Text>
         </View>
       </TouchableOpacity>
 
       {fotos.length > 0 && (
         <>
-          <DraggableFlatList
-            data={itens}
-            onDragEnd={handleDragEnd}
-            keyExtractor={(item) => item.key}
-            renderItem={renderItem}
-            numColumns={2}
-            columnWrapperStyle={styles.grade}
-            scrollEnabled={false}
-            activationDistance={Platform.OS === 'ios' ? 0 : 10}
-          />
+          <View
+            style={styles.gradeFotos}
+            onLayout={(event) => {
+              setLarguraGrade(
+                event.nativeEvent.layout.width,
+              );
+            }}
+          >
+            {linhas.map(
+              (linha, numeroLinha) => (
+                <View
+                  key={`linha-${numeroLinha}`}
+                  style={styles.gradeLinha}
+                >
+                  {linha.map(
+                    (item, posicaoNaLinha) => {
+                      const index =
+                        numeroLinha *
+                          COLUNAS +
+                        posicaoNaLinha;
+
+                      return (
+                        <FotoArrastavel
+                          key={item.key}
+                          item={item}
+                          index={index}
+                          largura={
+                            larguraFoto
+                          }
+                          onMover={
+                            moverFoto
+                          }
+                          onRemover={
+                            removerFoto
+                          }
+                          onArrasteMudou={
+                            notificarArraste
+                          }
+                        />
+                      );
+                    },
+                  )}
+
+                  {linha.length === 1 && (
+                    <View
+                      style={{
+                        width:
+                          larguraFoto,
+                      }}
+                    />
+                  )}
+                </View>
+              ),
+            )}
+          </View>
 
           {vagas > 0 && (
             <TouchableOpacity
-              style={styles.botaoAdicionarMais}
-              onPress={solicitarEEscolherFotos}
+              style={
+                styles.botaoAdicionarMais
+              }
+              onPress={
+                solicitarEEscolherFotos
+              }
               disabled={carregando}
+              activeOpacity={0.8}
             >
               <MaterialCommunityIcons
                 name="plus"
                 size={16}
-                color={colors.textDark}
+                color={
+                  colors.textDark
+                }
               />
 
-              <Text style={styles.botaoAdicionarMaisTexto}>
+              <Text
+                style={
+                  styles.botaoAdicionarMaisTexto
+                }
+              >
                 Adicionar mais fotos
               </Text>
             </TouchableOpacity>
@@ -252,7 +585,9 @@ export default function FotosFerramenta({
       )}
 
       {error ? (
-        <Text style={styles.error}>{error}</Text>
+        <Text style={styles.error}>
+          {error}
+        </Text>
       ) : null}
     </View>
   );
