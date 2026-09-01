@@ -13,6 +13,9 @@ import {
 import { FerramentasProvider } from './src/context/FerramentasContext';
 import { ReservaProvider } from './src/context/ReservaContext';
 
+import { FerramentasProvider } from "./src/context/FerramentasContext";
+import { ReservaProvider } from "./src/context/ReservaContext";
+import { CarrinhoProvider } from "./src/context/CarrinhoContext";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default function App() {
@@ -27,6 +30,15 @@ export default function App() {
   }
 
   return (
+    <FerramentasProvider>
+      <ReservaProvider>
+        <CarrinhoProvider>
+          <NavigationContainer>
+            <AppRoutes />
+          </NavigationContainer>
+        </CarrinhoProvider>
+      </ReservaProvider>
+    </FerramentasProvider>
     <GestureHandlerRootView style={{ flex: 1 }}>
       <FerramentasProvider>
         <ReservaProvider>

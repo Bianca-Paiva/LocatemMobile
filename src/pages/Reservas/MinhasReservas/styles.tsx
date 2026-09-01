@@ -33,7 +33,10 @@ export const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
 
-    paddingTop: topPadding,
+
+  },
+  containerCont: {
+
     paddingBottom: bottomPadding,
     paddingHorizontal: horizontalPadding,
   },
@@ -44,5 +47,8 @@ export const styles = StyleSheet.create({
 
   lista: {
     gap: gapLista,
+  },
+  safeArea: {
+    flex: 1,
   },
 });

@@ -18,6 +18,8 @@ import SolicitarReserva from "../pages/Reservas/SolicitarReserva/SolicitarReserv
 import SolicitacaoEnviada from "../pages/Reservas/SolicitacaoEnviada/SolicitacaoEnviada";
 import CadastroFerramentaScreen from "../pages/CadastroFerramenta";
 import MinhasFerramentasScreen from "../pages/MinhasFerramentas";
+import Carrinho from "../pages/Carrinho/Carrinho";
+import Notificacoes from "../pages/Notificacoes/Notificacoes";
 
 export type RootStackParamList = {
   LoginScreen: undefined,
@@ -35,6 +37,8 @@ export type RootStackParamList = {
   ProductScreen: undefined,
   CadastroFerramentaScreen: { ferramentaId?: string } | undefined,
   MinhasFerramentasScreen: undefined,
+  CarrinhoScreen: undefined,
+  NotificacoesScreen: undefined,
   
 }
 
@@ -64,6 +68,10 @@ const MAPA_ROTAS_LEGADAS: Record<string, keyof RootStackParamList> = {
   solicitacaoEnviada: "SolicitacaoEnviada",
   produtoDetalhe: "HomeScreen",
   CadastroFerramentaScreen: "CadastroFerramentaScreen",
+  carrinho: "CarrinhoScreen",
+  notificacoes: "NotificacoesScreen",
+  // TODO: ainda não existe tela de Pagamento no mobile — cai em HomeScreen por ora.
+  pagamentoPix: "HomeScreen",
   
 };
 
@@ -96,6 +104,16 @@ function SolicitacaoEnviadaScreen() {
   const navigate = useLegacyNavigate();
   return <SolicitacaoEnviada navigate={navigate} />;
 
+}
+
+function CarrinhoScreen() {
+  const navigate = useLegacyNavigate();
+  return <Carrinho navigate={navigate} />;
+}
+
+function NotificacoesScreen() {
+  const navigate = useLegacyNavigate();
+  return <Notificacoes navigate={navigate} />;
 }
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -173,7 +191,7 @@ export default function AppRoutes() {
           headerShown: false, 
           title:"",
           headerStyle: {
-            backgroundColor: "#f9fafb",
+            
           },
           headerShadowVisible: false,
         }}
@@ -232,6 +250,24 @@ export default function AppRoutes() {
           <Stack.Screen
           name="SolicitacaoEnviada"
           component={SolicitacaoEnviadaScreen}
+           options={{
+            headerShown: false,
+            title:"",
+          }}
+          />
+
+          <Stack.Screen
+          name="CarrinhoScreen"
+          component={CarrinhoScreen}
+           options={{
+            headerShown: false,
+            title:"",
+          }}
+          />
+
+          <Stack.Screen
+          name="NotificacoesScreen"
+          component={NotificacoesScreen}
            options={{
             headerShown: false,
             title:"",

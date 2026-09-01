@@ -15,6 +15,10 @@ export const styles = StyleSheet.create({
     borderRadius: 14,
 
     borderWidth: 1,
+
+    marginBottom: 30,
+    marginTop: 15, 
+    
   },
 
   // Círculo que contém o símbolo do status
@@ -42,6 +46,7 @@ export const styles = StyleSheet.create({
   // Área textual do painel
   textoConteudo: {
     flex: 1,
+    
   },
 
   // Título principal
@@ -73,6 +78,7 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FFF4DD',
 
     borderColor: '#FFE9A8',
+    
   },
 
   pendenteSimbolo: {
