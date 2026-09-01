@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 
 import AppRoutes from './src/routes/AppRoutes';
-
+import CadastroScreen from "./src/pages/Cadastro/index";
 import { useFonts } from 'expo-font';
 
 import {
@@ -12,9 +12,6 @@ import {
 
 import { FerramentasProvider } from './src/context/FerramentasContext';
 import { ReservaProvider } from './src/context/ReservaContext';
-
-import { FerramentasProvider } from "./src/context/FerramentasContext";
-import { ReservaProvider } from "./src/context/ReservaContext";
 import { CarrinhoProvider } from "./src/context/CarrinhoContext";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -30,15 +27,6 @@ export default function App() {
   }
 
   return (
-    <FerramentasProvider>
-      <ReservaProvider>
-        <CarrinhoProvider>
-          <NavigationContainer>
-            <AppRoutes />
-          </NavigationContainer>
-        </CarrinhoProvider>
-      </ReservaProvider>
-    </FerramentasProvider>
     <GestureHandlerRootView style={{ flex: 1 }}>
       <FerramentasProvider>
         <ReservaProvider>
