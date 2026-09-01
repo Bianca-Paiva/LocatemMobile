@@ -29,6 +29,7 @@ export const styles = StyleSheet.create({
   controls: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
     gap: 10,
     flexWrap: 'wrap',
   },

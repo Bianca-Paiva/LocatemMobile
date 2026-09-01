@@ -96,10 +96,9 @@ const handleCancelClear = () => {
         <Header />
 
         <View style={styles.containerCont}>
-          <CabecalhoPagina
-            titulo="Notificações"
-            acao={
-              <View style={styles.controls}>
+          <CabecalhoPagina titulo="Notificações"/>     
+            
+             <View style={styles.controls}>
                 <FilterDropdown value={filter} onChange={setFilter} />
 
                 <Pressable
@@ -111,8 +110,6 @@ const handleCancelClear = () => {
                   <Text style={styles.clearButtonText}>Limpar tudo</Text>
                 </Pressable>
               </View>
-            }
-          />
 
           {notifications.length === 0 ? (
             <View style={styles.emptyState}>
@@ -158,6 +155,7 @@ const handleCancelClear = () => {
     <Modal
         visible={showClearModal}
         transparent
+        statusBarTranslucent
         animationType="fade"
       >
         <View style={styles.modalOverlay}>
