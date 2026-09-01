@@ -1,23 +1,23 @@
-// Representa todos os filtros selecionados pelo usuário.
-export interface Filters {
-  category: string[];
-  brands: string[];
-  prices: string[];
-  payment: string[];
-  disponibility: string[];
-  reviews: string[];
-}
+import type { FilterState } from '../../pages/Search/Searchtypes';
+
+export type { FilterState };
 
 // Props do componente FilterDrawer.
 export interface FilterDrawerProps {
+  /** Categorias/subcategorias derivadas do catálogo real, pra manter os filtros sempre em dia. */
+  categorias: { categoria: string; subcategorias: string[] }[];
+  /** Marcas derivadas do catálogo real. */
+  marcas: string[];
 
-  // Função chamada quando o usuário clicar em "Filtrar".
-  onApply: (filters: Filters) => void;
+  /** Filtros atualmente aplicados na tela — usados pra reabrir o drawer já com a seleção anterior. */
+  filtrosAtuais: FilterState;
+
+  /** Função chamada quando o usuário tocar em "Filtrar". */
+  onApply: (filters: FilterState) => void;
 }
 
 // Props do componente Tag.
 export interface TagProps {
-
   // Texto exibido na tag.
   text: string;
 

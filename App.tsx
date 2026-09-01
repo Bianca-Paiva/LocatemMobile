@@ -13,6 +13,7 @@ import {
 import { FerramentasProvider } from "./src/context/FerramentasContext";
 import { ReservaProvider } from "./src/context/ReservaContext";
 import { CarrinhoProvider } from "./src/context/CarrinhoContext";
+import { CatalogoProvider } from "./src/context/CatalogoContext";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -26,14 +27,16 @@ export default function App() {
   }
 
   return (
-    <FerramentasProvider>
-      <ReservaProvider>
-        <CarrinhoProvider>
-          <NavigationContainer>
-            <AppRoutes />
-          </NavigationContainer>
-        </CarrinhoProvider>
-      </ReservaProvider>
-    </FerramentasProvider>
+    <CatalogoProvider>
+      <FerramentasProvider>
+        <ReservaProvider>
+          <CarrinhoProvider>
+            <NavigationContainer>
+              <AppRoutes />
+            </NavigationContainer>
+          </CarrinhoProvider>
+        </ReservaProvider>
+      </FerramentasProvider>
+    </CatalogoProvider>
   );
 }

@@ -24,7 +24,7 @@ export default StyleSheet.create({
   },
 
   text: {
-    fontSize: 13,
+    fontSize: 12,
     color: "#555",
   },
 
@@ -35,7 +35,7 @@ export default StyleSheet.create({
         position: "absolute",
     top: 45,          // abaixo do botão
     left: 0,
-    width: 150,
+    width: 190,
     borderRadius: 12,
     zIndex: 1000,
     
