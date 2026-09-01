@@ -217,8 +217,6 @@ export default function FotosFerramenta({
       ? (larguraGrade - ESPACO) / COLUNAS
       : 0;
 
-  // Wrapper estável (sempre definido) pra poder ser chamado a partir do
-  // worklet do gesture mesmo quando o pai não passou onDragStateChange.
   const notificarArraste = useCallback(
     (ativo: boolean) => {
       onDragStateChange?.(ativo);
@@ -235,15 +233,6 @@ export default function FotosFerramenta({
       try {
         setCarregando(true);
 
-        /*
-         * Sempre solicitamos a permissão diretamente.
-         * No Android, se ainda não foi concedida,
-         * o sistema mostra o diálogo.
-         *
-         * OBS: no Expo Go, a permissão de fotos é concedida por app
-         * (Expo Go) e não por projeto — se já foi concedida antes,
-         * o sistema não mostra o diálogo de novo pra este app específico.
-         */
         const permissao =
           await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -327,10 +316,7 @@ export default function FotosFerramenta({
     [fotos, onChange],
   );
 
-  /*
-   * Recebe a posição final da foto e calcula
-   * qual posição da grade está debaixo dela.
-   */
+
   const moverFoto = useCallback(
     (
       indiceInicial: number,
