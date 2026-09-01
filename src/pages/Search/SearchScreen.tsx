@@ -30,7 +30,9 @@ import { ProductCard } from "../../components/ProductCard";
 // ===========================
 // Dados Mockados e Serviço de Busca
 // ===========================
-import { mockProducts } from "../../components/DadosMock/MockDados";
+import { PRODUTOS_MOCK } from "../../mocks/produtos.mock";
+import { toProductCard } from "../../mocks/produtos.adapters";
+import { useProdutoStore } from "../../hooks/useProdutoStore";
 import { buscarProdutos } from "./useSearch";
 
 // ===========================
@@ -48,6 +50,18 @@ export const SearchScreen = () => {
   // ===========================
   const navigation =
     useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  const { setProdutoSelecionado } = useProdutoStore();
+
+  // Seleciona o produto COMPLETO no store (pelo `id` real do catálogo) antes
+  // do ProductCard navegar pra tela de detalhes — mesmo padrão da Home
+  // (ver HomeScreen.tsx e ProductCard/index.tsx).
+  const handleSelecionarProduto = (id: string) => {
+    const produtoCompleto = PRODUTOS_MOCK.find((produto) => String(produto.id) === id);
+    if (produtoCompleto) {
+      setProdutoSelecionado(produtoCompleto);
+    }
+  };
 
   // Recebe os parâmetros enviados pela Home
   const route = useRoute<SearchScreenRouteProp>();
@@ -79,8 +93,9 @@ export const SearchScreen = () => {
   const [loading, setLoading] = useState(false);
 
 
-  // Lista de produtos exibidos
-  const [products, setProducts] = useState(mockProducts);
+  // Lista de produtos exibidos — parte do catálogo real (PRODUTOS_MOCK),
+  // não mais do mock desconectado de DadosMock.
+  const [products, setProducts] = useState(() => PRODUTOS_MOCK.map(toProductCard));
 
     
   const [mensagem, setMensagem] = useState("");
@@ -191,6 +206,7 @@ export const SearchScreen = () => {
                     <ProductCard
                         key={item.id}
                         product={item}
+                        onPress={() => handleSelecionarProduto(item.id)}
                     />
                 ))}
         </View>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -23,15 +23,14 @@ import { useCarrinhoStore } from '../../hooks/useCarrinhoStore';
 
 // ── 3. IMPORTAÇÃO DE MOCKS E UTILITÁRIOS ───────────────────────────
 import { getLocadorByNome } from '../../mocks/locadoresMock';
-import {
-  FALLBACK_PRODUTO,
-  MOCK_SEMELHANTES,
-  MOCK_ESPECIFICACOES,
-} from '../../mocks/productMock';
+import { PRODUTOS_MOCK } from '../../mocks/produtos.mock';
+import { toProdutoSemelhante } from '../../mocks/produtos.adapters';
+import { FALLBACK_PRODUTO } from './mocks/ProductScreen.mock';
 import { calcularResumoAvaliacoes } from '../../utils/avaliacoesResumo';
 import { styles } from './styles';
 
 import type { RootStackParamList } from '../../routes/AppRoutes';
+import type { ProdutoSemelhante } from './components/ProdutoSemelhantes/types';
 
 export default function ProductScreen() {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -52,6 +51,17 @@ export default function ProductScreen() {
   // utils/avaliacoesResumo.ts e components/ProdutoDetalhe/AvaliacaoSection no Web).
   const resumoAvaliacoes = calcularResumoAvaliacoes(produto.avaliacoes);
 
+  // Ferramentas semelhantes = mesma categoria do produto atual, excluindo ele
+  // mesmo — calculado a partir do catálogo real, nunca de uma lista estática
+  // desatualizada (mesma ideia usada no Web em ProdutoDetalhe.tsx).
+  const produtosSemelhantes = useMemo<ProdutoSemelhante[]>(
+    () =>
+      PRODUTOS_MOCK
+        .filter((item) => item.categoria === produto.categoria && item.id !== produto.id)
+        .map(toProdutoSemelhante),
+    [produto.categoria, produto.id],
+  );
+
   // ── ESTADOS LOCAIS (MODAIS, FORMULÁRIO E BLOQUEIO DE SCROLL) ───────
   const [modalAberto, setModalAberto] = useState(false);
   const [modoModal, setModoModal] = useState<'locar' | 'carrinho'>('locar');
@@ -67,8 +77,15 @@ export default function ProductScreen() {
   }>({ quantidade: 1, diarias: null, tensao: null });
 
   // ── REGRAS DE NEGÓCIO E AÇÕES ────────────────────────────────────
-  const handleSemelhante = (p: any) => {
-    setProdutoSelecionado(p);
+  const handleSemelhante = (p: ProdutoSemelhante) => {
+    // `p` é só o recorte usado pro card (ver toProdutoSemelhante) — busca o
+    // produto completo no catálogo pelo `id` real antes de selecionar, pra
+    // não jogar dados parciais no store (mesmo cuidado do clique nos cards
+    // da Home/Busca, ver HomeScreen/SearchScreen).
+    const produtoCompleto = PRODUTOS_MOCK.find((item) => item.id === p.id);
+    if (produtoCompleto) {
+      setProdutoSelecionado(produtoCompleto);
+    }
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
   };
 
@@ -119,7 +136,7 @@ export default function ProductScreen() {
               imageVerificado={produto.imageVerificado}
               imageNota={produto.imageNota}
               estoqueDisponivel={produto.estoqueDisponivel}
-              opcoesTensao={produto.opcoesTensao}
+              opcoesTensao={produto.voltagem ? [produto.voltagem] : []}
               onAlugar={handleAlugar}
               onReservar={handleAlugar} 
               onAddCarrinho={handleAdicionarCarrinho}
@@ -129,24 +146,25 @@ export default function ProductScreen() {
 
           {/* ── PRODUTOS SEMELHANTES ── */}
           <ProdutosSemelhantes
-            produtos={MOCK_SEMELHANTES}
+            produtos={produtosSemelhantes}
             onCardClick={handleSemelhante}
           />
 
           {/* ── INFORMAÇÕES DETALHADAS ── */}
           <View style={styles.gridInferior}>
-            <Descricao texto="Ideal para uso doméstico e profissional leve. Perfeita para montagem de móveis, instalações e pequenos reparos. Compacta, potente e fácil de manusear — resolve o problema sem complicação." />
+            <Descricao texto={produto.descricao ?? 'Descrição não informada pelo locador.'} />
             
             <InfoVendedor
               nome={locador.nome}
               rating={locador.rating}
               reviewCount={locador.reviewCount}
+              logoUrl={locador.logoUrl}
               locacoes={locador.locacoes}
               verificado={locador.verificado}
               imageNota={produto.imageNota}
             />
 
-            <EspecificacoesTecnicas especificacoes={MOCK_ESPECIFICACOES} />
+            <EspecificacoesTecnicas especificacoes={produto.especificacoes ?? []} />
 
             <Acessorios itens={produto.acessorios} />
 

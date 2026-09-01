@@ -58,6 +58,9 @@ export interface Produto {
 
     tipoAprovacao?: 'manual' | 'automatica';
 
+    /** Voltagem/fonte de alimentação, ex: "220V", "127V", "À bateria", "Pneumática". Espelha `voltagem` do Web (ver `produto.types.ts` do Web). */
+    voltagem?: string;
+
     /** Itens inclusos que acompanham a ferramenta, ex: bateria, carregador, maleta. */
     acessorios?: string[];
 
