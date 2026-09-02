@@ -56,7 +56,7 @@ export const FALLBACK_PRODUTO = {
   price: 15.00,
   rating: 4.8,
   reviewCount: 120,
-  brand: "HomePro Pro Store",
+  marca: "HomePro Pro Store",
   locador: "HomePro Pro Store",
   estoqueDisponivel: 5,
   opcoesTensao: ["127V", "220V", "Bivolt"],
@@ -92,7 +92,7 @@ export const MOCK_SEMELHANTES = [
   {
     id: "PROD-002",
     title: "Serra Tico-Tico 400W",
-    brand: "Bosch",
+    marca: "Bosch",
     price: 25.00,
     images: [require("../../assets/images/imagesProdutos/Furadeira1.webp")], // Exemplo
     rating: 4.5,
@@ -103,7 +103,7 @@ export const MOCK_SEMELHANTES = [
   {
     id: "PROD-003",
     title: "Parafusadeira de Impacto",
-    brand: "Makita",
+    marca: "Makita",
     price: 20.00,
     images: [require("../../assets/images/imagesProdutos/Furadeira1.webp")], // Exemplo
     rating: 4.9,

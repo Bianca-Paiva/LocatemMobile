@@ -12,7 +12,7 @@ interface ProdutoInfoProps {
   reviewCount: number;
   imageVerificado?: ImageSourcePropType; 
   imageNota: ImageSourcePropType; 
-  brand: string;
+  marca: string;
   estoqueDisponivel: number;
   opcoesTensao?: string[]; 
   onAlugar?: () => void;
@@ -27,7 +27,7 @@ export function ProdutoInfo({
   rating,
   reviewCount,
   imageNota,
-  brand,
+  marca,
   estoqueDisponivel,
   opcoesTensao = [], 
   onAlugar,
@@ -52,7 +52,7 @@ export function ProdutoInfo({
         <Image source={imageNota} style={styles.starIcon} />
         <Text style={styles.ratingValor}>{Number(rating || 0).toFixed(1)}</Text>
         <Text style={styles.ratingCount}>({reviewCount} avaliações)</Text>
-        <Text style={styles.brandTag}>{brand}</Text>
+        <Text style={styles.brandTag}>{marca}</Text>
       </View>
 
       <View style={styles.precoBox}>

@@ -73,7 +73,7 @@ export interface NotificationDetails {
 export interface NotificationData {
   id: string;
   type: NotificationType; // controla cor/ícone do card (fallback quando não há statusReserva)
-  category: NotificationCategory; // controla conteúdo do modal e o botão de ação exibido
+  categoria: NotificationCategory; // controla conteúdo do modal e o botão de ação exibido
   title: string;
   description: string;
   timestamp: string; /** Data/hora já formatada para exibição, ex: "02/10/2025 às 10h15" */

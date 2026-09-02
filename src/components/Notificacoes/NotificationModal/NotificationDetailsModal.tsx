@@ -67,9 +67,9 @@ interface DetailRow {
 
 // Monta as linhas exibidas no modal de acordo com a categoria da notificação
 function getDetailRows(notification: NotificationData): DetailRow[] {
-  const { category, details } = notification;
+  const { categoria, details } = notification;
 
-  switch (category) {
+  switch (categoria) {
     case 'reserva-confirmada':
       return [
         { label: 'Equipamento', value: details.equipamento ?? '-' },
@@ -183,8 +183,8 @@ interface AcaoConfig {
 // Define o botão de ação principal do modal de acordo com a categoria da notificação,
 // levando o usuário para o próximo passo natural daquele fluxo (pagamento, avaliação,
 // detalhes da reserva, etc).
-function getAcaoConfig(category: NotificationCategory): AcaoConfig | null {
-  switch (category) {
+function getAcaoConfig(categoria: NotificationCategory): AcaoConfig | null {
+  switch (categoria) {
     case 'reserva-confirmada':
     case 'entrega-andamento':
     case 'entrega-concluida':
@@ -225,7 +225,7 @@ export default function NotificationDetailsModal({
 }: NotificationDetailsModalProps) {
   if (!notification) return null; // nada selecionado, modal não renderiza
 
-  const { id, type, category, title, description, showRenovar, statusReserva, reservaId } =
+  const { id, type, categoria, title, description, showRenovar, statusReserva, reservaId } =
     notification;
 
   // Quando a notificação está atrelada a uma reserva, usa o mesmo ícone/cor de
@@ -240,11 +240,11 @@ export default function NotificationDetailsModal({
 
   // Botão "Renovar" continua exclusivo das categorias de devolução
   const showRenovarButton =
-    (category === 'devolucao-pendente' || category === 'devolucao-atrasada') && showRenovar;
+    (categoria === 'devolucao-pendente' || categoria === 'devolucao-atrasada') && showRenovar;
 
   // Botão de ação contextual (avaliação, pagamento, ver reserva, ofertas...) de acordo
   // com a categoria da notificação. Só é exibido quando há para onde navegar.
-  const acaoConfig = getAcaoConfig(category);
+  const acaoConfig = getAcaoConfig(categoria);
   const showAcaoButton = !!acaoConfig && (acaoConfig.alvo === 'ofertas' || !!reservaId);
 
   const handleRenovar = () => {

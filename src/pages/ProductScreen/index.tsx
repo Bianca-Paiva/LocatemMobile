@@ -132,7 +132,7 @@ export default function ProductScreen() {
               price={produto.price}
               rating={resumoAvaliacoes.media}
               reviewCount={resumoAvaliacoes.quantidade}
-              brand={produto.brand}
+              marca={produto.marca}
               imageVerificado={produto.imageVerificado}
               imageNota={produto.imageNota}
               estoqueDisponivel={produto.estoqueDisponivel}

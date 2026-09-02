@@ -40,7 +40,7 @@ const PRODUTO_VAZIO: Produto = {
   id: 0,
 
   title: '',
-  brand: '',
+  marca: '',
   price: '0',
 
   images: [],

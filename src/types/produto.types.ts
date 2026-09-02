@@ -23,7 +23,7 @@ export interface Produto {
     title: string;
     marca: string;
     price: string;
-    voltagem?: string;
+
 
     images: ImageSourcePropType[];
 
@@ -35,7 +35,7 @@ export interface Produto {
 
     locador: string;
     localizacao: string;
-    category: string;
+    categoria: string;
 
     estoqueDisponivel: number;
 
