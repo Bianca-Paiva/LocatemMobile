@@ -73,7 +73,7 @@ export default function SecondaryHeader({
                         image={require("../../../assets/images/chat-Icon.png")}
                         onPress={() => navigation.navigate("HomeScreen")}
                     /> */}
-
+                    
                 </View>
 
             </LinearGradient>

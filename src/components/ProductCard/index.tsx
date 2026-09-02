@@ -22,9 +22,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) =>
   return (
     <TouchableOpacity 
       style={styles.container} 
-      onPress={ () => {
-                 navigation.navigate('ProductScreen')
-                 {onPress} 
+      onPress={ (event) => {
+                 onPress?.(event);
+                 navigation.navigate('ProductScreen');
                 }}
       activeOpacity={0.7}
     >

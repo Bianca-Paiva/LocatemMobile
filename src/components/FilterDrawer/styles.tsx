@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import colors from "../../theme/colors";
 
 export default StyleSheet.create({
 
@@ -23,30 +24,30 @@ export default StyleSheet.create({
   },
 
   // fundo escuro
-overlay: {
-  flex: 1,
-  backgroundColor: "rgba(0,0,0,0.5)",
-},
+  overlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
 
-drawerContainer: {
-  position: "absolute",
-  bottom: 0,
-  width: "100%",
-  height: "85%",
-  backgroundColor: "#fff",
-  borderTopLeftRadius: 25,
-  borderTopRightRadius: 25,
-  padding: 20,
-},
+  drawerContainer: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    height: "88%",
+    backgroundColor: "#fff",
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    padding: 20,
+  },
 
-handle: {
-  width: 50,
-  height: 5,
-  backgroundColor: "#ddd",
-  borderRadius: 10,
-  alignSelf: "center",
-  marginBottom: 10,
-},
+  handle: {
+    width: 50,
+    height: 5,
+    backgroundColor: "#ddd",
+    borderRadius: 10,
+    alignSelf: "center",
+    marginBottom: 10,
+  },
 
   // título "Filtros"
   title: {
@@ -63,6 +64,20 @@ handle: {
     marginTop: 15,
     marginBottom: 10,
     color: "#333",
+  },
+
+  // botão de "voltar" quando uma categoria com subcategorias está expandida
+  categoriaVoltarBtn: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    marginBottom: 10,
+  },
+
+  categoriaVoltarTexto: {
+    fontSize: 15,
+    fontWeight: "700",
+    color: colors.textDark,
   },
 
   // container das tags
@@ -131,8 +146,9 @@ handle: {
   // botão limpar filtros
   clearButton: {
     marginTop: 12,
+    marginBottom: 20,
     borderWidth: 1,
-    backgroundColor:"#F5E3B3",
+    backgroundColor: "#F5E3B3",
     borderColor: "transparent",
 
     borderRadius: 25,
@@ -145,5 +161,11 @@ handle: {
   clearText: {
     color: "#6E5000",
     fontWeight: "700",
+  },
+
+  emptyText: {
+    fontSize: 13,
+    color: colors.textMuted,
+    marginBottom: 10,
   },
 });

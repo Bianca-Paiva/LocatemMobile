@@ -1,347 +1,304 @@
 import React, { useState } from "react";
 import {
-  Modal, Pressable,ScrollView, Text, TextInput, TouchableOpacity, View,} from "react-native";
+  Modal,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
-import { Filters, FilterDrawerProps, TagProps,} from "./types";
-
-
-// Categorias
-const categories = [
-  "Ferramentas Elétricas",
-  "Ferramentas Manuais",
-  "Equipamentos de Jardinagem",
-  "Máquinas Pesadas",
-];
-// Marcas
-const brands = [
-  "Bosch",
-  "Makita",
-  "DeWalt",
-  "Black & Decker",
-];
+import { FilterDrawerProps, FilterState, TagProps } from "./types";
+import { extrairNomeSubcategoria } from "../../utils/categorias";
+import { OPCOES_FONTE_ALIMENTACAO } from "../../pages/CadastroFerramenta/types";
 
 // Faixa de preço
-const prices = [
-  "R$0 - R$50",
-  "R$50 - R$100",
-  "R$100 - R$200",
-  "R$200+",
-];
-const payment = [
-  "Cartão de Crédito",
-  "Boleto Bancário",
-  "Pix",
-  "Transferência Bancária",
+const prices = ["R$0 - R$50", "R$51 - R$100", "R$101 - R$200", "R$201+"];
+
+const payment = ["Cartão de Crédito", "Cartão de Débito", "Pix"];
+
+const availabilityOptions = [
+  "Disponível para Aluguel",
+  "Indisponível para Aluguel",
 ];
 
-const disponibility = [
-  "Em Estoque",
-  "Sob Encomenda",
-  "Disponível para Retirada",
+const ratingOptions = [
+  { label: "4 estrelas ou mais", value: 4 },
+  { label: "3 estrelas ou mais", value: 3 },
+  { label: "2 estrelas ou mais", value: 2 },
+  { label: "1 estrela ou mais", value: 1 },
 ];
 
-const reviews = [
-  "1 estrela",
-  "2 estrelas",
-  "3 estrelas",
-  "4 estrelas",
-  "5 estrelas",
-];
+const FILTROS_VAZIOS: FilterState = {
+  categories: [],
+  brands: [],
+  brandSearch: "",
+  voltagens: [],
+  priceRanges: [],
+  paymentMethods: [],
+  availability: null,
+  minRating: null,
+};
 
 export default function FilterDrawer({
+  categorias,
+  marcas,
+  filtrosAtuais,
   onApply,
 }: FilterDrawerProps) {
 
   // Controla se o drawer está aberto
   const [visible, setVisible] = useState(false);
 
-  // Texto digitado na pesquisa de marcas
-  const [brandSearch, setBrandSearch] = useState("");
+  // Categoria de topo atualmente "aberta" no filtro (exibindo suas subcategorias).
+  // null = exibindo a lista de categorias principais.
+  const [categoriaExpandida, setCategoriaExpandida] = useState<string | null>(null);
 
-  // Estado contendo todos os filtros selecionados
-  const [filters, setFilters] = useState<Filters>({
-    category: [], brands: [], prices: [], payment: [], disponibility: [], reviews: [],
-  });
+  // Estado local do drawer — inicializado com os filtros já aplicados na
+  // tela, pra reabrir sempre mostrando a seleção anterior.
+  const [filters, setFilters] = useState<FilterState>(filtrosAtuais);
 
-  // Adiciona ou remove uma opção selecionada
-  function toggleItem(
-    section: keyof Filters,
-    value: string
-  ) {
+  // Reabre o drawer sempre sincronizado com o que já está aplicado na tela.
+  const abrirDrawer = () => {
+    setFilters(filtrosAtuais);
+    setCategoriaExpandida(null);
+    setVisible(true);
+  };
 
+  function toggleItem(section: "categories" | "brands" | "voltagens" | "priceRanges" | "paymentMethods", value: string) {
     setFilters((prev) => {
-    // Verifica se o item já está selecionado
       const exists = prev[section].includes(value);
 
       return {
         ...prev,
-
-        // Se já existe, remove. Se não existe, adiciona.
         [section]: exists
-          ? prev[section].filter(
-              (item) => item !== value
-            )
+          ? prev[section].filter((item) => item !== value)
           : [...prev[section], value],
-
       };
-
     });
   }
 
-  // Envia os filtros para a tela pai
   function applyFilters() {
-
-    onApply(filters);// envia filtros selecionados
-
-    setVisible(false);// fecha drawer
-
+    onApply(filters);
+    setVisible(false);
   }
 
-  // Limpa todos os filtros
   function clearFilters() {
-
-    setFilters({
-      category: [],
-      brands: [],
-      prices: [],
-      payment: [],
-      disponibility: [],
-      reviews: [],
-    });
-
-    setBrandSearch("");
-
+    setFilters(FILTROS_VAZIOS);
+    setCategoriaExpandida(null);
+    onApply(FILTROS_VAZIOS);
+    setVisible(false);
   }
+
+  const subcategoriasDaCategoriaExpandida =
+    categorias.find((c) => c.categoria === categoriaExpandida)?.subcategorias ?? [];
 
   return (
     <>
-          {/* Botão que abre o drawer */}
-      <TouchableOpacity
-        style={styles.filterButton}
-        onPress={() => setVisible(true)}
-      >
-        <Ionicons
-          name="options-outline"
-          size={22}
-          color="#222"
-        />
-
-        <Text style={styles.filterText}>
-          Filtros
-        </Text>
+      {/* Botão que abre o drawer */}
+      <TouchableOpacity style={styles.filterButton} onPress={abrirDrawer}>
+        <Ionicons name="options-outline" size={22} color="#222" />
+        <Text style={styles.filterText}>Filtros</Text>
       </TouchableOpacity>
 
       {/* Drawer */}
-      <Modal
-        transparent
-        animationType="slide"
-        visible={visible}
-        statusBarTranslucent
-        >
+      <Modal transparent animationType="slide" visible={visible} statusBarTranslucent>
         {/* overlay */}
-        <Pressable
-            style={styles.overlay}
-            onPress={() => setVisible(false)}
-        />
+        <Pressable style={styles.overlay} onPress={() => setVisible(false)} />
 
         {/* bottom sheet */}
         <View style={styles.drawerContainer}>
-            
-            {/* handle visual  */}
-            <View style={styles.handle} />
+          {/* handle visual  */}
+          <View style={styles.handle} />
 
-            <ScrollView showsVerticalScrollIndicator={false}>
-              {/* Título */}
-              <Text style={styles.title}>
-                Filtros
-              </Text>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {/* Título */}
+            <Text style={styles.title}>Filtros</Text>
 
-              {/* ================= Categoria ================= */}
+            {/* ================= Categoria ================= */}
 
-              <Text style={styles.section}>
-                Categoria
-              </Text>
+            <Text style={styles.section}>Categoria</Text>
 
-              <View style={styles.tags}>
+            {categoriaExpandida ? (
+              <>
+                {/* Indica qual categoria está selecionada e permite voltar ao
+                    nível anterior, em vez de misturar categorias e subcategorias
+                    na mesma lista. */}
+                <TouchableOpacity
+                  style={styles.categoriaVoltarBtn}
+                  onPress={() => setCategoriaExpandida(null)}
+                >
+                  <Ionicons name="chevron-back" size={16} color="#222" />
+                  <Text style={styles.categoriaVoltarTexto}>{categoriaExpandida}</Text>
+                </TouchableOpacity>
 
-                {categories.map((category) => (
-
-                  <Tag
-                    key={category}
-                    text={category}
-                    selected={filters.category.includes(category)}
-                    onPress={() =>
-                      toggleItem("category", category)
-                    }
-                  />
-
-                ))}
-
-              </View>
-
-              {/* ================= Marca ================= */}
-
-              <Text style={styles.section}>
-                Marca
-              </Text>
-
-              <TextInput
-                placeholder="Pesquisar marca..."
-                value={brandSearch}
-                onChangeText={setBrandSearch}
-                style={styles.input}
-              />
-
-              <View style={styles.tags}>
-
-                {brands
-                  .filter((brand) =>
-                    brand
-                      .toLowerCase()
-                      .includes(
-                        brandSearch.toLowerCase()
-                      )
-                  )
-                  .map((brand) => (
-
+                <View style={styles.tags}>
+                  {subcategoriasDaCategoriaExpandida.map((subcategoria) => (
                     <Tag
-                      key={brand}
-                      text={brand}
-                      selected={filters.brands.includes(brand)}
-                      onPress={() =>
-                        toggleItem("brands", brand)
-                      }
+                      key={subcategoria}
+                      text={extrairNomeSubcategoria(subcategoria)}
+                      selected={filters.categories.includes(subcategoria)}
+                      onPress={() => toggleItem("categories", subcategoria)}
                     />
-
                   ))}
-
-              </View>
-
-              {/* ================= Preço ================= */}
-
-              <Text style={styles.section}>
-                Faixa de preço
-              </Text>
-
+                </View>
+              </>
+            ) : (
               <View style={styles.tags}>
-
-                {prices.map((price) => (
-
+                {categorias.map(({ categoria, subcategorias }) => (
                   <Tag
-                    key={price}
-                    text={price}
-                    selected={filters.prices.includes(price)}
-                    onPress={() =>
-                      toggleItem("prices", price)
-                    }
-                  />
-
-                ))}
-
-              </View>
-              {/* ================= Pagamento ================= */}
-
-              <Text style={styles.section}>
-                Forma de pagamento
-              </Text>
-              <View style={styles.tags}>
-
-                {payment.map((pay) => (
-                  <Tag
-                    key={pay}
-                    text={pay}
-                    selected={filters.payment.includes(pay)}
-                    onPress={() =>
-                      toggleItem("payment", pay)
-                    }
+                    key={categoria}
+                    text={categoria}
+                    selected={filters.categories.includes(categoria)}
+                    onPress={() => {
+                      // Categorias com subcategorias abrem o próximo nível em
+                      // vez de serem aplicadas diretamente como filtro.
+                      if (subcategorias.length > 0) {
+                        setCategoriaExpandida(categoria);
+                      } else {
+                        toggleItem("categories", categoria);
+                      }
+                    }}
                   />
                 ))}
               </View>
-              {/* ================= Disponibilidade ================= */}
+            )}
 
-              <Text style={styles.section}>
-                Disponibilidade
-              </Text>
-              <View style={styles.tags}>
-                {disponibility.map((disp) => (
+            {/* ================= Marca ================= */}
+
+            <Text style={styles.section}>Marca</Text>
+
+            <TextInput
+              placeholder="Pesquisar marca..."
+              value={filters.brandSearch}
+              onChangeText={(texto) => setFilters((prev) => ({ ...prev, brandSearch: texto }))}
+              style={styles.input}
+            />
+
+            <View style={styles.tags}>
+              {marcas
+                .filter((marca) => marca.toLowerCase().includes(filters.brandSearch.toLowerCase()))
+                .map((marca) => (
                   <Tag
-                    key={disp}
-                    text={disp}
-                    selected={filters.disponibility.includes(disp)}
-                    onPress={() =>
-                      toggleItem("disponibility", disp)
-                    }
+                    key={marca}
+                    text={marca}
+                    selected={filters.brands.includes(marca)}
+                    onPress={() => toggleItem("brands", marca)}
                   />
                 ))}
-              </View>
-              {/* ================= Avaliações ================= */}
-              <Text style={styles.section}>
-                Avaliações
-              </Text>
-              <View style={styles.tags}>
-                {reviews.map((review) => (
-                  <Tag
-                    key={review}
-                    text={review}
-                    selected={filters.reviews.includes(review)}
-                    onPress={() =>
-                      toggleItem("reviews", review)
-                    }
-                  />
-                ))}
-              </View>
+            </View>
 
-              {/* ================= Botões ================= */}
+            {/* ================= Voltagem ================= */}
 
-              <TouchableOpacity
-                style={styles.applyButton}
-                onPress={applyFilters}
-              >
+            <Text style={styles.section}>Voltagem</Text>
 
-                <Text style={styles.applyText}>
-                  Filtrar
-                </Text>
+            <View style={styles.tags}>
+              {OPCOES_FONTE_ALIMENTACAO.map((voltagem) => (
+                <Tag
+                  key={voltagem}
+                  text={voltagem}
+                  selected={filters.voltagens.includes(voltagem)}
+                  onPress={() => toggleItem("voltagens", voltagem)}
+                />
+              ))}
+            </View>
 
-              </TouchableOpacity>
+            {/* ================= Preço ================= */}
 
-              <TouchableOpacity
-                style={styles.clearButton}
-                onPress={clearFilters}
-              >
+            <Text style={styles.section}>Faixa de preço</Text>
 
-                <Text style={styles.clearText}>
-                  Limpar filtros
-                </Text>
+            <View style={styles.tags}>
+              {prices.map((price) => (
+                <Tag
+                  key={price}
+                  text={price}
+                  selected={filters.priceRanges.includes(price)}
+                  onPress={() => toggleItem("priceRanges", price)}
+                />
+              ))}
+            </View>
 
-              </TouchableOpacity>
+            {/* ================= Pagamento ================= */}
 
-            </ScrollView>
+            <Text style={styles.section}>Forma de pagamento</Text>
+
+            <View style={styles.tags}>
+              {payment.map((pay) => (
+                <Tag
+                  key={pay}
+                  text={pay}
+                  selected={filters.paymentMethods.includes(pay)}
+                  onPress={() => toggleItem("paymentMethods", pay)}
+                />
+              ))}
+            </View>
+
+            {/* ================= Disponibilidade ================= */}
+
+            <Text style={styles.section}>Disponibilidade</Text>
+
+            <View style={styles.tags}>
+              {availabilityOptions.map((status) => (
+                <Tag
+                  key={status}
+                  text={status}
+                  selected={filters.availability === status}
+                  onPress={() =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      availability: prev.availability === status ? null : status,
+                    }))
+                  }
+                />
+              ))}
+            </View>
+
+            {/* ================= Avaliação ================= */}
+
+            <Text style={styles.section}>Avaliação</Text>
+
+            <View style={styles.tags}>
+              {ratingOptions.map((item) => (
+                <Tag
+                  key={item.value}
+                  text={item.label}
+                  selected={filters.minRating === item.value}
+                  onPress={() =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      minRating: prev.minRating === item.value ? null : item.value,
+                    }))
+                  }
+                />
+              ))}
+            </View>
+
+            {/* ================= Botões ================= */}
+
+            <TouchableOpacity style={styles.applyButton} onPress={applyFilters}>
+              <Text style={styles.applyText}>Filtrar</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.clearButton} onPress={clearFilters}>
+              <Text style={styles.clearText}>Limpar filtros</Text>
+            </TouchableOpacity>
+          </ScrollView>
         </View>
       </Modal>
-
     </>
   );
-
 }
+
 // Componente de tag reutilizável
-function Tag({ text, selected,onPress,}: TagProps) {
+function Tag({ text, selected, onPress }: TagProps) {
   return (
     <TouchableOpacity
       onPress={onPress}
-      style={[
-        styles.tag,
-        selected && styles.selectedTag,
-      ]}
+      style={[styles.tag, selected && styles.selectedTag]}
     >
-      <Text
-        style={[
-          styles.tagText,
-          selected && styles.selectedTagText,
-        ]}
-      >
-        {text}
-      </Text>
+      <Text style={[styles.tagText, selected && styles.selectedTagText]}>{text}</Text>
     </TouchableOpacity>
   );
 }

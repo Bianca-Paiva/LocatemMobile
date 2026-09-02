@@ -24,6 +24,7 @@ const options = [
   "Mais relevantes",
   "Menor preço",
   "Maior preço",
+  "Melhores avaliações",
 ];
 
 export default function SortFilter({
@@ -63,7 +64,7 @@ export default function SortFilter({
       >
 
         {/* Exibe a opção atualmente selecionada */}
-        <Text style={styles.text}>
+        <Text style={styles.text} numberOfLines={1}>
           {value}
         </Text>
 
