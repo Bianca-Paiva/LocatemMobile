@@ -1,12 +1,11 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
-  ActivityIndicator,
   ScrollView,
   StyleSheet,
   View,
-  Text
+  Text,
 } from "react-native";
-
+import { styles } from "./styles";
 // ===========================
 // Navegação
 // ===========================
@@ -24,238 +23,229 @@ import { RootStackParamList } from "../../routes/AppRoutes";
 import SecondaryHeader from "../../components/SecondaryHeader";
 import SortFilter from "../../components/SortFilter";
 import FilterDrawer from "../../components/FilterDrawer";
-import { Filters } from "../../components/FilterDrawer/types";
+import Paginacao from "../../components/Paginacao";
 import { ProductCard } from "../../components/ProductCard";
 
 // ===========================
-// Dados Mockados e Serviço de Busca
+// Catálogo real, tipos e adapters
+// (mesma fonte usada pela Home e pelo restante do app — nada de mock isolado)
 // ===========================
-import { PRODUTOS_MOCK } from "../../mocks/produtos.mock";
-import { toProductCard } from "../../mocks/produtos.adapters";
+import { useCatalogoStore } from "../../hooks/useCatalogoStore";
 import { useProdutoStore } from "../../hooks/useProdutoStore";
-import { buscarProdutos } from "./useSearch";
+import { toProdutoBusca, toLegacyProduct } from "../../mocks/produtos.adapters";
+import { derivarCategorias, derivarMarcas } from "../../utils/categorias";
+import type { ProdutoBusca, FilterState } from "./Searchtypes";
+import { FILTROS_VAZIOS } from "./Searchtypes";
 
 // ===========================
 // Tipagem da rota SearchScreen
 // ===========================
-type SearchScreenRouteProp = RouteProp<
-  RootStackParamList,
-  "SearchScreen"
->;
+type SearchScreenRouteProp = RouteProp<RootStackParamList, "SearchScreen">;
+
+const ITEMS_PER_PAGE = 10;
 
 export const SearchScreen = () => {
 
   // ===========================
   // Hooks de Navegação
   // ===========================
-  const navigation =
-    useNavigation<StackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
+  // Recebe os parâmetros enviados por quem chamou a busca (Header, Home, etc.)
+  const route = useRoute<SearchScreenRouteProp>();
+  const pesquisaInicial = route.params?.search ?? "";
+
+  // ===========================
+  // Catálogo real
+  // ===========================
+  const { produtos } = useCatalogoStore();
   const { setProdutoSelecionado } = useProdutoStore();
 
-  // Seleciona o produto COMPLETO no store (pelo `id` real do catálogo) antes
-  // do ProductCard navegar pra tela de detalhes — mesmo padrão da Home
-  // (ver HomeScreen.tsx e ProductCard/index.tsx).
-  const handleSelecionarProduto = (id: string) => {
-    const produtoCompleto = PRODUTOS_MOCK.find((produto) => String(produto.id) === id);
-    if (produtoCompleto) {
-      setProdutoSelecionado(produtoCompleto);
-    }
-  };
+  // Catálogo de busca: todo o catálogo real (mesma fonte usada pela Home),
+  // não um recorte fixo — assim a busca nunca fica dessincronizada do que
+  // realmente existe cadastrado.
+  const produtosBusca = useMemo(() => produtos.map(toProdutoBusca), [produtos]);
 
-  // Recebe os parâmetros enviados pela Home
-  const route = useRoute<SearchScreenRouteProp>();
-
-  // Texto pesquisado vindo da tela anterior
-  const pesquisaInicial = route.params?.search ?? "";
+  // Categorias/subcategorias e marcas derivadas do catálogo real, pra manter
+  // os filtros sempre em dia com as ferramentas cadastradas.
+  const categorias = useMemo(() => derivarCategorias(produtos), [produtos]);
+  const marcas = useMemo(() => derivarMarcas(produtos), [produtos]);
 
   // ===========================
   // Estados da Tela
   // ===========================
 
-  // Texto digitado na barra de pesquisa
+  // Texto pesquisado (a barra de pesquisa do cabeçalho funciona em qualquer momento).
   const [search, setSearch] = useState(pesquisaInicial);
+
+  // Sempre que a tela receber um novo termo de pesquisa vindo de outra tela
+  // (ex: usuário pesquisou de novo a partir da Home), atualiza o texto local.
+  useEffect(() => {
+    if (route.params?.search !== undefined) {
+      setSearch(route.params.search);
+    }
+  }, [route.params?.search]);
 
   // Ordenação dos produtos
   const [sort, setSort] = useState("Mais relevantes");
 
   // Filtros selecionados pelo usuário
-  const [filters, setFilters] = useState<Filters>({
-    category: [],
-    brands: [],
-    prices: [],
-    payment: [],
-    disponibility: [],
-    reviews: [],
-  });
+  const [filters, setFilters] = useState<FilterState>(FILTROS_VAZIOS);
 
-  // Estado de carregamento
-  const [loading, setLoading] = useState(false);
+  // Página atual da listagem
+  const [currentPage, setCurrentPage] = useState(1);
 
-
-  // Lista de produtos exibidos — parte do catálogo real (PRODUTOS_MOCK),
-  // não mais do mock desconectado de DadosMock.
-  const [products, setProducts] = useState(() => PRODUTOS_MOCK.map(toProductCard));
-
-    
-  const [mensagem, setMensagem] = useState("");
-  // ===========================
-  // Função de Busca
-  // ===========================
- const buscarProduto = async () => {
-
-  // Verifica se foi digitado algum texto
-  if (!search.trim()) {
-    setProducts([]);
-    setMensagem("Digite um produto para pesquisar.");
-    return;
-  }
-
-  try {
-
-    // Inicia o loading
-    setLoading(true);
-
-    // Mensagem temporária
-    setMensagem("Buscando produtos...");
-
-    // Busca os produtos
-    const resultado = await buscarProdutos(search);
-
-    // Atualiza a lista
-    setProducts(resultado);
-
-    // Atualiza a mensagem
-    if (resultado.length === 0) {
-      setMensagem("Nenhum produto encontrado.");
-    } else if (resultado.length === 1) {
-      setMensagem("1 produto encontrado.");
-    } else {
-      setMensagem(`${resultado.length} produtos encontrados.`);
-    }
-
-  } catch {
-
-    setMensagem("Erro ao buscar produtos.");
-
-  } finally {
-
-    setLoading(false);
-
-  }
-
-};
-
-  // ===========================
-  // Busca automática ao abrir a tela
-  // ===========================
+  // Sempre que o termo pesquisado, a ordenação ou os filtros mudarem, volta
+  // pra primeira página pra não deixar a paginação "presa" fora do range.
   useEffect(() => {
+    setCurrentPage(1);
+  }, [search, sort, filters]);
 
-    // Se a pesquisa vier da Home,
-    // executa a busca automaticamente
-    if (pesquisaInicial.trim()) {
-      buscarProduto();
-    }
+  // ===========================
+  // Filtragem (mesma lógica usada na página de Busca do Web)
+  // ===========================
+  const filteredProducts = useMemo(() => {
+    return produtosBusca.filter((product) => {
+      const productPrice = parseFloat(product.price.replace(",", "."));
 
-  }, []);
-  
+      if (filters.categories.length > 0 && !filters.categories.includes(product.category)) {
+        return false;
+      }
+      if (filters.brands.length > 0 && !filters.brands.includes(product.brand)) {
+        return false;
+      }
+      if (filters.brandSearch && !product.brand.toLowerCase().includes(filters.brandSearch.toLowerCase())) {
+        return false;
+      }
+      if (filters.voltagens.length > 0) {
+        if (!product.voltagem || !filters.voltagens.includes(product.voltagem)) return false;
+      }
+      if (filters.priceRanges.length > 0) {
+        const matchRange = filters.priceRanges.some((range) => {
+          if (range === "R$0 - R$50") return productPrice >= 0 && productPrice <= 50;
+          if (range === "R$51 - R$100") return productPrice >= 51 && productPrice <= 100;
+          if (range === "R$101 - R$200") return productPrice >= 101 && productPrice <= 200;
+          if (range === "R$201+") return productPrice > 200;
+          return false;
+        });
+        if (!matchRange) return false;
+      }
+      if (filters.paymentMethods.length > 0) {
+        const matchPayment = product.paymentMethods.some((method) =>
+          filters.paymentMethods.includes(method)
+        );
+        if (!matchPayment) return false;
+      }
+      if (filters.availability) {
+        if (filters.availability === "Disponível para Aluguel" && !product.available) return false;
+        if (filters.availability === "Indisponível para Aluguel" && product.available) return false;
+      }
+      if (filters.minRating !== null && product.rating < filters.minRating) return false;
+
+      if (search.trim()) {
+        const termo = search.trim().toLowerCase();
+        const correspondeTermo =
+          product.title.toLowerCase().includes(termo) ||
+          product.brand.toLowerCase().includes(termo) ||
+          product.category.toLowerCase().includes(termo);
+        if (!correspondeTermo) return false;
+      }
+
+      return true;
+    });
+  }, [produtosBusca, filters, search]);
+
+  // ===========================
+  // Ordenação
+  // ===========================
+  const sortedProducts = useMemo(() => {
+    return [...filteredProducts].sort((a, b) => {
+      const priceA = parseFloat(a.price.replace(",", "."));
+      const priceB = parseFloat(b.price.replace(",", "."));
+
+      if (sort === "Menor preço") return priceA - priceB;
+      if (sort === "Maior preço") return priceB - priceA;
+      if (sort === "Melhores avaliações") return b.rating - a.rating;
+      return 0;
+    });
+  }, [filteredProducts, sort]);
+
+  // ===========================
+  // Paginação
+  // ===========================
+  const totalItems = sortedProducts.length;
+  const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
+  const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
+  const currentProducts = sortedProducts.slice(indexOfFirstItem, indexOfLastItem);
+
+  // ===========================
+  // Navegação para o produto
+  // ===========================
+  const handleCardPress = (produtoBusca: ProdutoBusca) => {
+    // O card da Busca só carrega um recorte do produto (ProdutoBusca).
+    // Buscamos o produto completo no catálogo central pra levar pra frente
+    // os dados reais da ferramenta, assim como já é feito no ProductScreen.
+    const produtoCompleto = produtos.find((p) => p.id === produtoBusca.id);
+    if (!produtoCompleto) return;
+
+    setProdutoSelecionado(produtoCompleto);
+    navigation.navigate("ProductScreen");
+  };
+
   // ===========================
   // Renderização da Tela
   // ===========================
   return (
     <View style={styles.container}>
-
       <ScrollView>
 
         {/* Cabeçalho da tela de busca */}
         <SecondaryHeader
           search={search}
           setSearch={setSearch}
-          buscarProduto={buscarProduto}
+          buscarProduto={() => setCurrentPage(1)}
         />
 
         {/* Barra de ordenação e filtros */}
         <View style={styles.barraFiltros}>
-    
-          <SortFilter
-            value={sort}
-            onSelect={setSort}
-          />
+          <SortFilter value={sort} onSelect={setSort} />
 
           <FilterDrawer
+            categorias={categorias}
+            marcas={marcas}
+            filtrosAtuais={filters}
             onApply={setFilters}
           />
-
         </View>
-
-            {/* Mensagem */}
-        {mensagem !== "" && (
-            <View style={styles.resultadoContainer}>
-                <Text style={styles.resultadoText}>
-                    {mensagem}
-                </Text>
-            </View>
-        )}
 
         {/* Lista */}
         <View style={styles.gridContainer}>
-            {loading && <ActivityIndicator size="large" />}
-
-            {!loading &&
-                products.map((item) => (
-                    <ProductCard
-                        key={item.id}
-                        product={item}
-                        onPress={() => handleSelecionarProduto(item.id)}
-                    />
-                ))}
+          {currentProducts.length > 0 ? (
+            currentProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={toLegacyProduct(product)}
+                onPress={() => handleCardPress(product)}
+              />
+            ))
+          ) : (
+            <View style={styles.resultadoContainer}>
+              <Text style={styles.resultadoText}>
+                Nenhum produto encontrado com os filtros selecionados.
+              </Text>
+            </View>
+          )}
         </View>
 
+        <Paginacao
+          totalItems={totalItems}
+          itemsPerPage={ITEMS_PER_PAGE}
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+        />
+
       </ScrollView>
-
-
     </View>
   );
 };
 
-// ===========================
-// Estilos
-// ===========================
-const styles = StyleSheet.create({
-
-  // Container principal
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-
-  // Barra de filtros
-  barraFiltros: {
-    marginHorizontal: 20,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-
-  // Grid de produtos
-  gridContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    marginHorizontal: 15,
-    marginTop: 10,
-  },
-resultadoContainer: {
-    marginHorizontal: 25,
-    marginTop: 12,
-    marginBottom: 10,
-    
-},
-
-resultadoText: {
-    fontSize: 16,
-    fontWeight: "500",
-},
-
-
-});

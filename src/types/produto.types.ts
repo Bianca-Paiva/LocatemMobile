@@ -21,8 +21,9 @@ export interface AvaliacaoProduto {
 export interface Produto {
     id: number;
     title: string;
-    brand: string;
+    marca: string;
     price: string;
+    voltagem?: string;
 
     images: ImageSourcePropType[];
 
@@ -34,7 +35,7 @@ export interface Produto {
 
     locador: string;
     localizacao: string;
-    categoria: string;
+    category: string;
 
     estoqueDisponivel: number;
 

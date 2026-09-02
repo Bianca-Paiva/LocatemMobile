@@ -20,7 +20,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 1,
         title: 'Furadeira Parafusadeira Sem Fio A Bateria Tb-12e 12v 3/8 10mm Com Maleta E Acessórios The Black Tools',
-        brand: 'MS Ferramentas',
+        marca: 'MS Ferramentas',
         price: '15,00',
         images: [
             require('../../assets/images/imagesProdutos/Furadeira1.webp'),
@@ -33,7 +33,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 124,
         locador: 'MS Ferramentas',
         localizacao: 'São Paulo - SP',
-        categoria: 'Ferramentas Elétricas • Parafusadeira/Furadeira',
+        category: 'Ferramentas Elétricas • Parafusadeira/Furadeira',
         estoqueDisponivel: 5,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
@@ -56,7 +56,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 2,
         title: 'Pistola de Pintura The Black Tools',
-        brand: 'WZ Ferramentas',
+        marca: 'WZ Ferramentas',
         price: '30,00',
         images: [
             require('../../assets/images/imagesProdutos/pistolaPintura.png'),
@@ -68,7 +68,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 87,
         locador: 'WZ Ferramentas',
         localizacao: 'Campinas - SP',
-        categoria: 'Ferramentas Elétricas • Pintura',
+        category: 'Ferramentas Elétricas • Pintura',
         estoqueDisponivel: 4,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
@@ -91,7 +91,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 3,
         title: 'Parafusadeira Furadeira de Impacto Hanabi',
-        brand: 'João Ferramentas',
+        marca: 'João Ferramentas',
         price: '28,00',
         images: [
             require('../../assets/images/imagesProdutos/FuradeiraHanabi.png'),
@@ -103,7 +103,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 201,
         locador: 'João Ferramentas',
         localizacao: 'São Paulo - SP',
-        categoria: 'Ferramentas Elétricas • Parafusadeira/Furadeira',
+        category: 'Ferramentas Elétricas • Parafusadeira/Furadeira',
         estoqueDisponivel: 3,
         paymentMethods: ['Pix'],
         available: true,
@@ -127,7 +127,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 4,
         title: 'Aparador De Grama Bipartido Tramontina',
-        brand: 'JB Ferramentas',
+        marca: 'JB Ferramentas',
         price: '18,00',
         images: [
             require('../../assets/images/imagesProdutos/aparadorGrama.png'),
@@ -139,7 +139,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 45,
         locador: 'JB Ferramentas',
         localizacao: 'Guarulhos - SP',
-        categoria: 'Jardinagem e Paisagismo',
+        category: 'Jardinagem e Paisagismo',
         estoqueDisponivel: 6,
         paymentMethods: ['Cartão de Crédito'],
         available: true,
@@ -163,7 +163,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 5,
         title: 'Parafusadeira e Furadeira WAP 12V',
-        brand: 'JB Ferramentas',
+        marca: 'JB Ferramentas',
         price: '18,00',
         images: [
             require('../../assets/images/imagesProdutos/FuradeiraWapCinza.png'),
@@ -175,7 +175,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 62,
         locador: 'JB Ferramentas',
         localizacao: 'Osasco - SP',
-        categoria: 'Ferramentas Elétricas • Parafusadeira/Furadeira',
+        category: 'Ferramentas Elétricas • Parafusadeira/Furadeira',
         estoqueDisponivel: 5,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
@@ -198,7 +198,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 6,
         title: 'Serra Circular Profissional DESOON 24 Dentes',
-        brand: 'JB Ferramentas',
+        marca: 'JB Ferramentas',
         price: '18,00',
         images: [
             require('../../assets/images/imagesProdutos/serraCircularProfissional.png'),
@@ -210,7 +210,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 153,
         locador: 'JB Ferramentas',
         localizacao: 'São Paulo - SP',
-        categoria: 'Ferramentas Elétricas • Corte e Desgaste',
+        category: 'Ferramentas Elétricas • Corte e Desgaste',
         estoqueDisponivel: 2,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
@@ -234,7 +234,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 7,
         title: 'Parafusadeira e Furadeira WAP 12V Cinza',
-        brand: 'JB Ferramentas',
+        marca: 'JB Ferramentas',
         price: '18,00',
         images: [
             require('../../assets/images/imagesProdutos/FuradeiraWapPreta.png'),
@@ -246,7 +246,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 27,
         locador: 'JB Ferramentas',
         localizacao: 'São Paulo - SP',
-        categoria: 'Ferramentas Elétricas • Parafusadeira/Furadeira',
+        category: 'Ferramentas Elétricas • Parafusadeira/Furadeira',
         estoqueDisponivel: 5,
         paymentMethods: ['Pix'],
         available: true,
@@ -272,7 +272,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 10,
         title: 'Aparador De Grama Bipartido Tramontina',
-        brand: 'JB Ferramentas',
+        marca: 'JB Ferramentas',
         price: '18,00',
         images: [
             require('../../assets/images/imagesProdutos/aparadorGrama.png'),
@@ -284,7 +284,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 28,
         locador: 'JB Ferramentas',
         localizacao: 'Guarulhos - SP',
-        categoria: 'Jardinagem e Paisagismo',
+        category: 'Jardinagem e Paisagismo',
         estoqueDisponivel: 6,
         paymentMethods: ['Cartão de Crédito'],
         available: true,
@@ -308,7 +308,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 11,
         title: 'Pistola de Pintura Profissional',
-        brand: 'WZ Ferramentas',
+        marca: 'WZ Ferramentas',
         price: '30,00',
         images: [
             require('../../assets/images/imagesProdutos/pistolaPintura.png'),
@@ -320,7 +320,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 87,
         locador: 'WZ Ferramentas',
         localizacao: 'Campinas - SP',
-        categoria: 'Ferramentas Elétricas • Pintura',
+        category: 'Ferramentas Elétricas • Pintura',
         estoqueDisponivel: 4,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
@@ -343,7 +343,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 12,
         title: 'Parafusadeira Furadeira de Impacto Hanabi',
-        brand: 'João Ferramentas',
+        marca: 'João Ferramentas',
         price: '28,00',
         images: [
             require('../../assets/images/imagesProdutos/FuradeiraHanabi.png'),
@@ -355,7 +355,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 201,
         locador: 'João Ferramentas',
         localizacao: 'São Paulo - SP',
-        categoria: 'Ferramentas Elétricas • Parafusadeira/Furadeira',
+        category: 'Ferramentas Elétricas • Parafusadeira/Furadeira',
         estoqueDisponivel: 3,
         paymentMethods: ['Pix'],
         available: true,
@@ -379,7 +379,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 13,
         title: 'Serra Circular Profissional DESOON 24 Dentes',
-        brand: 'JB Ferramentas',
+        marca: 'JB Ferramentas',
         price: '18,00',
         images: [
             require('../../assets/images/imagesProdutos/serraCircularProfissional.png'),
@@ -391,7 +391,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 76,
         locador: 'JB Ferramentas',
         localizacao: 'São Paulo - SP',
-        categoria: 'Ferramentas Elétricas • Corte e Desgaste',
+        category: 'Ferramentas Elétricas • Corte e Desgaste',
         estoqueDisponivel: 2,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
@@ -415,7 +415,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 14,
         title: 'Parafusadeira e Furadeira WAP 12V',
-        brand: 'JB Ferramentas',
+        marca: 'JB Ferramentas',
         price: '18,00',
         images: [
             require('../../assets/images/imagesProdutos/FuradeiraWapCinza.png'),
@@ -427,7 +427,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 62,
         locador: 'JB Ferramentas',
         localizacao: 'Osasco - SP',
-        categoria: 'Ferramentas Elétricas • Parafusadeira/Furadeira',
+        category: 'Ferramentas Elétricas • Parafusadeira/Furadeira',
         estoqueDisponivel: 5,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
@@ -452,7 +452,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 15,
         title: 'Furadeira Parafusadeira Impacto 1/2',
-        brand: 'Bosch',
+        marca: 'Bosch',
         price: '45,00',
         images: [require('../../assets/images/imagesProdutos/Furadeira1.webp')],
         imageVerificado: require('../../assets/images/verificadoAzul.png'),
@@ -461,7 +461,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 124,
         locador: 'Loja Exemplo',
         localizacao: 'São Paulo - SP',
-        categoria: 'Ferramentas Elétricas',
+        category: 'Ferramentas Elétricas',
         estoqueDisponivel: 10,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
@@ -485,7 +485,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 16,
         title: 'Pistola de Pintura Profissional',
-        brand: 'Black & Decker',
+        marca: 'Black & Decker',
         price: '30,00',
         images: [require('../../assets/images/imagesProdutos/pistolaPintura.png')],
         imageVerificado: require('../../assets/images/verificadoAzul.png'),
@@ -494,7 +494,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 87,
         locador: 'Loja Exemplo',
         localizacao: 'São Paulo - SP',
-        categoria: 'Ferramentas Elétricas',
+        category: 'Ferramentas Elétricas',
         estoqueDisponivel: 10,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
@@ -507,7 +507,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 17,
         title: 'Chave de Fenda Hidráulica Manual',
-        brand: 'Makita',
+        marca: 'Makita',
         price: '15,00',
         images: [require('../../assets/images/imagesProdutos/Furadeira3.webp')],
         imageVerificado: require('../../assets/images/verificadoAzul.png'),
@@ -516,7 +516,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 201,
         locador: 'Loja Exemplo',
         localizacao: 'São Paulo - SP',
-        categoria: 'Ferramentas Manuais',
+        category: 'Ferramentas Manuais',
         estoqueDisponivel: 10,
         paymentMethods: ['Pix'],
         available: false,
@@ -529,7 +529,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 18,
         title: 'Aparador De Grama Bipartido',
-        brand: 'DeWalt',
+        marca: 'DeWalt',
         price: '85,00',
         images: [require('../../assets/images/imagesProdutos/aparadorGrama.png')],
         imageVerificado: require('../../assets/images/verificadoAzul.png'),
@@ -538,7 +538,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 45,
         locador: 'Loja Exemplo',
         localizacao: 'São Paulo - SP',
-        categoria: 'Equipamentos de Jardinagem',
+        category: 'Equipamentos de Jardinagem',
         estoqueDisponivel: 10,
         paymentMethods: ['Cartão de Crédito'],
         available: true,
@@ -551,7 +551,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 19,
         title: 'Serra Tico-Tico de Bancada',
-        brand: 'Bosch',
+        marca: 'Bosch',
         price: '50,00',
         images:[
             require('../../assets/images/imagesProdutos/serraCircularProfissional.png')
@@ -562,7 +562,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 76,
         locador: 'Loja Exemplo',
         localizacao: 'São Paulo - SP',
-        categoria: 'Ferramentas Elétricas',
+        category: 'Ferramentas Elétricas',
         estoqueDisponivel: 10,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
@@ -575,7 +575,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 20,
         title: 'Kit Chaves Combinadas Premium',
-        brand: 'DeWalt',
+        marca: 'DeWalt',
         price: '25,00',
         images: [require('../../assets/images/imagesProdutos/lixadeiraEletrica.png')],
         imageVerificado: require('../../assets/images/verificadoAzul.png'),
@@ -584,7 +584,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 153,
         locador: 'Loja Exemplo',
         localizacao: 'São Paulo - SP',
-        categoria: 'Ferramentas Manuais',
+        category: 'Ferramentas Manuais',
         estoqueDisponivel: 10,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: false,
@@ -597,7 +597,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 21,
         title: 'Cortador de Grama Dirigível',
-        brand: 'Black & Decker',
+        marca: 'Black & Decker',
         price: '210,00',
         images: [require('../../assets/images/imagesProdutos/Furadeira3.webp')],
         imageVerificado: require('../../assets/images/verificadoAzul.png'),
@@ -606,7 +606,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 27,
         locador: 'Loja Exemplo',
         localizacao: 'São Paulo - SP',
-        categoria: 'Equipamentos de Jardinagem',
+        category: 'Equipamentos de Jardinagem',
         estoqueDisponivel: 10,
         paymentMethods: ['Cartão de Crédito'],
         available: true,
@@ -619,7 +619,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 22,
         title: 'Parafusadeira Furadeira de Impacto Hanabi',
-        brand: 'Makita',
+        marca: 'Makita',
         price: '28,00',
         images: [require('../../assets/images/imagesProdutos/Furadeira3.webp')],
         imageVerificado: require('../../assets/images/verificadoAzul.png'),
@@ -628,7 +628,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 201,
         locador: 'Loja Exemplo',
         localizacao: 'São Paulo - SP',
-        categoria: 'Ferramentas Elétricas',
+        category: 'Ferramentas Elétricas',
         estoqueDisponivel: 10,
         paymentMethods: ['Pix'],
         available: true,
@@ -652,7 +652,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 23,
         title: 'Parafusadeira e Furadeira WAP 12V',
-        brand: 'WAP',
+        marca: 'WAP',
         price: '18,00',
         images: [require('../../assets/images/imagesProdutos/Furadeira4.webp')],
         imageVerificado: require('../../assets/images/verificadoAzul.png'),
@@ -661,7 +661,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 62,
         locador: 'JB Ferramentas',
         localizacao: 'São Paulo - SP',
-        categoria: 'Ferramentas Elétricas',
+        category: 'Ferramentas Elétricas',
         estoqueDisponivel: 10,
         paymentMethods: ['Cartão de Crédito', 'Pix'],
         available: true,
@@ -684,7 +684,7 @@ export const PRODUTOS_MOCK: Produto[] = [
     {
         id: 24,
         title: 'Parafusadeira e Furadeira WAP BPF 12V',
-        brand: 'WAP',
+        marca: 'WAP',
         price: '18,00',
         images: [require('../../assets/images/imagesProdutos/Furadeira4.webp')],
         imageVerificado: require('../../assets/images/verificadoAzul.png'),
@@ -693,7 +693,7 @@ export const PRODUTOS_MOCK: Produto[] = [
         reviewCount: 38,
         locador: 'Loja Exemplo',
         localizacao: 'São Paulo - SP',
-        categoria: 'Ferramentas Elétricas',
+        category: 'Ferramentas Elétricas',
         estoqueDisponivel: 10,
         paymentMethods: ['Cartão de Crédito'],
         available: true,

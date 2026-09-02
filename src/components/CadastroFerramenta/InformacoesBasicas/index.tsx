@@ -6,7 +6,7 @@ import {
   CATEGORIAS_FERRAMENTA,
   ESTADOS_CONSERVACAO,
   OPCOES_FONTE_ALIMENTACAO,
-} from '../../../pages/CadastroFerramenta/CadastroFerramenta.types';
+} from '../../../pages/CadastroFerramenta/types';
 import styles from './styles';
 import type { InformacoesBasicasProps } from './types';
 

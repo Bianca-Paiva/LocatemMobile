@@ -4,7 +4,6 @@ export const styles = StyleSheet.create({
   cabecalho: {
     flexDirection: 'column',
     gap: 4,
-    marginBottom: 30,
     width: '100%',
   },
 
