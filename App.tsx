@@ -32,12 +32,14 @@ export default function App() {
       <CatalogoProvider>
       <FerramentasProvider>
           <ReservaProvider>
+            <CarrinhoProvider>
               <NavigationContainer>
-              <AppRoutes />
-            </NavigationContainer>
-            </ReservaProvider>
-        </FerramentasProvider>
-        </CatalogoProvider>
+                  <AppRoutes />
+              </NavigationContainer>
+            </CarrinhoProvider>
+          </ReservaProvider>
+      </FerramentasProvider>
+      </CatalogoProvider>
     </GestureHandlerRootView>
    
   );
