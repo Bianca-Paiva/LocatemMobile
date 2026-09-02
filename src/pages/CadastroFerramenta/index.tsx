@@ -1,4 +1,3 @@
-
 import { useMemo, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -24,8 +23,11 @@ import {
   secaoEstaCompleta,
   secaoTemErro,
   SECOES,
-} from './CadastroFerramenta.types';
-import type { CadastroFerramentaFormState, SecaoId } from './CadastroFerramenta.types';
+} from './types';
+import type {
+  CadastroFerramentaFormState,
+  SecaoId,
+} from './types';
 
 import styles from './styles';
 import colors from '../../theme/colors';
@@ -49,6 +51,11 @@ export default function CadastroFerramentaScreen() {
   );
   const [secaoAberta, setSecaoAberta] = useState<SecaoId | null>(null);
   const [tentouPublicar, setTentouPublicar] = useState(false);
+
+  // Enquanto o usuário está arrastando uma foto pra reordenar, o ScrollView
+  // do SecaoModal de "fotos" fica com scroll desabilitado, pra não disputar
+  // o toque com o gesto de arrastar.
+  const [arrastandoFoto, setArrastandoFoto] = useState(false);
 
   // Só recalcula os erros quando o form muda — mas só exibimos pro usuário
   // depois da primeira tentativa de publicar (mesmo comportamento da Web).
@@ -132,6 +139,7 @@ export default function CadastroFerramentaScreen() {
             onChange={(fotos) => handleChangeCampo('fotos', fotos)}
             error={erros.fotos}
             shake={tentouPublicar && Boolean(erros.fotos)}
+            onDragStateChange={setArrastandoFoto}
           />
         );
       case 'informacoesBasicas':
@@ -262,6 +270,7 @@ export default function CadastroFerramentaScreen() {
           titulo={secao.titulo}
           obrigatorio={secao.obrigatorio}
           subtitulo={secao.subtitulo}
+          scrollEnabled={secao.id === 'fotos' ? !arrastandoFoto : true}
         >
           {renderConteudoSecao(secao.id)}
         </SecaoModal>
