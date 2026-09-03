@@ -10,9 +10,17 @@ import { ImageSourcePropType } from 'react-native';
  * pra recortar só os campos que sua tela exibe.
  *
  * Faixas de id (apenas organizacional, sem regra rígida):
- *  1-8   -> catálogo principal (Home)
+ *  1-9   -> catálogo principal (Home, ver filtro `produto.id <= 9` em HomeScreen.tsx)
  *  10-14 -> produtos semelhantes (ProdutoDetalhe)
  *  15-24 -> catálogo de busca (Busca)
+ *  25-26 -> demais ferramentas do catálogo (fora do recorte da Home, mas
+ *           plenamente pesquisáveis na Busca e elegíveis como "Produtos
+ *           Semelhantes" — ambos leem o catálogo completo, não uma faixa fixa)
+ *
+ * "Produtos Semelhantes" (ver ProductScreen/index.tsx) e a Busca (ver
+ * useSearch.ts / SearchScreen.tsx) sempre lêem `PRODUTOS_MOCK` por inteiro —
+ * as faixas acima organizam a origem/curadoria de cada item, mas nunca
+ * limitam onde ele aparece.
  */
 
 export const PRODUTOS_MOCK: Produto[] = [
@@ -268,6 +276,79 @@ export const PRODUTOS_MOCK: Produto[] = [
     },
     
 
+    {
+        id: 8,
+        title: 'Serra Mármore 4.3/8 Pol 1.300w + 2 Discos 4100nh3zx2 Makita',
+        marca: 'Makita',
+        price: '65,00',
+        images: [
+            require('../../assets/images/imagesProdutos/serraMarmoreMakita.png'),
+            require('../../assets/images/imagesProdutos/serraMarmoreMakita.png'),
+        ],
+        imageVerificado: require('../../assets/images/verificadoAzul.png'),
+        imageNota: require('../../assets/images/StarFullYellow.png'),
+        rating: 4.4,
+        reviewCount: 76,
+        locador: 'MS Ferramentas',
+        localizacao: 'São Paulo - SP',
+        categoria: 'Ferramentas Elétricas • Corte e Desgaste',
+        estoqueDisponivel: 3,
+        paymentMethods: ['Cartão de Crédito', 'Pix'],
+        available: true,
+        voltagem: '220V',
+        descricao: 'Serra mármore Makita 4100NH3ZX2, compacta e leve, indicada para corte de mármore, granito, porcelanato, concreto e tijolos. Dupla isolação e estrutura reforçada garantem segurança em trabalhos de marmoraria e construção civil.',
+        especificacoes: [
+            { label: 'Potência', valor: '1.300W' },
+            { label: 'Diâmetro do disco', valor: '110mm' },
+            { label: 'Rotação', valor: '13.800 rpm' },
+            { label: 'Capacidade máxima de corte', valor: '32mm' },
+            { label: 'Diâmetro do furo do disco', valor: '20mm' },
+            { label: 'Peso', valor: '~2,9 kg' },
+        ],
+        acessorios: ['2 discos diamantados', 'Chave de troca de disco', 'Chave allen'],
+        avaliacoes: [
+            { nome: 'Marcos Vinícius', rating: 5, tempo: 'Há 5 dias', texto: 'Cortou porcelanato com muita precisão, sem lascar. Já vem com 2 discos, o que ajuda bastante.', fotos: [], utilCount: 7 },
+            { nome: 'Débora Salles', rating: 4, tempo: 'Há 2 semanas', texto: 'Leve e compacta pra trabalhar em espaços pequenos. Boa pra marmoraria de acabamento.', fotos: [require('../../assets/images/imagesProdutos/serraMarmoreMakita.png')], utilCount: 4 },
+            { nome: 'Otávio Barros', rating: 4, tempo: 'Há 1 mês', texto: 'Ferramenta profissional, motor forte. Só fique atento ao pó — usei com aspirador acoplado.', fotos: [], utilCount: 3 },
+        ],
+        distribuicaoAvaliacoes: [58, 26, 10, 4, 2],
+    },
+    {
+        id: 9,
+        title: 'Lixadeira Orbital 320w 14000 Rpm 5 Pol.',
+        marca: 'Deko',
+        price: '25,00',
+        images: [
+            require('../../assets/images/imagesProdutos/lixadeira-orbital.png'),
+            require('../../assets/images/imagesProdutos/lixadeira-orbital.png'),
+        ],
+        imageVerificado: require('../../assets/images/verificadoAzul.png'),
+        imageNota: require('../../assets/images/StarFullYellow.png'),
+        rating: 3.8,
+        reviewCount: 34,
+        locador: 'WZ Ferramentas',
+        localizacao: 'São Paulo - SP',
+        categoria: 'Ferramentas Elétricas • Corte e Desgaste',
+        estoqueDisponivel: 6,
+        paymentMethods: ['Pix'],
+        available: true,
+        voltagem: '127V',
+        descricao: 'Lixadeira roto-orbital Deko DKOS32G125, combina rotação e vibração para um acabamento mais uniforme em madeira, funilaria e pequenos reparos de pintura. Troca de lixas por velcro e coletor de pó para manter o ambiente mais limpo.',
+        especificacoes: [
+            { label: 'Potência', valor: '320W' },
+            { label: 'Rotação', valor: '7.000 – 14.000 rpm' },
+            { label: 'Base da lixa', valor: '125mm (5")' },
+            { label: 'Fixação da lixa', valor: 'Velcro' },
+            { label: 'Níveis de velocidade', valor: '6' },
+        ],
+        acessorios: ['Coletor de pó', 'Kit com 16 lixas (grãos 60 a 1000)'],
+        avaliacoes: [
+            { nome: 'Simone Ávila', rating: 4, tempo: 'Há 1 semana', texto: 'Boa pra lixar móveis antes de pintar. O coletor de pó ajuda bastante a manter a bancada limpa.', fotos: [], utilCount: 3 },
+            { nome: 'Rodrigo Esteves', rating: 3, tempo: 'Há 3 semanas', texto: 'Cumpre o básico, mas em madeiras mais duras senti que perde um pouco de força na rotação máxima.', fotos: [], utilCount: 2 },
+            { nome: 'Priscila Gouveia', rating: 4, tempo: 'Há 1 mês', texto: 'Já veio com bastante lixa de grãos variados, economizei na compra separada. Boa pra uso doméstico.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [30, 32, 22, 10, 6],
+    },
     // ── Produtos semelhantes (ProdutoDetalhe) ───────────────────────────
     {
         id: 10,
@@ -713,5 +794,77 @@ export const PRODUTOS_MOCK: Produto[] = [
         ],
         distribuicaoAvaliacoes: [0, 100, 0, 0, 0],
     },
+    {
+        id: 25,
+        title: 'Lixadeira Teto E Parede Telescópica Profissional Com Led E Saco Coletor The Black Tools Btl750 750w',
+        marca: 'The Black Tools',
+        price: '50,00',
+        images: [
+            require('../../assets/images/imagesProdutos/lixadeiraTeto.png'),
+            require('../../assets/images/imagesProdutos/lixadeiraTeto.png'),
+        ],
+        imageVerificado: require('../../assets/images/verificadoAzul.png'),
+        imageNota: require('../../assets/images/StarFullYellow.png'),
+        rating: 4.0,
+        reviewCount: 51,
+        locador: 'WZ Ferramentas',
+        localizacao: 'São Paulo - SP',
+        categoria: 'Ferramentas Elétricas • Corte e Desgaste',
+        estoqueDisponivel: 4,
+        paymentMethods: ['Cartão de Crédito'],
+        available: false,
+        voltagem: '127V',
+        descricao: 'Lixadeira telescópica para teto e parede, com iluminação LED integrada e saco coletor de pó, indicada para lixamento de massa corrida e gesso antes da pintura. Haste extensível dispensa o uso de escadas em pés-direitos altos.',
+        especificacoes: [
+            { label: 'Potência', valor: '750W' },
+            { label: 'Disco de lixa', valor: '225mm' },
+            { label: 'Iluminação', valor: 'LED integrado' },
+            { label: 'Haste', valor: 'Telescópica extensível' },
+            { label: 'Coleta de pó', valor: 'Saco coletor acoplado' },
+        ],
+        acessorios: ['Saco coletor de pó', 'Disco de lixa reserva', 'Haste telescópica', 'Cabo extensor'],
+        avaliacoes: [
+            { nome: 'Wagner Siqueira', rating: 4, tempo: 'Há 4 dias', texto: 'Economizou muito tempo pra lixar o teto sem escada. O LED ajuda a enxergar falhas na massa.', fotos: [], utilCount: 5 },
+            { nome: 'Cristiane Moraes', rating: 4, tempo: 'Há 2 semanas', texto: 'Saco coletor segura boa parte do pó, mas ainda suja um pouco o ambiente. No geral, bom custo-benefício.', fotos: [require('../../assets/images/imagesProdutos/lixadeiraTeto.png')], utilCount: 4 },
+            { nome: 'Alexandre Prado', rating: 3, tempo: 'Há 1 mês', texto: 'Funciona bem, mas é pesada pra segurar por muito tempo com o braço esticado. Recomendo fazer pausas.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [40, 32, 18, 7, 3],
+    },
+    {
+        id: 26,
+        title: 'Pistola Pintura Gravidade 600ml + 3 Bicos 1.2 1.5 1.8 Stels',
+        marca: 'Stels',
+        price: '30,00',
+        images: [
+            require('../../assets/images/imagesProdutos/pistolaPintura2.png'),
+            require('../../assets/images/imagesProdutos/pistolaPintura2.png'),
+        ],
+        imageVerificado: require('../../assets/images/verificadoAzul.png'),
+        imageNota: require('../../assets/images/StarFullYellow.png'),
+        rating: 4.0,
+        reviewCount: 51,
+        locador: 'WZ Ferramentas',
+        localizacao: 'São Paulo - SP',
+        categoria: 'Ferramentas Elétricas • Pintura',
+        estoqueDisponivel: 4,
+        paymentMethods: ['Cartão de Crédito'],
+        available: false,
+        voltagem: 'Pneumática',
+        descricao: 'Pistola de pintura por gravidade com reservatório de 600ml, indicada para pintura de móveis, portas e peças menores que exigem mais precisão que a pistola de sucção. Acompanha 3 bicos para diferentes viscosidades de tinta. Requer compressor de ar (não incluso).',
+        especificacoes: [
+            { label: 'Capacidade do reservatório', valor: '600 ml' },
+            { label: 'Sistema de alimentação', valor: 'Gravidade (reservatório superior)' },
+            { label: 'Bicos inclusos', valor: '1.2 / 1.5 / 1.8 mm' },
+            { label: 'Pressão de trabalho recomendada', valor: '3 – 4 bar' },
+        ],
+        acessorios: ['3 bicos intercambiáveis (1.2/1.5/1.8mm)', 'Reservatório de 600ml', 'Chave de regulagem', 'Escova de limpeza'],
+        avaliacoes: [
+            { nome: 'Adriano Melo', rating: 4, tempo: 'Há 1 semana', texto: 'Boa precisão por ser de gravidade, usei pra pintar uma porta e ficou uniforme sem escorrer.', fotos: [], utilCount: 4 },
+            { nome: 'Letícia Farias', rating: 5, tempo: 'Há 3 semanas', texto: 'Os 3 bicos ajudam muito a ajustar pra cada tipo de tinta. Reservatório pequeno, mas prático pra peças menores.', fotos: [], utilCount: 5 },
+            { nome: 'Igor Damasceno', rating: 3, tempo: 'Há 1 mês', texto: 'Precisa de um compressor com boa pressão constante, senão o jato fica irregular. Fora isso, boa ferramenta.', fotos: [], utilCount: 2 },
+        ],
+        distribuicaoAvaliacoes: [40, 32, 18, 7, 3],
+    },
 ];
+
 
