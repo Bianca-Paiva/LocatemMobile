@@ -2,7 +2,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
+const API_URL = "http://localhost:5033";
 // ============================================================================
 // 1. O CONTRATO DE DADOS (ZOD SCHEMA)
 // ============================================================================
@@ -37,8 +40,20 @@ export type LoginFormData = z.infer<typeof loginSchema>;
 // ============================================================================
 // Este hook isola toda a regra de negócio da interface visual (a View).
 export function useLogin() {
+  const navigation = useNavigation<any>();
   // Estado simples para controlar o loading do botão/tela durante a chamada da API.
   const [isLoading, setIsLoading] = useState(false);
+
+  // Estado que guarda a mensagem de erro de LOGIN (credenciais erradas, falha de rede, etc).
+  // É null quando não há nenhum erro para mostrar.
+  const [loginErrorMessage, setLoginErrorMessage] = useState<string | null>(null);
+
+  // Estado que guarda a mensagem de SUCESSO. Quando preenchido, mostramos o
+  // card verde por um instante antes de navegar para a Home.
+  const [loginSuccessMessage, setLoginSuccessMessage] = useState<string | null>(null);
+
+  // Função simples para o card de erro se fechar (usada no botão "X" do card).
+  const dismissLoginError = () => setLoginErrorMessage(null);
 
   // INICIALIZAÇÃO DO REACT HOOK FORM
   // Usamos desestruturação { } para extrair apenas as ferramentas que precisamos 
@@ -62,27 +77,59 @@ export function useLogin() {
   // ============================================================================
   // Esta função SÓ É EXECUTADA se o usuário passar por todas as regras do Zod.
   // Portanto, o parâmetro "data" já chega aqui 100% validado e seguro.
-  const handleSignIn = async (data: LoginFormData) => {
-    setIsLoading(true); // Bloqueia o botão/inicia o spinner
+const handleSignIn = async (data: LoginFormData) => {
 
-    try {
-      // Mock: Simulando o tempo de resposta de um servidor real (2 segundos)
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      
-      // TODO: Substituir pela chamada real da API no futuro:
-      // const response = await api.post('/login', data);
+  // Toda nova tentativa começa "limpa", sem o card de erro/sucesso da tentativa anterior.
+  setLoginErrorMessage(null);
+  setLoginSuccessMessage(null);
+  setIsLoading(true);
 
-      console.log("Dados validados com sucesso e prontos para envio ao Back-end:", data);
-      alert("Login efetuado com sucesso!"); 
-    } catch (error) {
-      // Aqui tratamos erros devolvidos pelo servidor (ex: 401 - Senha incorreta)
-      console.error("Erro ao fazer login:", error);
-    } finally {
-      // O bloco "finally" executa sempre, dando erro ou sucesso, 
-      // garantindo que o loading seja desligado no final do processo.
-      setIsLoading(false);
-    }
-  };
+ 
+
+  try {
+  const response = await fetch(`${API_URL}/api/Login/login`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: data.email,
+      senha: data.password,
+    }),
+  });
+
+const resultado = await response.json();
+
+if (!response.ok) {
+  console.error("Erro no login:", resultado.mensagem);
+  // Card de "E-mail ou senha errados" (ou outra mensagem vinda da API, se existir).
+  setLoginErrorMessage(resultado.mensagem || "E-mail ou senha inválidos.");
+  return;
+}
+
+await AsyncStorage.setItem("token", resultado.token);
+
+// Mostra o card verde "Logado com Sucesso!!" e só então navega,
+// pra dar tempo do usuário ver a confirmação na tela.
+setLoginSuccessMessage("Logado com Sucesso!!");
+setTimeout(() => {
+  navigation.navigate("HomeScreen");
+}, 1200);
+
+  console.log({
+  mensagem: resultado.mensagem,
+  nome: resultado.nome,
+  tipoUsuario: resultado.tipoUsuario,
+});
+} catch (error) {
+  console.error("Erro ao fazer login:", error);
+  // Falha de rede/servidor fora do ar — mesmo card, mensagem diferente.
+  setLoginErrorMessage("Não foi possível conectar. Verifique sua internet e tente novamente.");
+} finally {
+  setIsLoading(false);
+}
+};
+  
 
   // ============================================================================
   // 5. EXPOSIÇÃO (RETORNO DO HOOK)
@@ -92,8 +139,10 @@ export function useLogin() {
     control,
     errors,
     isLoading,
+    loginErrorMessage,
+    dismissLoginError,
+    loginSuccessMessage,
     // Envolvemos nossa função de ação dentro do handleSubmit do Hook Form.
     // Assim, o Hook Form faz a validação primeiro e só depois chama o handleSignIn.
     handleSignIn: handleSubmit(handleSignIn),
-  };
-}
+  };}

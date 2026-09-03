@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useNavigation } from "@react-navigation/native";
 
 // Importamos as funções utilitárias antigas. 
 // Isso mostra que não precisamos descartar regras de negócio que já funcionam, 
@@ -22,7 +23,7 @@ const cadastroSchemaBase = z.object({
   // Encadeamento com .pipe(): Primeiro garante que o campo não está vazio, 
   // depois verifica se o formato do e-mail é válido.
   email: z.string().min(1, "O e-mail é obrigatório.").pipe(z.email("Digite um e-mail válido.")),
-  
+  telefone: z.string().min(1, "O telefone é obrigatório."),
   password: z.string().min(1, "A senha é obrigatória."),
   confirmPassword: z.string().min(1, "Confirme a sua senha."),
   
@@ -90,7 +91,11 @@ export type CadastroFormData = z.infer<typeof cadastroSchema>;
 // ============================================================================
 // Este hook encapsula toda a lógica, deixando o index.tsx (View) totalmente limpo.
 export function useCadastro() {
+  const navigation = useNavigation<any>();
   const [isLoading, setIsLoading] = useState(false);
+
+  // Mensagem do card verde "Conta Criada com Sucesso!!". null = nenhum sucesso pra mostrar.
+  const [cadastroSuccessMessage, setCadastroSuccessMessage] = useState<string | null>(null);
 
   const {
     control,      // "Espião" que conectamos aos Inputs visuais.
@@ -105,6 +110,7 @@ export function useCadastro() {
       userType: "locatario", 
       name: "",
       email: "",
+      telefone: "",
       password: "",
       confirmPassword: "",
       document: "",
@@ -116,25 +122,54 @@ export function useCadastro() {
   // se o botão de "Locatário" ou "Locador" fica destacado e qual máscara usar.
   const currentUserType = watch("userType");
 
+const API_URL = "http://localhost:5033";
+
   // ============================================================================
   // 5. FUNÇÃO DE SUBMISSÃO (AÇÃO)
   // ============================================================================
   // Esta função só roda se o formulário passar 100% no Zod Schema acima.
   const handleSignUp = async (data: CadastroFormData) => {
+    // Toda nova tentativa começa limpa, sem o card de sucesso da tentativa anterior.
+    setCadastroSuccessMessage(null);
     setIsLoading(true);
 
     try {
-      // Mock: Simulando chamada de API (2 segundos)
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      
-      // TODO: Substituir pela chamada real no futuro
-      console.log("Dados prontos para envio:", data);
-      alert("Conta criada com sucesso!"); 
-    } catch (error) {
-      console.error("Erro ao criar conta:", error);
-    } finally {
-      setIsLoading(false);
-    }
+  const response = await fetch(`${API_URL}/api/Cadastro/CriarUsuario`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      nome: data.name,
+      email: data.email,
+      senha: data.password,
+      confirmarSenha: data.confirmPassword,
+      telefone: data.telefone,
+      documento: data.document.replace(/\D/g, ""),
+      tipoUsuario: data.userType === "locador" ? 2 : 1,
+    }),
+  });
+
+  console.log(response.status);
+
+  if (!response.ok) {
+    // Cadastro não deu certo (e-mail já existe, documento inválido no back-end, etc).
+    // Por enquanto só logamos; se quiser um card vermelho aqui também é só avisar.
+    console.error("Erro ao criar conta. Status:", response.status);
+    return;
+  }
+
+  // Mostra o card verde "Conta Criada com Sucesso!!" e só então navega
+  // para a tela de Login, dando tempo do usuário ver a confirmação.
+  setCadastroSuccessMessage("Conta Criada com Sucesso!!");
+  setTimeout(() => {
+    navigation.navigate("LoginScreen");
+  }, 1200);
+} catch (error) {
+  console.error("Erro ao criar conta:", error);
+} finally {
+  setIsLoading(false);
+}
   };
 
   // Expondo para a View (index.tsx) apenas as ferramentas estritamente necessárias.
@@ -144,6 +179,7 @@ export function useCadastro() {
     isLoading,
     currentUserType,
     setValue, 
+    cadastroSuccessMessage,
     handleSignUp: handleSubmit(handleSignUp),
   };
 }

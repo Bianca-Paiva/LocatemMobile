@@ -40,5 +40,35 @@ export const styles = StyleSheet.create({
     marginTop: 4,
     marginBottom: 12,
     fontFamily: "Inter_400Regular", 
-  }
+  },
+
+  // ============================================================================
+  // CARD "CONTA CRIADA COM SUCESSO!!" (verde)
+  // ============================================================================
+  successCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#ffffff",
+    borderRadius: 14,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    marginTop: 16,
+    gap: 8,
+    borderLeftWidth: 3,
+    borderLeftColor: "#16a34a", // Green 600
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  successCardIcone: {
+    marginTop: 1,
+  },
+  successCardTexto: {
+    color: "#111827",
+    fontSize: 14,
+    fontFamily: "Inter_700Bold",
+  },
 });
