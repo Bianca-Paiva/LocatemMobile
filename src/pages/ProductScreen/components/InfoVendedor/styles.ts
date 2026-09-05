@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24, // Metade da largura/altura para fazer o círculo perfeito
-    backgroundColor: '#e5e7eb',
+    backgroundColor: '#ffffffff',
     alignItems: 'center',
     justifyContent: 'center',
     overflow: 'hidden',
@@ -32,7 +32,6 @@ export const styles = StyleSheet.create({
   avatarInitials: {
     fontSize: 16,
     fontWeight: '700',
-    color: '#6b7280',
   },
   vendedorInfo: {
     flex: 1,

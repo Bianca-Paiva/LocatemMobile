@@ -1,41 +1,80 @@
-import { View, Text, TouchableOpacity } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import styles from './styles';
-import colors from '../../../theme/colors';
-import type { SeletorQuantidadeProps } from './types';
+import { Pressable, Text, View } from 'react-native';
+
+import { styles } from './styles';
+
+interface SeletorQuantidadeProps {
+  quantidade: number;
+  estoqueDisponivel?: number;
+  exibirEstoqueDisponivel?: boolean;
+  onDecrementar: () => void;
+  onIncrementar: () => void;
+}
 
 export default function SeletorQuantidade({
   quantidade,
-  onIncrementar,
+  estoqueDisponivel,
+  exibirEstoqueDisponivel = true,
   onDecrementar,
-  minimo = 1,
-  maximo = 999,
-  label = 'Quantidade Disponível',
+  onIncrementar,
 }: SeletorQuantidadeProps) {
+  const limiteMaximo =
+    exibirEstoqueDisponivel &&
+    estoqueDisponivel !== undefined
+      ? estoqueDisponivel
+      : 999;
+
   return (
     <View style={styles.wrapper}>
-      {label ? <Text style={styles.label}>{label}</Text> : null}
+      <Text style={styles.label}>
+        Quantidade
 
-      <View style={styles.stepper}>
-        <TouchableOpacity
-          style={[styles.botao, quantidade <= minimo && styles.botaoDesabilitado]}
-          onPress={onDecrementar}
-          disabled={quantidade <= minimo}
-          accessibilityLabel="Diminuir quantidade"
-        >
-          <MaterialCommunityIcons name="minus" size={18} color={colors.textDark} />
-        </TouchableOpacity>
+        {exibirEstoqueDisponivel &&
+          estoqueDisponivel !== undefined && (
+            <Text style={styles.estoque}>
+              {' '}({estoqueDisponivel}{' '}
+              {estoqueDisponivel === 1
+                ? 'disponível'
+                : 'disponíveis'})
+            </Text>
+          )}
+      </Text>
 
-        <Text style={styles.valor}>{quantidade}</Text>
+      <View style={styles.linha}>
+        <View style={styles.controle}>
+          <Pressable
+            style={[
+              styles.botao,
+              quantidade <= 1 &&
+                styles.botaoDesabilitado,
+            ]}
+            onPress={onDecrementar}
+            disabled={quantidade <= 1}
+          >
+            <Text style={styles.botaoTexto}>
+              −
+            </Text>
+          </Pressable>
 
-        <TouchableOpacity
-          style={[styles.botao, quantidade >= maximo && styles.botaoDesabilitado]}
-          onPress={onIncrementar}
-          disabled={quantidade >= maximo}
-          accessibilityLabel="Aumentar quantidade"
-        >
-          <MaterialCommunityIcons name="plus" size={18} color={colors.textDark} />
-        </TouchableOpacity>
+          <Text style={styles.valor}>
+            {quantidade}
+          </Text>
+
+          <Pressable
+            style={[
+              styles.botao,
+              quantidade >= limiteMaximo &&
+                styles.botaoDesabilitado,
+            ]}
+            onPress={onIncrementar}
+            disabled={
+              quantidade >= limiteMaximo
+            }
+          >
+            <Text style={styles.botaoTexto}>
+              +
+            </Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   );

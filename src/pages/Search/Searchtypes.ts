@@ -9,8 +9,8 @@ import type { ImageSourcePropType } from 'react-native';
 export interface ProdutoBusca {
   id: number;
   title: string;
-  brand: string;
-  category: string;
+  marca: string;
+  categoria: string;
   price: string;
   images: ImageSourcePropType[];
   imageVerificado: ImageSourcePropType;

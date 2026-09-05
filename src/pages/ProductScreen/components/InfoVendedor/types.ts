@@ -2,7 +2,7 @@ import { ImageSourcePropType } from 'react-native';
 
 export interface InfoVendedorProps {
   nome: string;
-  logoUrl?: string | ImageSourcePropType; // Aceita tanto URL da API quanto require() local
+  logoUrl?:ImageSourcePropType; // Aceita tanto URL da API quanto require() local
   rating: number;
   reviewCount: number;
   locacoes: number;
