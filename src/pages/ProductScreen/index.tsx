@@ -19,7 +19,6 @@ import { Acessorios } from './components/Acessorios';
 import { useProdutoStore } from '../../hooks/useProdutoStore';
 import { useReservaStore } from '../../hooks/useReservaStore';
 import { useNotificationStore } from '../../hooks/useNotificationStore';
-import { useCarrinhoStore } from '../../hooks/useCarrinhoStore';
 
 // ── 3. IMPORTAÇÃO DE MOCKS E UTILITÁRIOS ───────────────────────────
 import { getLocadorByNome } from '../../mocks/locadoresMock';
@@ -39,7 +38,6 @@ export default function ProductScreen() {
   const { produtoSelecionado, setProdutoSelecionado } = useProdutoStore();
   const { adicionarReserva } = useReservaStore();
   const { adicionarNotificacao } = useNotificationStore();
-  const { adicionarItem } = useCarrinhoStore();
 
   const produto = produtoSelecionado ?? FALLBACK_PRODUTO;
   const locador = getLocadorByNome(produto.locador);
@@ -95,18 +93,19 @@ export default function ProductScreen() {
   };
 
   const handleAdicionarCarrinho = () => {
-    setModoModal('carrinho');
-    setModalAberto(true);
+    // Abre a tela "Detalhes da Locação" (equivalente, no Mobile, ao modal
+    // SolicitarLocacaoModal da Web) já com a quantidade/tempo/tensão
+    // selecionados aqui na tela do produto.
+    navigation.navigate('SolicitarLocacaoCarrinho', {
+      quantidadeInicial: selecaoProduto.quantidade,
+      diariasInicial: selecaoProduto.diarias,
+      tensaoInicial: selecaoProduto.tensao,
+    });
   };
 
   const handleFecharSuccess = () => {
     setSuccessAberto(false);
     navigation.navigate('ProductScreen'); 
-  };
-
-  const handleAdicionarAoCarrinhoConfirmado = (dados: any) => {
-    adicionarItem(produto, dados);
-    setModalAberto(false);
   };
 
   return (
@@ -141,6 +140,7 @@ export default function ProductScreen() {
               onReservar={handleAlugar} 
               onAddCarrinho={handleAdicionarCarrinho}
               onTempoDropdownOpen={setScrollBloqueado} // 🚀 Repassando a função para o ProdutoInfo
+              onSelecaoChange={setSelecaoProduto} // eleva quantidade/diárias/tensão para a tela do produto
             />
           </View>
 
