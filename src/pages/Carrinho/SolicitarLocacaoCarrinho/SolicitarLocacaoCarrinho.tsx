@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -89,11 +89,20 @@ export default function SolicitarLocacaoCarrinho() {
     incrementarQuantidade,
     resumo,
     montarDadosLocacao,
+    dataMinimaEntrega,
+    dataMinimaDevolucao,
   } = useSolicitarLocacaoCarrinho({
     produto,
     quantidadeInicial,
     duracaoInicial: diariasInicial,
   });
+
+  // Controla se algum dos dropdowns de horário está aberto, para travar o
+  // scroll da tela enquanto o menu de opções estiver visível — mesmo padrão
+  // usado no TempoDropdown da tela de produto.
+  const [horarioEntregaAberto, setHorarioEntregaAberto] = useState(false);
+  const [horarioDevolucaoAberto, setHorarioDevolucaoAberto] = useState(false);
+  const scrollHabilitado = !horarioEntregaAberto && !horarioDevolucaoAberto;
 
   // Evita renderizar a tela enquanto não houver produto selecionado.
   if (!produtoSelecionado) {
@@ -117,7 +126,7 @@ export default function SolicitarLocacaoCarrinho() {
     adicionarItem(produto, dados.quantidade, dados.resumo.diarias);
 
     // Retorna para a tela anterior após adicionar o item.
-    navigation.goBack();
+    navigation.navigate('CarrinhoScreen');
   };
 
   return (
@@ -128,6 +137,9 @@ export default function SolicitarLocacaoCarrinho() {
         style={styles.container}
         contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
+        // Impede a tela de rolar enquanto um dropdown de horário está aberto,
+        // igual ao comportamento do TempoDropdown na tela de produto.
+        scrollEnabled={scrollHabilitado}
       >
         <CabecalhoPagina titulo="Detalhes da Locação" />
 
@@ -151,6 +163,10 @@ export default function SolicitarLocacaoCarrinho() {
               label="Data de entrega"
               value={form.dataEntrega}
               onChange={handleDataEntregaChange}
+              min={dataMinimaEntrega}
+              diasIndisponiveis={produto.diasIndisponiveis}
+              dataEntrega={form.dataEntrega}
+              dataDevolucao={form.dataDevolucao}
               required
             />
 
@@ -159,6 +175,7 @@ export default function SolicitarLocacaoCarrinho() {
               label="Horário de entrega"
               value={form.horarioEntrega}
               onChange={(valor) => setCampo('horarioEntrega', valor)}
+              onOpenChange={setHorarioEntregaAberto}
               required
             />
 
@@ -167,6 +184,10 @@ export default function SolicitarLocacaoCarrinho() {
               label="Data de devolução"
               value={form.dataDevolucao}
               onChange={(valor) => setCampo('dataDevolucao', valor)}
+              min={dataMinimaDevolucao}
+              diasIndisponiveis={produto.diasIndisponiveis}
+              dataEntrega={form.dataEntrega}
+              dataDevolucao={form.dataDevolucao}
               required
             />
 
@@ -175,6 +196,7 @@ export default function SolicitarLocacaoCarrinho() {
               label="Horário de devolução"
               value={form.horarioDevolucao}
               onChange={(valor) => setCampo('horarioDevolucao', valor)}
+              onOpenChange={setHorarioDevolucaoAberto}
               required
             />
 

@@ -1,12 +1,26 @@
+// Dropdown de horário da tela "Detalhes da Locação". As opções aparecem
+// integradas ao próprio fluxo da tela — um menu ancorado sob o campo via
+// `position: absolute` — em vez de abrir um `Modal`. Segue o mesmo padrão já
+// usado em `TempoDropdown` (pages/ProductScreen/components/TempoDropown) e
+// espelha o comportamento do `HorarioDropdown` da Web.
 import { useState } from 'react';
 import {
-  Image,
   Pressable,
   Text,
   View,
 } from 'react-native';
+// Importante: ScrollView vem daqui (react-native-gesture-handler), não de
+// 'react-native'. O app já usa react-native-gesture-handler em outros pontos
+// (ver SecaoModal e FotosFerramenta), o que muda como o Android reconhece
+// gestos na tela inteira. Nesse cenário, um ScrollView "puro" de dentro de
+// outro (esse menu dentro do ScrollView da tela) não consegue negociar
+// direito quem deve rolar — o de fora sempre ganha. A versão do
+// gesture-handler participa do mesmo sistema de reconhecimento de gestos e
+// resolve essa disputa corretamente também no Android.
+import { ScrollView } from 'react-native-gesture-handler';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import IconSeta from '../../../../assets/images/icons/IconSeta.png';
+import colors from '../../../theme/colors';
 import { styles } from './styles';
 
 // Horários disponíveis como faixas de 3 horas
@@ -45,6 +59,8 @@ interface HorarioDropdownProps {
   required?: boolean;
   error?: string;
   shake?: boolean;
+  /** Notifica a tela quando o menu abre/fecha (ex.: para travar o scroll da tela). */
+  onOpenChange?: (isOpen: boolean) => void;
 }
 
 export default function HorarioDropdown({
@@ -53,13 +69,24 @@ export default function HorarioDropdown({
   onChange,
   required = false,
   error,
-  shake = false,
+  onOpenChange,
 }: HorarioDropdownProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [aberto, setAberto] = useState(false);
+
+  const fecharMenu = () => {
+    setAberto(false);
+    onOpenChange?.(false);
+  };
+
+  const alternarMenu = () => {
+    const proximoEstado = !aberto;
+    setAberto(proximoEstado);
+    onOpenChange?.(proximoEstado);
+  };
 
   const handleSelect = (option: string) => {
     onChange(option);
-    setIsOpen(false);
+    fecharMenu();
   };
 
   const selectedOption =
@@ -80,61 +107,75 @@ export default function HorarioDropdown({
         )}
       </Text>
 
-      <View style={styles.container}>
+      {/* Sem Modal: o menu é uma View absoluta ancorada sob o botão, igual ao
+          TempoDropdown. zIndex/elevation sobem quando aberto para o menu
+          ficar sempre por cima dos campos seguintes da tela. */}
+      <View style={[styles.container, aberto && styles.containerAberto]}>
         <Pressable
           style={[
             styles.trigger,
             error && styles.erro,
           ]}
-          onPress={() =>
-            setIsOpen((prev) => !prev)
-          }
+          onPress={alternarMenu}
+          accessibilityRole="button"
+          accessibilityLabel={label}
+          accessibilityState={{ expanded: aberto }}
         >
-          <Text style={styles.triggerText}>
+          <Text style={styles.triggerText} numberOfLines={1}>
             {selectedOption}
           </Text>
 
-          <Image
-            source={IconSeta}
-            style={[
-              styles.chevron,
-              isOpen &&
-                styles.chevronOpen,
-            ]}
-            resizeMode="contain"
+          <MaterialCommunityIcons
+            name={aberto ? 'chevron-up' : 'chevron-down'}
+            size={18}
+            color={colors.textMuted}
           />
         </Pressable>
 
-        {isOpen && (
+        {aberto && (
+          // O ScrollView não tem nenhum Touchable/Pressable como ancestral
+          // aqui, então o gesto de rolagem chega até ele sem disputa.
+          //
+          // `nestedScrollEnabled` é obrigatório no Android: esse menu fica
+          // dentro do ScrollView da tela (mesmo eixo vertical) e, sem essa
+          // flag, o Android não entrega o gesto de arrastar para este
+          // ScrollView interno — o toque nunca chega a rolar a lista de
+          // opções. O iOS não precisa dessa flag (o UIScrollView nativo já
+          // negocia scroll aninhado sozinho), por isso só afetava Android.
+          // A prop não tem efeito no iOS, então é seguro deixá-la sempre.
           <View style={styles.menu}>
-            {HORARIO_OPTIONS.map(
-              (option) => (
-                <Pressable
-                  key={
-                    option.value ||
-                    'placeholder'
-                  }
-                  style={[
-                    styles.option,
-                    option.value === value &&
-                      styles.optionActive,
-                  ]}
-                  onPress={() =>
-                    handleSelect(
-                      option.value,
-                    )
-                  }
-                >
-                  <Text
-                    style={
-                      styles.optionText
-                    }
+            <ScrollView
+              showsVerticalScrollIndicator
+              keyboardShouldPersistTaps="handled"
+              nestedScrollEnabled
+            >
+              {HORARIO_OPTIONS.map((option) => {
+                const selecionado = option.value === value;
+                return (
+                  <Pressable
+                    key={option.value || 'placeholder'}
+                    style={[
+                      styles.option,
+                      selecionado && styles.optionActive,
+                    ]}
+                    onPress={() => handleSelect(option.value)}
                   >
-                    {option.label}
-                  </Text>
-                </Pressable>
-              ),
-            )}
+                    <Text
+                      style={[
+                        styles.optionText,
+                        selecionado && styles.optionActiveText,
+                      ]}
+                    >
+                      {option.label}
+                    </Text>
+
+                    {selecionado && (
+                      <MaterialCommunityIcons name="check" size={16} color={colors.textDark} />
+                    )}
+                  </Pressable>
+                );
+              })}
+            </ScrollView>
           </View>
         )}
       </View>

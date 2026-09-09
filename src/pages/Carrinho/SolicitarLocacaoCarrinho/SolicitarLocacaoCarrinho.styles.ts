@@ -124,12 +124,14 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
 
+  // Cores reaproveitadas do botão "Cancelar solicitação" da Web
+  // (`web/src/components/DetalhesLocacao/AcoesLocacao/AcoesLocacao.module.css`, classe `.botaoPerigo`).
   botaoSecundario: {
     flex: 1,
     height: 52,
     backgroundColor: colors.bgCard,
     borderWidth: 1.5,
-    borderColor: colors.border,
+    borderColor: '#F3B8B8',
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
@@ -148,6 +150,6 @@ export const styles = StyleSheet.create({
   botaoTextoSecundario: {
     fontSize: 15,
     fontWeight: '700',
-    color: colors.textDark,
+    color: '#CC3333',
   },
 });

@@ -9,9 +9,9 @@
 
 /** Estado do formulário desta tela */
 export interface LocacaoCarrinhoFormState {
-  dataEntrega: string; /** Texto livre no formato dd/mm/aaaa, mesmo padrão já usado em CampoData */
+  dataEntrega: string; /** Data no formato ISO ("yyyy-mm-dd"), selecionada no calendário do CampoData */
   horarioEntrega: string; /** Ex: "09:00" */
-  dataDevolucao: string; /** Texto livre no formato dd/mm/aaaa */
+  dataDevolucao: string; /** Data no formato ISO ("yyyy-mm-dd") */
   horarioDevolucao: string; /** Ex: "18:00" */
   quantidade: number;
 }

@@ -3,6 +3,13 @@ import { useMemo, useState } from 'react';
 import type { ProdutoSelecionado } from '../../context/ProdutoContext';
 
 import { formatarIntervaloHorario } from '../../utils/horario';
+import {
+  adicionarDias,
+  adicionarHorasAPartirDeAgora,
+  formatarDataBr,
+  getHojeIso,
+  parseDataIso,
+} from '../../utils/dataLocacao';
 
 import type {
   DadosLocacaoCarrinho,
@@ -15,51 +22,19 @@ import type {
  * Controla o formulário, cálculos de valores, período e quantidade.
  */
 
-// Converte uma data ISO ("yyyy-mm-dd") em um objeto Date sem considerar fuso horário.
-function parseDataIso(dataIso: string): Date | null {
-  if (!dataIso) return null;
-
-  const [ano, mes, dia] = dataIso.split('-').map(Number);
-
-  if (!ano || !mes || !dia) return null;
-
-  return new Date(ano, mes - 1, dia);
-}
-
-// Converte uma data ISO ("yyyy-mm-dd") para o formato brasileiro ("dd/mm/yyyy").
-function formatarDataBr(dataIso: string): string {
-  const data = parseDataIso(dataIso);
-
-  if (!data) return '';
-
-  const dia = String(data.getDate()).padStart(2, '0');
-  const mes = String(data.getMonth() + 1).padStart(2, '0');
-
-  return `${dia}/${mes}/${data.getFullYear()}`;
-}
-
 // Formata um valor numérico como moeda brasileira.
 function formatarMoeda(valor: number): string {
   return `R$ ${valor.toFixed(2).replace('.', ',')}`;
 }
 
-// Adiciona uma quantidade de dias a uma data e retorna o resultado em formato ISO.
-function adicionarDias(dataIso: string, dias: number): string {
-  const data = parseDataIso(dataIso);
-
-  if (!data) return '';
-
-  data.setDate(data.getDate() + dias);
-
-  const ano = data.getFullYear();
-  const mes = String(data.getMonth() + 1).padStart(2, '0');
-  const dia = String(data.getDate()).padStart(2, '0');
-
-  return `${ano}-${mes}-${dia}`;
-}
-
 // Valor fixo do frete utilizado enquanto o cálculo real ainda é mockado.
 const FRETE_PADRAO = 10;
+
+// Prazos usados para calcular a primeira data de retirada permitida quando o
+// locador exige aprovação manual — mesmos valores usados na Web (ver
+// `web/src/components/SolicitarLocacao/SolicitarLocacaoModal/SolicitarLocacaoModal.types.ts`).
+const PRAZO_APROVACAO_HORAS = 24;
+const PRAZO_PAGAMENTO_HORAS = 24;
 
 interface UseSolicitarLocacaoCarrinhoParams {
   /** Quantidade inicial selecionada na tela do produto. */
@@ -93,6 +68,27 @@ export function useSolicitarLocacaoCarrinho({
 
     return Number.isFinite(preco) ? preco : 0;
   }, [produto.price]);
+
+  // Primeira data de retirada permitida no calendário. Quando o locador
+  // exige aprovação manual, soma o prazo que ele tem para responder ao
+  // prazo de pagamento (mesma regra da Web), bloqueando datas mais cedo do
+  // que isso no calendário de entrega.
+  const dataMinimaEntrega = useMemo(() => {
+    if (produto.tipoAprovacao !== 'manual') return getHojeIso();
+
+    return adicionarHorasAPartirDeAgora(
+      PRAZO_APROVACAO_HORAS + PRAZO_PAGAMENTO_HORAS,
+    );
+  }, [produto.tipoAprovacao]);
+
+  // Primeira data de devolução permitida: o dia seguinte à entrega já
+  // escolhida (é preciso ao menos 1 diária) ou, se a entrega ainda não foi
+  // escolhida, a própria data mínima de entrega.
+  const dataMinimaDevolucao = useMemo(() => {
+    return form.dataEntrega
+      ? adicionarDias(form.dataEntrega, 1)
+      : dataMinimaEntrega;
+  }, [form.dataEntrega, dataMinimaEntrega]);
 
   // Atualiza qualquer campo do formulário de forma genérica.
   const setCampo = <K extends keyof LocacaoCarrinhoFormState>(
@@ -231,5 +227,7 @@ export function useSolicitarLocacaoCarrinho({
     incrementarQuantidade,
     resumo,
     montarDadosLocacao,
+    dataMinimaEntrega,
+    dataMinimaDevolucao,
   };
 }
