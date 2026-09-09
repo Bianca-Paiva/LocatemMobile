@@ -275,7 +275,7 @@ export default function SolicitarLocacaoCarrinho() {
             onPress={handleConfirmar}
             disabled={!resumo.formularioCompleto}
           >
-            <Text style={styles.botaoTexto}>Adicionar ao carrinho</Text>
+            <Text style={styles.botaoTexto}>Continuar para pagamento</Text>
           </Pressable>
         </View>
       </ScrollView>

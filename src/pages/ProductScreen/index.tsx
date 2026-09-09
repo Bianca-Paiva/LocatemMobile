@@ -88,8 +88,17 @@ export default function ProductScreen() {
   };
 
   const handleAlugar = () => {
-    setModoModal('locar');
-    setModalAberto(true);
+    // Direciona para a tela "Detalhes da Locação" (SolicitarLocacaoCarrinho),
+    // já existente no projeto, levando a quantidade/tempo/tensão
+    // selecionados aqui na tela do produto — mesmo destino e mesmos
+    // parâmetros usados pelo botão "Adicionar ao carrinho" logo abaixo
+    // (handleAdicionarCarrinho). O produto em si já está disponível na
+    // tela seguinte via useProdutoStore (produtoSelecionado).
+    navigation.navigate('SolicitarLocacaoCarrinho', {
+      quantidadeInicial: selecaoProduto.quantidade,
+      diariasInicial: selecaoProduto.diarias,
+      tensaoInicial: selecaoProduto.tensao,
+    });
   };
 
   const handleAdicionarCarrinho = () => {
