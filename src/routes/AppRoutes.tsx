@@ -20,6 +20,7 @@ import CadastroFerramentaScreen from "../pages/CadastroFerramenta";
 import MinhasFerramentasScreen from "../pages/MinhasFerramentas";
 import Carrinho from "../pages/Carrinho/Carrinho";
 import Notificacoes from "../pages/Notificacoes/Notificacoes";
+import PerfilScreenPage from "../pages/Perfil/PerfilScreen";
 
 export type RootStackParamList = {
   LoginScreen: undefined,
@@ -39,6 +40,7 @@ export type RootStackParamList = {
   MinhasFerramentasScreen: undefined,
   CarrinhoScreen: undefined,
   NotificacoesScreen: undefined,
+  PerfilScreen: undefined,
   
 }
 
@@ -72,6 +74,8 @@ const MAPA_ROTAS_LEGADAS: Record<string, keyof RootStackParamList> = {
   notificacoes: "NotificacoesScreen",
   // TODO: ainda não existe tela de Pagamento no mobile — cai em HomeScreen por ora.
   pagamentoPix: "HomeScreen",
+  pagamentoCartao: "HomeScreen",
+  PerfilScreen: "PerfilScreen",
   
 };
 
@@ -114,6 +118,16 @@ function CarrinhoScreen() {
 function NotificacoesScreen() {
   const navigate = useLegacyNavigate();
   return <Notificacoes navigate={navigate} />;
+}
+
+function PerfilRoute() {
+    const navigate = useLegacyNavigate();
+
+    return (
+        <PerfilScreenPage
+            onNavigate={navigate}
+        />
+    );
 }
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -271,6 +285,14 @@ export default function AppRoutes() {
            options={{
             headerShown: false,
             title:"",
+          }}
+          />
+
+       <Stack.Screen
+        name="PerfilScreen"
+        component={PerfilRoute}
+        options={{
+           headerShown: false,
           }}
           />
 
