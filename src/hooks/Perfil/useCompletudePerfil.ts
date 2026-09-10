@@ -25,9 +25,10 @@ export function useCompletudePerfil(usuario: Usuario | null) {
     const percentual = CRITERIOS.reduce((total, c) => total + (c.atendido(usuario) ? c.peso : 0), 0);
     const completo = faltando.length === 0;
     const acoes = faltando.slice(0, 2).map(c => c.acao);
+    const frase = acoes.length === 2 ? acoes.join(' e ') : acoes[0];
     const mensagemDica = completo
       ? 'Seu perfil está completo!'
-      : `${acoes.length === 2 ? acoes.join(' e ') : acoes[0]} para chegar a 100%.`;
+      : `${frase.charAt(0).toUpperCase()}${frase.slice(1)} para chegar a 100%.`;
 
     return { percentual, completo, mensagemDica };
   }, [usuario]);

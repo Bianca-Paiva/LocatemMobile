@@ -1,3 +1,4 @@
+import React from "react";
 import { ScrollView, Text, View, TouchableOpacity } from "react-native";
 import { Controller } from "react-hook-form"; 
 
@@ -22,7 +23,7 @@ export default function LoginScreen() {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   
   // Extraímos tudo o que precisamos do nosso hook
-  const { control, errors, isLoading, handleSignIn } = useLogin();
+  const { control, errors, isLoading, handleSignIn } = useLogin(navigation);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -85,15 +86,10 @@ export default function LoginScreen() {
         </View>
 
         <BtnPrincipal 
-          title={isLoading ? "Carregando..." : "Entrar"} 
-          
-            onPress={ () => {
-                 navigation.navigate('HomeScreen')
-                 {handleSignIn} 
-                }}
-          // Se o teu BtnPrincipal aceitar a prop disabled, descomenta a linha abaixo:
-         
-        />
+            title={isLoading ? "Carregando..." : "Entrar"} 
+            onPress={handleSignIn} // Chama a função que já vem preparada do Hook
+            disabled={isLoading}   // Bloqueia cliques múltiplos
+          />
       </View>
 
       <AuthRedirect

@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
+import colors from '../../../theme/colors';
 
 export const styles = StyleSheet.create({
     card: {
-        backgroundColor: '#FFF',
+        backgroundColor: colors.bgCard,
         borderRadius: 14,
         borderWidth: 1,
-        borderColor: '#F3F4F6',
+        borderColor: colors.border,
         padding: 20,
         gap: 16,
     },
@@ -24,7 +25,7 @@ export const styles = StyleSheet.create({
     name: {
         fontSize: 24,
         fontWeight: '800',
-        color: '#1A1A1A',
+        color: colors.textDark,
     },
 
     badge: {
@@ -35,19 +36,19 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 12,
         paddingVertical: 5,
         borderRadius: 30,
-        backgroundColor: '#FFF4B8',
+        backgroundColor: colors.primarySoft,
     },
 
     badgeText: {
         fontSize: 11,
         fontWeight: '700',
-        color: '#8A6D00',
+        color: colors.amber,
     },
 
     edit: {
         height: 40,
         borderRadius: 24,
-        backgroundColor: '#FFD600',
+        backgroundColor: colors.primary,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
@@ -60,4 +61,3 @@ export const styles = StyleSheet.create({
         color: '#0A0A0A',
     },
 });
-

@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native';
+import colors from '../../theme/colors';
 
 export const styles = StyleSheet.create({
     safe: {
         flex: 1,
-        backgroundColor: '#F8F8F8',
+        backgroundColor: colors.bgMain,
     },
 
     page: {
@@ -23,7 +24,7 @@ export const styles = StyleSheet.create({
         borderRadius: 24,
         borderWidth: 1.5,
         borderColor: '#F3C2C2',
-        backgroundColor: '#FFF',
+        backgroundColor: colors.bgCard,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
@@ -41,11 +42,27 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         padding: 30,
+        gap: 14,
     },
 
     emptyText: {
         textAlign: 'center',
         fontSize: 15,
-        color: '#777',
+        color: colors.textMuted,
+    },
+
+    btnLogin: {
+        height: 42,
+        paddingHorizontal: 20,
+        borderRadius: 24,
+        backgroundColor: colors.primary,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    btnLoginText: {
+        fontSize: 14,
+        fontWeight: '700',
+        color: '#0A0A0A',
     },
 });

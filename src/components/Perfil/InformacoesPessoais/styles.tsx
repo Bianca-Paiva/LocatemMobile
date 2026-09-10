@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
+import colors from '../../../theme/colors';
 
 export const styles = StyleSheet.create({
     card: {
-        backgroundColor: '#FFF',
+        backgroundColor: colors.bgCard,
         borderRadius: 14,
         borderWidth: 1,
-        borderColor: '#F3F4F6',
+        borderColor: colors.border,
         padding: 18,
     },
 
@@ -19,14 +20,14 @@ export const styles = StyleSheet.create({
     title: {
         fontSize: 15,
         fontWeight: '700',
-        color: '#1A1A1A',
+        color: colors.textDark,
     },
 
     iconButton: {
         width: 32,
         height: 32,
         borderRadius: 8,
-        backgroundColor: '#FFF4B8',
+        backgroundColor: colors.primarySoft,
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -34,7 +35,7 @@ export const styles = StyleSheet.create({
     row: {
         paddingVertical: 12,
         borderBottomWidth: 1,
-        borderBottomColor: '#F3F4F6',
+        borderBottomColor: colors.border,
         gap: 4,
     },
 
@@ -52,7 +53,7 @@ export const styles = StyleSheet.create({
     labelText: {
         fontSize: 11,
         fontWeight: '600',
-        color: '#777',
+        color: colors.textMuted,
         textTransform: 'uppercase',
         letterSpacing: 0.4,
     },
@@ -60,6 +61,6 @@ export const styles = StyleSheet.create({
     value: {
         fontSize: 14,
         fontWeight: '600',
-        color: '#1A1A1A',
+        color: colors.textDark,
     },
 });

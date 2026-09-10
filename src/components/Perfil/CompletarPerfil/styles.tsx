@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
+import colors from '../../../theme/colors';
 
 export const styles = StyleSheet.create({
     card: {
-        backgroundColor: '#FFF',
+        backgroundColor: colors.bgCard,
         borderRadius: 14,
         borderWidth: 1,
-        borderColor: '#F3F4F6',
+        borderColor: colors.border,
         padding: 18,
     },
 
@@ -19,14 +20,14 @@ export const styles = StyleSheet.create({
     title: {
         fontSize: 15,
         fontWeight: '700',
-        color: '#1A1A1A',
+        color: colors.textDark,
         flex: 1,
     },
 
     percent: {
         fontSize: 13,
         fontWeight: '700',
-        color: '#6B5A00',
+        color: colors.amber,
     },
 
     track: {
@@ -38,13 +39,13 @@ export const styles = StyleSheet.create({
 
     fill: {
         height: '100%',
-        backgroundColor: '#FFD600',
+        backgroundColor: colors.primary,
         borderRadius: 8,
     },
 
     tip: {
         marginTop: 10,
         fontSize: 13,
-        color: '#777',
+        color: colors.textMuted,
     },
 });

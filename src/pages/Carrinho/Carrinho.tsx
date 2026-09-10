@@ -153,13 +153,15 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
-      <Header />
+      
 
       <ScrollView
         style={styles.container}
-        contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
+      <Header />
+       <View style={styles.containerCont}>
+      
         <CabecalhoPagina titulo="Carrinho" />
 
         {carrinhoVazio ? (
@@ -207,6 +209,7 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
           onCtaClick={() => navigate('pagamentoPix')}
           ctaDisabled={carrinhoVazio || nenhumSelecionado}
         />
+      </View>  
       </ScrollView>
     </SafeAreaView>
   );

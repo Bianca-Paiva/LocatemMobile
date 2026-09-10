@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
+import colors from '../../../theme/colors';
 
 export const styles = StyleSheet.create({
     card: {
-        backgroundColor: '#FFF',
+        backgroundColor: colors.bgCard,
         borderRadius: 14,
         borderWidth: 1,
-        borderColor: '#F3F4F6',
+        borderColor: colors.border,
         padding: 18,
         alignItems: 'center',
     },
@@ -14,14 +15,14 @@ export const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         fontSize: 15,
         fontWeight: '700',
-        color: '#1A1A1A',
+        color: colors.textDark,
         marginBottom: 16,
     },
 
     rating: {
-        fontSize: 44,
+        fontSize: 40,
         fontWeight: '800',
-        color: '#1A1A1A',
+        color: colors.textDark,
     },
 
     stars: {
@@ -33,21 +34,21 @@ export const styles = StyleSheet.create({
     metrics: {
         width: '100%',
         borderTopWidth: 1,
-        borderTopColor: '#F3F4F6',
+        borderTopColor: colors.border,
         paddingTop: 14,
         alignItems: 'center',
     },
 
     based: {
         fontSize: 12,
-        color: '#777',
+        color: colors.textMuted,
         marginBottom: 4,
     },
 
     metric: {
         fontSize: 14,
         fontWeight: '700',
-        color: '#1A1A1A',
+        color: colors.textDark,
         marginBottom: 2,
     },
 
@@ -55,7 +56,6 @@ export const styles = StyleSheet.create({
         marginTop: 14,
         fontSize: 13,
         fontWeight: '600',
-        color: '#6B5A00',
+        color: colors.amber,
     },
 });
-

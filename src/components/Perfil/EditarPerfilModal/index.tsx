@@ -1,153 +1,99 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Controller } from 'react-hook-form';
 import {
     Alert,
-    Image,
     KeyboardAvoidingView,
+    Linking,
     Modal,
     Platform,
     Pressable,
     ScrollView,
-    StyleSheet,
     Text,
-    TextInput,
     View,
 } from 'react-native';
 import { Camera, X } from 'lucide-react-native';
 
+import Avatar from '../../Avatar/Avatar';
+import FormInput from '../../Inputs/FormInput/FormInput';
+import BtnPrincipal from '../../BtnPrincipal';
 import type { Usuario } from '../../../types/usuario.types';
+import { maskCPF, maskCNPJ, maskPhone, maskCEP } from '../../../hooks/masks';
 import { useEditarPerfilForm } from '../../../hooks/Perfil/useEditarPerfilForm';
+import type { PerfilFormData } from '../../../hooks/Perfil/perfilSchema';
 import { styles } from './styles';
-
-const digits = (v: string) => v.replace(/\D/g, '');
-
-const maskPhone = (v: string) => {
-    const d = digits(v).slice(0, 11);
-
-    return d.length <= 10
-        ? d
-              .replace(/(\d{2})(\d{0,4})(\d{0,4})/, '($1) $2-$3')
-              .replace(/-$/, '')
-        : d
-              .replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3')
-              .replace(/-$/, '');
-};
-
-const maskCPF = (v: string) =>
-    digits(v)
-        .slice(0, 11)
-        .replace(/(\d{3})(\d)/, '$1.$2')
-        .replace(/(\d{3})(\d)/, '$1.$2')
-        .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-
-const maskCNPJ = (v: string) =>
-    digits(v)
-        .slice(0, 14)
-        .replace(/(\d{2})(\d)/, '$1.$2')
-        .replace(/(\d{3})(\d)/, '$1.$2')
-        .replace(/(\d{3})(\d)/, '$1/$2')
-        .replace(/(\d{4})(\d{1,2})$/, '$1-$2');
-
-const maskCEP = (v: string) =>
-    digits(v)
-        .slice(0, 8)
-        .replace(/(\d{5})(\d)/, '$1-$2');
-
-interface FieldProps {
-    label: string;
-    value: string;
-    onChange: (v: string) => void;
-    placeholder: string;
-    error?: string;
-    keyboardType?: 'default' | 'numeric';
-}
-
-function Field({
-    label,
-    value,
-    onChange,
-    placeholder,
-    error,
-    keyboardType = 'default',
-}: FieldProps) {
-    return (
-        <View style={styles.field}>
-            <Text style={styles.label}>
-                {label}
-            </Text>
-
-            <TextInput
-                value={value}
-                onChangeText={onChange}
-                placeholder={placeholder}
-                placeholderTextColor="#A0A0A0"
-                keyboardType={keyboardType}
-                style={[
-                    styles.input,
-                    error && styles.inputError,
-                ]}
-            />
-
-            {error && (
-                <Text style={styles.error}>
-                    {error}
-                </Text>
-            )}
-        </View>
-    );
-}
 
 interface EditarPerfilModalProps {
     usuario: Usuario;
     onClose: () => void;
     onSalvar: (dados: Partial<Usuario>) => void;
+    /**
+     * React Native não tem `<input type="file">` como a Web — quem integra
+     * este componente decide como abrir a galeria/câmera (ex: com
+     * expo-image-picker) e repassa a nova `fotoUrl` aqui. Sem essa prop,
+     * caímos num Alert de placeholder (ver onPress do botão "Alterar foto").
+     */
     onAlterarFoto?: () => void;
 }
 
+/**
+ * Modal de Editar Perfil.
+ *
+ * Espelha components/Perfil/EditarPerfilModal/EditarPerfilModal.tsx da Web:
+ * mesmos campos, mesma validação (useEditarPerfilForm + zod) e agora reusa
+ * os componentes de UI que o próprio app Mobile já tinha (FormInput,
+ * BtnPrincipal) em vez de reimplementar TextInput/Pressable soltos.
+ */
 export default function EditarPerfilModal({
     usuario,
     onClose,
     onSalvar,
     onAlterarFoto,
 }: EditarPerfilModalProps) {
+    const [fotoUrl, setFotoUrl] = useState(usuario.fotoUrl);
+
     const {
         control,
         isCNPJ,
         alerta,
         setAlerta,
-        submit,
-        reset,
+        shakes,
+        clearShake,
+        touchedFields,
+        errors,
+        trigger,
+        buildSubmit,
     } = useEditarPerfilForm(usuario);
 
-    const [fotoUrl, setFotoUrl] = useState(usuario.fotoUrl);
+    const onValidSubmit = (data: PerfilFormData) => {
+        const enderecoCompleto = `${data.logradouro}, ${data.numero} - CEP: ${data.cep}`;
 
-    useEffect(() => {
-        setFotoUrl(usuario.fotoUrl);
-
-        reset({
-            nome: usuario.nome,
-            telefone: usuario.telefone,
-            documento: usuario.documento,
-            cep: '',
-            logradouro: usuario.endereco || '',
-            numero: '',
-        });
-    }, [usuario, reset]);
-
-    const salvar = (data: any) => {
         onSalvar({
             nome: data.nome,
             telefone: data.telefone,
             documento: data.documento,
-            endereco: `${data.logradouro}, ${data.numero} - CEP: ${data.cep}`,
+            endereco: enderecoCompleto,
             fotoUrl,
         });
 
         onClose();
     };
 
-    const fecharAlerta = () => {
-        setAlerta(null);
+    const abrirCep = () => {
+        Linking.openURL(
+            'https://buscacepinter.correios.com.br/app/endereco/index.php'
+        );
+    };
+
+    const alterarFoto = () => {
+        if (onAlterarFoto) {
+            onAlterarFoto();
+            return;
+        }
+
+        Alert.alert(
+            'Alterar foto',
+            'Integre aqui o seletor de imagens do seu aplicativo (ex: expo-image-picker).'
+        );
     };
 
     return (
@@ -159,11 +105,7 @@ export default function EditarPerfilModal({
         >
             <KeyboardAvoidingView
                 style={styles.overlay}
-                behavior={
-                    Platform.OS === 'ios'
-                        ? 'padding'
-                        : undefined
-                }
+                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
             >
                 <View style={styles.modal}>
                     <View style={styles.header}>
@@ -171,10 +113,7 @@ export default function EditarPerfilModal({
                             Editar Perfil
                         </Text>
 
-                        <Pressable
-                            onPress={onClose}
-                            style={styles.close}
-                        >
+                        <Pressable onPress={onClose} style={styles.close}>
                             <X size={20} />
                         </Pressable>
                     </View>
@@ -185,56 +124,22 @@ export default function EditarPerfilModal({
                         keyboardShouldPersistTaps="handled"
                     >
                         <View style={styles.photo}>
-                            <View style={styles.avatar}>
-                                {fotoUrl ? (
-                                    <Image
-                                        source={{ uri: fotoUrl }}
-                                        style={styles.avatarImage}
-                                    />
-                                ) : (
-                                    <Text style={styles.initials}>
-                                        {usuario.nome
-                                            .split(/\s+/)
-                                            .slice(0, 2)
-                                            .map((x) => x[0])
-                                            .join('')
-                                            .toUpperCase()}
-                                    </Text>
-                                )}
-                            </View>
+                            <Avatar nome={usuario.nome} fotoUrl={fotoUrl} size={72} />
 
-                            <Pressable
-                                style={styles.photoButton}
-                                onPress={() =>
-                                    onAlterarFoto
-                                        ? onAlterarFoto()
-                                        : Alert.alert(
-                                              'Alterar foto',
-                                              'Integre aqui o seletor de imagens do seu aplicativo.'
-                                          )
-                                }
-                            >
+                            <Pressable style={styles.photoButton} onPress={alterarFoto}>
                                 <Camera size={14} />
-
-                                <Text style={styles.photoText}>
-                                    Alterar foto
-                                </Text>
+                                <Text style={styles.photoText}>Alterar foto</Text>
                             </Pressable>
                         </View>
 
                         {alerta && (
                             <Pressable
-                                onPress={fecharAlerta}
+                                onPress={() => setAlerta(null)}
                                 style={styles.alert}
                             >
-                                <Text style={styles.alertTitle}>
-                                    {alerta.titulo}
-                                </Text>
-
+                                <Text style={styles.alertTitle}>{alerta.titulo}</Text>
                                 {alerta.mensagem && (
-                                    <Text style={styles.alertMessage}>
-                                        {alerta.mensagem}
-                                    </Text>
+                                    <Text style={styles.alertMessage}>{alerta.mensagem}</Text>
                                 )}
                             </Pressable>
                         )}
@@ -243,18 +148,17 @@ export default function EditarPerfilModal({
                             <Controller
                                 control={control}
                                 name="nome"
-                                render={({ field }) => (
-                                    <Field
+                                render={({ field: { onChange, value } }) => (
+                                    <FormInput
                                         label="Nome completo"
-                                        value={field.value}
-                                        onChange={field.onChange}
                                         placeholder="Ex: João da Silva"
-                                        error={
-                                            control._formState.errors.nome
-                                                ?.message as
-                                                | string
-                                                | undefined
-                                        }
+                                        value={value}
+                                        required
+                                        shake={shakes.nome.shake}
+                                        onBlur={() => trigger('nome')}
+                                        onChangeText={(v) => { onChange(v); clearShake('nome'); }}
+                                        status={errors.nome || shakes.nome.active ? 'erro' : touchedFields.nome ? 'sucesso' : ''}
+                                        error={errors.nome?.message}
                                     />
                                 )}
                             />
@@ -262,23 +166,18 @@ export default function EditarPerfilModal({
                             <Controller
                                 control={control}
                                 name="telefone"
-                                render={({ field }) => (
-                                    <Field
+                                render={({ field: { onChange, value } }) => (
+                                    <FormInput
                                         label="Telefone"
-                                        value={field.value}
-                                        onChange={(v) =>
-                                            field.onChange(
-                                                maskPhone(v)
-                                            )
-                                        }
-                                        placeholder="(00) 00000-0000"
                                         keyboardType="numeric"
-                                        error={
-                                            control._formState.errors
-                                                .telefone?.message as
-                                                | string
-                                                | undefined
-                                        }
+                                        placeholder="(00) 00000-0000"
+                                        value={value}
+                                        required
+                                        shake={shakes.telefone.shake}
+                                        onBlur={() => trigger('telefone')}
+                                        onChangeText={(v) => { onChange(maskPhone(v)); clearShake('telefone'); }}
+                                        status={errors.telefone || shakes.telefone.active ? 'erro' : touchedFields.telefone ? 'sucesso' : ''}
+                                        error={errors.telefone?.message}
                                     />
                                 )}
                             />
@@ -286,93 +185,64 @@ export default function EditarPerfilModal({
                             <Controller
                                 control={control}
                                 name="documento"
-                                render={({ field }) => (
-                                    <Field
-                                        label={
-                                            isCNPJ
-                                                ? 'CNPJ'
-                                                : 'CPF'
-                                        }
-                                        value={field.value}
-                                        onChange={(v) =>
-                                            field.onChange(
-                                                isCNPJ
-                                                    ? maskCNPJ(v)
-                                                    : maskCPF(v)
-                                            )
-                                        }
-                                        placeholder={
-                                            isCNPJ
-                                                ? '00.000.000/0000-00'
-                                                : '000.000.000-00'
-                                        }
+                                render={({ field: { onChange, value } }) => (
+                                    <FormInput
+                                        label={isCNPJ ? 'CNPJ' : 'CPF'}
                                         keyboardType="numeric"
-                                        error={
-                                            control._formState.errors
-                                                .documento?.message as
-                                                | string
-                                                | undefined
-                                        }
+                                        placeholder={isCNPJ ? '00.000.000/0000-00' : '000.000.000-00'}
+                                        value={value}
+                                        required
+                                        shake={shakes.documento.shake}
+                                        onBlur={() => trigger('documento')}
+                                        onChangeText={(v) => {
+                                            onChange(isCNPJ ? maskCNPJ(v) : maskCPF(v));
+                                            clearShake('documento');
+                                        }}
+                                        status={errors.documento || shakes.documento.active ? 'erro' : touchedFields.documento ? 'sucesso' : ''}
+                                        error={errors.documento?.message}
                                     />
                                 )}
                             />
 
-                            <Text style={styles.section}>
-                                Endereço
-                            </Text>
+                            <Text style={styles.section}>Endereço</Text>
 
                             <Controller
                                 control={control}
                                 name="cep"
-                                render={({ field }) => (
-                                    <Field
+                                render={({ field: { onChange, value } }) => (
+                                    <FormInput
                                         label="CEP"
-                                        value={field.value}
-                                        onChange={(v) =>
-                                            field.onChange(
-                                                maskCEP(v)
-                                            )
-                                        }
-                                        placeholder="00000-000"
                                         keyboardType="numeric"
-                                        error={
-                                            control._formState.errors
-                                                .cep?.message as
-                                                | string
-                                                | undefined
-                                        }
+                                        placeholder="00000-000"
+                                        value={value}
+                                        required
+                                        shake={shakes.cep.shake}
+                                        onBlur={() => trigger('cep')}
+                                        onChangeText={(v) => { onChange(maskCEP(v)); clearShake('cep'); }}
+                                        status={errors.cep || shakes.cep.active ? 'erro' : touchedFields.cep ? 'sucesso' : ''}
+                                        error={errors.cep?.message}
                                     />
                                 )}
                             />
 
-                            <Pressable
-                                onPress={() =>
-                                    Alert.alert(
-                                        'Consulta de CEP',
-                                        'Abra a página dos Correios no navegador para consultar seu CEP.'
-                                    )
-                                }
-                            >
-                                <Text style={styles.cepLink}>
-                                    Não sei meu CEP
-                                </Text>
+                            <Pressable onPress={abrirCep}>
+                                <Text style={styles.cepLink}>Não sei meu CEP</Text>
                             </Pressable>
 
                             <Controller
                                 control={control}
                                 name="logradouro"
-                                render={({ field }) => (
-                                    <Field
+                                render={({ field: { onChange, value } }) => (
+                                    <FormInput
                                         label="Rua/Logradouro"
-                                        value={field.value}
-                                        onChange={field.onChange}
                                         placeholder="Ex: Avenida Paulista"
-                                        error={
-                                            control._formState.errors
-                                                .logradouro?.message as
-                                                | string
-                                                | undefined
-                                        }
+                                        value={value}
+                                        required
+                                        shake={shakes.logradouro.shake}
+                                        onBlur={() => trigger('logradouro')}
+                                        onChangeText={(v) => { onChange(v); clearShake('logradouro'); }}
+                                        status={errors.logradouro || shakes.logradouro.active ? 'erro' : touchedFields.logradouro ? 'sucesso' : ''}
+                                        error={errors.logradouro?.message}
                                     />
                                 )}
                             />
@@ -380,31 +250,26 @@ export default function EditarPerfilModal({
                             <Controller
                                 control={control}
                                 name="numero"
-                                render={({ field }) => (
-                                    <Field
+                                render={({ field: { onChange, value } }) => (
+                                    <FormInput
                                         label="Número"
-                                        value={field.value}
-                                        onChange={field.onChange}
-                                        placeholder="Ex: 123"
                                         keyboardType="numeric"
-                                        error={
-                                            control._formState.errors
-                                                .numero?.message as
-                                                | string
-                                                | undefined
-                                        }
+                                        placeholder="Ex: 123"
+                                        value={value}
+                                        required
+                                        shake={shakes.numero.shake}
+                                        onBlur={() => trigger('numero')}
+                                        onChangeText={(v) => { onChange(v); clearShake('numero'); }}
+                                        status={errors.numero || shakes.numero.active ? 'erro' : touchedFields.numero ? 'sucesso' : ''}
+                                        error={errors.numero?.message}
                                     />
                                 )}
                             />
 
-                            <Pressable
-                                style={styles.save}
-                                onPress={() => submit(salvar)}
-                            >
-                                <Text style={styles.saveText}>
-                                    Salvar alterações
-                                </Text>
-                            </Pressable>
+                            <BtnPrincipal
+                                title="Salvar alterações"
+                                onPress={() => buildSubmit(onValidSubmit)()}
+                            />
                         </View>
                     </ScrollView>
                 </View>
@@ -412,6 +277,3 @@ export default function EditarPerfilModal({
         </Modal>
     );
 }
-
-
-

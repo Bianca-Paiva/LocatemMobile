@@ -8,7 +8,7 @@ import {
     View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import type { Usuario } from '../../types/usuario.types';
+import { useAuth } from '../../hooks/Auth/useAuth';
 import { useCompletudePerfil } from '../../hooks/Perfil/useCompletudePerfil';
 
 import PerfilHeader from '../../components/Perfil/PerfilHeader';
@@ -17,20 +17,24 @@ import InformacoesPessoais from '../../components/Perfil/InformacoesPessoais';
 import ReputacaoCard from '../../components/Perfil/ReputacaoCard';
 import PainelControle from '../../components/Perfil/PainelControle';
 import EditarPerfilModal from '../../components/Perfil/EditarPerfilModal';
-import { useAuth } from '../../hooks/Auth/useAuth';
 import { styles } from './styles';
-
-
+import Header from '../../components/Header';
 
 interface Props {
     onNavigate?: (
-        route: 'minhasLocacoes' | 'notificacoes'
+        route: 'minhasReservas' | 'notificacoes'
     ) => void;
+    /** Chamado quando o usuário sem sessão toca em "Entrar na conta" (espelha o botão equivalente da Web). */
+    onEntrar?: () => void;
+    /** Chamado após confirmar "Sair da conta" — na Web, `navigate('home')` logo após `logout()`. */
+    onLogout?: () => void;
     onAlterarFoto?: () => void;
 }
 
 export default function PerfilScreen({
     onNavigate,
+    onEntrar,
+    onLogout,
     onAlterarFoto,
 }: Props) {
     const [editando, setEditando] = useState(false);
@@ -46,6 +50,8 @@ export default function PerfilScreen({
         mensagemDica,
     } = useCompletudePerfil(usuario);
 
+    // Sem sessão: não há o que exibir nesta tela. Igual à Web, oferecemos um
+    // botão "Entrar na conta" em vez de deixar o usuário sem próxima ação.
     if (!usuario) {
         return (
             <SafeAreaView style={styles.safe}>
@@ -53,10 +59,37 @@ export default function PerfilScreen({
                     <Text style={styles.emptyText}>
                         Você precisa entrar na sua conta para ver o perfil.
                     </Text>
+
+                    <Pressable style={styles.btnLogin} onPress={onEntrar}>
+                        <Text style={styles.btnLoginText}>
+                            Entrar na conta
+                        </Text>
+                    </Pressable>
                 </View>
             </SafeAreaView>
         );
     }
+
+    const handleLogout = () => {
+        Alert.alert(
+            'Sair da conta',
+            'Deseja realmente sair?',
+            [
+                {
+                    text: 'Cancelar',
+                    style: 'cancel',
+                },
+                {
+                    text: 'Sair',
+                    style: 'destructive',
+                    onPress: () => {
+                        logout();
+                        onLogout?.();
+                    },
+                },
+            ]
+        );
+    };
 
     return (
         <SafeAreaView style={styles.safe}>
@@ -64,6 +97,7 @@ export default function PerfilScreen({
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={styles.page}
             >
+                <Header/>
                 <PerfilHeader
                     usuario={usuario}
                     onEditar={() => setEditando(true)}
@@ -87,29 +121,14 @@ export default function PerfilScreen({
                 </View>
 
                 <PainelControle
+                    tipo={usuario.tipo}
                     onNavigate={onNavigate}
                 />
 
                 <Pressable
                     style={styles.logout}
-                   onPress={() =>
-                            Alert.alert(
-                                'Sair da conta',
-                                'Deseja realmente sair?',
-                                [
-                                    {
-                                        text: 'Cancelar',
-                                        style: 'cancel',
-                                    },
-                                    {
-                                        text: 'Sair',
-                                        style: 'destructive',
-                                        onPress: logout,
-                                    },
-                                ]
-                            )
-                        }
-                      >
+                    onPress={handleLogout}
+                >
                     <LogOut
                         size={16}
                         color="#D33"
@@ -132,4 +151,3 @@ export default function PerfilScreen({
         </SafeAreaView>
     );
 }
-

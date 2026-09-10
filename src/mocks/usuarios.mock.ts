@@ -28,6 +28,7 @@ export const USUARIOS_MOCK: Usuario[] = [
     id: "u-locador-1",
     nome: "João da Silva",
     email: "joao.silva@exemplo.com",
+    senha: "123456",
     telefone: "(11) 98765-4321",
     documento: "12.345.678/0001-90",
     endereco:
@@ -51,6 +52,7 @@ export const USUARIOS_MOCK: Usuario[] = [
     id: "u-locataria-1",
     nome: "Maria Oliveira",
     email: "maria.oliveira@exemplo.com",
+    senha: "123456",
     telefone: "(11) 91234-5678",
     documento: "987.654.321-00",
     endereco:
@@ -123,6 +125,8 @@ export function criarUsuarioFallback(
     nome: nomeFormatado,
 
     email,
+
+    senha: "123456", // Senha padrão para testes
 
     telefone: "",
 

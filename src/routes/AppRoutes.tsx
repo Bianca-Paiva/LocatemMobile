@@ -21,6 +21,7 @@ import MinhasFerramentasScreen from "../pages/MinhasFerramentas";
 import Carrinho from "../pages/Carrinho/Carrinho";
 import Notificacoes from "../pages/Notificacoes/Notificacoes";
 import PerfilScreenPage from "../pages/Perfil/PerfilScreen";
+import { withAuthGuard } from "../components/ProtectedRoute";
 
 export type RootStackParamList = {
   LoginScreen: undefined,
@@ -126,6 +127,8 @@ function PerfilRoute() {
     return (
         <PerfilScreenPage
             onNavigate={navigate}
+            onEntrar={() => navigate("LoginScreen")}
+            onLogout={() => navigate("home")}
         />
     );
 }
@@ -213,7 +216,7 @@ export default function AppRoutes() {
 
         <Stack.Screen
           name="CadastroFerramentaScreen"
-          component={CadastroFerramentaScreen}
+          component={withAuthGuard(CadastroFerramentaScreen)}
           options={{
             headerShown: false,
           }}
@@ -221,7 +224,7 @@ export default function AppRoutes() {
 
         <Stack.Screen
           name="MinhasFerramentasScreen"
-          component={MinhasFerramentasScreen}
+          component={withAuthGuard(MinhasFerramentasScreen)}
           options={{
             headerShown: false,
           }}
@@ -237,7 +240,7 @@ export default function AppRoutes() {
         />
         <Stack.Screen
           name="DetalhesReserva"
-          component={DetalhesReservaScreen}
+          component={withAuthGuard(DetalhesReservaScreen)}
           options={{
             headerShown: false,
             title:"",
@@ -246,7 +249,7 @@ export default function AppRoutes() {
           />
           <Stack.Screen
           name="MinhasReservas"
-          component={MinhasReservasScreen}
+          component={withAuthGuard(MinhasReservasScreen)}
            options={{
             headerShown: false,
             title:"",
@@ -255,7 +258,7 @@ export default function AppRoutes() {
           />
           <Stack.Screen
           name="SolicitarReserva"
-          component={SolicitarReservaScreen}
+          component={withAuthGuard(SolicitarReservaScreen)}
            options={{
             headerShown: false,
             title:"",
@@ -263,7 +266,7 @@ export default function AppRoutes() {
           />
           <Stack.Screen
           name="SolicitacaoEnviada"
-          component={SolicitacaoEnviadaScreen}
+          component={withAuthGuard(SolicitacaoEnviadaScreen)}
            options={{
             headerShown: false,
             title:"",
@@ -272,7 +275,7 @@ export default function AppRoutes() {
 
           <Stack.Screen
           name="CarrinhoScreen"
-          component={CarrinhoScreen}
+          component={withAuthGuard(CarrinhoScreen)}
            options={{
             headerShown: false,
             title:"",
@@ -281,7 +284,7 @@ export default function AppRoutes() {
 
           <Stack.Screen
           name="NotificacoesScreen"
-          component={NotificacoesScreen}
+          component={withAuthGuard(NotificacoesScreen)}
            options={{
             headerShown: false,
             title:"",

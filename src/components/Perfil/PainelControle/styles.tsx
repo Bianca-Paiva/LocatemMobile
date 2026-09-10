@@ -1,18 +1,19 @@
 import { StyleSheet } from 'react-native';
+import colors from '../../../theme/colors';
 
 export const styles = StyleSheet.create({
     card: {
-        backgroundColor: '#FFF',
+        backgroundColor: colors.bgCard,
         borderRadius: 14,
         borderWidth: 1,
-        borderColor: '#F3F4F6',
+        borderColor: colors.border,
         padding: 18,
     },
 
     title: {
         fontSize: 15,
         fontWeight: '700',
-        color: '#1A1A1A',
+        color: colors.textDark,
         marginBottom: 14,
     },
 
@@ -27,9 +28,9 @@ export const styles = StyleSheet.create({
         gap: 12,
         padding: 14,
         borderWidth: 1,
-        borderColor: '#F3F4F6',
+        borderColor: colors.border,
         borderRadius: 12,
-        backgroundColor: '#FAFAFA',
+        backgroundColor: colors.bgMain,
     },
 
     pressed: {
@@ -44,10 +45,10 @@ export const styles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: 10,
-        backgroundColor: '#FFF4B8',
+        backgroundColor: colors.primarySoft,
         alignItems: 'center',
         justifyContent: 'center',
-        color: '#8A6D00',
+        color: colors.amber,
     },
 
     texts: {
@@ -58,12 +59,11 @@ export const styles = StyleSheet.create({
     optionTitle: {
         fontSize: 14,
         fontWeight: '700',
-        color: '#1A1A1A',
+        color: colors.textDark,
     },
 
     description: {
         fontSize: 12,
-        color: '#777',
+        color: colors.textMuted,
     },
 });
-

@@ -28,9 +28,12 @@ export default function PerfilHeader({
     return (
         <View style={styles.card}>
             <View style={styles.info}>
+                {/* size=72 — igual ao Header da Web (o padrão de 40 é só
+                    para usos "inline" menores, ex: dentro do Header global) */}
                 <Avatar
                     nome={usuario.nome}
                     fotoUrl={usuario.fotoUrl}
+                    size={72}
                 />
 
                 <View style={styles.texts}>
@@ -69,4 +72,3 @@ export default function PerfilHeader({
         </View>
     );
 }
-

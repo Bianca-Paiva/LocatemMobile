@@ -1,19 +1,20 @@
 import { StyleSheet } from 'react-native';
+import colors from '../../../theme/colors';
 
 export const styles = StyleSheet.create({
     overlay: {
         flex: 1,
-        backgroundColor: 'rgba(26,26,26,0.45)',
+        backgroundColor: 'rgba(10,10,10,0.45)',
         justifyContent: 'flex-end',
     },
 
     modal: {
         maxHeight: '92%',
-        backgroundColor: '#FFF',
+        backgroundColor: colors.bgCard,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         borderWidth: 1,
-        borderColor: '#F6C945',
+        borderColor: colors.primaryLight,
     },
 
     header: {
@@ -23,13 +24,13 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 20,
         borderBottomWidth: 1,
-        borderBottomColor: '#F3F4F6',
+        borderBottomColor: colors.border,
     },
 
     title: {
         fontSize: 18,
         fontWeight: '800',
-        color: '#1A1A1A',
+        color: colors.textDark,
     },
 
     close: {
@@ -51,26 +52,6 @@ export const styles = StyleSheet.create({
         marginBottom: 20,
     },
 
-    avatar: {
-        width: 72,
-        height: 72,
-        borderRadius: 36,
-        backgroundColor: '#FFD600',
-        alignItems: 'center',
-        justifyContent: 'center',
-        overflow: 'hidden',
-    },
-
-    avatarImage: {
-        width: '100%',
-        height: '100%',
-    },
-
-    initials: {
-        fontSize: 24,
-        fontWeight: '800',
-    },
-
     photoButton: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -78,17 +59,17 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 14,
         paddingVertical: 7,
         borderRadius: 20,
-        backgroundColor: '#FFF4B8',
+        backgroundColor: colors.primarySoft,
     },
 
     photoText: {
         fontSize: 12,
         fontWeight: '700',
-        color: '#8A6D00',
+        color: colors.amber,
     },
 
     alert: {
-        backgroundColor: '#FFF3F3',
+        backgroundColor: colors.errorBg,
         borderRadius: 10,
         padding: 12,
         marginBottom: 16,
@@ -108,63 +89,18 @@ export const styles = StyleSheet.create({
         gap: 14,
     },
 
-    field: {
-        gap: 6,
-    },
-
-    label: {
-        fontSize: 13,
-        fontWeight: '700',
-        color: '#333',
-    },
-
-    input: {
-        height: 46,
-        borderWidth: 1,
-        borderColor: '#DADADA',
-        borderRadius: 10,
-        paddingHorizontal: 13,
-        fontSize: 14,
-        color: '#1A1A1A',
-        backgroundColor: '#FFF',
-    },
-
-    inputError: {
-        borderColor: '#D33',
-    },
-
-    error: {
-        fontSize: 12,
-        color: '#D33',
-    },
-
     section: {
         fontSize: 16,
         fontWeight: '700',
-        color: '#0A0A0A',
+        color: colors.textDark,
         marginTop: 8,
     },
 
     cepLink: {
         fontSize: 14,
         fontWeight: '600',
-        color: '#007BFF',
+        color: colors.linkColor,
         textDecorationLine: 'underline',
         marginTop: -4,
-    },
-
-    save: {
-        height: 48,
-        borderRadius: 24,
-        backgroundColor: '#FFD600',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 6,
-    },
-
-    saveText: {
-        fontSize: 14,
-        fontWeight: '800',
-        color: '#0A0A0A',
     },
 });
