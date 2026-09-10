@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 
 import AppRoutes from './src/routes/AppRoutes';
-import CadastroScreen from "./src/pages/Cadastro/index";
+import CadastroScreen from "./src/pages/Cadastro";
 import { useFonts } from 'expo-font';
 
 import {
@@ -15,6 +15,7 @@ import { ReservaProvider } from './src/context/ReservaContext';
 import { CarrinhoProvider } from "./src/context/CarrinhoContext";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { CatalogoProvider } from './src/context/CatalogoContext';
+import { PagamentoProvider } from './src/context/PagamentoContext';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -33,9 +34,11 @@ export default function App() {
       <FerramentasProvider>
           <ReservaProvider>
             <CarrinhoProvider>
-              <NavigationContainer>
-                  <AppRoutes />
-              </NavigationContainer>
+              <PagamentoProvider>
+                <NavigationContainer>
+                    <AppRoutes />
+                </NavigationContainer>
+              </PagamentoProvider>
             </CarrinhoProvider>
           </ReservaProvider>
       </FerramentasProvider>

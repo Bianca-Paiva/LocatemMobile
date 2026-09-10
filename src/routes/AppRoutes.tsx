@@ -22,6 +22,15 @@ import Carrinho from "../pages/Carrinho/Carrinho";
 import SolicitarLocacaoCarrinho from "../pages/Carrinho/SolicitarLocacaoCarrinho/SolicitarLocacaoCarrinho";
 import Notificacoes from "../pages/Notificacoes/Notificacoes";
 
+// Fluxo de Pagamento (Carrinho -> Método de Pagamento -> Selecionar Cartão/Pix -> Processando -> Aprovado)
+import MetodoPagamento from "../pages/Pagamento/MetodoPagamento/MetodoPagamento";
+import SelecionarCartao from "../pages/Pagamento/SelecionarCartao/SelecionarCartao";
+import AdicionarCartaoCredito from "../pages/Pagamento/AdicionarCartaoCredito/AdicionarCartaoCredito";
+import AdicionarCartaoDebito from "../pages/Pagamento/AdicionarCartaoDebito/AdicionarCartaoDebito";
+import PagamentoPix from "../pages/Pagamento/PagamentoPix/PagamentoPix";
+import ProcessandoPagamento from "../pages/Pagamento/ProcessandoPagamento/ProcessandoPagamento";
+import PagamentoAprovado from "../pages/Pagamento/PagamentoAprovado/PagamentoAprovado";
+
 export type RootStackParamList = {
   LoginScreen: undefined,
   CadastroScreen: undefined,
@@ -51,6 +60,15 @@ export type RootStackParamList = {
     diariasInicial?: number | null;
     tensaoInicial?: string | null;
   } | undefined,
+
+  // Fluxo de Pagamento — mesmas etapas do fluxo da Web.
+  MetodoPagamentoScreen: undefined,
+  SelecionarCartaoScreen: undefined,
+  AdicionarCartaoCreditoScreen: undefined,
+  AdicionarCartaoDebitoScreen: undefined,
+  PagamentoPixScreen: undefined,
+  ProcessandoPagamentoScreen: undefined,
+  PagamentoAprovadoScreen: undefined,
 
 }
 
@@ -82,9 +100,14 @@ const MAPA_ROTAS_LEGADAS: Record<string, keyof RootStackParamList> = {
   CadastroFerramentaScreen: "CadastroFerramentaScreen",
   carrinho: "CarrinhoScreen",
   notificacoes: "NotificacoesScreen",
-  // TODO: ainda não existe tela de Pagamento no mobile — cai em HomeScreen por ora.
-  pagamentoPix: "HomeScreen",
-  
+  // Fluxo de Pagamento — chaves usadas pelos hooks em hooks/Pagamento/*.
+  metodoPagamento: "MetodoPagamentoScreen",
+  selecionarCartao: "SelecionarCartaoScreen",
+  adicionarCartaoCredito: "AdicionarCartaoCreditoScreen",
+  adicionarCartaoDebito: "AdicionarCartaoDebitoScreen",
+  pagamentoPix: "PagamentoPixScreen",
+  processandoPagamento: "ProcessandoPagamentoScreen",
+  pagamentoAprovado: "PagamentoAprovadoScreen",
 };
 
 function useLegacyNavigate() {
@@ -126,6 +149,41 @@ function CarrinhoScreen() {
 function NotificacoesScreen() {
   const navigate = useLegacyNavigate();
   return <Notificacoes navigate={navigate} />;
+}
+
+function MetodoPagamentoScreen() {
+  const navigate = useLegacyNavigate();
+  return <MetodoPagamento navigate={navigate} />;
+}
+
+function SelecionarCartaoScreen() {
+  const navigate = useLegacyNavigate();
+  return <SelecionarCartao navigate={navigate} />;
+}
+
+function AdicionarCartaoCreditoScreen() {
+  const navigate = useLegacyNavigate();
+  return <AdicionarCartaoCredito navigate={navigate} />;
+}
+
+function AdicionarCartaoDebitoScreen() {
+  const navigate = useLegacyNavigate();
+  return <AdicionarCartaoDebito navigate={navigate} />;
+}
+
+function PagamentoPixScreen() {
+  const navigate = useLegacyNavigate();
+  return <PagamentoPix navigate={navigate} />;
+}
+
+function ProcessandoPagamentoScreen() {
+  const navigate = useLegacyNavigate();
+  return <ProcessandoPagamento navigate={navigate} />;
+}
+
+function PagamentoAprovadoScreen() {
+  const navigate = useLegacyNavigate();
+  return <PagamentoAprovado navigate={navigate} />;
 }
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -289,6 +347,70 @@ export default function AppRoutes() {
           <Stack.Screen
           name="NotificacoesScreen"
           component={NotificacoesScreen}
+           options={{
+            headerShown: false,
+            title:"",
+          }}
+          />
+
+          {/* Fluxo de Pagamento */}
+          <Stack.Screen
+          name="MetodoPagamentoScreen"
+          component={MetodoPagamentoScreen}
+           options={{
+            headerShown: false,
+            title:"",
+          }}
+          />
+
+          <Stack.Screen
+          name="SelecionarCartaoScreen"
+          component={SelecionarCartaoScreen}
+           options={{
+            headerShown: false,
+            title:"",
+          }}
+          />
+
+          <Stack.Screen
+          name="AdicionarCartaoCreditoScreen"
+          component={AdicionarCartaoCreditoScreen}
+           options={{
+            headerShown: false,
+            title:"",
+          }}
+          />
+
+          <Stack.Screen
+          name="AdicionarCartaoDebitoScreen"
+          component={AdicionarCartaoDebitoScreen}
+           options={{
+            headerShown: false,
+            title:"",
+          }}
+          />
+
+          <Stack.Screen
+          name="PagamentoPixScreen"
+          component={PagamentoPixScreen}
+           options={{
+            headerShown: false,
+            title:"",
+          }}
+          />
+
+          <Stack.Screen
+          name="ProcessandoPagamentoScreen"
+          component={ProcessandoPagamentoScreen}
+           options={{
+            headerShown: false,
+            title:"",
+          }}
+          />
+
+          <Stack.Screen
+          name="PagamentoAprovadoScreen"
+          component={PagamentoAprovadoScreen}
            options={{
             headerShown: false,
             title:"",

@@ -10,6 +10,7 @@ import LojaGroup from '../../components/Carrinho/LojaGroup';
 import ResumoPedido from '../../components/Carrinho/Resumo/ResumoPedido';
 
 import { useCarrinhoStore } from '../../hooks/useCarrinhoStore';
+import { usePagamentoStore } from '../../hooks/usePagamentoStore';
 import type { ItemCarrinho as ItemCarrinhoContexto } from '../../context/CarrinhoContext';
 import type { CarrinhoItemData, LojaGroupData } from '../../types/checkout';
 
@@ -81,6 +82,8 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
     selecionarItens,
   } = useCarrinhoStore();
 
+  const { setValorPagamento } = usePagamentoStore();
+
   const lojas = useMemo(() => agruparPorLoja(itens), [itens]);
 
   const [freteValor, setFreteValor] = useState<number | null>(null);
@@ -127,6 +130,14 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
 
     // Frete temporário fixo. Depois este trecho deve chamar a API de frete.
     setFreteValor(10);
+  }
+
+  // Ponto de entrada do fluxo de pagamento: guarda o total já calculado (com
+  // desconto/frete aplicados) no PagamentoContext antes de navegar, para a
+  // tela de Método de Pagamento e as seguintes lerem o mesmo valor.
+  function handleContinuarParaPagamento() {
+    setValorPagamento(total);
+    navigate('metodoPagamento');
   }
 
   function handleAplicarCupom(codigo: string) {
@@ -204,7 +215,7 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
           cupomAviso={cupomAviso}
           onOcultarCupomAviso={() => setCupomAviso(null)}
           ctaLabel="Continuar para Pagamento"
-          onCtaClick={() => navigate('pagamentoPix')}
+          onCtaClick={handleContinuarParaPagamento}
           ctaDisabled={carrinhoVazio || nenhumSelecionado}
         />
       </ScrollView>
