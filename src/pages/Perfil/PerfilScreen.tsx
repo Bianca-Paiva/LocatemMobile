@@ -4,7 +4,6 @@ import {
     Alert,
     Pressable,
     ScrollView,
-    StyleSheet,
     Text,
     View,
 } from 'react-native';
@@ -21,11 +20,7 @@ import EditarPerfilModal from '../../components/Perfil/EditarPerfilModal';
 import { useAuth } from '../../hooks/Auth/useAuth';
 import { styles } from './styles';
 
-const {
-    usuario,
-    logout,
-    atualizarUsuario,
-} = useAuth();
+
 
 interface Props {
     onNavigate?: (
