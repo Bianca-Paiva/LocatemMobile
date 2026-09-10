@@ -7,7 +7,7 @@ import Header from '../../components/Header';
 import CabecalhoPagina from '../../components/CabecalhoPagina/CabecalhoPagina';
 import CarrinhoVazio from '../../components/Carrinho/CarrinhoVazio';
 import LojaGroup from '../../components/Carrinho/LojaGroup';
-import ResumoPedido from '../../components/Carrinho/Resumo/ResumoPedido';
+import ResumoPedido from '../../components/Carrinho/Resumo/ResumoPedido/ResumoPedido.index';
 
 import { useCarrinhoStore } from '../../hooks/useCarrinhoStore';
 import { usePagamentoStore } from '../../hooks/usePagamentoStore';

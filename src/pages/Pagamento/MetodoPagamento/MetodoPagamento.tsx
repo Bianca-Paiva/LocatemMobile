@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Header from '../../../components/Header';
 import CabecalhoPagina from '../../../components/CabecalhoPagina/CabecalhoPagina';
 import { SeletorFormaPagamento } from '../../../components/Pagamento/SeletorFormaPagamento';
-import ResumoPedido from '../../../components/Carrinho/Resumo/ResumoPedido';
+import ResumoPedido from '../../../components/Carrinho/Resumo/ResumoPedido/ResumoPedido.index';
 
 import { useMetodoPagamento } from '../../../hooks/Pagamento/useMetodoPagamento';
 

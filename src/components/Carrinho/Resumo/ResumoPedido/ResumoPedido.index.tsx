@@ -5,8 +5,8 @@ import { Tag, Lock } from 'lucide-react-native';
 import BtnPrincipal from '../../../BtnPrincipal';
 import { maskCEP, validateCEP } from '../../../../hooks/masks';
 import colors from '../../../../theme/colors';
-import styles from './styles';
-import type { ResumoPedidoVariant } from '../../../../types/checkout';
+import styles from './ResumoPedido.styles';
+import type { PrazoPagamento, ResumoPedidoVariant } from '../../../../types/checkout';
 
 interface ResumoPedidoProps {
   variant: ResumoPedidoVariant;
@@ -21,9 +21,22 @@ interface ResumoPedidoProps {
   ctaLabel?: string;
   onCtaClick?: () => void;
   ctaDisabled?: boolean;
+  // Prazo do Pix (usado na variant "pagamento") — mesmos dados calculados pelo hook de pagamento.
+  prazoPagamento?: PrazoPagamento;
+  tempoRestanteSegundos?: number;
+  // Mostra o rodapé "Pagamento 100% seguro". Nas telas de método de pagamento/pagamento
+  // ele aparece por padrão, igual à Web.
+  mostrarSeguro?: boolean;
 }
 
 const formatarPreco = (valor: number) => `R$ ${valor.toFixed(2).replace('.', ',')}`;
+
+// Converte segundos em "MM:SS" para o contador do prazo do Pix.
+function formatarTempo(segundos: number): string {
+  const minutos = Math.floor(segundos / 60).toString().padStart(2, '0');
+  const segundosRestantes = (segundos % 60).toString().padStart(2, '0');
+  return `${minutos}:${segundosRestantes}`;
+}
 
 export default function ResumoPedido({
   variant,
@@ -38,6 +51,9 @@ export default function ResumoPedido({
   ctaLabel,
   onCtaClick,
   ctaDisabled,
+  prazoPagamento,
+  tempoRestanteSegundos = 0,
+  mostrarSeguro = variant === 'pagamento' || variant === 'metodoPagamento',
 }: ResumoPedidoProps) {
   const [cepInput, setCepInput] = useState('');
   const [cupomInput, setCupomInput] = useState('');
@@ -141,7 +157,39 @@ export default function ResumoPedido({
         </View>
       )}
 
-      {variant === 'carrinho' && (
+      {/* Tela "Escolha como Pagar" e tela de Pix: mostra só o Total (+ prazo, quando houver) e o CTA.
+          Sem este bloco, o card ficava com o título mas sem nenhum conteúdo (bug corrigido). */}
+      {(variant === 'metodoPagamento' || variant === 'pagamento') && (
+        <View style={styles.corpo}>
+          <View style={styles.linhaTotal}>
+            <Text style={styles.totalLabel}>Total</Text>
+            <Text style={styles.totalValor}>{formatarPreco(total)}</Text>
+          </View>
+
+          {prazoPagamento && (
+            <View style={styles.prazoBloco}>
+              <Text style={styles.prazoLabel}>
+                {prazoPagamento.expirado ? 'Expirado' : 'Pague em até'}
+              </Text>
+
+              {!prazoPagamento.expirado && (
+                <View style={styles.prazoValores}>
+                  <Text style={styles.prazoContador}>{formatarTempo(tempoRestanteSegundos)}</Text>
+                  <Text style={styles.prazoData}>{prazoPagamento.texto}</Text>
+                </View>
+              )}
+            </View>
+          )}
+
+          {ctaLabel && (
+            <View style={ctaDisabled ? styles.ctaDesabilitado : undefined} pointerEvents={ctaDisabled ? 'none' : 'auto'}>
+              <BtnPrincipal title={ctaLabel} onPress={() => onCtaClick?.()} />
+            </View>
+          )}
+        </View>
+      )}
+
+      {mostrarSeguro && (
         <View style={styles.seguroRodape}>
           <Lock size={14} color={colors.textMuted2} />
           <Text style={styles.seguroTexto}>Pagamento 100% seguro</Text>

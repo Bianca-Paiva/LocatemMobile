@@ -154,6 +154,39 @@ export default StyleSheet.create({
     opacity: 0.5,
   },
 
+  // Bloco do prazo do Pix (equivalente ao .prazoBloco/.prazoLabel/... da Web).
+  prazoBloco: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 20,
+    paddingTop: 24,
+    paddingBottom: 16,
+  },
+
+  prazoLabel: {
+    color: colors.textDark,
+    fontSize: 15,
+    fontWeight: '600',
+  },
+
+  prazoValores: {
+    alignItems: 'flex-end',
+    gap: 2,
+  },
+
+  prazoContador: {
+    color: '#f59e0b',
+    fontWeight: '500',
+    fontSize: 15,
+    marginRight: 4,
+  },
+
+  prazoData: {
+    color: colors.textDark,
+    fontSize: 15,
+  },
+
   seguroRodape: {
     flexDirection: 'row',
     alignItems: 'center',
