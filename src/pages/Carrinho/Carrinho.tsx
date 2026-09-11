@@ -92,6 +92,12 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
   const todosSelecionados = itens.length > 0 && itens.every((item) => item.selecionado);
   const nenhumSelecionado = itens.length === 0 || itens.every((item) => !item.selecionado);
 
+  // BUG CORRIGIDO: o frete é um dado obrigatório (marcado com "*" no
+  // resumo do pedido), mas nada impedia o usuário de tocar em "Continuar
+  // para Pagamento" sem nunca ter informado um CEP válido. Agora isso
+  // também bloqueia o CTA, igual à falta de itens selecionados.
+  const freteNaoInformado = freteValor === null;
+
   /*
    * O preço unitário é considerado o valor de uma unidade por dia.
    * Fórmula: preço unitário × quantidade × dias.
@@ -121,45 +127,64 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
     [subtotal, desconto, freteComCupom],
   );
 
-  function handleCalcularFrete(cep: string) {
+  // BUG CORRIGIDO: quando o CEP não tinha 8 dígitos, a função só dava
+  // `return` sem avisar nada — o usuário tocava em "Usar" (quando o
+  // botão não estava desabilitado) e nada visível acontecia. Agora
+  // devolve um resultado que o ResumoPedido usa pra marcar o campo em
+  // vermelho e mostrar uma mensagem de erro.
+  function handleCalcularFrete(cep: string): { sucesso: boolean; mensagem?: string } {
     const cepNormalizado = cep.replace(/\D/g, '');
-    if (cepNormalizado.length !== 8) return;
+
+    if (cepNormalizado.length !== 8) {
+      return { sucesso: false, mensagem: 'Informe um CEP válido com 8 dígitos.' };
+    }
 
     // Frete temporário fixo. Depois este trecho deve chamar a API de frete.
     setFreteValor(10);
+    return { sucesso: true };
   }
 
-  function handleAplicarCupom(codigo: string) {
+  // BUG CORRIGIDO: um cupom inválido só limpava o estado (sem avisar o
+  // usuário do porquê o desconto não foi aplicado). Agora devolve um
+  // resultado com mensagem de erro para o campo ser marcado em vermelho.
+  function handleAplicarCupom(codigo: string): { sucesso: boolean; mensagem?: string } {
     const codigoNormalizado = codigo.trim().toUpperCase();
+
+    if (!codigoNormalizado) {
+      return { sucesso: false, mensagem: 'Informe um código de cupom.' };
+    }
 
     if (codigoNormalizado === 'LOCATEM10') {
       setCupomAplicado(codigoNormalizado);
       setCupomAviso(codigoNormalizado);
       setPercentualDesconto(0.1);
-      return;
+      return { sucesso: true };
     }
 
     if (codigoNormalizado === 'FRETEGRATIS') {
       setCupomAplicado(codigoNormalizado);
       setCupomAviso(codigoNormalizado);
       setPercentualDesconto(0);
-      return;
+      return { sucesso: true };
     }
 
     setCupomAplicado(null);
     setCupomAviso(null);
     setPercentualDesconto(0);
+    return { sucesso: false, mensagem: 'Cupom inválido ou expirado.' };
   }
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
-      <Header />
+      
 
       <ScrollView
         style={styles.container}
-        contentContainerStyle={styles.content}
         showsVerticalScrollIndicator={false}
       >
+      <Header />
+       <View style={styles.containerCont}>
+      
         <CabecalhoPagina titulo="Carrinho" />
 
         {carrinhoVazio ? (
@@ -205,8 +230,9 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
           onOcultarCupomAviso={() => setCupomAviso(null)}
           ctaLabel="Continuar para Pagamento"
           onCtaClick={() => navigate('pagamentoPix')}
-          ctaDisabled={carrinhoVazio || nenhumSelecionado}
+          ctaDisabled={carrinhoVazio || nenhumSelecionado || freteNaoInformado}
         />
+      </View>  
       </ScrollView>
     </SafeAreaView>
   );
