@@ -33,6 +33,11 @@ export default StyleSheet.create({
     color: colors.textMuted,
   },
 
+  bandeiraImagem: {
+    width: 38,
+    height: 28,
+  },
+
   cartaoInfo: {
     flex: 1,
     gap: 2,
