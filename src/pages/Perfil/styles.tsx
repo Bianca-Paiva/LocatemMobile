@@ -3,15 +3,20 @@ import colors from '../../theme/colors';
 
 export const styles = StyleSheet.create({
     safe: {
-        flex: 1,
         backgroundColor: colors.bgMain,
     },
 
-    page: {
-        padding: 16,
-        paddingBottom: 40,
-        gap: 16,
-    },
+   container: {
+     flex: 1,
+     backgroundColor: colors.bgApp,
+   },
+
+     containerCont: {
+    
+     paddingTop: 20,
+     paddingHorizontal: 16,
+     paddingBottom: 48,
+   },
 
     columns: {
         gap: 16,

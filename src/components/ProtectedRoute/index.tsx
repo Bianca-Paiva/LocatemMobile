@@ -15,6 +15,14 @@ import type { RootStackParamList } from "../../routes/AppRoutes";
  * Login — o usuário não consegue "voltar" para a tela protegida, e a
  * tela protegida nunca chega a renderizar dados de outro usuário.
  *
+ * BUG CORRIGIDO: como o `AuthContext` agora lê a sessão salva do
+ * AsyncStorage de forma assíncrona (`isInitializing`), esse guard
+ * esperava `isAuthenticated` ficar `true` de forma síncrona — e como
+ * isso nunca acontecia a tempo, o usuário era redirecionado para o
+ * Login mesmo tendo uma sessão válida salva (ex.: ao dar refresh numa
+ * tela protegida). Agora aguardamos `isInitializing` terminar antes de
+ * decidir se redireciona.
+ *
  * Uso:
  *   <Stack.Screen name="MinhasReservas" component={withAuthGuard(MinhasReservasScreen)} />
  */
@@ -22,25 +30,29 @@ export function withAuthGuard<P extends object>(
   Component: React.ComponentType<P>
 ) {
   function GuardedScreen(props: P) {
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, isInitializing } = useAuth();
     const navigation =
       useNavigation<StackNavigationProp<RootStackParamList>>();
 
     useFocusEffect(
       useCallback(() => {
+        // Ainda checando se existe sessão salva: não decide nada ainda.
+        if (isInitializing) return;
+
         if (!isAuthenticated) {
           navigation.reset({
             index: 0,
             routes: [{ name: "LoginScreen" }],
           });
         }
-      }, [isAuthenticated, navigation])
+      }, [isAuthenticated, isInitializing, navigation])
     );
 
-    // Enquanto não autenticado, evita renderizar (mesmo que por um
-    // instante) a tela protegida com dados que ela espera de um usuário
-    // logado — o redirecionamento acima acontece em seguida.
-    if (!isAuthenticated) {
+    // Enquanto ainda inicializando ou não autenticado, evita renderizar
+    // (mesmo que por um instante) a tela protegida com dados que ela
+    // espera de um usuário logado — o redirecionamento acima acontece em
+    // seguida, quando aplicável.
+    if (isInitializing || !isAuthenticated) {
       return (
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}

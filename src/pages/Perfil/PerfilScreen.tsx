@@ -93,11 +93,13 @@ export default function PerfilScreen({
 
     return (
         <SafeAreaView style={styles.safe}>
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-                contentContainerStyle={styles.page}
-            >
-                <Header/>
+          <ScrollView
+                 style={styles.container}
+                 showsVerticalScrollIndicator={false}
+               >
+               <Header />
+                <View style={styles.containerCont}>
+               
                 <PerfilHeader
                     usuario={usuario}
                     onEditar={() => setEditando(true)}
@@ -138,6 +140,7 @@ export default function PerfilScreen({
                         Sair da Conta
                     </Text>
                 </Pressable>
+                </View>
             </ScrollView>
 
             {editando && (

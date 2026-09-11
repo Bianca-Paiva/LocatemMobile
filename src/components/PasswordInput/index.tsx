@@ -1,26 +1,29 @@
 import { useState } from "react";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, KeyboardTypeOptions } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
 import styles from "./styles";
 import {PasswordInputProps} from './types';
 
 
-export default function PasswordInput({ text, placeholder, keyboardType, value, onChangeText, marginBottom = 20, }: PasswordInputProps) {
-    
+export default function PasswordInput({ text, placeholder, keyboardType, value, onChangeText, marginBottom = 20, error }: PasswordInputProps) {
+
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const temErro = Boolean(error);
 
   return (
     <View>
       <Text style={styles.inputLabel}>{text}</Text>
 
-      <View style={[styles.inputContainer, { marginBottom }]}>
+      <View style={[styles.inputContainer, { marginBottom: temErro ? 6 : marginBottom }]}>
         <TextInput
-          style={styles.input}
+          style={[styles.input, temErro && styles.inputErro]}
           placeholder={placeholder}
           placeholderTextColor="#999"
           keyboardType={keyboardType}
           value={value}
           onChangeText={onChangeText}
           secureTextEntry={!showPassword}
+          accessibilityLabel={text}
+        
         />
 
         <TouchableOpacity
@@ -37,6 +40,8 @@ export default function PasswordInput({ text, placeholder, keyboardType, value, 
           />
         </TouchableOpacity>
       </View>
+
+      {temErro && <Text style={styles.erroTexto}>{error}</Text>}
     </View>
   );
 };

@@ -68,6 +68,31 @@ export default StyleSheet.create({
     backgroundColor: colors.bgCard,
   },
 
+  // Feedback visual de campo inválido: borda e fundo em vermelho.
+  inputContainerErro: {
+    borderColor: colors.error,
+    backgroundColor: colors.errorBg,
+  },
+
+  // Estado intermediário (formato incompleto, ainda sem erro "oficial"
+  // disparado pelo botão) — um alerta mais sutil que o erro vermelho.
+  inputContainerAlerta: {
+    borderColor: colors.amber,
+  },
+
+  erroTexto: {
+    marginTop: 6,
+    color: colors.error,
+    fontSize: 13,
+  },
+
+  ctaAvisoTexto: {
+    marginBottom: 10,
+    color: colors.error,
+    fontSize: 13,
+    textAlign: 'center',
+  },
+
   inputSemBorda: {
     flex: 1,
     fontSize: 14,
