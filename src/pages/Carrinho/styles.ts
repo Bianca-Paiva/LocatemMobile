@@ -17,6 +17,12 @@ export const styles = StyleSheet.create({
     paddingBottom: 48,
     gap: 18,
   },
+    containerCont: {
+   
+    paddingTop: 20,
+    paddingHorizontal: 16,
+    paddingBottom: 48,
+  },
 
   selecionarTodosCard: {
     flexDirection: 'row',

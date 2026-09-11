@@ -1,4 +1,6 @@
+import { useEffect, useRef } from 'react';
 import {
+  Animated,
   Text,
   TextInput,
   TextInputProps,
@@ -24,8 +26,28 @@ export default function FormInput({
   style,
   ...props
 }: FormInputProps) {
+  // Equivalente RN da animação CSS "shake" da Web (classe .shake aplicada
+  // via style module quando `shakes.<campo>.shake` fica true por ~400ms).
+  // Como React Native não tem CSS, a mesma prop `shake` — que já existia
+  // aqui mas nunca era usada — agora dispara um Animated.sequence.
+  const translateX = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (!shake) return;
+
+    translateX.setValue(0);
+
+    Animated.sequence([
+      Animated.timing(translateX, { toValue: -6, duration: 45, useNativeDriver: true }),
+      Animated.timing(translateX, { toValue: 6, duration: 45, useNativeDriver: true }),
+      Animated.timing(translateX, { toValue: -4, duration: 45, useNativeDriver: true }),
+      Animated.timing(translateX, { toValue: 4, duration: 45, useNativeDriver: true }),
+      Animated.timing(translateX, { toValue: 0, duration: 45, useNativeDriver: true }),
+    ]).start();
+  }, [shake, translateX]);
+
   return (
-    <View style={styles.wrapper}>
+    <Animated.View style={[styles.wrapper, { transform: [{ translateX }] }]}>
       {label && (
         <Text style={styles.label}>
           {label}
@@ -55,6 +77,6 @@ export default function FormInput({
           {error}
         </Text>
       )}
-    </View>
+    </Animated.View>
   );
 }

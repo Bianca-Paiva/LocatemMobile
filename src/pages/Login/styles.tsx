@@ -25,12 +25,4 @@ export const styles = StyleSheet.create({
     marginTop: 0,
     marginBottom: 24,
   },
-  // Já deixei este estilo preparado para o nosso próximo passo (Validação)
-  erroTexto: {
-    color: "#dc2626", // Um tom de vermelho elegante (Tailwind Red 600)
-    fontSize: 12,
-    marginTop: 4,
-    marginBottom: 12,
-    fontFamily: "Inter_400Regular", // Ajusta de acordo com as tuas fontes carregadas
-  }
 });

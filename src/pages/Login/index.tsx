@@ -1,3 +1,4 @@
+import React from "react";
 import { ScrollView, Text, View, TouchableOpacity } from "react-native";
 import { Controller } from "react-hook-form"; 
 
@@ -22,7 +23,7 @@ export default function LoginScreen() {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   
   // Extraímos tudo o que precisamos do nosso hook
-  const { control, errors, isLoading, handleSignIn } = useLogin();
+  const { control, errors, isLoading, handleSignIn } = useLogin(navigation);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -37,19 +38,14 @@ export default function LoginScreen() {
           control={control}
           name="email"
           render={({ field: { onChange, value } }) => (
-            <>
-              <Input
-                text="E-mail"
-                placeholder="seu@email.com"
-                keyboardType="email-address"
-                value={value}
-                onChangeText={onChange}
-              />
-              {/* Exibição do erro de E-mail abaixo do input */}
-              {errors.email && (
-                <Text style={styles.erroTexto}>{errors.email.message}</Text>
-              )}
-            </>
+            <Input
+              text="E-mail"
+              placeholder="seu@email.com"
+              keyboardType="email-address"
+              value={value}
+              onChangeText={onChange}
+              error={errors.email?.message}
+            />
           )}
         />
         
@@ -59,20 +55,15 @@ export default function LoginScreen() {
             control={control}
             name="password"
             render={({ field: { onChange, value } }) => (
-              <>
-                <PasswordInput
-                  text="Senha"
-                  placeholder="Coloque sua senha"
-                  keyboardType="default"
-                  value={value}
-                  onChangeText={onChange}
-                  marginBottom={5}
-                />
-                {/* Exibição do erro de Senha abaixo do input */}
-                {errors.password && (
-                  <Text style={styles.erroTexto}>{errors.password.message}</Text>
-                )}
-              </>
+              <PasswordInput
+                text="Senha"
+                placeholder="Coloque sua senha"
+                keyboardType="default"
+                value={value}
+                onChangeText={onChange}
+                marginBottom={5}
+                error={errors.password?.message}
+              />
             )}
           />
 
@@ -85,15 +76,10 @@ export default function LoginScreen() {
         </View>
 
         <BtnPrincipal 
-          title={isLoading ? "Carregando..." : "Entrar"} 
-          
-            onPress={ () => {
-                 navigation.navigate('HomeScreen')
-                 {handleSignIn} 
-                }}
-          // Se o teu BtnPrincipal aceitar a prop disabled, descomenta a linha abaixo:
-         
-        />
+            title={isLoading ? "Carregando..." : "Entrar"} 
+            onPress={handleSignIn} // Chama a função que já vem preparada do Hook
+            disabled={isLoading}   // Bloqueia cliques múltiplos
+          />
       </View>
 
       <AuthRedirect
