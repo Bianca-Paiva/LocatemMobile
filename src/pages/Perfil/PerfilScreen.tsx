@@ -98,7 +98,7 @@ export default function PerfilScreen({
                 contentContainerStyle={styles.page}
             >
              <Header/>
-                 <View style={styles.containerCont}>
+            <View style={styles.containerCont}>
                 <PerfilHeader
                     usuario={usuario}
                     onEditar={() => setEditando(true)}

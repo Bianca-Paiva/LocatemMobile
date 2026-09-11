@@ -225,9 +225,9 @@ export default function EditarPerfilModal({
                                 )}
                             />
 
-                            <Pressable onPress={abrirCep}>
+                            {/* <Pressable onPress={abrirCep}>
                                 <Text style={styles.cepLink}>Não sei meu CEP</Text>
-                            </Pressable>
+                            </Pressable> */}
 
                             <Controller
                                 control={control}

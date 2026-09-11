@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
     Pencil,
@@ -15,7 +14,9 @@ import Avatar from '../../Avatar/Avatar';
 import type { Usuario } from '../../../types/usuario.types';
 
 import { styles } from './styles';
+import colors from '../../../theme/colors';
 
+// Definição do componente e desestruturação das props (usuario e função onEditar)
 export default function PerfilHeader({
     usuario,
     onEditar,
@@ -23,13 +24,14 @@ export default function PerfilHeader({
     usuario: Usuario;
     onEditar: () => void;
 }) {
+    // Variável booleana para verificar se o usuário é do tipo 'locador'
     const locador = usuario.tipo === 'locador';
 
     return (
         <View style={styles.card}>
             <View style={styles.info}>
-                {/* size=72 — igual ao Header da Web (o padrão de 40 é só
-                    para usos "inline" menores, ex: dentro do Header global) */}
+               
+                {/* Componente reutilizável de Avatar exibindo a foto e o nome do usuário */}
                 <Avatar
                     nome={usuario.nome}
                     fotoUrl={usuario.fotoUrl}
@@ -37,6 +39,7 @@ export default function PerfilHeader({
                 />
 
                 <View style={styles.texts}>
+                    {/* Nome do usuário com truncagem caso seja muito longo (numberOfLines={1}) */}
                     <Text
                         numberOfLines={1}
                         style={styles.name}
@@ -44,13 +47,15 @@ export default function PerfilHeader({
                         {usuario.nome}
                     </Text>
 
+                    {/* Badge/Insígnia que muda dinamicamente de acordo com o tipo de usuário */}
                     <View style={styles.badge}>
                         {locador ? (
-                            <Wrench size={13} />
+                        <Wrench size={13} color={colors.amber} />
                         ) : (
-                            <UserRound size={13} />
+                            <UserRound size={13} color={colors.amber} />
                         )}
 
+                        {/* Texto dinâmico exibindo o papel do usuário e há quanto tempo ele está na plataforma */}
                         <Text style={styles.badgeText}>
                             {locador ? 'Locador' : 'Locatário'}{' '}
                             desde {usuario.desde}
@@ -59,6 +64,7 @@ export default function PerfilHeader({
                 </View>
             </View>
 
+            {/* Botão interativo para disparar a ação de editar o perfil */}
             <Pressable
                 style={styles.edit}
                 onPress={onEditar}
