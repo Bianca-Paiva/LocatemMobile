@@ -19,6 +19,7 @@ import SolicitacaoEnviada from "../pages/Reservas/SolicitacaoEnviada/Solicitacao
 import CadastroFerramentaScreen from "../pages/CadastroFerramenta";
 import MinhasFerramentasScreen from "../pages/MinhasFerramentas";
 import Carrinho from "../pages/Carrinho/Carrinho";
+import SolicitarLocacaoCarrinho from "../pages/Carrinho/SolicitarLocacaoCarrinho/SolicitarLocacaoCarrinho";
 import Notificacoes from "../pages/Notificacoes/Notificacoes";
 import PerfilScreenPage from "../pages/Perfil/PerfilScreen";
 import { withAuthGuard } from "../components/ProtectedRoute";
@@ -42,7 +43,18 @@ export type RootStackParamList = {
   CarrinhoScreen: undefined,
   NotificacoesScreen: undefined,
   PerfilScreen: undefined,
-  
+  /**
+   * Tela "Detalhes da Locação" do fluxo "Adicionar ao carrinho" — equivalente,
+   * no Mobile, ao modal `SolicitarLocacaoModal` da Web. Os parâmetros são a
+   * seleção já feita na tela do produto (quantidade/tempo/tensão), repassada
+   * como valores iniciais para não fazer o usuário escolher de novo.
+   */
+  SolicitarLocacaoCarrinho: {
+    quantidadeInicial?: number;
+    diariasInicial?: number | null;
+    tensaoInicial?: string | null;
+  } | undefined,
+
 }
 
 /**
@@ -276,6 +288,15 @@ export default function AppRoutes() {
           <Stack.Screen
           name="CarrinhoScreen"
           component={withAuthGuard(CarrinhoScreen)}
+           options={{
+            headerShown: false,
+            title:"",
+          }}
+          />
+
+          <Stack.Screen
+          name="SolicitarLocacaoCarrinho"
+          component={SolicitarLocacaoCarrinho}
            options={{
             headerShown: false,
             title:"",

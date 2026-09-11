@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import colors from '../../../theme/colors';
 
 export const styles = StyleSheet.create({
   wrapper: {
@@ -12,9 +13,18 @@ export const styles = StyleSheet.create({
     color: '#141D23',
   },
 
+  // Envolve o botão e o menu de opções, servindo de âncora para o
+  // `position: absolute` do menu (mesma lógica do `.container` na Web).
   container: {
-    position: 'relative',
     width: '100%',
+    position: 'relative',
+  },
+
+  // Essencial para Android (elevation) e iOS (zIndex): sem isso o menu pode
+  // ficar por trás dos campos seguintes da tela quando aberto.
+  containerAberto: {
+    zIndex: 9999,
+    elevation: 9999,
   },
 
   trigger: {
@@ -38,70 +48,6 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     color: '#374151',
     flex: 1,
-  },
-
-  chevron: {
-    width: 14,
-    height: 14,
-
-    marginLeft: 8,
-
-    opacity: 0.75,
-  },
-
-  chevronOpen: {
-    transform: [{ rotate: '180deg' }],
-  },
-
-  menu: {
-    position: 'absolute',
-
-    top: 52,
-    left: 0,
-    right: 0,
-
-    zIndex: 50,
-
-    backgroundColor: '#FFFFFF',
-
-    borderWidth: 1.5,
-    borderColor: '#E5E7EB',
-    borderRadius: 10,
-
-    padding: 4,
-
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 8,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 24,
-
-    elevation: 8,
-
-    maxHeight: 220,
-  },
-
-  option: {
-    paddingVertical: 8,
-    paddingHorizontal: 10,
-
-    borderRadius: 6,
-  },
-
-  optionText: {
-    fontSize: 14,
-    color: '#374151',
-  },
-
-  optionActive: {
-    backgroundColor: '#F5E3B3',
-  },
-
-  optionActiveText: {
-    color: '#6E5000',
-    fontWeight: '600',
   },
 
   required: {
@@ -128,5 +74,50 @@ export const styles = StyleSheet.create({
     fontSize: 12,
     color: '#E11D48',
     fontWeight: '600',
+  },
+
+  // Caixa flutuante ancorada logo abaixo do botão — mesma lógica do menu na
+  // Web (`HorarioDropdown.module.css`) e do `TempoDropdown` no Mobile.
+  menu: {
+    position: 'absolute',
+    top: 52, // altura do trigger (48) + 4px de respiro
+    left: 0,
+    right: 0,
+    zIndex: 9999,
+    backgroundColor: colors.bgCard,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    borderRadius: 10,
+    padding: 4,
+    maxHeight: 220,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.1,
+    shadowRadius: 24,
+    elevation: 10,
+  },
+
+  option: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+
+    width: '100%',
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    borderRadius: 6,
+  },
+
+  optionActive: {
+    backgroundColor: colors.primarySoft,
+  },
+
+  optionText: {
+    fontSize: 14,
+    color: colors.textDark,
+  },
+
+  optionActiveText: {
+    fontWeight: '700',
   },
 });

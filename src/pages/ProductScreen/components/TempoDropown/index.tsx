@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
+// Importante: ScrollView vem daqui (react-native-gesture-handler), não de
+// 'react-native' — mesmo motivo do SecaoModal (ver comentário lá). O app já
+// usa react-native-gesture-handler em outros pontos, o que muda como o
+// Android reconhece gestos na tela inteira, e um ScrollView "puro" dentro de
+// outro (esse menu dentro do ScrollView da tela) não consegue negociar quem
+// deve rolar — o de fora sempre ganha. A versão do gesture-handler participa
+// do mesmo sistema de reconhecimento de gestos e resolve isso também no
+// Android.
+import { ScrollView } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 import { TempoDropdownProps } from './types';
 import { styles } from './styles';
@@ -56,8 +65,15 @@ export default function TempoDropdown({ value, onChange, onOpenChange }: TempoDr
 
       {isOpen && (
         // O ScrollView não tem nenhum Touchable/Pressable como ancestral aqui, então o gesto de rolagem chega até ele sem disputa.
+        // `nestedScrollEnabled` é obrigatório no Android: esse menu fica dentro do ScrollView da tela (mesmo eixo vertical) e,
+        // sem essa flag, o Android não entrega o gesto de arrastar para este ScrollView interno. No iOS isso não é necessário
+        // (o UIScrollView nativo já negocia scroll aninhado sozinho) e a prop não tem efeito lá, então é seguro deixá-la sempre.
         <View style={styles.menu}>
-          <ScrollView showsVerticalScrollIndicator keyboardShouldPersistTaps="handled">
+          <ScrollView
+            showsVerticalScrollIndicator
+            keyboardShouldPersistTaps="handled"
+            nestedScrollEnabled
+          >
             {TEMPO_OPTIONS.map((item) => {
               const isSelected = item === value;
               return (
