@@ -59,6 +59,13 @@ export type RootStackParamList = {
     quantidadeInicial?: number;
     diariasInicial?: number | null;
     tensaoInicial?: string | null;
+    /**
+     * Identifica qual botão da ProductScreen originou a navegação até aqui:
+     * 'locar' (botão "Locar") ou 'carrinho' (botão "Adicionar ao carrinho").
+     * Usado apenas para decidir o texto do botão amarelo desta tela — não
+     * altera nenhum comportamento/navegação existente.
+     */
+    origem?: 'locar' | 'carrinho';
   } | undefined,
 
   // Fluxo de Pagamento — mesmas etapas do fluxo da Web.
@@ -108,7 +115,23 @@ const MAPA_ROTAS_LEGADAS: Record<string, keyof RootStackParamList> = {
   pagamentoPix: "PagamentoPixScreen",
   processandoPagamento: "ProcessandoPagamentoScreen",
   pagamentoAprovado: "PagamentoAprovadoScreen",
+  // Saída de "Pagamento Aprovado" para "Minhas Reservas". Chave própria (em vez de
+  // reaproveitar "minhasReservas") porque só esta saída precisa do reset de pilha
+  // abaixo — os demais usos de "minhasReservas" (ex.: DetalhesReserva, SolicitacaoEnviada)
+  // devem continuar empilhando normalmente.
+  minhasReservasPosPagamento: "MinhasReservas",
 };
+
+// Rotas cujo destino deve substituir toda a pilha de navegação (equivalente a um
+// "popToTop" + push), em vez de empilhar sobre as telas atuais. Necessário para as
+// saídas finais do funil de pagamento: as telas anteriores do funil (Selecionar
+// Cartão/Pix, Processando Pagamento) ficam montadas por baixo na pilha e têm guards
+// que redirecionam para o Carrinho assim que o PagamentoContext é limpo (ver
+// usePagamentoAprovado.ts). Se a navegação de saída apenas empilhasse uma tela nova,
+// esses guards disparariam pouco depois (de forma assíncrona) e empurrariam o
+// Carrinho por cima do destino correto. Resetar a pilha remove essas telas antes que
+// os guards tenham chance de agir.
+const ROTAS_QUE_RESETAM_PILHA = new Set<string>(['home', 'HomeScreen', 'minhasReservasPosPagamento']);
 
 function useLegacyNavigate() {
   const navigation =
@@ -119,10 +142,10 @@ function useLegacyNavigate() {
       MAPA_ROTAS_LEGADAS[route] ??
       (route as keyof RootStackParamList);
 
-    if (nomeReal === 'HomeScreen') {
+    if (ROTAS_QUE_RESETAM_PILHA.has(route)) {
       navigation.reset({
         index: 0,
-        routes: [{ name: 'HomeScreen' }],
+        routes: [{ name: nomeReal }],
       });
 
       return;

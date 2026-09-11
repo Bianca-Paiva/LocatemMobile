@@ -98,6 +98,9 @@ export default function ProductScreen() {
       quantidadeInicial: selecaoProduto.quantidade,
       diariasInicial: selecaoProduto.diarias,
       tensaoInicial: selecaoProduto.tensao,
+      // Identifica que a navegação partiu do botão "Locar", para a tela
+      // seguinte exibir o texto correto no botão amarelo.
+      origem: 'locar',
     });
   };
 
@@ -109,6 +112,8 @@ export default function ProductScreen() {
       quantidadeInicial: selecaoProduto.quantidade,
       diariasInicial: selecaoProduto.diarias,
       tensaoInicial: selecaoProduto.tensao,
+      // Identifica que a navegação partiu do botão "Adicionar ao carrinho".
+      origem: 'carrinho',
     });
   };
 

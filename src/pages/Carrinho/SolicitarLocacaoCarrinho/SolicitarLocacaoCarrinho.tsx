@@ -78,7 +78,15 @@ export default function SolicitarLocacaoCarrinho() {
     quantidadeInicial,
     diariasInicial = null,
     tensaoInicial = null,
+    // Origem da navegação: 'locar' (botão "Locar") ou 'carrinho' (botão
+    // "Adicionar ao carrinho"). Usada apenas para definir o texto do botão
+    // amarelo — não altera nenhum comportamento existente.
+    origem = 'carrinho',
   } = route.params ?? {};
+
+  // Texto do botão amarelo, de acordo com a origem da navegação.
+  const textoBotaoPrimario =
+    origem === 'locar' ? 'Continuar para pagamento' : 'Adicionar carrinho';
 
   // Hook responsável pelo formulário e pelos cálculos da locação.
   const {
@@ -275,7 +283,7 @@ export default function SolicitarLocacaoCarrinho() {
             onPress={handleConfirmar}
             disabled={!resumo.formularioCompleto}
           >
-            <Text style={styles.botaoTexto}>Continuar</Text>
+            <Text style={styles.botaoTexto}>{textoBotaoPrimario}</Text>
           </Pressable>
         </View>
       </ScrollView>

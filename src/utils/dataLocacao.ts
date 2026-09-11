@@ -38,6 +38,18 @@ export function getHojeIso(): string {
   return formatarIso(new Date());
 }
 
+const MESES_ABREVIADOS = [
+  'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+  'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez',
+];
+
+/** Formata "yyyy-mm-dd" para "dd Mmm" (ex: "10 Ago"), usado em resumos curtos de período (ex: ReservaData.periodo). */
+export function formatarDataCurta(dataIso: string): string {
+  const data = parseDataIso(dataIso);
+  if (!data) return '';
+  return `${String(data.getDate()).padStart(2, '0')} ${MESES_ABREVIADOS[data.getMonth()]}`;
+}
+
 /** Data (yyyy-mm-dd, hora zerada) resultante de somar `horas` a partir do momento atual. */
 export function adicionarHorasAPartirDeAgora(horas: number): string {
   const data = new Date(Date.now() + horas * 60 * 60 * 1000);
