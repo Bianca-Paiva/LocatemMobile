@@ -23,7 +23,6 @@ export default function PasswordInput({ text, placeholder, keyboardType, value, 
           onChangeText={onChangeText}
           secureTextEntry={!showPassword}
           accessibilityLabel={text}
-        
         />
 
         <TouchableOpacity

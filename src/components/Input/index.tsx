@@ -17,7 +17,7 @@ export default function Input({ text, placeholder, keyboardType, value, onChange
         value={value}
         onChangeText={onChangeText}
         accessibilityLabel={text}
-      
+
       />
 
       {temErro && <Text style={styles.erroTexto}>{error}</Text>}

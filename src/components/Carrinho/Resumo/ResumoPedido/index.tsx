@@ -173,7 +173,7 @@ export default function ResumoPedido({
                 autoCapitalize="characters"
                 onChangeText={handleCupomChange}
                 accessibilityLabel="Código do cupom"
-              
+            
               />
 
               <TouchableOpacity

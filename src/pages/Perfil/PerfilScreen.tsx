@@ -19,10 +19,12 @@ import PainelControle from '../../components/Perfil/PainelControle';
 import EditarPerfilModal from '../../components/Perfil/EditarPerfilModal';
 import { styles } from './styles';
 import Header from '../../components/Header';
+import type { ScreenName } from '../../components/Header/types';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface Props {
     onNavigate?: (
-        route: 'minhasReservas' | 'notificacoes'
+        route: 'minhasReservas' | 'notificacoes' | 'LoginScreen' 
     ) => void;
     /** Chamado quando o usuário sem sessão toca em "Entrar na conta" (espelha o botão equivalente da Web). */
     onEntrar?: () => void;
@@ -49,25 +51,21 @@ export default function PerfilScreen({
         percentual,
         mensagemDica,
     } = useCompletudePerfil(usuario);
-
-    // Sem sessão: não há o que exibir nesta tela. Igual à Web, oferecemos um
-    // botão "Entrar na conta" em vez de deixar o usuário sem próxima ação.
+    
+    // Sem sessão: redireciona para a tela de login (ou chama `onEntrar` se fornecido).
     if (!usuario) {
-        return (
-            <SafeAreaView style={styles.safe}>
-                <View style={styles.empty}>
-                    <Text style={styles.emptyText}>
-                        Você precisa entrar na sua conta para ver o perfil.
+        return ( onNavigate ? (
+            <View>
+                <Text >
+                    Você não está logado.
+                </Text>
+                <Pressable style={styles.btnLogin} onPress={onEntrar}>
+                    <Text style={styles.btnLoginText}>
+                        Entrar na conta
                     </Text>
-
-                    <Pressable style={styles.btnLogin} onPress={onEntrar}>
-                        <Text style={styles.btnLoginText}>
-                            Entrar na conta
-                        </Text>
-                    </Pressable>
-                </View>
-            </SafeAreaView>
-        );
+                </Pressable>
+            </View>
+        ) : null );
     }
 
     const handleLogout = () => {
@@ -92,14 +90,15 @@ export default function PerfilScreen({
     };
 
     return (
-        <SafeAreaView style={styles.safe}>
-          <ScrollView
-                 style={styles.container}
-                 showsVerticalScrollIndicator={false}
-               >
-               <Header />
-                <View style={styles.containerCont}>
-               
+       <>
+      
+        <SafeAreaView style={styles.safe} edges={['bottom', 'left', 'right']}>
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={styles.page}
+            >
+             <Header/>
+                 <View style={styles.containerCont}>
                 <PerfilHeader
                     usuario={usuario}
                     onEditar={() => setEditando(true)}
@@ -140,7 +139,7 @@ export default function PerfilScreen({
                         Sair da Conta
                     </Text>
                 </Pressable>
-                </View>
+              </View>
             </ScrollView>
 
             {editando && (
@@ -150,7 +149,9 @@ export default function PerfilScreen({
                     onSalvar={atualizarUsuario}
                     onAlterarFoto={onAlterarFoto}
                 />
+                
             )}
         </SafeAreaView>
+     </> 
     );
 }

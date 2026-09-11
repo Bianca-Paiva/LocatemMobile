@@ -3,20 +3,19 @@ import colors from '../../theme/colors';
 
 export const styles = StyleSheet.create({
     safe: {
-        backgroundColor: colors.bgMain,
+        flex: 1,
     },
 
-   container: {
-     flex: 1,
-     backgroundColor: colors.bgApp,
-   },
-
-     containerCont: {
-    
-     paddingTop: 20,
-     paddingHorizontal: 16,
-     paddingBottom: 48,
-   },
+    page: {
+        
+        backgroundColor: colors.bgApp,
+    },
+    containerCont: {
+   
+    paddingTop: 20,
+    paddingHorizontal: 16,
+    paddingBottom: 48,
+  },
 
     columns: {
         gap: 16,

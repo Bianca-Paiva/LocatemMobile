@@ -36,11 +36,6 @@ export function useLogin(navigation: LoginNavigation) {
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: "", password: "" },
-    // BUG CORRIGIDO: antes a validação só rodava no submit ("onSubmit",
-    // padrão do RHF), então nada acontecia enquanto o usuário digitava.
-    // Com "onChange" o campo é revalidado a cada tecla, então o erro
-    // (borda vermelha + mensagem) aparece assim que o campo fica
-    // inválido e some assim que o valor volta a ser válido.
     mode: "onChange",
   });
 
