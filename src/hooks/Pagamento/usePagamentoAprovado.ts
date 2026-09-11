@@ -45,7 +45,13 @@ export function usePagamentoAprovado(navigate: (route: string) => void): UsePaga
   const { valor: total, metodo, cartao, processado, limparDadosPagamento } = usePagamentoStore();
 
   // Só é um acesso válido se o método estiver salvo E a etapa de processamento já tiver concluído — bloqueia acessar a tela sem passar pelo fluxo.
-  const acessoValido = !!metodo && processado;
+  const acessoValidoAoEntrar = !!metodo && processado;
+
+  // "Congela" o resultado da validação no momento em que a tela é montada, em vez de
+  // recalculá-lo a cada render. Isso evita que a limpeza do funil (função mais abaixo,
+  // disparada só quando o usuário sai da tela) derrube acessoValido depois que
+  // "metodo"/"processado" forem zerados no Context.
+  const [acessoValido] = useState(() => acessoValidoAoEntrar);
 
   useEffect(() => {
     if (!acessoValido) {
@@ -77,26 +83,32 @@ export function usePagamentoAprovado(navigate: (route: string) => void): UsePaga
       })),
   );
 
-  // Limpeza pós-confirmação: reseta o funil de pagamento e remove os itens pagos do
-  // carrinho — evita que reapareçam numa compra futura ou que a tela quebre se o
-  // usuário voltar para o Carrinho depois. Roda uma única vez, só quando o acesso é válido.
-  useEffect(() => {
-    if (!acessoValido) return;
-
+  // CORREÇÃO: a limpeza do funil (limparDadosPagamento + remover itens pagos do
+  // carrinho) não roda mais sozinha assim que a tela monta. Ela reseta o
+  // PagamentoContext, que é compartilhado, e as telas anteriores do fluxo
+  // (Processando Pagamento, Selecionar Cartão, Pix) continuam montadas por baixo
+  // na pilha de navegação e têm um guard que redireciona para o Carrinho quando
+  // o método de pagamento fica inválido. Ao zerar o Context na hora que a tela
+  // aparecia, esse guard das telas de baixo disparava de novo e navegava para o
+  // Carrinho por cima da tela de sucesso — era isso que fazia a tela "sumir"
+  // sozinha pouco depois de aparecer. Agora a limpeza só acontece quando o
+  // usuário sai desta tela pela ação dele mesmo (um dos botões abaixo).
+  function limparFunilDePagamento() {
     limparDadosPagamento();
 
     itens
       .filter((item) => item.selecionado)
       .forEach((item) => removerItem(item.id));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [acessoValido]);
+  }
 
   function verDetalhesDoAluguel() {
+    limparFunilDePagamento();
     navigate('minhasReservas');
   }
 
   function voltarParaInicio() {
-    navigate('home');
+    limparFunilDePagamento();
+    navigate('HomeScreen');
   }
 
   return {

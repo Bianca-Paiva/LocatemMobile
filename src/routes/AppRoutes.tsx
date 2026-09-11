@@ -115,7 +115,19 @@ function useLegacyNavigate() {
     useNavigation<StackNavigationProp<RootStackParamList>>();
 
   return (route: string) => {
-    const nomeReal = MAPA_ROTAS_LEGADAS[route] ?? (route as keyof RootStackParamList);
+    const nomeReal =
+      MAPA_ROTAS_LEGADAS[route] ??
+      (route as keyof RootStackParamList);
+
+    if (nomeReal === 'HomeScreen') {
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'HomeScreen' }],
+      });
+
+      return;
+    }
+
     navigation.navigate(nomeReal as any);
   };
 }
