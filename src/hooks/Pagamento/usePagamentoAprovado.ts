@@ -1,19 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { ImageSourcePropType } from 'react-native';
 
 import { useCarrinhoStore } from '../useCarrinhoStore';
 import { usePagamentoStore } from '../usePagamentoStore';
-import { useReservaStore } from '../Reservas/useReservaStore';
-import { calcularResumoAvaliacoes } from '../../utils/avaliacoesResumo';
-import {
-  adicionarDias,
-  formatarDataBr,
-  formatarDataCurta,
-  getHojeIso,
-  parseDataIso,
-} from '../../utils/dataLocacao';
 import type { ItemCarrinho } from '../../context/CarrinhoContext';
-import type { ReservaData } from '../../pages/Reservas/MinhasReservas/MinhasReservas.types';
 import type { FormaPagamento } from '../../types/cartao.types';
 
 // Mesmos rótulos usados em SeletorFormaPagamento — mantém o texto consistente em toda a tela de checkout.
@@ -28,59 +18,6 @@ function formatarDataHoraAtual(): string {
   const data = agora.toLocaleDateString('pt-BR');
   const hora = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
   return `${data} - ${hora}`;
-}
-
-function formatarMoeda(valor: number): string {
-  return `R$ ${valor.toFixed(2).replace('.', ',')}`;
-}
-
-// Mesma mensagem usada em MinhasReservas.mock.ts para reservas com pagamento
-// já confirmado — mantém o texto consistente com o restante da tela "Minhas Reservas".
-const MENSAGEM_PAGAMENTO_CONFIRMADO = 'O pagamento foi confirmado e a entrega está sendo preparada';
-
-/**
- * Converte um item pago do carrinho em uma ReservaData, para que ele passe a
- * aparecer em "Minhas Reservas" assim que o pagamento é aprovado. O fluxo de
- * Carrinho não coleta data/horário de entrega (diferente de "Solicitar
- * Reserva"), então o período é contado a partir de hoje pelos `dias` de
- * locação escolhidos no carrinho.
- */
-function montarDadosReservaPago(item: ItemCarrinho): Omit<ReservaData, 'id'> {
-  const hojeIso = getHojeIso();
-  const fimIso = adicionarDias(hojeIso, item.dias);
-  const anoFim = parseDataIso(fimIso)?.getFullYear() ?? new Date().getFullYear();
-
-  const precoDiaria = Number(String(item.produto.price).replace(',', '.')) || 0;
-  const valorTotal = precoDiaria * item.quantidade * item.dias;
-
-  // Média/quantidade de avaliações sempre calculadas a partir das avaliações
-  // reais do produto, nunca de `rating`/`reviewCount` fixos — mesma regra
-  // usada em useSolicitarReserva.ts e ProductScreen.
-  const resumoAvaliacoes = calcularResumoAvaliacoes(item.produto.avaliacoes);
-
-  // Sem horário de entrega escolhido neste fluxo (diferente de "Solicitar
-  // Reserva"): usa a hora atual como início da janela, coerente com o aviso
-  // "Seu aluguel será entregue em até 3 horas" exibido na tela.
-  const horaAtual = `${String(new Date().getHours()).padStart(2, '0')}:00`;
-
-  return {
-    produto: item.produto.title,
-    imagem: item.produto.images[0],
-    periodo: `${formatarDataCurta(hojeIso)} – ${formatarDataCurta(fimIso)} ${anoFim}`,
-    locador: item.produto.locador,
-    status: 'preparandoEntrega',
-    mensagemStatus: MENSAGEM_PAGAMENTO_CONFIRMADO,
-    categoria: item.produto.categoria,
-    avaliacaoLocador: resumoAvaliacoes.media,
-    numeroAvaliacoes: resumoAvaliacoes.quantidade,
-    localizacao: item.produto.localizacao,
-    dataInicio: formatarDataBr(hojeIso),
-    horaInicio: horaAtual,
-    dataFim: formatarDataBr(fimIso),
-    horaFim: horaAtual,
-    quantidade: item.quantidade,
-    valor: formatarMoeda(valorTotal),
-  };
 }
 
 export interface ProdutoConfirmado {
@@ -107,7 +44,6 @@ interface UsePagamentoAprovadoReturn {
 export function usePagamentoAprovado(navigate: (route: string) => void): UsePagamentoAprovadoReturn {
   const { itens, removerItem } = useCarrinhoStore();
   const { valor: total, metodo, cartao, processado, limparDadosPagamento } = usePagamentoStore();
-  const { adicionarReserva } = useReservaStore();
 
   // Só é um acesso válido se o método estiver salvo E a etapa de processamento já tiver concluído — bloqueia acessar a tela sem passar pelo fluxo.
   const acessoValidoAoEntrar = !!metodo && processado;
@@ -134,9 +70,11 @@ export function usePagamentoAprovado(navigate: (route: string) => void): UsePaga
   })();
 
   // Itens pagos = os que estavam selecionados no carrinho ao continuar para o pagamento.
-  // Capturado em estado (não recalculado a partir do carrinho) para não sumir da tela
-  // quando a limpeza abaixo remover os itens do contexto, nem duplicar/perder reservas
-  // caso o carrinho mude enquanto esta tela estiver montada.
+  // Capturado em estado (não recalculado a partir do carrinho) apenas para exibição na
+  // seção "Itens alugados" — não sumir da tela quando a limpeza abaixo remover os itens
+  // do contexto. A reserva desses itens já foi criada antes de chegar nesta tela (ver
+  // useProcessandoPagamento.ts): esta tela só exibe o resultado do pagamento, não grava
+  // nenhum dado de negócio.
   const [itensPagos] = useState<ItemCarrinho[]>(() => itens.filter((item) => item.selecionado));
 
   const [produtos] = useState<ProdutoConfirmado[]>(() =>
@@ -149,33 +87,15 @@ export function usePagamentoAprovado(navigate: (route: string) => void): UsePaga
     })),
   );
 
-  // CORREÇÃO: nenhum lugar do fluxo de Carrinho -> Pagamento criava uma
-  // ReservaData ao final da compra, então o produto pago nunca chegava a
-  // aparecer em "Minhas Reservas" (a tela só lê do ReservaContext). Cria uma
-  // reserva por item pago assim que o acesso a esta tela é validado — só uma
-  // vez por sessão de pagamento (guard via ref, já que "acessoValido" não
-  // muda depois de montado e o efeito não deve repetir a criação em re-renders).
-  const reservasCriadasRef = useRef(false);
-
-  useEffect(() => {
-    if (!acessoValido || reservasCriadasRef.current) return;
-    reservasCriadasRef.current = true;
-
-    itensPagos.forEach((item) => {
-      adicionarReserva(montarDadosReservaPago(item));
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [acessoValido]);
-
-  // CORREÇÃO: a limpeza do funil (limparDadosPagamento + remover itens pagos do
-  // carrinho) não roda mais sozinha assim que a tela monta. Ela reseta o
+  // A limpeza do funil (limparDadosPagamento + remover itens pagos do
+  // carrinho) não roda sozinha assim que a tela monta. Ela reseta o
   // PagamentoContext, que é compartilhado, e as telas anteriores do fluxo
   // (Processando Pagamento, Selecionar Cartão, Pix) continuam montadas por baixo
   // na pilha de navegação e têm um guard que redireciona para o Carrinho quando
   // o método de pagamento fica inválido. Ao zerar o Context na hora que a tela
   // aparecia, esse guard das telas de baixo disparava de novo e navegava para o
   // Carrinho por cima da tela de sucesso — era isso que fazia a tela "sumir"
-  // sozinha pouco depois de aparecer. Agora a limpeza só acontece quando o
+  // sozinha pouco depois de aparecer. Por isso a limpeza só acontece quando o
   // usuário sai desta tela pela ação dele mesmo (um dos botões abaixo).
   function limparFunilDePagamento() {
     limparDadosPagamento();

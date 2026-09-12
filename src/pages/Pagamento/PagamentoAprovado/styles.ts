@@ -93,14 +93,16 @@ export const styles = StyleSheet.create({
 
   detailRow: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
+    gap:12,
   },
 
   label: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
+    flexShrink: 1,
   },
 
   labelTexto: {
@@ -112,6 +114,8 @@ export const styles = StyleSheet.create({
     fontSize: 13.5,
     fontWeight: '600',
     color: colors.textDark,
+    flexShrink: 1,
+    textAlign: 'right',
   },
 
   produtosSection: {
