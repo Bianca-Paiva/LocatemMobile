@@ -13,7 +13,6 @@ export const styles = StyleSheet.create({
 
   hero: {
     alignItems: 'center',
-    backgroundColor: colors.primarySoft,
     paddingTop: 40,
     paddingBottom: 32,
     paddingHorizontal: 24,

@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { ImageSourcePropType } from 'react-native';
 
 import { useCarrinhoStore } from '../useCarrinhoStore';
 import { usePagamentoStore } from '../usePagamentoStore';
-import type { ItemCarrinho } from '../../context/CarrinhoContext';
+import type { EntregaItemCarrinho, ItemCarrinho } from '../../context/CarrinhoContext';
 import type { FormaPagamento } from '../../types/cartao.types';
 
 // Mesmos rótulos usados em SeletorFormaPagamento — mantém o texto consistente em toda a tela de checkout.
@@ -26,6 +26,14 @@ export interface ProdutoConfirmado {
   imagem: ImageSourcePropType;
   dias: number;
   unidades: number;
+  /** Dia/horário de entrega deste item, escolhidos em "Detalhes da Locação". */
+  entrega?: EntregaItemCarrinho;
+}
+
+/** Entrega exibida no Resumo do pedido — só existe quando todos os itens compartilham a mesma data/horário. */
+export interface EntregaResumo extends EntregaItemCarrinho {
+  /** true quando há mais de um item e todos compartilham a mesma entrega. */
+  todosOsItens: boolean;
 }
 
 interface UsePagamentoAprovadoReturn {
@@ -37,6 +45,12 @@ interface UsePagamentoAprovadoReturn {
   metodoFormatado: string;
   dataHora: string;
   produtos: ProdutoConfirmado[];
+  /**
+   * Entrega exibida no Resumo do pedido — só preenchida quando todos os itens têm a mesma
+   * data/horário (entrega unificada). Vem null quando algum item não tem entrega registrada
+   * ou quando os itens têm entregas diferentes.
+   */
+  entrega: EntregaResumo | null;
   verDetalhesDoAluguel: () => void;
   voltarParaInicio: () => void;
 }
@@ -84,8 +98,26 @@ export function usePagamentoAprovado(navigate: (route: string) => void): UsePaga
       imagem: item.produto.images[0],
       dias: item.dias,
       unidades: item.quantidade,
+      entrega: item.entrega,
     })),
   );
+
+  // Entrega do Resumo do pedido: só existe quando todos os itens têm entrega registrada
+  // e compartilham a mesma data/horário — com um único item, isso já é sempre verdade.
+  const entrega = useMemo<EntregaResumo | null>(() => {
+    if (produtos.length === 0) return null;
+
+    const entregas = produtos.map((produto) => produto.entrega);
+    if (entregas.some((item) => !item)) return null;
+
+    const [primeira, ...restantes] = entregas as EntregaItemCarrinho[];
+    const todasIguais = restantes.every(
+      (item) => item.data === primeira.data && item.horario === primeira.horario,
+    );
+    if (!todasIguais) return null;
+
+    return { ...primeira, todosOsItens: produtos.length > 1 };
+  }, [produtos]);
 
   // A limpeza do funil (limparDadosPagamento + remover itens pagos do
   // carrinho) não roda sozinha assim que a tela monta. Ela reseta o
@@ -127,6 +159,7 @@ export function usePagamentoAprovado(navigate: (route: string) => void): UsePaga
     metodoFormatado,
     dataHora,
     produtos,
+    entrega,
     verDetalhesDoAluguel,
     voltarParaInicio,
   };

@@ -36,3 +36,6 @@ npx expo install react-native-reanimated
 
 --
 npx expo install react-native-worklets
+
+## npm install lucide-react
+npm install lucide-react

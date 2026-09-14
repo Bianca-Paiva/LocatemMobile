@@ -18,6 +18,17 @@ export const ReservaContext = createContext<ReservaContextType | null>(null);
 const MENSAGEM_CANCELAMENTO_AUTOMATICO =
   'Reserva cancelada automaticamente por falta de pagamento dentro do prazo.';
 
+// Contador usado para garantir IDs únicos mesmo quando várias reservas são
+// criadas no mesmo milissegundo (ex: pagamento de vários itens do carrinho
+// de uma vez, processados em sequência dentro do mesmo forEach). Usar só
+// `Date.now()` nesse caso gera o mesmo ID para reservas diferentes.
+let contadorReserva = 0;
+
+function gerarIdReserva(): string {
+  contadorReserva += 1;
+  return `r-${Date.now()}-${contadorReserva}`;
+}
+
 // Frequência de verificação do prazo de pagamento das reservas
 const INTERVALO_VERIFICACAO_MS = 60 * 1000; // 1 minuto
 
@@ -43,7 +54,7 @@ export function ReservaProvider({ children }: { children: ReactNode }) {
   const adicionarReserva = (dadosReserva: Omit<ReservaData, 'id'>): ReservaData => {
     const novaReserva: ReservaData = {
       ...dadosReserva,
-      id: `r-${Date.now()}`,
+      id: gerarIdReserva(),
     };
 
     setReservas((atuais) => [novaReserva, ...atuais]);

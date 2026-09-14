@@ -3,19 +3,27 @@ import type { ReactNode } from 'react';
 
 import type { Produto } from '../types/produto.types';
 
+/** Dia/horário de entrega escolhidos em "Detalhes da Locação" para este item. */
+export interface EntregaItemCarrinho {
+  data: string;
+  horario: string;
+}
+
 export interface ItemCarrinho {
   id: string;
   produto: Produto;
   quantidade: number;
   /** Quantidade de dias de locação escolhida para este item */
   dias: number;
+  /** Dia/horário de entrega escolhidos para este item, usados no Resumo do pedido da tela de pagamento aprovado. */
+  entrega?: EntregaItemCarrinho;
   /** Se o item participa da compra (subtotal/total). Ligado por padrão ao ser adicionado. */
   selecionado: boolean;
 }
 
 interface CarrinhoContextType {
   itens: ItemCarrinho[];
-  adicionarItem: (produto: Produto, quantidade?: number, dias?: number) => void;
+  adicionarItem: (produto: Produto, quantidade?: number, dias?: number, entrega?: EntregaItemCarrinho) => void;
   removerItem: (id: string) => void;
   atualizarQuantidade: (id: string, quantidade: number) => void;
   atualizarDias: (id: string, dias: number) => void;
@@ -32,12 +40,13 @@ export function CarrinhoProvider({ children }: { children: ReactNode }) {
   // Só adiciona a ferramenta ao carrinho — não cria reserva, notificação nem
   // dispara nenhum fluxo de aprovação/pagamento, igual ao "Adicionar ao
   // carrinho" da versão Web.
-  const adicionarItem = (produto: Produto, quantidade = 1, dias = 1) => {
+  const adicionarItem = (produto: Produto, quantidade = 1, dias = 1, entrega?: EntregaItemCarrinho) => {
     const novoItem: ItemCarrinho = {
       id: `c-${Date.now()}`,
       produto,
       quantidade,
       dias,
+      entrega,
       selecionado: true,
     };
     setItens((atuais) => [novoItem, ...atuais]);

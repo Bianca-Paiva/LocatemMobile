@@ -1,5 +1,6 @@
 import { Image, ScrollView, Text, View } from 'react-native';
-import { Calendar, CheckCircle2, CreditCard, Info, QrCode } from 'lucide-react-native';
+import { Calendar, CheckCircle2, CreditCard, Info, QrCode, Truck } from 'lucide-react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import BtnPrincipal from '../../../components/BtnPrincipal';
@@ -20,8 +21,17 @@ interface PagamentoAprovadoProps {
 const formatarPreco = (valor: number) => `R$ ${valor.toFixed(2).replace('.', ',')}`;
 
 export default function PagamentoAprovado({ navigate }: PagamentoAprovadoProps) {
-  const { acessoValido, total, metodo, metodoFormatado, dataHora, produtos, verDetalhesDoAluguel, voltarParaInicio } =
-    usePagamentoAprovado(navigate);
+  const {
+    acessoValido,
+    total,
+    metodo,
+    metodoFormatado,
+    dataHora,
+    produtos,
+    entrega,
+    verDetalhesDoAluguel,
+    voltarParaInicio,
+  } = usePagamentoAprovado(navigate);
 
   // Acesso direto/indevido (sem passar por "Processando Pagamento"): o hook já disparou o redirecionamento para o Carrinho, então não há nada útil para renderizar aqui.
   if (!acessoValido) return null;
@@ -29,7 +39,14 @@ export default function PagamentoAprovado({ navigate }: PagamentoAprovadoProps) 
   return (
     <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <View style={styles.hero}>
+        {/* Degradê amarelo igual ao da Web (mesmas cores e paradas do linear-gradient "to bottom"). */}
+        <LinearGradient
+          colors={['#FFCA00', '#FFE97A', '#F3ECC9', '#F8F4E6', '#F9FAFB']}
+          locations={[0, 0.32, 0.52, 0.7, 1]}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          style={styles.hero}
+        >
           <View style={styles.successIcon}>
             <CheckCircle2 size={48} color={colors.success} />
           </View>
@@ -37,7 +54,7 @@ export default function PagamentoAprovado({ navigate }: PagamentoAprovadoProps) 
           <Text style={styles.heroTitle}>Pagamento aprovado com sucesso</Text>
           <Text style={styles.heroSubtitle}>Sua transação foi processada.</Text>
           <Text style={styles.heroPrice}>{formatarPreco(total)}</Text>
-        </View>
+        </LinearGradient>
 
         <View style={styles.pickupAlert}>
           <Info size={20} color={colors.success} />
@@ -67,6 +84,19 @@ export default function PagamentoAprovado({ navigate }: PagamentoAprovadoProps) 
               </View>
               <Text style={styles.value}>{dataHora}</Text>
             </View>
+
+            {entrega && (
+              <View style={styles.detailRow}>
+                <View style={styles.label}>
+                  <Truck size={14} color={colors.textMuted} />
+                  <Text style={styles.labelTexto}>Entrega</Text>
+                </View>
+                <Text style={styles.value}>
+                  {entrega.data} das {entrega.horario}
+                  {entrega.todosOsItens ? ' — todos os itens' : ''}
+                </Text>
+              </View>
+            )}
           </View>
         </View>
 

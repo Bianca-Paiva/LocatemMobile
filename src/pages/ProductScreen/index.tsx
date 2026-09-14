@@ -17,7 +17,6 @@ import { Acessorios } from './components/Acessorios';
 
 // ── 2. IMPORTAÇÃO DOS HOOKS GLOBAIS (ZUSTAND) ──────────────────────
 import { useProdutoStore } from '../../hooks/useProdutoStore';
-import { useReservaStore } from '../../hooks/useReservaStore';
 import { useNotificationStore } from '../../hooks/useNotificationStore';
 
 // ── 3. IMPORTAÇÃO DE MOCKS E UTILITÁRIOS ───────────────────────────
@@ -36,7 +35,6 @@ export default function ProductScreen() {
   const scrollViewRef = useRef<ScrollView>(null); 
 
   const { produtoSelecionado, setProdutoSelecionado } = useProdutoStore();
-  const { adicionarReserva } = useReservaStore();
   const { adicionarNotificacao } = useNotificationStore();
 
   const produto = produtoSelecionado ?? FALLBACK_PRODUTO;
