@@ -114,11 +114,11 @@ export function AuthProvider({
         throw new Error("Informe e-mail e senha para continuar.");
       }
 
-      // ======================================================================
+     // ======================================================================
       // 1. USUÁRIO DE TESTE MOCKADO (Prioridade para testes rápidos)
       // ======================================================================
-      const EMAIL_TESTE = "teste@email.com"; // Mude para o e-mail do seu user teste
-      const SENHA_TESTE = "123456";         // Mude para a senha do seu user teste
+      const EMAIL_TESTE = "joao.silva@exemplo.com"; // Deve ser igual ao e-mail abaixo
+      const SENHA_TESTE = "123456";                 // Senha para testar
 
       if (emailNormalizado === EMAIL_TESTE) {
         await new Promise((resolve) => setTimeout(resolve, 500)); // Delay simulado
@@ -127,7 +127,6 @@ export function AuthProvider({
           throw new Error("E-mail ou senha inválidos.");
         }
 
-        // Cria o objeto do usuário mockado com a estrutura do seu tipo `Usuario`
         const usuarioMock: Usuario = {
            id: "u-locador-1",
             nome: "João da Silva",
@@ -135,24 +134,18 @@ export function AuthProvider({
             senha: "123456",
             telefone: "(11) 98765-4321",
             documento: "12.345.678/0001-90",
-            endereco:
-              "Rua das Acácias, 247 – Apto 32, São Paulo, SP · 01310-100",
-
+            endereco: "Rua das Acácias, 247 – Apto 32, São Paulo, SP · 01310-100",
             tipo: "locador",
-
             emailVerificado: false,
-
             desde: 2026,
-
             reputacao: {
               rating: 4.5,
               totalAvaliacoes: 145,
               locacoesConcluidas: 212,
               entregasNoPrazoPercentual: 98,
             },
-          tipoUsuario: "Admin",
-          token: "fake-jwt-token-mock-123",
-          // Adicione aqui outros campos obrigatórios que seu tipo Usuario possuir
+            tipoUsuario: "Admin",
+            token: "fake-jwt-token-mock-123",
         } as Usuario;
 
         setUsuario(usuarioMock);
