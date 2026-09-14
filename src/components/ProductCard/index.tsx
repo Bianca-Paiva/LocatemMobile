@@ -23,6 +23,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) =>
     <TouchableOpacity 
       style={styles.container} 
       onPress={ (event) => {
+                 // FIX: `{onPress}` sozinho não chama a função, só referencia o
+                 // identificador — por isso nenhum card avisava o pai de qual
+                 // ferramenta foi clicada, e a tela de detalhes sempre recebia o
+                 // mesmo produto (ou nenhum). O pai (Home/Busca/ProdutosSemelhantes)
+                 // usa esse callback pra selecionar a ferramenta certa (por id) antes
+                 // de navegarmos pra tela de detalhes.
                  onPress?.(event);
                  navigation.navigate('ProductScreen');
                 }}

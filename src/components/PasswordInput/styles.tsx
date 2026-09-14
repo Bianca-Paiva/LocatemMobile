@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import colors from "../../theme/colors";
 
 const styles = StyleSheet.create({
   inputLabel: {
@@ -24,6 +25,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#f9fafb",
   },
 
+  // Feedback visual de campo inválido: borda e fundo em vermelho.
+  inputErro: {
+    borderColor: colors.error,
+    backgroundColor: colors.errorBg,
+  },
+
   eyeButton: {
     position: "absolute",
     right: 16,
@@ -34,6 +41,13 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     resizeMode: "contain",
+  },
+
+  erroTexto: {
+    color: colors.error,
+    fontSize: 13,
+    marginBottom: 14,
+    marginTop: 4,
   },
 });
 

@@ -4,6 +4,7 @@ import { BtnPrincipalProps } from "./types";
 import  styles  from "./styles";
 
 
+
 export default function BtnPrincipal({ title, variant = 'primary', onPress }: BtnPrincipalProps) {
     return (
         <TouchableOpacity

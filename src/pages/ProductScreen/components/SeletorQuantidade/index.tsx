@@ -22,8 +22,7 @@ export default function SeletorQuantidade({
         eles se comportem como <span> na Web (fiquem na mesma linha) 
       */}
       <Text style={styles.label}>
-        Quantidade 
-        <Text style={styles.required}> * </Text>
+        Quantidade{' '}
         <Text style={styles.estoque}>
           ({estoqueDisponivel} {estoqueDisponivel === 1 ? 'disponível' : 'disponíveis'})
         </Text>

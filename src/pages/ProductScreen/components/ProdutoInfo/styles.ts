@@ -77,11 +77,6 @@ export const styles = StyleSheet.create({
     color: '#141D23',
     margin: 0,
   },
-  required: {
-    color: '#E11D48',
-    fontSize: 14,
-  },
-
   botoesOpcao: {
     flexDirection: 'row',
     gap: 8,
@@ -150,7 +145,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   btnCarrinhoText: {
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '700',
     color: '#6E5000',
   },

@@ -11,10 +11,6 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#141D23',
   },
-  required: {
-    color: '#E11D48',
-    fontSize: 14,
-  },
   estoque: {
     fontSize: 12,
     color: '#6b7280', // Fallback para var(--color-text-muted)

@@ -32,7 +32,7 @@ export function ProdutosSemelhantes({ produtos, onCardClick }: ProdutosSemelhant
             id: p.id ? p.id.toString() : index.toString(),
             imageUrl: p.images && p.images.length > 0 ? p.images[0] : '', 
             title: p.title,
-            storeName: p.brand, 
+            storeName: p.marca, 
             price: isNaN(numericPrice) ? 0 : numericPrice, 
             period: 'dia' 
           };

@@ -8,14 +8,20 @@ import colors from '../../../../theme/colors';
 import styles from './styles';
 import type { ResumoPedidoVariant } from '../../../../types/checkout';
 
+/** Resultado de uma tentativa de calcular frete ou aplicar cupom. */
+interface ResultadoValidacao {
+  sucesso: boolean;
+  mensagem?: string;
+}
+
 interface ResumoPedidoProps {
   variant: ResumoPedidoVariant;
   subtotal?: number;
   desconto?: number;
   total?: number;
-  onCalcularFrete?: (cep: string) => void;
+  onCalcularFrete?: (cep: string) => ResultadoValidacao | void;
   freteValor?: number | null;
-  onAplicarCupom?: (codigo: string) => void;
+  onAplicarCupom?: (codigo: string) => ResultadoValidacao | void;
   cupomAviso?: string | null;
   onOcultarCupomAviso?: () => void;
   ctaLabel?: string;
@@ -41,7 +47,17 @@ export default function ResumoPedido({
 }: ResumoPedidoProps) {
   const [cepInput, setCepInput] = useState('');
   const [cupomInput, setCupomInput] = useState('');
+
+  // BUG CORRIGIDO: nem CEP inválido nem cupom inválido davam qualquer
+  // feedback visual — o "Usar"/"Aplicar" simplesmente não fazia nada
+  // visível. Agora cada campo tem seu próprio erro local, mostrado como
+  // borda vermelha + mensagem abaixo, e some assim que o usuário volta
+  // a digitar (evita ficar mostrando um erro desatualizado).
+  const [cepErro, setCepErro] = useState<string | null>(null);
+  const [cupomErro, setCupomErro] = useState<string | null>(null);
+
   const cepValido = validateCEP(cepInput);
+  const cepTocado = cepInput.length > 0;
 
   useEffect(() => {
     if (!cupomAviso || !onOcultarCupomAviso) return;
@@ -49,6 +65,41 @@ export default function ResumoPedido({
     const timeout = setTimeout(onOcultarCupomAviso, 6000);
     return () => clearTimeout(timeout);
   }, [cupomAviso, onOcultarCupomAviso]);
+
+  function handleCepChange(texto: string) {
+    setCepInput(maskCEP(texto));
+    if (cepErro) setCepErro(null);
+  }
+
+  function handleUsarCep() {
+    if (!cepValido) {
+      setCepErro('Informe um CEP válido com 8 dígitos.');
+      return;
+    }
+
+    const resultado = onCalcularFrete?.(cepInput);
+    if (resultado && !resultado.sucesso) {
+      setCepErro(resultado.mensagem ?? 'Não foi possível calcular o frete para esse CEP.');
+      return;
+    }
+
+    setCepErro(null);
+  }
+
+  function handleCupomChange(texto: string) {
+    setCupomInput(texto.toUpperCase());
+    if (cupomErro) setCupomErro(null);
+  }
+
+  function handleAplicarCupom() {
+    const resultado = onAplicarCupom?.(cupomInput);
+    if (resultado && !resultado.sucesso) {
+      setCupomErro(resultado.mensagem ?? 'Cupom inválido.');
+      return;
+    }
+
+    setCupomErro(null);
+  }
 
   return (
     <View style={styles.card}>
@@ -80,30 +131,39 @@ export default function ResumoPedido({
               )}
             </View>
 
-            <View style={styles.inputContainer}>
+            <View
+              style={[
+                styles.inputContainer,
+                cepErro && styles.inputContainerErro,
+                !cepErro && cepTocado && !cepValido && styles.inputContainerAlerta,
+              ]}
+            >
               <TextInput
                 style={styles.inputSemBorda}
                 value={cepInput}
                 placeholder="Informe um CEP"
                 placeholderTextColor={colors.textMuted2}
                 keyboardType="numeric"
-                onChangeText={(texto) => setCepInput(maskCEP(texto))}
+                onChangeText={handleCepChange}
                 accessibilityLabel="CEP"
+               
               />
 
               <TouchableOpacity
                 style={[styles.btnInterno, !cepValido && styles.btnInternoDesabilitado]}
-                onPress={() => onCalcularFrete?.(cepInput)}
+                onPress={handleUsarCep}
                 disabled={!cepValido}
               >
                 <Text style={styles.btnInternoTexto}>Usar</Text>
               </TouchableOpacity>
             </View>
+
+            {cepErro && <Text style={styles.erroTexto}>{cepErro}</Text>}
           </View>
 
           <View style={styles.cupomBloco}>
-            <View style={styles.inputComIcone}>
-              <Tag size={18} color={colors.textMuted2} />
+            <View style={[styles.inputComIcone, cupomErro && styles.inputContainerErro]}>
+              <Tag size={18} color={cupomErro ? colors.error : colors.textMuted2} />
 
               <TextInput
                 style={styles.inputSemBorda}
@@ -111,16 +171,24 @@ export default function ResumoPedido({
                 placeholder="Inserir código de cupom"
                 placeholderTextColor={colors.textMuted2}
                 autoCapitalize="characters"
-                onChangeText={(texto) => setCupomInput(texto.toUpperCase())}
+                onChangeText={handleCupomChange}
                 accessibilityLabel="Código do cupom"
+            
               />
 
-              <TouchableOpacity style={styles.btnInterno} onPress={() => onAplicarCupom?.(cupomInput)}>
+              <TouchableOpacity
+                style={[styles.btnInterno, !cupomInput.trim() && styles.btnInternoDesabilitado]}
+                onPress={handleAplicarCupom}
+                disabled={!cupomInput.trim()}
+              >
                 <Text style={styles.btnInternoTexto}>Aplicar</Text>
               </TouchableOpacity>
             </View>
 
-            {cupomAviso && <Text style={styles.cupomAplicadoTexto}>Cupom {cupomAviso} aplicado</Text>}
+            {cupomErro && <Text style={styles.erroTexto}>{cupomErro}</Text>}
+            {!cupomErro && cupomAviso && (
+              <Text style={styles.cupomAplicadoTexto}>Cupom {cupomAviso} aplicado</Text>
+            )}
 
             {desconto > 0 && (
               <View style={styles.linha}>
@@ -134,6 +202,15 @@ export default function ResumoPedido({
             <Text style={styles.totalLabel}>Total</Text>
             <Text style={styles.totalValor}>{formatarPreco(total)}</Text>
           </View>
+
+          {/* BUG CORRIGIDO: o CTA ficava desabilitado (opacidade + sem
+              toque) quando faltava calcular o frete, mas nada explicava
+              o motivo — parecia só "travado". */}
+          {ctaDisabled && freteValor == null && (
+            <Text style={styles.ctaAvisoTexto}>
+              Informe um CEP e toque em "Usar" para calcular o frete antes de continuar.
+            </Text>
+          )}
 
           <View style={ctaDisabled ? styles.ctaDesabilitado : undefined} pointerEvents={ctaDisabled ? 'none' : 'auto'}>
             <BtnPrincipal title={ctaLabel ?? 'Continuar para Pagamento'} onPress={() => onCtaClick?.()} />

@@ -20,63 +20,8 @@ export interface AvaliacaoProduto {
 
 // ── 2. DADOS MOCKADOS ───────────────────────────────────────────────
 
-// 🚀 REGRA DE NEGÓCIO: O Fallback Produto é usado caso a tela abra sem um produto selecionado.
-export const FALLBACK_PRODUTO = {
-  id: "PROD-001",
-  title: "Furadeira Parafusadeira Sem Fio A Bateria 10mm The Black Tools",
-  price: 15.00,
-  rating: 4.8,
-  reviewCount: 120,
-  brand: "HomePro Pro Store",
-  locador: "HomePro Pro Store",
-  estoqueDisponivel: 5,
-  opcoesTensao: ["127V", "220V", "Bivolt"],
-  tipoAprovacao: 'manual', // Importante para o fluxo de reserva que construímos
-  
-  // ATENÇÃO: Ajuste os caminhos dos requires conforme a sua pasta 'assets' real
-  images: [
-    require("../../assets/images/imagesProdutos/Furadeira1.webp"),
-    require("../../assets/images/imagesProdutos/img-carrossel-2.png"),
-    require("../../assets/images/imagesProdutos/img-carrossel-3.png")
-    // require("../../assets/images/imagesProdutos/img-carrossel-2.png"),
-  ],
-  imageVerificado: require("../../assets/images/verificadoAzul.png"),
-  imageNota: require("../../assets/images/icons/StarFullYellow.png"), 
-};
-
-// Reutilizamos a lógica de cards da Home
-export const MOCK_SEMELHANTES = [
-  {
-    id: "PROD-002",
-    title: "Serra Tico-Tico 400W",
-    brand: "Bosch",
-    price: 25.00,
-    images: [require("../../assets/images/imagesProdutos/Furadeira1.webp")], // Exemplo
-    rating: 4.5,
-    reviewCount: 89,
-    imageVerificado: require("../../assets/images/verificadoAzul.png"),
-    imageNota: require("../../assets/images/IconLike.png"),
-  },
-  {
-    id: "PROD-003",
-    title: "Parafusadeira de Impacto",
-    brand: "Makita",
-    price: 20.00,
-    images: [require("../../assets/images/imagesProdutos/Furadeira1.webp")], // Exemplo
-    rating: 4.9,
-    reviewCount: 210,
-    imageVerificado: require("../../assets/images/verificadoAzul.png"),
-    imageNota: require("../../assets/images/IconLike.png"),
-  }
-];
-
-export const MOCK_ESPECIFICACOES: EspecificacaoTecnica[] = [
-  { label: 'Potência de saída', valor: 'Bateria de Íon-lítio de 18V máx' },
-  { label: 'Torque máximo', valor: '65 Nm' },
-  { label: 'Tamanho do mandril', valor: '13mm Sem chave' },
-  { label: 'Acessórios incluídos', valor: '2 baterias, carregador, estojo rígido, conjunto de 10 bits' },
-];
-
+// Avaliações reais da ferramenta de fallback. Declarada antes de `FALLBACK_PRODUTO`
+// porque é referenciada por ele logo abaixo (fonte única, sem duplicar a lista).
 export const MOCK_AVALIACOES: AvaliacaoProduto[] = [
   {
     nome: 'João Silva',
@@ -102,4 +47,75 @@ export const MOCK_AVALIACOES: AvaliacaoProduto[] = [
     fotos: [],
     utilCount: 2,
   },
+];
+
+// 🚀 REGRA DE NEGÓCIO: O Fallback Produto é usado caso a tela abra sem um produto selecionado.
+export const FALLBACK_PRODUTO = {
+  id: "PROD-001",
+  title: "Furadeira Parafusadeira Sem Fio A Bateria 10mm The Black Tools",
+  price: 15.00,
+  rating: 4.8,
+  reviewCount: 120,
+  marca: "HomePro Pro Store",
+  locador: "HomePro Pro Store",
+  estoqueDisponivel: 5,
+  opcoesTensao: ["127V", "220V", "Bivolt"],
+  tipoAprovacao: 'manual', // Importante para o fluxo de reserva que construímos
+  
+  // ATENÇÃO: Ajuste os caminhos dos requires conforme a sua pasta 'assets' real
+  images: [
+    require("../../assets/images/imagesProdutos/Furadeira1.webp"),
+    require("../../assets/images/imagesProdutos/img-carrossel-2.png"),
+    require("../../assets/images/imagesProdutos/img-carrossel-3.png")
+    // require("../../assets/images/imagesProdutos/img-carrossel-2.png"),
+  ],
+  imageVerificado: require("../../assets/images/verificadoAzul.png"),
+  imageNota: require("../../assets/images/icons/StarFullYellow.png"),
+
+  // Itens inclusos que acompanham a ferramenta — alimenta o card "Acessórios Inclusos"
+  // da tela de Produto (adaptado do equivalente Web, `Produto.acessorios`).
+  acessorios: [
+    '1 bateria de Íon-lítio 18V',
+    'Carregador bivolt',
+    'Estojo rígido',
+    'Conjunto de 10 bits',
+  ],
+
+  // Avaliações reais desta ferramenta. `rating`/`reviewCount` acima ficam só como
+  // valor de catálogo — a média e o total exibidos na tela são sempre recalculados
+  // a partir desta lista (ver utils/avaliacoesResumo.ts), nunca lidos direto daqueles campos.
+  avaliacoes: MOCK_AVALIACOES,
+};
+
+// Reutilizamos a lógica de cards da Home
+export const MOCK_SEMELHANTES = [
+  {
+    id: "PROD-002",
+    title: "Serra Tico-Tico 400W",
+    marca: "Bosch",
+    price: 25.00,
+    images: [require("../../assets/images/imagesProdutos/Furadeira1.webp")], // Exemplo
+    rating: 4.5,
+    reviewCount: 89,
+    imageVerificado: require("../../assets/images/verificadoAzul.png"),
+    imageNota: require("../../assets/images/IconLike.png"),
+  },
+  {
+    id: "PROD-003",
+    title: "Parafusadeira de Impacto",
+    marca: "Makita",
+    price: 20.00,
+    images: [require("../../assets/images/imagesProdutos/Furadeira1.webp")], // Exemplo
+    rating: 4.9,
+    reviewCount: 210,
+    imageVerificado: require("../../assets/images/verificadoAzul.png"),
+    imageNota: require("../../assets/images/IconLike.png"),
+  }
+];
+
+export const MOCK_ESPECIFICACOES: EspecificacaoTecnica[] = [
+  { label: 'Potência de saída', valor: 'Bateria de Íon-lítio de 18V máx' },
+  { label: 'Torque máximo', valor: '65 Nm' },
+  { label: 'Tamanho do mandril', valor: '13mm Sem chave' },
+  { label: 'Acessórios incluídos', valor: '2 baterias, carregador, estojo rígido, conjunto de 10 bits' },
 ];

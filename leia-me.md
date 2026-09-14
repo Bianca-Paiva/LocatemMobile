@@ -36,3 +36,11 @@ npx expo install react-native-reanimated
 
 --
 npx expo install react-native-worklets
+
+### Biblioteca adicionada
+- `@react-native-async-storage/async-storage` — padrão de mercado para
+  persistência local em apps Expo/React Native (`localStorage` não
+  existe fora do ambiente Web/DOM).
+
+  #
+npm install @react-native-async-storage/async-storage

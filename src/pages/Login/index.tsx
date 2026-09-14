@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import React from "react";
 import { ScrollView, Text, View, TouchableOpacity } from "react-native";
 import { Controller } from "react-hook-form"; 
 import Animated, {
@@ -95,19 +96,14 @@ export default function LoginScreen() {
           control={control}
           name="email"
           render={({ field: { onChange, value } }) => (
-            <>
-              <Input
-                text="E-mail"
-                placeholder="seu@email.com"
-                keyboardType="email-address"
-                value={value}
-                onChangeText={onChange}
-              />
-              {/* Exibição do erro de E-mail abaixo do input */}
-              {errors.email && (
-                <Text style={styles.erroTexto}>{errors.email.message}</Text>
-              )}
-            </>
+            <Input
+              text="E-mail"
+              placeholder="seu@email.com"
+              keyboardType="email-address"
+              value={value}
+              onChangeText={onChange}
+              error={errors.email?.message}
+            />
           )}
         />
         

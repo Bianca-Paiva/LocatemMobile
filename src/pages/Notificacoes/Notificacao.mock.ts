@@ -8,7 +8,7 @@ export const mockNotifications: NotificationData[] = [
   {
     id: '1',
     type: 'success',
-    category: 'reserva-confirmada',
+    categoria: 'reserva-confirmada',
     title: 'Reserva Confirmada',
     description: 'Sua reserva da Parafusadeira Furadeira de Impacto Hanabi foi confirmada.',
     timestamp: '04/07/2026 às 10h15',
@@ -27,7 +27,7 @@ export const mockNotifications: NotificationData[] = [
   {
     id: '2',
     type: 'warning',
-    category: 'devolucao-pendente',
+    categoria: 'devolucao-pendente',
     title: 'Devolução Pendente',
     description: 'A devolução da Serra Circular Profissional DESOON 24 Dentes deve ser feita amanhã.',
     timestamp: '03/07/2026 às 17h00',
@@ -44,7 +44,7 @@ export const mockNotifications: NotificationData[] = [
   {
     id: '3',
     type: 'delivery',
-    category: 'entrega-andamento',
+    categoria: 'entrega-andamento',
     title: 'Entrega em Andamento',
     description: 'O Aparador De Grama Bipartido Tramontina está a caminho.',
     timestamp: '',
@@ -61,7 +61,7 @@ export const mockNotifications: NotificationData[] = [
   {
     id: '4',
     type: 'success',
-    category: 'ferramenta-devolvida',
+    categoria: 'ferramenta-devolvida',
     title: 'Ferramenta Devolvida',
     description: 'A devolução da Serra Circular Profissional DESOON 24 Dentes foi registrada.',
     timestamp: '01/07/2026 às 09h40',
@@ -77,7 +77,7 @@ export const mockNotifications: NotificationData[] = [
   {
     id: '5',
     type: 'warning',
-    category: 'pagamento-pendente',
+    categoria: 'pagamento-pendente',
     title: 'Pagamento Pendente',
     description: 'O pagamento da reserva da Pistola de Pintura The Black Tools ainda não foi confirmado.',
     timestamp: '20/06/2026 às 14h20',
@@ -94,7 +94,7 @@ export const mockNotifications: NotificationData[] = [
   {
     id: '6',
     type: 'error',
-    category: 'reserva-cancelada',
+    categoria: 'reserva-cancelada',
     title: 'Reserva Cancelada',
     description: 'Sua reserva da Serra Circular Profissional DESOON 24 Dentes foi cancelada.',
     timestamp: '19/06/2026 às 11h05',
@@ -111,7 +111,7 @@ export const mockNotifications: NotificationData[] = [
   {
     id: '7',
     type: 'error',
-    category: 'devolucao-atrasada',
+    categoria: 'devolucao-atrasada',
     title: 'Devolução em Atraso',
     description: 'A devolução da Parafusadeira e Furadeira WAP 12V Cinza está atrasada.',
     timestamp: '18/06/2026 às 09h00',
@@ -128,7 +128,7 @@ export const mockNotifications: NotificationData[] = [
   {
     id: '8',
     type: 'success',
-    category: 'entrega-concluida',
+    categoria: 'entrega-concluida',
     title: 'Entrega Concluída',
     description: 'A Parafusadeira e Furadeira WAP 12V foi entregue com sucesso.',
     timestamp: '17/06/2026 às 15h20',
@@ -144,7 +144,7 @@ export const mockNotifications: NotificationData[] = [
   {
     id: '9',
     type: 'success',
-    category: 'pagamento-confirmado',
+    categoria: 'pagamento-confirmado',
     title: 'Pagamento Confirmado',
     description: 'O pagamento da reserva da Parafusadeira Furadeira de Impacto Hanabi foi aprovado.',
     timestamp: '16/06/2026 às 10h30',
@@ -160,7 +160,7 @@ export const mockNotifications: NotificationData[] = [
   {
     id: '10',
     type: 'error',
-    category: 'pagamento-recusado',
+    categoria: 'pagamento-recusado',
     title: 'Pagamento Recusado',
     description: 'Não conseguimos aprovar o pagamento da sua reserva.',
     timestamp: '15/06/2026 às 08h45',
@@ -176,7 +176,7 @@ export const mockNotifications: NotificationData[] = [
   {
     id: '11',
     type: 'promotion',
-    category: 'promocao-disponivel',
+    categoria: 'promocao-disponivel',
     title: 'Oferta Especial',
     description: '20% de desconto em ferramentas elétricas essa semana.',
     timestamp: '14/06/2026 às 09h00',
@@ -191,7 +191,7 @@ export const mockNotifications: NotificationData[] = [
   {
     id: '12',
     type: 'reminder',
-    category: 'avaliacao-pendente',
+    categoria: 'avaliacao-pendente',
     title: 'Avalie sua reserva',
     description: 'Conte pra gente como foi alugar a Serra Circular Profissional DESOON 24 Dentes.',
     timestamp: '13/06/2026 às 12h00',
@@ -207,7 +207,7 @@ export const mockNotifications: NotificationData[] = [
   {
     id: '13',
     type: 'message',
-    category: 'nova-mensagem',
+    categoria: 'nova-mensagem',
     title: 'Nova Mensagem',
     description: 'Você recebeu uma mensagem do suporte Locatem.',
     timestamp: '12/06/2026 às 17h10',

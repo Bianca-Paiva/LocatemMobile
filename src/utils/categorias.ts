@@ -42,11 +42,11 @@ export function derivarCategorias(produtos: Produto[]): CategoriaComSubcategoria
   const mapa = new Map<string, string[]>();
 
   for (const produto of produtos) {
-    const categoriaTopo = extrairCategoriaTopo(produto.category);
+    const categoriaTopo = extrairCategoriaTopo(produto.categoria);
     const subcategorias = mapa.get(categoriaTopo) ?? [];
 
-    if (produto.category.includes(SEPARADOR_SUBCATEGORIA) && !subcategorias.includes(produto.category)) {
-      subcategorias.push(produto.category);
+    if (produto.categoria.includes(SEPARADOR_SUBCATEGORIA) && !subcategorias.includes(produto.categoria)) {
+      subcategorias.push(produto.categoria);
     }
 
     mapa.set(categoriaTopo, subcategorias);

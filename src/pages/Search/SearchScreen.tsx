@@ -108,13 +108,13 @@ export const SearchScreen = () => {
     return produtosBusca.filter((product) => {
       const productPrice = parseFloat(product.price.replace(",", "."));
 
-      if (filters.categories.length > 0 && !filters.categories.includes(product.category)) {
+      if (filters.categories.length > 0 && !filters.categories.includes(product.categoria)) {
         return false;
       }
-      if (filters.brands.length > 0 && !filters.brands.includes(product.brand)) {
+      if (filters.brands.length > 0 && !filters.brands.includes(product.marca)) {
         return false;
       }
-      if (filters.brandSearch && !product.brand.toLowerCase().includes(filters.brandSearch.toLowerCase())) {
+      if (filters.brandSearch && !product.marca.toLowerCase().includes(filters.brandSearch.toLowerCase())) {
         return false;
       }
       if (filters.voltagens.length > 0) {
@@ -146,8 +146,8 @@ export const SearchScreen = () => {
         const termo = search.trim().toLowerCase();
         const correspondeTermo =
           product.title.toLowerCase().includes(termo) ||
-          product.brand.toLowerCase().includes(termo) ||
-          product.category.toLowerCase().includes(termo);
+          product.marca.toLowerCase().includes(termo) ||
+          product.categoria.toLowerCase().includes(termo);
         if (!correspondeTermo) return false;
       }
 

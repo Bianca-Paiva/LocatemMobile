@@ -5,6 +5,7 @@ import type {
     SolicitarReservaFormState,
 } from '../../pages/Reservas/SolicitarReserva/SolicitarReserva.types';
 import { validateCEP, validatePhone, validateFullName } from '../masks';
+import { calcularResumoAvaliacoes } from '../../utils/avaliacoesResumo';
 import type { ImageSourcePropType } from 'react-native';
 
 const MESES_ABREVIADOS = [
@@ -75,6 +76,14 @@ export function useSolicitarReserva({ produto }: UseSolicitarReservaParams) {
         const preco = Number(String(produto.price).replace(',', '.'));
         return Number.isFinite(preco) ? preco : 0;
     }, [produto.price]);
+    // Média e quantidade de avaliações sempre calculadas a partir das avaliações
+    // reais do produto (`produto.avaliacoes`), nunca lidas direto de `produto.rating`/
+    // `produto.reviewCount` (campos fixos do mock) — mesma regra do Web (ver
+    // utils/avaliacoesResumo.ts e mocks/produtos.adapters.ts -> toLocacaoProdutoBase).
+    const resumoAvaliacoesProduto = useMemo(
+        () => calcularResumoAvaliacoes(produto.avaliacoes),
+        [produto.avaliacoes],
+    );
     const setCampo = <K extends keyof SolicitarReservaFormState>(
         campo: K,
         valor: SolicitarReservaFormState[K],
@@ -161,8 +170,8 @@ export function useSolicitarReserva({ produto }: UseSolicitarReservaParams) {
         status: 'pendente' as const,
         mensagemStatus: 'Aguardando aprovação do locador',
         categoria: produto.categoria,
-        avaliacaoLocador: produto.rating,
-        numeroAvaliacoes: produto.reviewCount,
+        avaliacaoLocador: resumoAvaliacoesProduto.media,
+        numeroAvaliacoes: resumoAvaliacoesProduto.quantidade,
         localizacao: produto.localizacao,
         dataInicio: formatarDataBr(form.dataEntrega),
         horaInicio: form.horarioEntrega,

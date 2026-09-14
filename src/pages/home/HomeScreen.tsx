@@ -13,10 +13,26 @@ import { styles } from "./styles";
 import { ProductCard } from "../../components/ProductCard";
 
 // Mock
-import { mockProducts } from "../../components/DadosMock/MockDados";
+import { PRODUTOS_MOCK } from "../../mocks/produtos.mock";
+import { toProductCard } from "../../mocks/produtos.adapters";
+import { useProdutoStore } from "../../hooks/useProdutoStore";
+
+// Catálogo principal exibido na Home (ver faixas de id em produtos.mock.ts).
+const PRODUTOS_HOME = PRODUTOS_MOCK.filter((produto) => produto.id <= 9);
 
 export const HomeScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+    const { setProdutoSelecionado } = useProdutoStore();
+
+    // Seleciona o produto COMPLETO no store (pelo `id` real do catálogo) antes
+    // do ProductCard navegar pra tela de detalhes — é assim que a
+    // ProductScreen sabe qual ferramenta exibir (ver ProductCard/index.tsx).
+    const handleSelecionarProduto = (id: number) => {
+        const produtoCompleto = PRODUTOS_MOCK.find((produto) => produto.id === id);
+        if (produtoCompleto) {
+            setProdutoSelecionado(produtoCompleto);
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -33,10 +49,11 @@ export const HomeScreen = () => {
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={styles.list}
                     >
-                        {mockProducts.map((product) => (
+                        {PRODUTOS_HOME.map((produto) => (
                             <ProductCard
-                                key={product.id}
-                                product={product}
+                                key={produto.id}
+                                product={toProductCard(produto)}
+                                onPress={() => handleSelecionarProduto(produto.id)}
                             />
                         ))}
                     </ScrollView>
@@ -50,10 +67,11 @@ export const HomeScreen = () => {
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={styles.list}
                     >
-                        {mockProducts.map((product) => (
+                        {PRODUTOS_HOME.map((produto) => (
                             <ProductCard
-                                key={product.id}
-                                product={product}
+                                key={produto.id}
+                                product={toProductCard(produto)}
+                                onPress={() => handleSelecionarProduto(produto.id)}
                             />
                         ))}
                     </ScrollView>

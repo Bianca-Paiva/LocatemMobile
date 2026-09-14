@@ -12,8 +12,16 @@ export const styles = StyleSheet.create({
 
     padding: 18,
 
+    flexDirection: 'column',
+
+    gap: 14,
+  },
+
+  linhaPrincipal: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+
+    width: '100%',
 
     gap: 14,
   },
@@ -30,6 +38,8 @@ export const styles = StyleSheet.create({
 
     alignItems: 'center',
     justifyContent: 'center',
+
+    flexShrink: 0,
   },
 
   imagem: {
@@ -62,6 +72,7 @@ export const styles = StyleSheet.create({
   locador: {
     flexDirection: 'row',
     alignItems: 'center',
+    flexWrap: 'wrap',
 
     gap: 6,
 
@@ -72,6 +83,8 @@ export const styles = StyleSheet.create({
     fontSize: 13,
 
     color: '#4E4634',
+
+    flexShrink: 1,
   },
 
   locadorNome: {
@@ -80,24 +93,15 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
   },
 
-  linhaAvaliacaoLocalizacao: {
-    flexDirection: 'row',
-
-    flexWrap: 'wrap',
-
-    alignItems: 'center',
-
-    gap: 8,
-
-    marginTop: 6,
-  },
-
   avaliacao: {
     flexDirection: 'row',
 
     alignItems: 'center',
+    flexWrap: 'wrap',
 
     gap: 5,
+
+    marginTop: 6,
   },
 
   avaliacaoTexto: {
@@ -108,22 +112,6 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
   },
 
-  localizacao: {
-    flexDirection: 'row',
-
-    alignItems: 'center',
-
-    gap: 5,
-  },
-
-  localizacaoTexto: {
-    color: '#4E4634',
-
-    fontSize: 13,
-
-    fontWeight: '500',
-  },
-
   numeroAvaliacoes: {
     color: '#4E4634',
 
@@ -132,12 +120,6 @@ export const styles = StyleSheet.create({
     fontWeight: '400',
 
     marginLeft: 2,
-  },
-
-  separador: {
-    color: '#807662',
-
-    fontSize: 13,
   },
 
   iconePequeno: {
@@ -152,6 +134,45 @@ export const styles = StyleSheet.create({
     height: 14,
   },
 
+  rodape: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+
+    alignItems: 'center',
+    justifyContent: 'space-between',
+
+    width: '100%',
+
+    columnGap: 12,
+    rowGap: 6,
+
+    paddingTop: 12,
+
+    borderTopWidth: 1,
+    borderTopColor: '#F0F0F0',
+  },
+
+  localizacao: {
+    flexDirection: 'row',
+
+    alignItems: 'center',
+
+    gap: 5,
+
+    flexShrink: 1,
+    minWidth: 0,
+  },
+
+  localizacaoTexto: {
+    color: '#4E4634',
+
+    fontSize: 13,
+
+    fontWeight: '500',
+
+    flexShrink: 1,
+  },
+
   precoBloco: {
     flexDirection: 'row',
 
@@ -159,7 +180,7 @@ export const styles = StyleSheet.create({
 
     gap: 4,
 
-    marginLeft: 'auto',
+    flexShrink: 0,
   },
 
   precoValor: {
