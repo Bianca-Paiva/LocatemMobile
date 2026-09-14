@@ -122,7 +122,7 @@ export function useCadastro() {
   // se o botão de "Locatário" ou "Locador" fica destacado e qual máscara usar.
   const currentUserType = watch("userType");
 
-const API_URL = "http://localhost:5033";
+const API_URL = "http://10.0.2.2:5033";
 
   // ============================================================================
   // 5. FUNÇÃO DE SUBMISSÃO (AÇÃO)

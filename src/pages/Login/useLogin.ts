@@ -5,7 +5,7 @@ import { z } from "zod";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 
-const API_URL = "http://localhost:5033";
+const API_URL = "http://10.0.2.2:5033";
 // ============================================================================
 // 1. O CONTRATO DE DADOS (ZOD SCHEMA)
 // ============================================================================
