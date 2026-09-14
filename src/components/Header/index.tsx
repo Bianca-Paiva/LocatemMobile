@@ -153,18 +153,18 @@ export default function Header({ cartCount }: HeaderProps) {
                 />
             ),
         },
-        {
-            label: "Cadastrar Ferramenta",
-            route: "CadastroFerramentaScreen" as ScreenName,
-            renderIcon: (active) => (
-                <MaterialCommunityIcons
-                    name={active ? "plus-box" : "plus-box-outline"}
-                    size={22}
-                    color="#0A0A0A"
-                    style={styles.navItemIcon}
-                />
-            ),
-        },
+        // {
+        //     label: "Cadastrar Ferramenta",
+        //     route: "CadastroFerramentaScreen" as ScreenName,
+        //     renderIcon: (active) => (
+        //         <MaterialCommunityIcons
+        //             name={active ? "plus-box" : "plus-box-outline"}
+        //             size={22}
+        //             color="#0A0A0A"
+        //             style={styles.navItemIcon}
+        //         />
+        //     ),
+        // },
         {
             label: "Minhas Reservas",
             route: "MinhasReservas" as ScreenName,
