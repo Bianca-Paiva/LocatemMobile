@@ -1,10 +1,11 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useNavigation } from "@react-navigation/native";
 import type { StackNavigationProp } from "@react-navigation/stack";
-
-import { useAuth } from "../../hooks/Auth/useAuth";
 import type { RootStackParamList } from "../../routes/AppRoutes";
+import { useAuth } from "../../hooks/Auth/useAuth";
 
 const loginSchema = z.object({
   email: z
@@ -21,57 +22,69 @@ export type LoginFormData = z.infer<typeof loginSchema>;
 
 type LoginNavigation = StackNavigationProp<RootStackParamList>;
 
-export function useLogin(navigation: LoginNavigation) {
-  // Estado de autenticação centralizado no AuthContext — é ele quem sabe
-  // se o login deu certo e mantém o usuário disponível para o app todo
-  // (inclusive a tela de Perfil).
-  const { login, isAuthenticating } = useAuth();
+export function useLogin(navigationParam?: LoginNavigation) {
+  const globalNavigation = useNavigation<LoginNavigation>();
+  const navigation = navigationParam || globalNavigation;
+
+  // Pegamos a função login do seu AuthContext
+  const { login } = useAuth();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [loginErrorMessage, setLoginErrorMessage] = useState<string | null>(null);
+  const [loginSuccessMessage, setLoginSuccessMessage] = useState<string | null>(null);
+
+  const dismissLoginError = () => setLoginErrorMessage(null);
 
   const {
     control,
     handleSubmit,
     formState: { errors },
-    setError,
     clearErrors,
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: "", password: "" },
-    mode: "onChange",
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+    mode: "onSubmit",
   });
 
   const handleSignIn = async (data: LoginFormData) => {
+    setLoginErrorMessage(null);
+    setLoginSuccessMessage(null);
     clearErrors();
+    setIsLoading(true);
 
     try {
-      // Só chega aqui se o AuthContext confirmar e-mail + senha válidos.
+      // Chama a função login do contexto. 
+      // Ela já valida com os mocks, salva a sessão no AsyncStorage e atualiza o estado global.
       await login(data.email, data.password);
 
-      // Login bem-sucedido: leva o usuário para a página de Perfil e
-      // remove a tela de Login da pilha de navegação (reset), assim o
-      // botão "voltar" do dispositivo não retorna para o login.
-      navigation.reset({
-        index: 0,
-        routes: [{ name: "PerfilScreen" }],
-      });
-    } catch (error) {
-      // Mensagem amigável tanto para credenciais inválidas quanto para
-      // qualquer falha inesperada (ex.: futura falha de conexão com a API).
-      const mensagem =
-        error instanceof Error
-          ? error.message
-          : "Não foi possível entrar. Verifique sua conexão e tente novamente.";
-
-      setError("password", {
-        type: "manual",
-        message: mensagem,
-      });
+      setLoginSuccessMessage("Logado com Sucesso!!");
+      
+      setTimeout(() => {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "HomeScreen" }],
+        });
+      }, 1200);
+      
+    } catch (error: any) {
+      console.error("Erro ao fazer login:", error);
+      // Exibe a mensagem amigável tratada pelo contexto (ex: "E-mail ou senha inválidos.")
+      setLoginErrorMessage(error.message || "Não foi possível realizar o login.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return {
     control,
     errors,
-    isLoading: isAuthenticating,
+    isLoading,
+    loginErrorMessage,
+    dismissLoginError,
+    loginSuccessMessage,
     handleSignIn: handleSubmit(handleSignIn),
   };
 }

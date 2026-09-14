@@ -1,9 +1,15 @@
+import { useEffect } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { Controller } from "react-hook-form"; // O Adaptador
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
+import { CheckCircle } from "lucide-react-native";
 
 // Importação das utilidades e máscaras
 import { formatDocument } from "../../utils/masksCadastro";
-
 
 // Componentes personalizados
 import UserTypeCard from "../../components/UserTypeCard";
@@ -26,8 +32,27 @@ export default function CadastroScreen() {
     isLoading,
     currentUserType,
     setValue,
+    cadastroSuccessMessage,
     handleSignUp,
   } = useCadastro();
+
+  // ============================================================================
+  // ANIMAÇÃO DE ENTRADA DO CARD DE SUCESSO (fade + leve "pop")
+  // ============================================================================
+  const successOpacity = useSharedValue(0);
+  const successScale = useSharedValue(0.9);
+
+  useEffect(() => {
+    if (cadastroSuccessMessage) {
+      successOpacity.value = withTiming(1, { duration: 220 });
+      successScale.value = withTiming(1, { duration: 220 });
+    }
+  }, [cadastroSuccessMessage]);
+
+  const successStyle = useAnimatedStyle(() => ({
+    opacity: successOpacity.value,
+    transform: [{ scale: successScale.value }],
+  }));
 
   return (
     <ScrollView
@@ -52,7 +77,7 @@ export default function CadastroScreen() {
           onPress={() => {
             // Atualiza o tipo no Hook Form e limpa o documento simultaneamente
             setValue("userType", "locador");
-            setValue("document", ""); 
+            setValue("document", "");
           }}
         />
 
@@ -82,7 +107,9 @@ export default function CadastroScreen() {
                 value={value}
                 onChangeText={onChange}
               />
-              {errors.name && <Text style={styles.erroTexto}>{errors.name.message}</Text>}
+              {errors.name && (
+                <Text style={styles.erroTexto}>{errors.name.message}</Text>
+              )}
             </>
           )}
         />
@@ -100,11 +127,32 @@ export default function CadastroScreen() {
                 value={value}
                 onChangeText={onChange}
               />
-              {errors.email && <Text style={styles.erroTexto}>{errors.email.message}</Text>}
+              {errors.email && (
+                <Text style={styles.erroTexto}>{errors.email.message}</Text>
+              )}
             </>
           )}
         />
+        {/* ======================= TELEFONE ======================= */}
+        <Controller
+          control={control}
+          name="telefone"
+          render={({ field: { onChange, value } }) => (
+            <>
+              <Input
+                text="Telefone"
+                placeholder="(00) 00000-0000"
+                keyboardType="phone-pad"
+                value={value}
+                onChangeText={onChange}
+              />
 
+              {errors.telefone && (
+                <Text style={styles.erroTexto}>{errors.telefone.message}</Text>
+              )}
+            </>
+          )}
+        />
         {/* ======================= SENHA ======================= */}
         <Controller
           control={control}
@@ -118,7 +166,9 @@ export default function CadastroScreen() {
                 value={value}
                 onChangeText={onChange}
               />
-              {errors.password && <Text style={styles.erroTexto}>{errors.password.message}</Text>}
+              {errors.password && (
+                <Text style={styles.erroTexto}>{errors.password.message}</Text>
+              )}
             </>
           )}
         />
@@ -136,7 +186,11 @@ export default function CadastroScreen() {
                 value={value}
                 onChangeText={onChange}
               />
-              {errors.confirmPassword && <Text style={styles.erroTexto}>{errors.confirmPassword.message}</Text>}
+              {errors.confirmPassword && (
+                <Text style={styles.erroTexto}>
+                  {errors.confirmPassword.message}
+                </Text>
+              )}
             </>
           )}
         />
@@ -150,7 +204,9 @@ export default function CadastroScreen() {
               <Input
                 text={currentUserType === "locatario" ? "CPF" : "CNPJ"}
                 placeholder={
-                  currentUserType === "locatario" ? "000.000.000-00" : "00.000.000/0000-00"
+                  currentUserType === "locatario"
+                    ? "000.000.000-00"
+                    : "00.000.000/0000-00"
                 }
                 keyboardType="numeric"
                 value={value}
@@ -160,7 +216,9 @@ export default function CadastroScreen() {
                   onChange(formattedText);
                 }}
               />
-              {errors.document && <Text style={styles.erroTexto}>{errors.document.message}</Text>}
+              {errors.document && (
+                <Text style={styles.erroTexto}>{errors.document.message}</Text>
+              )}
             </>
           )}
         />
@@ -178,15 +236,25 @@ export default function CadastroScreen() {
                 value={value}
                 onChangeText={onChange}
               />
-              {errors.address && <Text style={styles.erroTexto}>{errors.address.message}</Text>}
+              {errors.address && (
+                <Text style={styles.erroTexto}>{errors.address.message}</Text>
+              )}
             </>
           )}
         />
 
-        <BtnPrincipal 
-          title={isLoading ? "Carregando..." : "Criar conta"} 
-          onPress={handleSignUp} 
+        <BtnPrincipal
+          title={isLoading ? "Carregando..." : "Criar conta"}
+          onPress={handleSignUp}
         />
+
+        {/* CARD "CONTA CRIADA COM SUCESSO!!" — aparece antes de ir pro Login */}
+        {cadastroSuccessMessage && (
+          <Animated.View style={[styles.successCard, successStyle]}>
+            <CheckCircle size={18} color="#16a34a" style={styles.successCardIcone} />
+            <Text style={styles.successCardTexto}>{cadastroSuccessMessage}</Text>
+          </Animated.View>
+        )}
       </View>
 
       <AuthRedirect

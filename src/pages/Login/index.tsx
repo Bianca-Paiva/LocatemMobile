@@ -1,6 +1,14 @@
+import { useEffect } from "react";
 import React from "react";
 import { ScrollView, Text, View, TouchableOpacity } from "react-native";
 import { Controller } from "react-hook-form"; 
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSequence,
+  withTiming,
+} from "react-native-reanimated";
+import { AlertCircle, X, CheckCircle } from "lucide-react-native";
 
 // Importação dos elementos de navegação
 import { useNavigation } from '@react-navigation/native';
@@ -23,7 +31,57 @@ export default function LoginScreen() {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   
   // Extraímos tudo o que precisamos do nosso hook
-  const { control, errors, isLoading, handleSignIn } = useLogin(navigation);
+  const {
+    control,
+    errors,
+    isLoading,
+    loginErrorMessage,
+    dismissLoginError,
+    loginSuccessMessage,
+    handleSignIn,
+  } = useLogin();
+
+  // ============================================================================
+  // ANIMAÇÃO DE SHAKE (react-native-reanimated)
+  // ============================================================================
+  // shakeX guarda o deslocamento horizontal do card. Sempre que uma nova
+  // mensagem de erro chega, disparamos uma sequência de "tremidas".
+  const shakeX = useSharedValue(0);
+
+  useEffect(() => {
+    if (loginErrorMessage) {
+      shakeX.value = withSequence(
+        withTiming(-10, { duration: 50 }),
+        withTiming(10, { duration: 50 }),
+        withTiming(-8, { duration: 50 }),
+        withTiming(8, { duration: 50 }),
+        withTiming(-4, { duration: 50 }),
+        withTiming(0, { duration: 50 })
+      );
+    }
+  }, [loginErrorMessage]);
+
+  const shakeStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: shakeX.value }],
+  }));
+
+  // ============================================================================
+  // ANIMAÇÃO DE ENTRADA DO CARD DE SUCESSO (fade + leve "pop")
+  // ============================================================================
+  const successOpacity = useSharedValue(0);
+  const successScale = useSharedValue(0.9);
+
+  useEffect(() => {
+    if (loginSuccessMessage) {
+      successOpacity.value = withTiming(1, { duration: 220 });
+      successScale.value = withTiming(1, { duration: 220 });
+    }
+  }, [loginSuccessMessage]);
+
+  const successStyle = useAnimatedStyle(() => ({
+    opacity: successOpacity.value,
+    transform: [{ scale: successScale.value }],
+  }));
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -32,7 +90,7 @@ export default function LoginScreen() {
       </View>
 
       <View style={styles.formContainer}>
-        
+
         {/* INPUT DE E-MAIL CONTROLADO */}
         <Controller
           control={control}
@@ -55,17 +113,41 @@ export default function LoginScreen() {
             control={control}
             name="password"
             render={({ field: { onChange, value } }) => (
-              <PasswordInput
-                text="Senha"
-                placeholder="Coloque sua senha"
-                keyboardType="default"
-                value={value}
-                onChangeText={onChange}
-                marginBottom={5}
-                error={errors.password?.message}
-              />
+              <>
+                <PasswordInput
+                  text="Senha"
+                  placeholder="Coloque sua senha"
+                  keyboardType="default"
+                  value={value}
+                  onChangeText={onChange}
+                  marginBottom={5}
+                />
+                {/* Exibição do erro de Senha abaixo do input */}
+                {errors.password && (
+                  <Text style={styles.erroTexto}>{errors.password.message}</Text>
+                )}
+              </>
             )}
           />
+
+          {/* CARD "DADOS INVÁLIDOS" — aparece embaixo do campo de senha */}
+          {loginErrorMessage && (
+            <Animated.View style={[styles.errorCard, shakeStyle]}>
+              <AlertCircle size={18} color="#dc2626" style={styles.errorCardIcone} />
+
+              <View style={styles.errorCardTextos}>
+                <Text style={styles.errorCardTitulo}>Dados inválidos</Text>
+                <Text style={styles.errorCardMensagem}>{loginErrorMessage}</Text>
+              </View>
+
+              <TouchableOpacity
+                onPress={dismissLoginError}
+                hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              >
+                <X size={16} color="#b91c1c" />
+              </TouchableOpacity>
+            </Animated.View>
+          )}
 
           <TouchableOpacity 
             style={styles.esqueceuSenha} 
@@ -75,11 +157,22 @@ export default function LoginScreen() {
           </TouchableOpacity>
         </View>
 
-        <BtnPrincipal 
-            title={isLoading ? "Carregando..." : "Entrar"} 
-            onPress={handleSignIn} // Chama a função que já vem preparada do Hook
-            disabled={isLoading}   // Bloqueia cliques múltiplos
-          />
+       <BtnPrincipal
+          title={isLoading ? "Carregando..." : "Entrar"}
+          onPress={handleSignIn}
+          disabled={isLoading}
+        />
+
+        {/* CARD "LOGADO COM SUCESSO!!" — aparece antes de ir pra Home */}
+        {loginSuccessMessage && (
+          <Animated.View style={[styles.successCard, successStyle]}>
+            <CheckCircle size={18} color="#16a34a" style={styles.successCardIcone} />
+            <Text style={styles.successCardTexto}>{loginSuccessMessage}</Text>
+          </Animated.View>
+        )}
+        
+         
+        
       </View>
 
       <AuthRedirect
