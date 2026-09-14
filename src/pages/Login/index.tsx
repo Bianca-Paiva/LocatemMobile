@@ -158,9 +158,10 @@ export default function LoginScreen() {
         </View>
 
        <BtnPrincipal
-  title={isLoading ? "Carregando..." : "Entrar"}
-  onPress={handleSignIn}
-/>
+          title={isLoading ? "Carregando..." : "Entrar"}
+          onPress={handleSignIn}
+          disabled={isLoading}
+        />
 
         {/* CARD "LOGADO COM SUCESSO!!" — aparece antes de ir pra Home */}
         {loginSuccessMessage && (
