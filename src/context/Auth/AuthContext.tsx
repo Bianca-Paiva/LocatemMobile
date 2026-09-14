@@ -102,37 +102,110 @@ export function AuthProvider({
    * qualquer tela que faça login DEVE chamar `login` (via `useAuth`) em vez
    * de ler os mocks diretamente, ou o app nunca saberá que existe uma sessão.
    */
+ const API_URL = "http://10.0.2.2:5033";
+
   const login: AuthContextType["login"] = async (email, senha) => {
     setIsAuthenticating(true);
 
     try {
-      // Simula a latência de uma chamada real ao backend.
-      await new Promise((resolve) => setTimeout(resolve, 800));
-
       const emailNormalizado = email.trim().toLowerCase();
 
       if (!emailNormalizado || !senha) {
         throw new Error("Informe e-mail e senha para continuar.");
       }
 
-      const usuarioEncontrado = buscarUsuarioPorEmail(emailNormalizado);
+      // ======================================================================
+      // 1. USUÁRIO DE TESTE MOCKADO (Prioridade para testes rápidos)
+      // ======================================================================
+      const EMAIL_TESTE = "teste@email.com"; // Mude para o e-mail do seu user teste
+      const SENHA_TESTE = "123456";         // Mude para a senha do seu user teste
 
-      if (usuarioEncontrado) {
-        // E-mail já existe no catálogo: a senha precisa ser validada.
-        if (usuarioEncontrado.senha !== senha) {
+      if (emailNormalizado === EMAIL_TESTE) {
+        await new Promise((resolve) => setTimeout(resolve, 500)); // Delay simulado
+
+        if (senha !== SENHA_TESTE) {
           throw new Error("E-mail ou senha inválidos.");
         }
 
-        setUsuario(usuarioEncontrado);
-        await salvarSessao(usuarioEncontrado);
-        return usuarioEncontrado;
+        // Cria o objeto do usuário mockado com a estrutura do seu tipo `Usuario`
+        const usuarioMock: Usuario = {
+           id: "u-locador-1",
+            nome: "João da Silva",
+            email: "joao.silva@exemplo.com",
+            senha: "123456",
+            telefone: "(11) 98765-4321",
+            documento: "12.345.678/0001-90",
+            endereco:
+              "Rua das Acácias, 247 – Apto 32, São Paulo, SP · 01310-100",
+
+            tipo: "locador",
+
+            emailVerificado: false,
+
+            desde: 2026,
+
+            reputacao: {
+              rating: 4.5,
+              totalAvaliacoes: 145,
+              locacoesConcluidas: 212,
+              entregasNoPrazoPercentual: 98,
+            },
+          tipoUsuario: "Admin",
+          token: "fake-jwt-token-mock-123",
+          // Adicione aqui outros campos obrigatórios que seu tipo Usuario possuir
+        } as Usuario;
+
+        setUsuario(usuarioMock);
+        await salvarSessao(usuarioMock);
+        return usuarioMock;
       }
 
-      // E-mail novo: cria um usuário de fallback (ver usuarios.mock.ts).
-      const novoUsuario = criarUsuarioFallback(emailNormalizado);
-      setUsuario(novoUsuario);
-      await salvarSessao(novoUsuario);
-      return novoUsuario;
+      // ======================================================================
+      // 2. FLUXO NORMAL (CHAMADA À API REAL DO .NET)
+      // ======================================================================
+      const response = await fetch(`${API_URL}/api/Login/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: emailNormalizado,
+          senha: senha,
+        }),
+      });
+
+      const resultado = await response.json();
+
+      if (!response.ok) {
+        throw new Error(resultado.mensagem || "E-mail ou senha inválidos.");
+      }
+
+      // Mapeia o retorno da sua API para o tipo Usuario
+      const usuarioApi: Usuario = {
+       
+        tipoUsuario: resultado.tipoUsuario,
+        token: resultado.token,
+
+          id: resultado.id || "1",
+          nome: resultado.nome || "Usuário",
+          email: emailNormalizado,
+          senha: resultado.senha || "",
+          telefone: resultado.telefone || "",
+          documento: resultado.documento || "",
+          endereco: resultado.endereco || "",
+          tipo: resultado.tipoUsuario || "Cliente",
+          fotoUrl: resultado.fotoUrl || "",
+          emailVerificado: resultado.emailVerificado || false,
+          desde: resultado.desde || 0,
+          reputacao: resultado.reputacao || { pontos: 0, nivel: 1 },
+      } as Usuario;
+
+      setUsuario(usuarioApi);
+      await salvarSessao(usuarioApi);
+      return usuarioApi;
+
+    } catch (error: any) {
+      throw new Error(error.message || "Não foi possível conectar ao servidor.");
     } finally {
       setIsAuthenticating(false);
     }
