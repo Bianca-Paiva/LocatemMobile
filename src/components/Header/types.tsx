@@ -16,4 +16,5 @@ export interface NavItem {
     // (mesmo comportamento da versão Web)
     route?: ScreenName;
     renderIcon: (active: boolean) => ReactNode;
+    if?: boolean;
 }

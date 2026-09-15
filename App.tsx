@@ -16,6 +16,7 @@ import { CarrinhoProvider } from "./src/context/CarrinhoContext";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { CatalogoProvider } from './src/context/CatalogoContext';
 import { PagamentoProvider } from './src/context/PagamentoContext';
+import { AuthProvider } from './src/context/Auth/AuthContext';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -30,8 +31,9 @@ export default function App() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+    <AuthProvider>
       <CatalogoProvider>
-      <FerramentasProvider>
+        <FerramentasProvider>
           <ReservaProvider>
             <CarrinhoProvider>
               <PagamentoProvider>
@@ -41,8 +43,11 @@ export default function App() {
               </PagamentoProvider>
             </CarrinhoProvider>
           </ReservaProvider>
-      </FerramentasProvider>
+       </FerramentasProvider>
       </CatalogoProvider>
+    </AuthProvider>
+      
+
     </GestureHandlerRootView>
    
   );

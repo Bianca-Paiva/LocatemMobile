@@ -27,6 +27,7 @@ import { RootStackParamList } from "../../routes/AppRoutes";
 import styles, { DRAWER_WIDTH } from "./styles";
 import type { NavItem, ScreenName } from "./types";
 import { useCarrinhoStore } from "../../hooks/useCarrinhoStore";
+import { useAuth } from "../../hooks/Auth/useAuth";
 
 // ===========================
 // Assets
@@ -82,6 +83,10 @@ export default function Header({ cartCount }: HeaderProps) {
             }),
         ]).start(() => setDrawerVisible(false));
     };
+
+     const {
+            usuario,
+    } = useAuth();
 
     useEffect(() => {
         if (drawerVisible) {
@@ -148,18 +153,18 @@ export default function Header({ cartCount }: HeaderProps) {
                 />
             ),
         },
-        {
-            label: "Cadastrar Ferramenta",
-            route: "CadastroFerramentaScreen" as ScreenName,
-            renderIcon: (active) => (
-                <MaterialCommunityIcons
-                    name={active ? "plus-box" : "plus-box-outline"}
-                    size={22}
-                    color="#0A0A0A"
-                    style={styles.navItemIcon}
-                />
-            ),
-        },
+        // {
+        //     label: "Cadastrar Ferramenta",
+        //     route: "CadastroFerramentaScreen" as ScreenName,
+        //     renderIcon: (active) => (
+        //         <MaterialCommunityIcons
+        //             name={active ? "plus-box" : "plus-box-outline"}
+        //             size={22}
+        //             color="#0A0A0A"
+        //             style={styles.navItemIcon}
+        //         />
+        //     ),
+        // },
         {
             label: "Minhas Reservas",
             route: "MinhasReservas" as ScreenName,
@@ -222,8 +227,14 @@ export default function Header({ cartCount }: HeaderProps) {
             ),
         },
         {
-            label: "Entrar",
-            route: "LoginScreen" as ScreenName,
+            // Exibe a opção apenas se a rota atual não for de Perfil ou Login
+            if: !route.name.startsWith("Perfil") && !route.name.startsWith("Login"),
+            
+            // Altera o texto com base no estado do usuário
+            label: usuario ? "Perfil" : "Entrar",
+            
+            // Redireciona para a tela correspondente
+            route: (usuario ? "PerfilScreen" : "LoginScreen") as ScreenName,
             renderIcon: (active) => (
                 <MaterialCommunityIcons
                     name={active ? "account-circle" : "account-circle-outline"}

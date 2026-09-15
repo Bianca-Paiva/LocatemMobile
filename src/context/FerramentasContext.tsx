@@ -5,7 +5,7 @@
 // ativar/desativar um anúncio.
 import React, { createContext, useContext, useState, useMemo } from 'react';
 import type { ReactNode } from 'react';
-import type { CadastroFerramentaFormState } from '../pages/CadastroFerramenta/CadastroFerramenta.types';
+import type { CadastroFerramentaFormState } from '../pages/CadastroFerramenta/types';
 
 export type StatusFerramenta = 'ativa' | 'inativa';
 
