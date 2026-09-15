@@ -9,8 +9,8 @@ import {
 } from "react-native";
 
 // Componentes Reutilizáveis
-import BtnPrincipal from "../../components/BtnPrincipal";
-import TokenInput from "../../components/TokenInput";
+import BtnPrincipal from "../../components/Botoes/BtnPrincipal";
+import TokenInput from "../../components/Auth/RecuperarSenha/TokenInput";
 
 // Navegação e Tipagem
 import { useNavigation } from "@react-navigation/native";

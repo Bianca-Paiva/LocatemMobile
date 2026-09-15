@@ -1,0 +1,104 @@
+import { Image, Text, View } from 'react-native';
+
+import {User} from 'lucide-react-native'
+
+import type { ProdutoSelecionado } from '../../../../context/ProdutoContext';
+
+import { styles } from './styles';
+
+interface ProdutoResumoCardProps {
+  produto: ProdutoSelecionado;
+}
+
+export default function ProdutoResumoCard({
+  produto,
+}: ProdutoResumoCardProps) {
+  const {
+    title,
+    images,
+    categoria,
+    locador,
+    rating,
+    reviewCount,
+    localizacao,
+    price,
+  } = produto;
+
+  return (
+    <View style={styles.card}>
+      <View style={styles.linhaPrincipal}>
+        <View style={styles.miniatura}>
+          <Image
+            source={images[0]}
+            style={styles.imagem}
+            resizeMode="cover"
+          />
+        </View>
+
+        <View style={styles.infoProduto}>
+          <Text style={styles.titulo}>
+            {title}
+          </Text>
+
+          <Text style={styles.categoria}>
+            {categoria}
+          </Text>
+
+          <View style={styles.locador}>
+            <User
+              size={16}
+              color="#000000"
+            />
+
+            <Text style={styles.locadorTexto}>
+              Locador:{' '}
+              <Text style={styles.locadorNome}>
+                {locador}
+              </Text>
+            </Text>
+          </View>
+
+          <View style={styles.avaliacao}>
+            <Image
+              source={require('../../../../../assets/images/StarFullYellow.png')}
+              style={styles.iconePequenoStar}
+            />
+
+            <Text style={styles.avaliacaoTexto}>
+              {rating
+                .toFixed(1)
+                .replace('.', ',')}
+            </Text>
+
+            <Text style={styles.numeroAvaliacoes}>
+              ({reviewCount} avaliações)
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      <View style={styles.rodape}>
+        <View style={styles.localizacao}>
+          <Image
+            source={require('../../../../../assets/images/icons/IconLocalizacao.png')}
+            style={styles.iconePequeno}
+          />
+
+          <Text style={styles.localizacaoTexto} numberOfLines={1}>
+            {localizacao}
+          </Text>
+        </View>
+
+        <View style={styles.precoBloco}>
+          <Text style={styles.precoValor}>
+            R$ {price}
+          </Text>
+
+          <Text style={styles.precoUnidade}>
+            /diária
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+}

@@ -11,15 +11,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../hooks/Auth/useAuth';
 import { useCompletudePerfil } from '../../hooks/Perfil/useCompletudePerfil';
 
-import PerfilHeader from '../../components/Perfil/PerfilHeader';
-import CompletarPerfil from '../../components/Perfil/CompletarPerfil';
-import InformacoesPessoais from '../../components/Perfil/InformacoesPessoais';
-import ReputacaoCard from '../../components/Perfil/ReputacaoCard';
-import PainelControle from '../../components/Perfil/PainelControle';
-import EditarPerfilModal from '../../components/Perfil/EditarPerfilModal';
+import PerfilHeader from '../../components/Conta/Perfil/PerfilHeader';
+import CompletarPerfil from '../../components/Conta/Perfil/CompletarPerfil';
+import InformacoesPessoais from '../../components/Conta/Perfil/InformacoesPessoais';
+import ReputacaoCard from '../../components/Conta/Perfil/ReputacaoCard';
+import PainelControle from '../../components/Conta/Perfil/PainelControle';
+import EditarPerfilModal from '../../components/Conta/Perfil/EditarPerfilModal';
 import { styles } from './styles';
-import Header from '../../components/Header';
-import type { ScreenName } from '../../components/Header/types';
+import Header from '../../components/Layout/Header';
+import type { ScreenName } from '../../components/Layout/Header/types';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface Props {

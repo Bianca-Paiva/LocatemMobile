@@ -3,8 +3,8 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Check } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import Header from '../../components/Header';
-import CabecalhoPagina from '../../components/CabecalhoPagina/CabecalhoPagina';
+import Header from '../../components/Layout/Header';
+import CabecalhoPagina from '../../components/Layout/CabecalhoPagina/CabecalhoPagina';
 import CarrinhoVazio from '../../components/Carrinho/CarrinhoVazio';
 import LojaGroup from '../../components/Carrinho/LojaGroup';
 import ResumoPedido from '../../components/Carrinho/Resumo/ResumoPedido/ResumoPedido.index';

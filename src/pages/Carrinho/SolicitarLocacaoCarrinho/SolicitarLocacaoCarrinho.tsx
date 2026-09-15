@@ -8,12 +8,12 @@ import type { StackNavigationProp } from '@react-navigation/stack';
 import type { RootStackParamList } from '../../../routes/AppRoutes';
 import type { Produto } from '../../../types/produto.types';
 
-import Header from '../../../components/Header';
-import CabecalhoPagina from '../../../components/CabecalhoPagina/CabecalhoPagina';
-import ProdutoResumoCard from '../../../components/SolicitarReserva/ProdutoResumoCard/ProdutoResumoCard';
-import CampoData from '../../../components/SolicitarReserva/CampoData/CampoData';
-import HorarioDropdown from '../../../components/SolicitarReserva/HorarioDropdown/HorarioDropdown';
-import SeletorQuantidade from '../../../components/Inputs/SeletorQuantidade/SeletorQuantidade';
+import Header from '../../../components/Layout/Header';
+import CabecalhoPagina from '../../../components/Layout/CabecalhoPagina/CabecalhoPagina';
+import ProdutoResumoCard from '../../../components/Reservas/SolicitarReserva/ProdutoResumoCard/ProdutoResumoCard';
+import CampoData from '../../../components/Reservas/SolicitarReserva/CampoData/CampoData';
+import HorarioDropdown from '../../../components/Reservas/SolicitarReserva/HorarioDropdown/HorarioDropdown';
+import SeletorQuantidade from '../../../components/Shared/Inputs/SeletorQuantidade/SeletorQuantidade';
 
 import { usePagamentoStore } from '../../../hooks/usePagamentoStore';
 import { useProdutoStore } from '../../../hooks/useProdutoStore';

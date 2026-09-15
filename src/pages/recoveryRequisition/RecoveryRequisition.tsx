@@ -2,9 +2,9 @@ import React, {useState} from "react";
 import { StyleSheet, View, Text, TouchableOpacity, Image, TextInput } from "react-native";
 
 //componentes
-import Input from "../../components/Input";
-import BtnPrincipal from "../../components/BtnPrincipal";
-import {AuthRedirect} from "../../components/AuthRedirect";
+import Input from "../../components/Shared/Inputs/Input";
+import BtnPrincipal from "../../components/Botoes/BtnPrincipal";
+import {AuthRedirect} from "../../components/Auth/AuthRedirect";
 
 //ViewModel
 import RecoveryRequisitionViewModel from "./ViewModel";

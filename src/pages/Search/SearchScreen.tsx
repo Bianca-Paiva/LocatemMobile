@@ -20,11 +20,11 @@ import { RootStackParamList } from "../../routes/AppRoutes";
 // ===========================
 // Componentes
 // ===========================
-import SecondaryHeader from "../../components/SecondaryHeader";
-import SortFilter from "../../components/SortFilter";
-import FilterDrawer from "../../components/FilterDrawer";
-import Paginacao from "../../components/Paginacao";
-import { ProductCard } from "../../components/ProductCard";
+import SecondaryHeader from "../../components/Layout/SecondaryHeader";
+import SortFilter from "../../components/Busca/SortFilter";
+import FilterDrawer from "../../components/Busca/FilterDrawer";
+import Paginacao from "../../components/Busca/Paginacao";
+import { ProductCard } from "../../components/Ferramentas/ProductCard";
 
 // ===========================
 // Catálogo real, tipos e adapters

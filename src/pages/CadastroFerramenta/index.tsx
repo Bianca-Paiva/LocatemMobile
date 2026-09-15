@@ -4,17 +4,17 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import type { RootStackParamList } from '../../routes/AppRoutes';
 
-import SecaoCard from '../../components/CadastroFerramenta/SecaoCard';
-import SecaoModal from '../../components/CadastroFerramenta/SecaoModal';
-import InformacoesBasicas from '../../components/CadastroFerramenta/InformacoesBasicas';
-import EnderecoRetirada from '../../components/CadastroFerramenta/EnderecoRetirada';
-import DescricaoFerramenta from '../../components/CadastroFerramenta/DescricaoFerramenta';
-import EspecificacoesTecnicasForm from '../../components/CadastroFerramenta/EspecificacoesTecnicasForm';
-import FotosFerramenta from '../../components/CadastroFerramenta/FotosFerramenta';
-import Precificacao from '../../components/CadastroFerramenta/Precificacao';
-import AcessoriosInclusos from '../../components/CadastroFerramenta/AcessoriosInclusos';
-import AprovacaoLocacao from '../../components/CadastroFerramenta/AprovacaoLocacao';
-import CalendarioDisponibilidade from '../../components/CadastroFerramenta/CalendarioDisponibilidade';
+import SecaoCard from '../../components/Ferramentas/CadastroFerramenta/SecaoCard';
+import SecaoModal from '../../components/Ferramentas/CadastroFerramenta/SecaoModal';
+import InformacoesBasicas from '../../components/Ferramentas/CadastroFerramenta/InformacoesBasicas';
+import EnderecoRetirada from '../../components/Ferramentas/CadastroFerramenta/EnderecoRetirada';
+import DescricaoFerramenta from '../../components/Ferramentas/CadastroFerramenta/DescricaoFerramenta';
+import EspecificacoesTecnicasForm from '../../components/Ferramentas/CadastroFerramenta/EspecificacoesTecnicasForm';
+import FotosFerramenta from '../../components/Ferramentas/CadastroFerramenta/FotosFerramenta';
+import Precificacao from '../../components/Ferramentas/CadastroFerramenta/Precificacao';
+import AcessoriosInclusos from '../../components/Ferramentas/CadastroFerramenta/AcessoriosInclusos';
+import AprovacaoLocacao from '../../components/Ferramentas/CadastroFerramenta/AprovacaoLocacao';
+import CalendarioDisponibilidade from '../../components/Ferramentas/CadastroFerramenta/CalendarioDisponibilidade';
 
 import { useFerramentas } from '../../context/FerramentasContext';
 import {

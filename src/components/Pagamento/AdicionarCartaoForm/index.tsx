@@ -1,8 +1,8 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import { CreditCard, Check } from 'lucide-react-native';
 
-import FormInput from '../../Input/FormInput';
-import FormSelect from '../../Input/FormSelect';
+import FormInput from '../../Shared/Inputs/FormInput/FormInput';
+import FormSelect from '../../Shared/Inputs/FormSelect';
 import { PARCELAS_PADRAO } from '../../../hooks/Pagamento/useAdicionarCartao';
 import type { CampoCartao } from '../../../hooks/Pagamento/useAdicionarCartao';
 import type { BandeiraCartao } from '../../../hooks/masks';

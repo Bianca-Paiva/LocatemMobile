@@ -9,8 +9,8 @@ import {
 } from "react-native";
 
 // Componentes
-import BtnPrincipal from "../../components/BtnPrincipal";
-import PasswordInput from "../../components/PasswordInput";
+import BtnPrincipal from "../../components/Botoes/BtnPrincipal";
+import PasswordInput from "../../components/Shared/Inputs/PasswordInput";
 
 // Navegação
 import { useNavigation } from "@react-navigation/native";

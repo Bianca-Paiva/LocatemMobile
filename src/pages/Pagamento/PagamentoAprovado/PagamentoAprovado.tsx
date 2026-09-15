@@ -3,7 +3,7 @@ import { Calendar, CheckCircle2, CreditCard, Info, QrCode, Truck } from 'lucide-
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import BtnPrincipal from '../../../components/BtnPrincipal';
+import BtnPrincipal from '../../../components/Botoes/BtnPrincipal';
 
 import { usePagamentoAprovado } from '../../../hooks/Pagamento/usePagamentoAprovado';
 import colors from '../../../theme/colors';

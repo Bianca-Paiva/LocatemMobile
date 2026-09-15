@@ -2,8 +2,8 @@ import React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 
 
-import { ProductCard } from '../../../../components/ProductCard'; 
-import { Product } from '../../../../components/ProductCard/types'; 
+import { ProductCard } from '../../../../components/Ferramentas/ProductCard'; 
+import { Product } from '../../../../components/Ferramentas/ProductCard/types'; 
 import { ProdutosSemelhantesProps } from './types';
 import { styles } from './styles';
 

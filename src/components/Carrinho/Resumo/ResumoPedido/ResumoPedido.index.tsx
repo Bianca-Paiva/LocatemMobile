@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Tag, Lock } from 'lucide-react-native';
 
-import BtnPrincipal from '../../../BtnPrincipal';
+import BtnPrincipal from '../../../Botoes/BtnPrincipal';
 import { maskCEP, validateCEP } from '../../../../hooks/masks';
 import colors from '../../../../theme/colors';
 import styles from './ResumoPedido.styles';

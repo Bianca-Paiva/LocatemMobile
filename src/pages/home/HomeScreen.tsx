@@ -7,10 +7,10 @@ import { RootStackParamList } from "../../routes/AppRoutes";
 
 
 // Components ↓
-import Header from "../../components/Header";
-import Banner from "../../components/Banner";
+import Header from "../../components/Layout/Header";
+import Banner from "../../components/Shared/Banner/Banner";
 import { styles } from "./styles";
-import { ProductCard } from "../../components/ProductCard";
+import { ProductCard } from "../../components/Ferramentas/ProductCard";
 
 // Mock
 import { PRODUTOS_MOCK } from "../../mocks/produtos.mock";

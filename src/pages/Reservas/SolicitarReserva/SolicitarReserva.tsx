@@ -12,16 +12,16 @@ import {
 
 import { useNavigation } from '@react-navigation/native';
 import type { Produto } from '../../../types/produto.types';
-import Header from '../../../components/Header';
-import CabecalhoPagina from '../../../components/CabecalhoPagina/CabecalhoPagina';
-import ProdutoResumoCard from '../../../components/SolicitarReserva/ProdutoResumoCard/ProdutoResumoCard';
-import CampoData from '../../../components/SolicitarReserva/CampoData/CampoData';
-import HorarioDropdown from '../../../components/SolicitarReserva/HorarioDropdown/HorarioDropdown';
+import Header from '../../../components/Layout/Header';
+import CabecalhoPagina from '../../../components/Layout/CabecalhoPagina/CabecalhoPagina';
+import ProdutoResumoCard from '../../../components/Reservas/SolicitarReserva/ProdutoResumoCard/ProdutoResumoCard';
+import CampoData from '../../../components/Reservas/SolicitarReserva/CampoData/CampoData';
+import HorarioDropdown from '../../../components/Reservas/SolicitarReserva/HorarioDropdown/HorarioDropdown';
 
-import SeletorQuantidade from '../../../components/Inputs/SeletorQuantidade/SeletorQuantidade';
+import SeletorQuantidade from '../../../components/Shared/Inputs/SeletorQuantidade/SeletorQuantidade';
 
-import EnderecoEntrega from '../../../components/SolicitarReserva/EnderecoEntrega/EnderecoEntrega';
-import ResumoReserva from '../../../components/SolicitarReserva/ResumoReserva/ResumoReserva';
+import EnderecoEntrega from '../../../components/Reservas/SolicitarReserva/EnderecoEntrega/EnderecoEntrega';
+import ResumoReserva from '../../../components/Reservas/SolicitarReserva/ResumoReserva/ResumoReserva';
 
 import { useProdutoStore } from '../../../hooks/useProdutoStore';
 import { useReservaStore } from '../../../hooks/Reservas/useReservaStore';

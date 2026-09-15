@@ -8,8 +8,8 @@ import {
   ScrollView,
 } from 'react-native';
 
-import Header from '../../components/Header';
-import CabecalhoPagina from '../../components/CabecalhoPagina/CabecalhoPagina';
+import Header from '../../components/Layout/Header';
+import CabecalhoPagina from '../../components/Layout/CabecalhoPagina/CabecalhoPagina';
 
 import { CardProdutoAvaliacao } from '../../components/Avaliacao/CardProdutoAvaliacao/CardProdutoAvaliacao';
 import { ModalAvaliacao } from '../../components/Avaliacao/ModalAvaliacao/ModalAvaliacao';

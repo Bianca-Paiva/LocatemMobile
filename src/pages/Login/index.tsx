@@ -16,10 +16,10 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../routes/AppRoutes';
 
 // Componentes
-import Input from "../../components/Input";
-import PasswordInput from "../../components/PasswordInput";
-import BtnPrincipal from "../../components/BtnPrincipal";
-import { AuthRedirect } from "../../components/AuthRedirect";
+import Input from "../../components/Shared/Inputs/Input";
+import PasswordInput from "../../components/Shared/Inputs/PasswordInput";
+import BtnPrincipal from "../../components/Botoes/BtnPrincipal";
+import { AuthRedirect } from "../../components/Auth/AuthRedirect";
 
 // Estilos
 import { styles } from "./styles";

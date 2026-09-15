@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 // ── 1. IMPORTAÇÃO DE COMPONENTES VISUAIS ───────────────────────────
-import Header from '../../components/Header';
+import Header from '../../components/Layout/Header';
 import {ImagemCarrossel} from './components/ImageCarrosel';
 import { ProdutoInfo } from './components/ProdutoInfo';
 import { ProdutosSemelhantes } from './components/ProdutoSemelhantes';

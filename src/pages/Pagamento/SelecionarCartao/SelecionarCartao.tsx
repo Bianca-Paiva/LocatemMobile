@@ -2,10 +2,10 @@ import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { Plus } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import Header from '../../../components/Header';
-import CabecalhoPagina from '../../../components/CabecalhoPagina/CabecalhoPagina';
+import Header from '../../../components/Layout/Header';
+import CabecalhoPagina from '../../../components/Layout/CabecalhoPagina/CabecalhoPagina';
 import { CartaoSelecionavel } from '../../../components/Pagamento/CartaoSelecionavel';
-import BtnPrincipal from '../../../components/BtnPrincipal';
+import BtnPrincipal from '../../../components/Botoes/BtnPrincipal';
 
 import { useSelecionarCartao } from '../../../hooks/Pagamento/useSelecionarCartao';
 import colors from '../../../theme/colors';

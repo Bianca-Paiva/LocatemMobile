@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native';
 import { ShoppingCart } from 'lucide-react-native';
 
-import BtnPrincipal from '../../BtnPrincipal';
+import BtnPrincipal from '../../Botoes/BtnPrincipal';
 import colors from '../../../theme/colors';
 import styles from './styles';
 

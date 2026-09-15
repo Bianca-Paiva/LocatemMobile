@@ -9,9 +9,9 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../routes/AppRoutes';
 
-import Header from '../../components/Header';
-import EstadoVazio from '../../components/MinhasReservas/EstadoVazio/EstadoVazio';
-import FerramentaCard from '../../components/MinhasFerramentas/FerramentaCard';
+import Header from '../../components/Layout/Header';
+import EstadoVazio from '../../components/Reservas/MinhasReservas/EstadoVazio/EstadoVazio';
+import FerramentaCard from '../../components/Ferramentas/MinhasFerramentas/FerramentaCard';
 
 import { useFerramentas } from '../../context/FerramentasContext';
 import colors from '../../theme/colors';

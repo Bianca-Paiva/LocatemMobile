@@ -5,12 +5,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { BellOff, Trash2 } from 'lucide-react-native';
 import { Modal } from 'react-native';
 
-import Header from '../../components/Header';
-import CabecalhoPagina from '../../components/CabecalhoPagina/CabecalhoPagina';
-import NotificationCard from '../../components/Notificacoes/NotificationCard/NotificationCard';
-import FilterDropdown from '../../components/Notificacoes/FilterDropdownNotificacao/FilterDropdown';
-import Pagination from '../../components/Notificacoes/Pagination/Pagination';
-import NotificationDetailsModal from '../../components/Notificacoes/NotificationModal/NotificationDetailsModal';
+import Header from '../../components/Layout/Header';
+import CabecalhoPagina from '../../components/Layout/CabecalhoPagina/CabecalhoPagina';
+import NotificationCard from '../../components/Conta/Notificacoes/NotificationCard/NotificationCard';
+import FilterDropdown from '../../components/Conta/Notificacoes/FilterDropdownNotificacao/FilterDropdown';
+import Pagination from '../../components/Conta/Notificacoes/Pagination/Pagination';
+import NotificationDetailsModal from '../../components/Conta/Notificacoes/NotificationModal/NotificationDetailsModal';
 
 import { useNotifications } from '../../hooks/useNotifications';
 import { useReservaStore } from '../../hooks/Reservas/useReservaStore';

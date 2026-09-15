@@ -13,10 +13,10 @@ import { formatDocument } from "../../utils/masksCadastro";
 
 // Componentes personalizados
 import UserTypeCard from "../../components/UserTypeCard";
-import Input from "../../components/Input";
-import PasswordInput from "../../components/PasswordInput";
-import BtnPrincipal from "../../components/BtnPrincipal";
-import { AuthRedirect } from "../../components/AuthRedirect";
+import Input from "../../components/Shared/Inputs/Input";
+import PasswordInput from "../../components/Shared/Inputs/PasswordInput";
+import BtnPrincipal from "../../components/Botoes/BtnPrincipal";
+import { AuthRedirect } from "../../components/Auth/AuthRedirect";
 
 // Estilos Isolados
 import { styles } from "./styles";
