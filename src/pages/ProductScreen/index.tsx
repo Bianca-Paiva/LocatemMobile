@@ -17,7 +17,6 @@ import { Acessorios } from './components/Acessorios';
 
 // ── 2. IMPORTAÇÃO DOS HOOKS GLOBAIS (ZUSTAND) ──────────────────────
 import { useProdutoStore } from '../../hooks/useProdutoStore';
-import { useReservaStore } from '../../hooks/useReservaStore';
 import { useNotificationStore } from '../../hooks/useNotificationStore';
 
 // ── 3. IMPORTAÇÃO DE MOCKS E UTILITÁRIOS ───────────────────────────
@@ -36,7 +35,6 @@ export default function ProductScreen() {
   const scrollViewRef = useRef<ScrollView>(null); 
 
   const { produtoSelecionado, setProdutoSelecionado } = useProdutoStore();
-  const { adicionarReserva } = useReservaStore();
   const { adicionarNotificacao } = useNotificationStore();
 
   const produto = produtoSelecionado ?? FALLBACK_PRODUTO;
@@ -98,6 +96,9 @@ export default function ProductScreen() {
       quantidadeInicial: selecaoProduto.quantidade,
       diariasInicial: selecaoProduto.diarias,
       tensaoInicial: selecaoProduto.tensao,
+      // Identifica que a navegação partiu do botão "Locar", para a tela
+      // seguinte exibir o texto correto no botão amarelo.
+      origem: 'locar',
     });
   };
 
@@ -109,6 +110,8 @@ export default function ProductScreen() {
       quantidadeInicial: selecaoProduto.quantidade,
       diariasInicial: selecaoProduto.diarias,
       tensaoInicial: selecaoProduto.tensao,
+      // Identifica que a navegação partiu do botão "Adicionar ao carrinho".
+      origem: 'carrinho',
     });
   };
 

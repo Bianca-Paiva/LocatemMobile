@@ -1,5 +1,7 @@
 import { Image, Text, View } from 'react-native';
 
+import {User} from 'lucide-react-native'
+
 import type { ProdutoSelecionado } from '../../../context/ProdutoContext';
 
 import { styles } from './styles';
@@ -43,9 +45,9 @@ export default function ProdutoResumoCard({
           </Text>
 
           <View style={styles.locador}>
-            <Image
-              source={require('../../../../assets/images/icons/user.png')}
-              style={styles.iconePequeno}
+            <User
+              size={16}
+              color="#000000"
             />
 
             <Text style={styles.locadorTexto}>

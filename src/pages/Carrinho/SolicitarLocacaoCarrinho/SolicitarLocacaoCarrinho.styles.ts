@@ -142,13 +142,13 @@ export const styles = StyleSheet.create({
   },
 
   botaoTexto: {
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: '700',
     color: colors.textDark,
   },
 
   botaoTextoSecundario: {
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: '700',
     color: '#CC3333',
   },

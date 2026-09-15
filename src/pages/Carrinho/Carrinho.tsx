@@ -7,9 +7,10 @@ import Header from '../../components/Header';
 import CabecalhoPagina from '../../components/CabecalhoPagina/CabecalhoPagina';
 import CarrinhoVazio from '../../components/Carrinho/CarrinhoVazio';
 import LojaGroup from '../../components/Carrinho/LojaGroup';
-import ResumoPedido from '../../components/Carrinho/Resumo/ResumoPedido';
+import ResumoPedido from '../../components/Carrinho/Resumo/ResumoPedido/ResumoPedido.index';
 
 import { useCarrinhoStore } from '../../hooks/useCarrinhoStore';
+import { usePagamentoStore } from '../../hooks/usePagamentoStore';
 import type { ItemCarrinho as ItemCarrinhoContexto } from '../../context/CarrinhoContext';
 import type { CarrinhoItemData, LojaGroupData } from '../../types/checkout';
 
@@ -81,6 +82,8 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
     selecionarItens,
   } = useCarrinhoStore();
 
+  const { setValorPagamento } = usePagamentoStore();
+
   const lojas = useMemo(() => agruparPorLoja(itens), [itens]);
 
   const [freteValor, setFreteValor] = useState<number | null>(null);
@@ -144,10 +147,15 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
     return { sucesso: true };
   }
 
-  // BUG CORRIGIDO: um cupom inválido só limpava o estado (sem avisar o
-  // usuário do porquê o desconto não foi aplicado). Agora devolve um
-  // resultado com mensagem de erro para o campo ser marcado em vermelho.
-  function handleAplicarCupom(codigo: string): { sucesso: boolean; mensagem?: string } {
+  // Ponto de entrada do fluxo de pagamento: guarda o total já calculado (com
+  // desconto/frete aplicados) no PagamentoContext antes de navegar, para a
+  // tela de Método de Pagamento e as seguintes lerem o mesmo valor.
+  function handleContinuarParaPagamento() {
+    setValorPagamento(total);
+    navigate('metodoPagamento');
+  }
+
+  function handleAplicarCupom(codigo: string) {
     const codigoNormalizado = codigo.trim().toUpperCase();
 
     if (!codigoNormalizado) {
@@ -229,8 +237,8 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
           cupomAviso={cupomAviso}
           onOcultarCupomAviso={() => setCupomAviso(null)}
           ctaLabel="Continuar para Pagamento"
-          onCtaClick={() => navigate('pagamentoPix')}
-          ctaDisabled={carrinhoVazio || nenhumSelecionado || freteNaoInformado}
+          onCtaClick={handleContinuarParaPagamento}
+          ctaDisabled={carrinhoVazio || nenhumSelecionado}
         />
       </View>  
       </ScrollView>

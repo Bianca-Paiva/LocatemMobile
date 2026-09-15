@@ -15,6 +15,7 @@ import CampoData from '../../../components/SolicitarReserva/CampoData/CampoData'
 import HorarioDropdown from '../../../components/SolicitarReserva/HorarioDropdown/HorarioDropdown';
 import SeletorQuantidade from '../../../components/Inputs/SeletorQuantidade/SeletorQuantidade';
 
+import { usePagamentoStore } from '../../../hooks/usePagamentoStore';
 import { useProdutoStore } from '../../../hooks/useProdutoStore';
 import { useCarrinhoStore } from '../../../hooks/useCarrinhoStore';
 import { useSolicitarLocacaoCarrinho } from '../../../hooks/Carrinho/useSolicitarLocacaoCarrinho';
@@ -63,6 +64,9 @@ export default function SolicitarLocacaoCarrinho() {
   const { produtoSelecionado } = useProdutoStore();
   const { adicionarItem } = useCarrinhoStore();
 
+  // hooks pagamento
+  const { setValorPagamento } = usePagamentoStore();
+
   // Se nenhum produto estiver selecionado, retorna o usuário para a Home.
   useEffect(() => {
     if (!produtoSelecionado) {
@@ -78,7 +82,15 @@ export default function SolicitarLocacaoCarrinho() {
     quantidadeInicial,
     diariasInicial = null,
     tensaoInicial = null,
+    // Origem da navegação: 'locar' (botão "Locar") ou 'carrinho' (botão
+    // "Adicionar ao carrinho"). Usada apenas para definir o texto do botão
+    // amarelo — não altera nenhum comportamento existente.
+    origem = 'carrinho',
   } = route.params ?? {};
+
+  // Texto do botão amarelo, de acordo com a origem da navegação.
+  const textoBotaoPrimario =
+    origem === 'locar' ? 'Continuar' : 'Adicionar carrinho';
 
   // Hook responsável pelo formulário e pelos cálculos da locação.
   const {
@@ -113,7 +125,7 @@ export default function SolicitarLocacaoCarrinho() {
   const handleCancelar = () => {
     navigation.goBack();
   };
-
+ 
   // Valida o formulário e adiciona o produto ao carrinho.
   const handleConfirmar = () => {
     // Impede a ação enquanto os dados obrigatórios não estiverem completos.
@@ -122,10 +134,19 @@ export default function SolicitarLocacaoCarrinho() {
     // Monta os dados finais da locação.
     const dados = montarDadosLocacao();
 
-    // Adiciona somente o produto, quantidade e diárias ao carrinho.
-    adicionarItem(produto, dados.quantidade, dados.resumo.diarias);
+    // Adiciona o produto ao carrinho, junto com a entrega já calculada no resumo
+    // (usada depois no Resumo do pedido da tela de pagamento aprovado).
+    adicionarItem(produto, dados.quantidade, dados.resumo.diarias, {
+      data: dados.resumo.dataEntregaFormatada,
+      horario: dados.resumo.entregaHorarioFormatado,
+    });
 
     // Retorna para a tela anterior após adicionar o item.
+    if (origem === 'locar') {
+      setValorPagamento(dados.resumo.valor);
+      navigation.navigate('MetodoPagamentoScreen');
+      return;
+    }
     navigation.navigate('CarrinhoScreen');
   };
 
@@ -275,7 +296,7 @@ export default function SolicitarLocacaoCarrinho() {
             onPress={handleConfirmar}
             disabled={!resumo.formularioCompleto}
           >
-            <Text style={styles.botaoTexto}>Continuar para pagamento</Text>
+            <Text style={styles.botaoTexto}>{textoBotaoPrimario}</Text>
           </Pressable>
         </View>
       </ScrollView>

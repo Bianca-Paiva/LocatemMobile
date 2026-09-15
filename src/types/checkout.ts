@@ -20,4 +20,12 @@ export interface LojaGroupData {
   itens: CarrinhoItemData[];
 }
 
-export type ResumoPedidoVariant = 'vazio' | 'carrinho';
+// 'metodoPagamento' e 'pagamento' cobrem as telas do fluxo de pagamento
+// (mesmas variantes usadas no ResumoPedido da Web).
+export type ResumoPedidoVariant = 'vazio' | 'carrinho' | 'metodoPagamento' | 'pagamento';
+
+// Prazo de validade do código Pix, exibido no Resumo do Pedido.
+export interface PrazoPagamento {
+  texto: string; // ex: "17 de abril de 2026, 15:41"
+  expirado?: boolean;
+}
