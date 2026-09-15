@@ -144,6 +144,7 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
 
     // Frete temporário fixo. Depois este trecho deve chamar a API de frete.
     setFreteValor(10);
+    return { sucesso: true };
   }
 
   // Ponto de entrada do fluxo de pagamento: guarda o total já calculado (com
