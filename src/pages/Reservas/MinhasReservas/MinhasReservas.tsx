@@ -4,11 +4,11 @@ import {
   View,
 } from 'react-native';
 
-import Header from '../../../components/Header';
-import CabecalhoPagina from '../../../components/CabecalhoPagina/CabecalhoPagina';
-import ReservaAbas from '../../../components/MinhasReservas/ReservaAbas/ReservaAbas';
-import ReservaCard from '../../../components/MinhasReservas/ReservaCard/ReservaCard';
-import EstadoVazio from '../../../components/MinhasReservas/EstadoVazio/EstadoVazio';
+import Header from '../../../components/Layout/Header';
+import CabecalhoPagina from '../../../components/Layout/CabecalhoPagina/CabecalhoPagina';
+import ReservaAbas from '../../../components/Reservas/MinhasReservas/ReservaAbas/ReservaAbas';
+import ReservaCard from '../../../components/Reservas/MinhasReservas/ReservaCard/ReservaCard';
+import EstadoVazio from '../../../components/Reservas/MinhasReservas/EstadoVazio/EstadoVazio';
 
 import { useMinhasReservas } from '../../../hooks/Reservas/useMinhasReservas';
 import { useReservaStore } from '../../../hooks/Reservas/useReservaStore';

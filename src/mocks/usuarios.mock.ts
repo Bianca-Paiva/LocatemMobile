@@ -1,4 +1,4 @@
-import type { Usuario } from "../types/usuario.types";
+import type { Usuario } from "../types/Auth/usuario.types";
 
 /**
  * Catálogo de usuários utilizado durante o desenvolvimento do aplicativo.

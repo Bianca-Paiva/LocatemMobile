@@ -4,14 +4,14 @@ import {
   ScrollView,
 } from 'react-native';
 
-import Header from '../../../components/Header';
+import Header from '../../../components/Layout/Header';
 // TEM QUE CORRIGIR O CABEÇALHO DA PÁGINA PARA RECEBER A AÇÃO DE STATUS, POIS ELE ESTÁ SENDO USADO EM OUTRAS TELAS TAMBÉM
-import CabecalhoPagina from '../../../components/CabecalhoPagina/CabecalhoPagina';
+import CabecalhoPagina from '../../../components/Layout/CabecalhoPagina/CabecalhoPagina';
 
-import EtiquetaStatus from '../../../components/MinhasReservas/EtiquetaStatus/EtiquetaStatus';
-import ReservaResumoCard from '../../../components/DetalhesReserva/ReservaResumoCard/ReservaResumoCard';
-import PainelStatusReserva from '../../../components/DetalhesReserva/PainelStatusReserva/PainelStatusReserva';
-import AcoesReserva from '../../../components/DetalhesReserva/AcoesReserva/AcoesReserva';
+import EtiquetaStatus from '../../../components/Reservas/MinhasReservas/EtiquetaStatus/EtiquetaStatus';
+import ReservaResumoCard from '../../../components/Reservas/DetalhesReserva/ReservaResumoCard/ReservaResumoCard';
+import PainelStatusReserva from '../../../components/Reservas/DetalhesReserva/PainelStatusReserva/PainelStatusReserva';
+import AcoesReserva from '../../../components/Reservas/DetalhesReserva/AcoesReserva/AcoesReserva';
 
 import { useReservaStore } from '../../../hooks/Reservas/useReservaStore';
 

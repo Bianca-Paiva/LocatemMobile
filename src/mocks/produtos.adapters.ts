@@ -1,9 +1,9 @@
-import type { Produto } from '../types/produto.types';
+import type { Produto } from '../types/Ferramentas/produto.types';
 import type { ReservaData } from '../pages/Reservas/MinhasReservas/MinhasReservas.types';
 import type { ProdutoBusca } from '../pages/Search/Searchtypes';
-import type { Product } from '../components/ProductCard/types';
-import type { ProdutoSemelhante } from '../pages/ProductScreen/components/ProdutoSemelhantes/types';
-import { calcularResumoAvaliacoes } from '../utils/avaliacoesResumo';
+import type { Product } from '../components/Ferramentas/ProductCard/types';
+import type { ProdutoSemelhante } from '../pages/Ferramentas/ProductScreen/components/ProdutoSemelhantes/types';
+import { calcularResumoAvaliacoes } from '../utils/Avaliacao/avaliacoesResumo';
 
 /**
  * Recorta um `Produto` do catálogo (`PRODUTOS_MOCK`) para o formato

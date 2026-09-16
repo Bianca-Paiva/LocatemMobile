@@ -3,35 +3,35 @@ import { useNavigation } from "@react-navigation/native";
 import type { StackNavigationProp} from "@react-navigation/stack";
 
 // Pages
-import ProductScreen from "../pages/ProductScreen";
+import ProductScreen from "../pages/Ferramentas/ProductScreen";
 import {HomeScreen} from "../pages/home/HomeScreen";
 import {SearchScreen} from "../pages/Search/SearchScreen";
-import CadastroScreen from "../pages/Cadastro";
-import LoginScreen from "../pages/Login";
-import ReceiveTokenScreen from "../pages/receiveToken/ReceiveToken";
-import { RecoveryRequisitionScreen } from "../pages/recoveryRequisition/RecoveryRequisition";
-import RecoveryPasswordScreen from "../pages/recoveryPassword/RecoveryPasswordScreen";
+import CadastroScreen from "../pages/Auth/Cadastro";
+import LoginScreen from "../pages/Auth/Login";
+import ReceiveTokenScreen from "../pages/Auth/RecuperarSenha/receiveToken/ReceiveToken";
+import { RecoveryRequisitionScreen } from "../pages/Auth/RecuperarSenha/recoveryRequisition/RecoveryRequisition";
+import RecoveryPasswordScreen from "../pages/Auth/RecuperarSenha/recoveryPassword/RecoveryPasswordScreen";
 import { Avaliacao } from "../pages/Avaliacao/Avaliacao";
 import DetalhesReserva from "../pages/Reservas/DetalhesReserva/DetalhesReserva";
 import MinhasReservas from "../pages/Reservas/MinhasReservas/MinhasReservas";
 import SolicitarReserva from "../pages/Reservas/SolicitarReserva/SolicitarReserva";
 import SolicitacaoEnviada from "../pages/Reservas/SolicitacaoEnviada/SolicitacaoEnviada";
-import CadastroFerramentaScreen from "../pages/CadastroFerramenta";
-import MinhasFerramentasScreen from "../pages/MinhasFerramentas";
-import Carrinho from "../pages/Carrinho/Carrinho";
-import SolicitarLocacaoCarrinho from "../pages/Carrinho/SolicitarLocacaoCarrinho/SolicitarLocacaoCarrinho";
-import Notificacoes from "../pages/Notificacoes/Notificacoes";
+import CadastroFerramentaScreen from "../pages/Ferramentas/CadastroFerramenta";
+import MinhasFerramentasScreen from "../pages/Ferramentas/MinhasFerramentas";
+import Carrinho from "../pages/Checkout/Carrinho/Carrinho";
+import SolicitarLocacaoCarrinho from "../pages/Checkout/Carrinho/SolicitarLocacaoCarrinho/SolicitarLocacaoCarrinho";
+import Notificacoes from "../pages/Conta/Notificacoes/Notificacoes";
 
 // Fluxo de Pagamento (Carrinho -> Método de Pagamento -> Selecionar Cartão/Pix -> Processando -> Aprovado)
-import MetodoPagamento from "../pages/Pagamento/MetodoPagamento/MetodoPagamento";
-import SelecionarCartao from "../pages/Pagamento/SelecionarCartao/SelecionarCartao";
-import AdicionarCartaoCredito from "../pages/Pagamento/AdicionarCartaoCredito/AdicionarCartaoCredito";
-import AdicionarCartaoDebito from "../pages/Pagamento/AdicionarCartaoDebito/AdicionarCartaoDebito";
-import PagamentoPix from "../pages/Pagamento/PagamentoPix/PagamentoPix";
-import ProcessandoPagamento from "../pages/Pagamento/ProcessandoPagamento/ProcessandoPagamento";
-import PagamentoAprovado from "../pages/Pagamento/PagamentoAprovado/PagamentoAprovado";
-import PerfilScreenPage from "../pages/Perfil/PerfilScreen";
-import { withAuthGuard } from "../components/ProtectedRoute";
+import MetodoPagamento from "../pages/Checkout/Pagamento/MetodoPagamento/MetodoPagamento";
+import SelecionarCartao from "../pages/Checkout/Pagamento/SelecionarCartao/SelecionarCartao";
+import AdicionarCartaoCredito from "../pages/Checkout/Pagamento/AdicionarCartaoCredito/AdicionarCartaoCredito";
+import AdicionarCartaoDebito from "../pages/Checkout/Pagamento/AdicionarCartaoDebito/AdicionarCartaoDebito";
+import PagamentoPix from "../pages/Checkout/Pagamento/PagamentoPix/PagamentoPix";
+import ProcessandoPagamento from "../pages/Checkout/Pagamento/ProcessandoPagamento/ProcessandoPagamento";
+import PagamentoAprovado from "../pages/Checkout/Pagamento/PagamentoAprovado/PagamentoAprovado";
+import PerfilScreenPage from "../pages/Conta/Perfil/PerfilScreen";
+import { withAuthGuard } from "../components/Auth/ProtectedRoute";
 
 export type RootStackParamList = {
   LoginScreen: undefined,

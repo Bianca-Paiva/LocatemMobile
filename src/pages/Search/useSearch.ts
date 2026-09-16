@@ -1,5 +1,5 @@
 import { PRODUTOS_MOCK } from "../../mocks/produtos.mock";
-import type { Produto } from "../../types/produto.types";
+import type { Produto } from "../../types/Ferramentas/produto.types";
 
 export async function buscarProdutos(
   nome: string

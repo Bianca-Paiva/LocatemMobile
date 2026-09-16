@@ -11,19 +11,19 @@ import {
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-import type { Produto } from '../../../types/produto.types';
-import Header from '../../../components/Header';
-import CabecalhoPagina from '../../../components/CabecalhoPagina/CabecalhoPagina';
-import ProdutoResumoCard from '../../../components/SolicitarReserva/ProdutoResumoCard/ProdutoResumoCard';
-import CampoData from '../../../components/SolicitarReserva/CampoData/CampoData';
-import HorarioDropdown from '../../../components/SolicitarReserva/HorarioDropdown/HorarioDropdown';
+import type { Produto } from '../../../types/Ferramentas/produto.types';
+import Header from '../../../components/Layout/Header';
+import CabecalhoPagina from '../../../components/Layout/CabecalhoPagina/CabecalhoPagina';
+import ProdutoResumoCard from '../../../components/Reservas/SolicitarReserva/ProdutoResumoCard/ProdutoResumoCard';
+import CampoData from '../../../components/Reservas/SolicitarReserva/CampoData/CampoData';
+import HorarioDropdown from '../../../components/Reservas/SolicitarReserva/HorarioDropdown/HorarioDropdown';
 
-import SeletorQuantidade from '../../../components/Inputs/SeletorQuantidade/SeletorQuantidade';
+import SeletorQuantidade from '../../../components/Shared/Inputs/SeletorQuantidade/SeletorQuantidade';
 
-import EnderecoEntrega from '../../../components/SolicitarReserva/EnderecoEntrega/EnderecoEntrega';
-import ResumoReserva from '../../../components/SolicitarReserva/ResumoReserva/ResumoReserva';
+import EnderecoEntrega from '../../../components/Reservas/SolicitarReserva/EnderecoEntrega/EnderecoEntrega';
+import ResumoReserva from '../../../components/Reservas/SolicitarReserva/ResumoReserva/ResumoReserva';
 
-import { useProdutoStore } from '../../../hooks/useProdutoStore';
+import { useProdutoStore } from '../../../hooks/Ferramentas/useProdutoStore';
 import { useReservaStore } from '../../../hooks/Reservas/useReservaStore';
 import { useSolicitarReserva } from '../../../hooks/Reservas/useSolicitarReserva';
 
@@ -31,7 +31,7 @@ import {
   validateCEP,
   validateFullName,
   validatePhone,
-} from '../../../hooks/masks';
+} from '../../../utils/Formatacao/masks';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './styles';

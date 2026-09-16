@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 
-import type { Usuario } from "../../types/usuario.types";
+import type { Usuario } from "../../types/Auth/usuario.types";
 import {
   buscarUsuarioPorEmail,
   criarUsuarioFallback,
