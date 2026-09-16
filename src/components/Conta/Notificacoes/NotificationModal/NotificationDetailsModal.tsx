@@ -30,7 +30,7 @@ import { STATUS_CONFIG } from '../../../Reservas/MinhasReservas/EtiquetaStatus/s
 import type {
   NotificationCategory,
   NotificationData,
-} from '../../../../pages/Notificacoes/Notificacoes.types';
+} from '../../../../pages/Conta/Notificacoes/Notificacoes.types';
 import { styles, ICON_BG_BY_TYPE } from './styles';
 
 interface NotificationDetailsModalProps {

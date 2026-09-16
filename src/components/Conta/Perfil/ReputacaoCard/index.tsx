@@ -10,7 +10,7 @@ import {
 import type {
     ReputacaoUsuario,
     TipoUsuario,
-} from '../../../../types/usuario.types';
+} from '../../../../types/Auth/usuario.types';
 
 import { styles } from './styles';
 

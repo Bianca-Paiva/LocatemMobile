@@ -9,7 +9,7 @@ import {
 
 import { ChevronDown, Check } from 'lucide-react-native';
 
-import type { FilterOption } from '../../../pages/Notificacoes/Notificacoes.types';
+import type { FilterOption } from '../../../../pages/Conta/Notificacoes/Notificacoes.types';
 import { styles } from './styles';
 
 const OPTIONS: FilterOption[] = ['Todas', 'Hoje', 'Ontem', 'Esta semana', 'Este mês'];

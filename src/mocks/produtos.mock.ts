@@ -1,4 +1,4 @@
-import type { Produto } from '../types/produto.types';
+import type { Produto } from '../types/Ferramentas/produto.types';
 import { ImageSourcePropType } from 'react-native';
 
 /**

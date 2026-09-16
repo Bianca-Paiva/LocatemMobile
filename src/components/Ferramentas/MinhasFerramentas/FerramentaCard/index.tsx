@@ -2,7 +2,7 @@ import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import colors from '../../../../theme/colors';
-import { moedaParaNumero } from '../../../../hooks/masks';
+import { moedaParaNumero } from '../../../../utils/Formatacao/masks';
 import styles from './styles';
 import type { FerramentaCardProps } from './types';
 

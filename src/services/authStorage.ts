@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import type { Usuario } from '../types/usuario.types';
+import type { Usuario } from '../types/Auth/usuario.types';
 
 /**
  * Persistência da sessão do usuário autenticado.

@@ -16,10 +16,10 @@ import { Camera, X } from 'lucide-react-native';
 import Avatar from '../../../Shared/Avatar/Avatar';
 import FormInput from '../../../Shared/Inputs/FormInput/FormInput';
 import BtnPrincipal from '../../../Botoes/BtnPrincipal';
-import type { Usuario } from '../../../../types/usuario.types';
-import { maskCPF, maskCNPJ, maskPhone, maskCEP } from '../../../../hooks/masks';
-import { useEditarPerfilForm } from '../../../../hooks/Perfil/useEditarPerfilForm';
-import type { PerfilFormData } from '../../../../hooks/Perfil/perfilSchema';
+import type { Usuario } from '../../../../types/Auth/usuario.types';
+import { maskCPF, maskCNPJ, maskPhone, maskCEP } from '../../../../utils/Formatacao/masks';
+import { useEditarPerfilForm } from '../../../../hooks/Conta/Perfil/useEditarPerfilForm';
+import type { PerfilFormData } from '../../../../hooks/Conta/Perfil/perfilSchema';
 import { styles } from './styles';
 
 interface EditarPerfilModalProps {

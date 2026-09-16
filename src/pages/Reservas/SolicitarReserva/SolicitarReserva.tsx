@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
-import type { Produto } from '../../../types/produto.types';
+import type { Produto } from '../../../types/Ferramentas/produto.types';
 import Header from '../../../components/Layout/Header';
 import CabecalhoPagina from '../../../components/Layout/CabecalhoPagina/CabecalhoPagina';
 import ProdutoResumoCard from '../../../components/Reservas/SolicitarReserva/ProdutoResumoCard/ProdutoResumoCard';
@@ -23,7 +23,7 @@ import SeletorQuantidade from '../../../components/Shared/Inputs/SeletorQuantida
 import EnderecoEntrega from '../../../components/Reservas/SolicitarReserva/EnderecoEntrega/EnderecoEntrega';
 import ResumoReserva from '../../../components/Reservas/SolicitarReserva/ResumoReserva/ResumoReserva';
 
-import { useProdutoStore } from '../../../hooks/useProdutoStore';
+import { useProdutoStore } from '../../../hooks/Ferramentas/useProdutoStore';
 import { useReservaStore } from '../../../hooks/Reservas/useReservaStore';
 import { useSolicitarReserva } from '../../../hooks/Reservas/useSolicitarReserva';
 
@@ -31,7 +31,7 @@ import {
   validateCEP,
   validateFullName,
   validatePhone,
-} from '../../../hooks/masks';
+} from '../../../utils/Formatacao/masks';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { styles } from './styles';

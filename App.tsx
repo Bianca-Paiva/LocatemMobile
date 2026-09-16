@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 
 import AppRoutes from './src/routes/AppRoutes';
-import CadastroScreen from "./src/pages/Cadastro";
+import CadastroScreen from "./src/pages/Auth/Cadastro";
 import { useFonts } from 'expo-font';
 
 import {
@@ -10,12 +10,12 @@ import {
   Inter_700Bold,
 } from '@expo-google-fonts/inter';
 
-import { FerramentasProvider } from './src/context/FerramentasContext';
-import { ReservaProvider } from './src/context/ReservaContext';
-import { CarrinhoProvider } from "./src/context/CarrinhoContext";
+import { FerramentasProvider } from './src/context/Ferramentas/FerramentasContext';
+import { ReservaProvider } from './src/context/Reservas/ReservaContext';
+import { CarrinhoProvider } from "./src/context/Checkout/Carrinho/CarrinhoContext";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { CatalogoProvider } from './src/context/CatalogoContext';
-import { PagamentoProvider } from './src/context/PagamentoContext';
+import { CatalogoProvider } from './src/context/Ferramentas/Catalogo/CatalogoContext';
+import { PagamentoProvider } from './src/context/Checkout/Pagamento/PagamentoContext';
 import { AuthProvider } from './src/context/Auth/AuthContext';
 
 export default function App() {

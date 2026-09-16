@@ -1,4 +1,4 @@
-import type { Ferramenta } from '../../../../context/FerramentasContext';
+import type { Ferramenta } from '../../../../context/Ferramentas/FerramentasContext';
 
 export interface FerramentaCardProps {
   ferramenta: Ferramenta;

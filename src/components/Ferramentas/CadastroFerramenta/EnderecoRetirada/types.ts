@@ -1,4 +1,4 @@
-import type { CadastroFerramentaFormState } from '../../../pages/CadastroFerramenta/CadastroFerramenta.types';
+import type { CadastroFerramentaFormState } from '../../../../pages/Ferramentas/CadastroFerramenta/types';
 
 export type CampoEndereco =
   | 'cep'

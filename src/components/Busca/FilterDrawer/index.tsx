@@ -11,8 +11,8 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
 import { FilterDrawerProps, FilterState, TagProps } from "./types";
-import { extrairNomeSubcategoria } from "../../../utils/categorias";
-import { OPCOES_FONTE_ALIMENTACAO } from "../../../pages/CadastroFerramenta/types";
+import { extrairNomeSubcategoria } from "../../../utils/Ferramentas/Catalogo/categorias";
+import { OPCOES_FONTE_ALIMENTACAO } from "../../../pages/Ferramentas/CadastroFerramenta/types";
 
 // Faixa de preço
 const prices = ["R$0 - R$50", "R$51 - R$100", "R$101 - R$200", "R$201+"];

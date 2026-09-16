@@ -22,7 +22,7 @@ import {
 import type { LucideIcon } from 'lucide-react-native';
 
 import { STATUS_CONFIG } from '../../../Reservas/MinhasReservas/EtiquetaStatus/statusConfig';
-import type { NotificationData } from '../../../../pages/Notificacoes/Notificacoes.types';
+import type { NotificationData } from '../../../../pages/Conta/Notificacoes/Notificacoes.types';
 import { styles, ICON_BG_BY_TYPE } from './styles';
 
 interface NotificationCardProps {

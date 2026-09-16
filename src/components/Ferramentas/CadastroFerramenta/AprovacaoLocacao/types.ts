@@ -1,4 +1,4 @@
-import type { TipoAprovacao } from '../../../pages/CadastroFerramenta/CadastroFerramenta.types';
+import type { TipoAprovacao } from '../../../../pages/Ferramentas/CadastroFerramenta/types';
 
 export interface OpcaoAprovacao {
   valor: TipoAprovacao;

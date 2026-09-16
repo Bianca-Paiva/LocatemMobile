@@ -9,7 +9,7 @@ import type {
   StatusReserva,
 } from '../../../../pages/Reservas/MinhasReservas/MinhasReservas.types';
 
-import { formatarIntervaloHorario } from '../../../../utils/horario';
+import { formatarIntervaloHorario } from '../../../../utils/Formatacao/horario';
 
 import { styles } from './styles';
 

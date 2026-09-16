@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native';
 import FormInput from '../../../Shared/Inputs/FormInput/FormInput';
-import { maskMoeda } from '../../../../hooks/masks';
+import { maskMoeda } from '../../../../utils/Formatacao/masks';
 import styles from './styles';
 import type { PrecificacaoProps } from './types';
 

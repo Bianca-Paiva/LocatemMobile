@@ -1,4 +1,4 @@
-import type { EspecificacaoForm } from '../../../pages/CadastroFerramenta/CadastroFerramenta.types';
+import type { EspecificacaoForm } from '../../../../pages/Ferramentas/CadastroFerramenta/types';
 
 export interface EspecificacoesTecnicasFormProps {
   especificacoes: EspecificacaoForm[];

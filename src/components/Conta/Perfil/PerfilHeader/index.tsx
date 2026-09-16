@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import Avatar from '../../../Shared/Avatar/Avatar';
-import type { Usuario } from '../../../../types/usuario.types';
+import type { Usuario } from '../../../../types/Auth/usuario.types';
 
 import { styles } from './styles';
 import colors from '../../../../theme/colors';

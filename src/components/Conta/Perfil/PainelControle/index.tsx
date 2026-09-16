@@ -18,7 +18,7 @@ import {
     View,
 } from 'react-native';
 
-import type { TipoUsuario } from '../../../../types/usuario.types';
+import type { TipoUsuario } from '../../../../types/Auth/usuario.types';
 import colors from '../../../../theme/colors';
 import { styles } from './styles';
 

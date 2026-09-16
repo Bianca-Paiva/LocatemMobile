@@ -7,7 +7,7 @@ import {
     View,
 } from 'react-native';
 
-import { getIniciais } from '../../../utils/Avatar/iniciais';
+import { getIniciais } from '../../../utils/Conta/Avatar/iniciais';
 import { styles } from './styles';  
 
 interface AvatarProps {

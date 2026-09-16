@@ -15,7 +15,7 @@ import { ProductCard } from "../../components/Ferramentas/ProductCard";
 // Mock
 import { PRODUTOS_MOCK } from "../../mocks/produtos.mock";
 import { toProductCard } from "../../mocks/produtos.adapters";
-import { useProdutoStore } from "../../hooks/useProdutoStore";
+import { useProdutoStore } from "../../hooks/Ferramentas/useProdutoStore";
 
 // Catálogo principal exibido na Home (ver faixas de id em produtos.mock.ts).
 const PRODUTOS_HOME = PRODUTOS_MOCK.filter((produto) => produto.id <= 9);

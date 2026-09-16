@@ -26,7 +26,7 @@ import { RootStackParamList } from "../../../routes/AppRoutes";
 // ===========================
 import styles, { DRAWER_WIDTH } from "./styles";
 import type { NavItem, ScreenName } from "./types";
-import { useCarrinhoStore } from "../../../hooks/useCarrinhoStore";
+import { useCarrinhoStore } from "../../../hooks/Carrinho/useCarrinhoStore";
 import { useAuth } from "../../../hooks/Auth/useAuth";
 
 // ===========================

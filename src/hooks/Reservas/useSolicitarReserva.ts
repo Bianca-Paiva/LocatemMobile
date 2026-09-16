@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react';
-import type { ProdutoSelecionado } from '../../context/ProdutoContext';
+import type { ProdutoSelecionado } from '../../context/Ferramentas/Produto/ProdutoContext';
 import type {
     ResumoReservaCalculado,
     SolicitarReservaFormState,
 } from '../../pages/Reservas/SolicitarReserva/SolicitarReserva.types';
-import { validateCEP, validatePhone, validateFullName } from '../masks';
-import { calcularResumoAvaliacoes } from '../../utils/avaliacoesResumo';
+import { validateCEP, validatePhone, validateFullName } from '../../utils/Formatacao/masks';
+import { calcularResumoAvaliacoes } from '../../utils/Avaliacao/avaliacoesResumo';
 import type { ImageSourcePropType } from 'react-native';
 
 const MESES_ABREVIADOS = [

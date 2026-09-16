@@ -10,7 +10,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import colors from '../../../../theme/colors';
 
-import { formatarDataBr, parseDataIso } from '../../../../utils/dataLocacao';
+import { formatarDataBr, parseDataIso } from '../../../../utils/Locacoes/dataLocacao';
 
 import CalendarioLocacao from '../CalendarioLocacao/CalendarioLocacao';
 

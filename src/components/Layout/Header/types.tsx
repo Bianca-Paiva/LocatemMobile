@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { RootStackParamList } from "../../routes/AppRoutes";
+import type { RootStackParamList } from "../../../routes/AppRoutes";
 
 // ===========================
 // Nomes de tela válidos

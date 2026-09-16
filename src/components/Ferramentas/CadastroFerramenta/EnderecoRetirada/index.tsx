@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import FormInput from '../../../Shared/Inputs/FormInput/FormInput';
 import FormTextarea from '../../../Shared/Inputs/FormTextArea/FromTextArea';
-import { maskCEP } from '../../../../hooks/masks';
+import { maskCEP } from '../../../../utils/Formatacao/masks';
 import styles from './styles';
 import type { EnderecoRetiradaProps } from './types';
 

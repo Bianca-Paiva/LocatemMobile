@@ -2,7 +2,7 @@ import { Image, Text, View } from 'react-native';
 
 import {User} from 'lucide-react-native'
 
-import type { ProdutoSelecionado } from '../../../../context/ProdutoContext';
+import type { ProdutoSelecionado } from '../../../../context/Ferramentas/Produto/ProdutoContext';
 
 import { styles } from './styles';
 

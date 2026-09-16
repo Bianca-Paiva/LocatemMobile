@@ -2,7 +2,7 @@ import { Alert, Pressable, Text, View } from 'react-native';
 
 import FormInput from '../../../Shared/Inputs/FormInput/FormInput';
 import FormTextarea from '../../../Shared/Inputs/FormTextArea/FromTextArea';
-import { maskCEP, maskPhone } from '../../../../hooks/masks';
+import { maskCEP, maskPhone } from '../../../../utils/Formatacao/masks';
 import type { SolicitarReservaFormState } from '../../../../pages/Reservas/SolicitarReserva/SolicitarReserva.types';
 
 import { styles } from './styles';

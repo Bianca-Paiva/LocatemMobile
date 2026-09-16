@@ -30,10 +30,10 @@ import { ProductCard } from "../../components/Ferramentas/ProductCard";
 // Catálogo real, tipos e adapters
 // (mesma fonte usada pela Home e pelo restante do app — nada de mock isolado)
 // ===========================
-import { useCatalogoStore } from "../../hooks/useCatalogoStore";
-import { useProdutoStore } from "../../hooks/useProdutoStore";
+import { useCatalogoStore } from "../../hooks/Ferramentas/useCatalogoStore";
+import { useProdutoStore } from "../../hooks/Ferramentas/useProdutoStore";
 import { toProdutoBusca, toLegacyProduct } from "../../mocks/produtos.adapters";
-import { derivarCategorias, derivarMarcas } from "../../utils/categorias";
+import { derivarCategorias, derivarMarcas } from "../../utils/Ferramentas/Catalogo/categorias";
 import type { ProdutoBusca, FilterState } from "./Searchtypes";
 import { FILTROS_VAZIOS } from "./Searchtypes";
 
