@@ -345,6 +345,10 @@ export default function EditarPerfilModal({
                                     />
                                 )}
                             />
+<BtnPrincipal
+    title="Salvar alterações"
+    onPress={() => {
+        console.log("SALVAR CLICADO");
 
                             {/* BOTÃO DE SALVAR */}
                             <BtnPrincipal

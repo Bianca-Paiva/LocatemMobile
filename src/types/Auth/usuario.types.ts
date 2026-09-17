@@ -20,6 +20,7 @@ export interface Usuario {
   emailVerificado: boolean;
   desde: number;
   reputacao: ReputacaoUsuario;
+  token?: string
 }
 
 export interface PerfilFormData {
