@@ -1,29 +1,29 @@
-import { TextInputProps } from 'react-native';
 import FormInput from '../FormInput/FormInput';
-// Importe a interface do seu FormInput atualizado (ajuste o caminho se necessário)
-import  { FormInputProps }  from '../FormInput/FormInput'; 
+import type { FormInputProps } from '../FormInput/FormInput';
 
-// Omitimos algumas props nativas do TextInputProps caso você queira forçar
-// o padrão do seu componente base.
 export interface FormTextareaProps extends FormInputProps {
-  // Você pode adicionar props exclusivas do textarea aqui, se precisar
+  /** Altura mínima da caixa de texto. */
   minHeight?: number;
 }
 
+/**
+ * Textarea = FormInput em modo multiline.
+ *
+ * O `minHeight` agora vai no `containerStyle`, porque é o container que
+ * desenha a caixa — mandar a altura só para o TextInput interno fazia a borda
+ * continuar com 48px enquanto o texto vazava por dentro.
+ */
 export default function FormTextarea({
   minHeight = 120,
-  style,
+  containerStyle,
   ...props
 }: FormTextareaProps) {
   return (
     <FormInput
       {...props}
-      multiline={true} // Força a ser textarea
-      textAlignVertical="top" // Essencial para Android (texto começar em cima)
-      style={[
-        { minHeight }, // Aplica a altura mínima padrão
-        style,
-      ]}
+      multiline
+      textAlignVertical="top"
+      containerStyle={[{ minHeight }, containerStyle]}
     />
   );
 }

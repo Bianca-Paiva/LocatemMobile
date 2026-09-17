@@ -8,16 +8,22 @@ export const styles = StyleSheet.create({
   },
 
   label: {
-    flexDirection: 'row',
-    alignItems: 'center',
-
     fontSize: 14,
     fontWeight: '600',
 
     color: '#141D23',
   },
 
-  input: {
+  /**
+   * Container: é ele — e só ele — que desenha borda, fundo, altura e padding.
+   * Antes esses mesmos valores estavam repetidos no `input` abaixo, o que
+   * produzia uma caixa dentro da outra (borda dupla) e empurrava o texto para
+   * fora quando havia prefixo.
+   */
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+
     width: '100%',
     height: 48,
 
@@ -26,11 +32,20 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
 
     borderWidth: 1.5,
-    borderColor: '#E5E7EB',
+    borderColor: colors.border,
+
+    backgroundColor: colors.bgInput,
+  },
+
+  /** O TextInput só cuida do texto: sem borda, sem fundo, sem padding próprio. */
+  input: {
+    flex: 1,
+
+    height: '100%',
+
+    padding: 0,
 
     fontSize: 14,
-
-    backgroundColor: '#FFFFFF', // var(--color-bg-input)
 
     color: '#141D23',
   },
@@ -53,24 +68,14 @@ export const styles = StyleSheet.create({
     borderColor: '#22C55E',
   },
 
-  textarea: {
-    width: '100%',
+  inputFocused: {
+    borderColor: colors.primary,
+  },
 
-    minHeight: 120,
+  inputRowDesabilitado: {
+    opacity: 0.6,
 
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-
-    borderRadius: 14,
-
-    borderWidth: 1.5,
-    borderColor: '#E5E7EB',
-
-    fontSize: 14,
-
-    backgroundColor: '#FFFFFF', // var(--color-bg-input)
-
-    textAlignVertical: 'top',
+    backgroundColor: colors.border,
   },
 
   required: {
@@ -89,38 +94,30 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
   },
 
-  inputFocused: {
-    borderColor: '#FFCC0060',
-    borderWidth: 1,
+  /**
+   * Multiline: o container solta a altura fixa e passa a crescer com o texto,
+   * ancorando o conteúdo no topo.
+   */
+  rowMultiline: {
+    height: undefined,
+
+    alignItems: 'flex-start',
+
+    paddingVertical: 12,
   },
 
-    inputRowDesabilitado: {
-    opacity: 0.6,
-  },
-    rowMultiline: {
+  inputMultiline: {
     height: undefined,
-    alignItems: 'flex-start',
-  },
-    inputMultiline: {
-    height: undefined,
-    paddingTop: 12,
-    paddingBottom: 12,
+
+    alignSelf: 'stretch',
+
     textAlignVertical: 'top',
   },
-    prefixo: {
-      fontSize: 14,
-      fontWeight: '600',
-      color: colors.textMuted,
-      marginRight: 8,
-    },
-      inputContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        height: 48,
-        borderRadius: 10,
-        borderWidth: 1.5,
-        borderColor: colors.border,
-        backgroundColor: colors.bgInput,
-        paddingHorizontal: 14,
-      },
+
+  prefixo: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.textMuted,
+    marginRight: 8,
+  },
 });

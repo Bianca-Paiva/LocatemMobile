@@ -263,6 +263,12 @@ export default function AppRoutes() {
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}
+        options={{
+           title:"",
+           headerShown: true,
+           headerShadowVisible: false,
+        }}
+        
       />
 
       <Stack.Screen
