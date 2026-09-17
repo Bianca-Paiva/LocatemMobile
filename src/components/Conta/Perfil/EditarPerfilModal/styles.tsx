@@ -62,6 +62,10 @@ export const styles = StyleSheet.create({
         backgroundColor: colors.primarySoft,
     },
 
+    photoButtonDisabled: {
+        opacity: 0.6,
+    },
+
     photoText: {
         fontSize: 12,
         fontWeight: '700',
