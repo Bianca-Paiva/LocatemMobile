@@ -23,7 +23,14 @@
     },
     "plugins": [
       "expo-font",
-      "@react-native-community/datetimepicker"
+      "@react-native-community/datetimepicker",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "O Locatem usa suas fotos para você definir a foto de perfil e cadastrar as fotos das suas ferramentas.",
+          "cameraPermission": "O Locatem usa a câmera para você tirar a foto de perfil e as fotos das suas ferramentas."
+        }
+      ]
     ]
   }
 }

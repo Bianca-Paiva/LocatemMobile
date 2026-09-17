@@ -30,7 +30,12 @@ interface Props {
     onEntrar?: () => void;
     /** Chamado após confirmar "Sair da conta" — na Web, `navigate('home')` logo após `logout()`. */
     onLogout?: () => void;
-    onAlterarFoto?: () => void;
+    /**
+     * Override opcional do seletor de imagem do modal de edição. Deixando de
+     * fora, o próprio modal abre câmera/galeria via `useFotoPerfil` — que é o
+     * comportamento padrão e o que a rota em AppRoutes usa.
+     */
+    onAlterarFoto?: () => Promise<string | null | undefined> | string | null | undefined;
 }
 
 export default function PerfilScreen({
