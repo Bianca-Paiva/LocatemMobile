@@ -24,7 +24,7 @@ import type {
 import EtiquetaStatus from '../../../../Reservas/MinhasReservas/EtiquetaStatus/EtiquetaStatus';
 import { STATUS_CONFIG } from '../../../../Reservas/MinhasReservas/EtiquetaStatus/statusConfig';
 
-import { styles } from '../styles';
+import { styles } from '../../../../../pages/Reservas/HistoricoLocacoes/styles';
 
 interface LocacaoHistoricoCardProps {
   locacao: LocacaoHistoricoData;

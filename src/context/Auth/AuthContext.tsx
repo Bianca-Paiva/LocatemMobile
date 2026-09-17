@@ -104,7 +104,7 @@ export function AuthProvider({
    */
  const API_URL = "http://10.0.2.2:5033";
 
-  const login: AuthContextType["login"] = async (email, senha) => {
+const login: AuthContextType["login"] = async (email, senha) => {
     setIsAuthenticating(true);
 
     try {
@@ -114,43 +114,46 @@ export function AuthProvider({
         throw new Error("Informe e-mail e senha para continuar.");
       }
 
-     // ======================================================================
-      // 1. USUÁRIO DE TESTE MOCKADO (Prioridade para testes rápidos)
       // ======================================================================
-      const EMAIL_TESTE = "joao.silva@exemplo.com"; // Deve ser igual ao e-mail abaixo
-      const SENHA_TESTE = "123456";                 // Senha para testar
+      // 1. USUÁRIOS DE TESTE MOCKADOS (Locador e Locatária)
+      // ======================================================================
+      // Delega a busca para o seu arquivo mock
+      const usuarioMock = buscarUsuarioPorEmail(emailNormalizado);
 
-      if (emailNormalizado === EMAIL_TESTE) {
+      if (usuarioMock) {
         await new Promise((resolve) => setTimeout(resolve, 500)); // Delay simulado
 
-        if (senha !== SENHA_TESTE) {
+        if (senha !== usuarioMock.senha) {
           throw new Error("E-mail ou senha inválidos.");
         }
 
-        const usuarioMock: Usuario = {
-           id: "u-locador-1",
-            nome: "João da Silva",
-            email: "joao.silva@exemplo.com",
-            senha: "123456",
-            telefone: "(11) 98765-4321",
-            documento: "12.345.678/0001-90",
-            endereco: "Rua das Acácias, 247 – Apto 32, São Paulo, SP · 01310-100",
-            tipo: "locador",
-            emailVerificado: false,
-            desde: 2026,
-            reputacao: {
-              rating: 4.5,
-              totalAvaliacoes: 145,
-              locacoesConcluidas: 212,
-              entregasNoPrazoPercentual: 98,
-            },
-            tipoUsuario: "Admin",
-            token: "fake-jwt-token-mock-123",
-        } as Usuario;
-
+        // Se a senha bater, loga o usuário do mock
         setUsuario(usuarioMock);
         await salvarSessao(usuarioMock);
         return usuarioMock;
+      }
+
+      // ======================================================================
+      // 1.1. (OPCIONAL) USUÁRIO DE FALLBACK
+      // ======================================================================
+      // Se você quiser testar o app offline sem bater na API do .NET,
+      // você pode usar o seu fallback aqui. 
+      // Para ativar o fluxo da API real, basta apagar ou comentar este bloco `if`.
+      const USAR_API_REAL = false; // Mude para true quando a API estiver pronta
+
+      if (!USAR_API_REAL) {
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
+        // Cria o usuário dinâmico (ex: teste@email.com vira "Teste")
+        const usuarioFallback = criarUsuarioFallback(emailNormalizado);
+
+        if (senha !== usuarioFallback.senha) {
+          throw new Error("Para usuários de teste, a senha deve ser 123456.");
+        }
+
+        setUsuario(usuarioFallback);
+        await salvarSessao(usuarioFallback);
+        return usuarioFallback;
       }
 
       // ======================================================================
@@ -173,24 +176,21 @@ export function AuthProvider({
         throw new Error(resultado.mensagem || "E-mail ou senha inválidos.");
       }
 
-      // Mapeia o retorno da sua API para o tipo Usuario
       const usuarioApi: Usuario = {
-       
         tipoUsuario: resultado.tipoUsuario,
         token: resultado.token,
-
-          id: resultado.id || "1",
-          nome: resultado.nome || "Usuário",
-          email: emailNormalizado,
-          senha: resultado.senha || "",
-          telefone: resultado.telefone || "",
-          documento: resultado.documento || "",
-          endereco: resultado.endereco || "",
-          tipo: resultado.tipoUsuario || "Cliente",
-          fotoUrl: resultado.fotoUrl || "",
-          emailVerificado: resultado.emailVerificado || false,
-          desde: resultado.desde || 0,
-          reputacao: resultado.reputacao || { pontos: 0, nivel: 1 },
+        id: resultado.id || "1",
+        nome: resultado.nome || "Usuário",
+        email: emailNormalizado,
+        senha: resultado.senha || "",
+        telefone: resultado.telefone || "",
+        documento: resultado.documento || "",
+        endereco: resultado.endereco || "",
+        tipo: resultado.tipoUsuario || "Cliente",
+        fotoUrl: resultado.fotoUrl || "",
+        emailVerificado: resultado.emailVerificado || false,
+        desde: resultado.desde || 0,
+        reputacao: resultado.reputacao || { rating: 0, totalAvaliacoes: 0, locacoesConcluidas: 0 },
       } as Usuario;
 
       setUsuario(usuarioApi);

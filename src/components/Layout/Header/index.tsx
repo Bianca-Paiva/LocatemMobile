@@ -192,6 +192,7 @@ export default function Header({ cartCount }: HeaderProps) {
         },
         {
             label: "Histórico",
+            route: "HistoricoLocacoesScreen" as ScreenName,
             renderIcon: (active) => (
                 <MaterialCommunityIcons
                     name={active ? "clock" : "clock-outline"}

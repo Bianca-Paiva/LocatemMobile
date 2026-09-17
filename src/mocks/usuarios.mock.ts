@@ -73,6 +73,29 @@ export const USUARIOS_MOCK: Usuario[] = [
       locacoesConcluidas: 20,
     },
   },
+   {
+    id: "u-Adm",
+    nome: "Bianca",
+    email: "gustavo.felipe@exemplo.com",
+    senha: "123456",
+    telefone: "(11) 98765-4321",
+    documento: "12.345.678/0001-90",
+    endereco:
+      "Rua das Acácias, 247 – Apto 32, São Paulo, SP · 01310-100",
+
+    tipo: "adm",
+
+    emailVerificado: false,
+
+    desde: 2026,
+
+    reputacao: {
+      rating: 0.0,
+      totalAvaliacoes: 0,
+      locacoesConcluidas: 0,
+      entregasNoPrazoPercentual: 0,
+    },
+  },
 ];
 
 /**

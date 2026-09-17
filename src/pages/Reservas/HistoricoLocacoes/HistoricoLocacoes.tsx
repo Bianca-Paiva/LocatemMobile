@@ -38,9 +38,7 @@ const STATUS_ENCERRADOS: StatusHistorico[] = [
   'cancelada',
 ];
 
-export default function HistoricoLocacoes({
-  navigate,
-}: HistoricoLocacoesProps) {
+export default function HistoricoLocacoes({navigate,}: HistoricoLocacoesProps) {
   const { usuario } = useAuth();
   const { reservas, setReservaSelecionada } = useReservaStore();
 

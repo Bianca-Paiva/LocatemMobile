@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 
-import type { AbasProps } from '../HistoricosLocacoes/types';
+import type { AbasProps } from '../HistoricosLocacoes/LocacaoHistoricoCard/types';
 
 import { styles } from './styles';
 

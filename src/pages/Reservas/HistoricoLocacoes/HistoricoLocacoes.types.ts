@@ -1,4 +1,4 @@
-import type { ReservaData } from '../../../../pages/Reservas/MinhasReservas/MinhasReservas.types';
+import type { ReservaData } from '../MinhasReservas/MinhasReservas.types';
 
 /**
  * Status que aparecem no Histórico do locador — apenas locações já encerradas.

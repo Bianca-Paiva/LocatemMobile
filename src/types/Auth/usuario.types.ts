@@ -1,4 +1,4 @@
-export type TipoUsuario = 'locatario' | 'locador';
+export type TipoUsuario = 'locatario' | 'locador' | 'adm';
 
 export interface ReputacaoUsuario {
   rating: number;
