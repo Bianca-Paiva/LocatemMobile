@@ -21,6 +21,7 @@ import MinhasFerramentasScreen from "../pages/Ferramentas/MinhasFerramentas";
 import Carrinho from "../pages/Checkout/Carrinho/Carrinho";
 import SolicitarLocacaoCarrinho from "../pages/Checkout/Carrinho/SolicitarLocacaoCarrinho/SolicitarLocacaoCarrinho";
 import Notificacoes from "../pages/Conta/Notificacoes/Notificacoes";
+import HistoricoLocacoes from "../pages/Reservas/HistoricoLocacoes/HistoricoLocacoes";
 
 // Fluxo de Pagamento (Carrinho -> Método de Pagamento -> Selecionar Cartão/Pix -> Processando -> Aprovado)
 import MetodoPagamento from "../pages/Checkout/Pagamento/MetodoPagamento/MetodoPagamento";
@@ -52,6 +53,7 @@ export type RootStackParamList = {
   CarrinhoScreen: undefined,
   NotificacoesScreen: undefined,
   PerfilScreen: undefined,
+  HistoricoLocacoesScreen: undefined,
   /**
    * Tela "Detalhes da Locação" do fluxo "Adicionar ao carrinho" — equivalente,
    * no Mobile, ao modal `SolicitarLocacaoModal` da Web. Os parâmetros são a
@@ -124,6 +126,7 @@ const MAPA_ROTAS_LEGADAS: Record<string, keyof RootStackParamList> = {
   // abaixo — os demais usos de "minhasReservas" (ex.: DetalhesReserva, SolicitacaoEnviada)
   // devem continuar empilhando normalmente.
   minhasReservasPosPagamento: "MinhasReservas",
+  historicoLocacoes: "HistoricoLocacoesScreen",
 };
 
 // Rotas cujo destino deve substituir toda a pilha de navegação (equivalente a um
@@ -235,6 +238,11 @@ function PerfilRoute() {
             onLogout={() => navigate("home")}
         />
     );
+}
+
+function HistoricoLocacoesScreen() {
+  const navigate = useLegacyNavigate();
+  return <HistoricoLocacoes navigate={navigate} />;
 }
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -475,6 +483,12 @@ export default function AppRoutes() {
            headerShown: false,
           }}
           />
+
+      <Stack.Screen
+        name="HistoricoLocacoesScreen"
+        component={withAuthGuard(HistoricoLocacoesScreen)}
+        options={{ headerShown: false, title: "" }}
+      />
 
     </Stack.Navigator>
   );
