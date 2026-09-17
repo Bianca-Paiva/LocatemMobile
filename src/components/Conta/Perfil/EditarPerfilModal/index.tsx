@@ -265,11 +265,17 @@ export default function EditarPerfilModal({
                                     />
                                 )}
                             />
+<BtnPrincipal
+    title="Salvar alterações"
+    onPress={() => {
+        console.log("SALVAR CLICADO");
 
-                            <BtnPrincipal
-                                title="Salvar alterações"
-                                onPress={() => buildSubmit(onValidSubmit)()}
-                            />
+        buildSubmit((data) => {
+            console.log("FORM VALIDOU:", data);
+            onValidSubmit(data);
+        })();
+    }}
+/>
                         </View>
                     </ScrollView>
                 </View>

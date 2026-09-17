@@ -34,16 +34,22 @@ export function useEditarPerfilForm(usuario: Usuario) {
     numero: INITIAL_ERROR,
   });
 
+  const tipoFormulario: 'locatario' | 'locador' =
+  usuario.tipo === 'locador' ? 'locador' : 'locatario';
+
   const {
     control,
     handleSubmit,
     trigger,
     getValues,
     formState: { errors, touchedFields },
-  } = useForm<PerfilFormData>({
+
+  }
+  
+  = useForm<PerfilFormData>({
     resolver: zodResolver(perfilSchema),
     defaultValues: {
-      tipo: usuario.tipo,
+      tipo: tipoFormulario,
       nome: usuario.nome,
       telefone: usuario.telefone,
       documento: usuario.documento,
@@ -53,7 +59,7 @@ export function useEditarPerfilForm(usuario: Usuario) {
     },
   });
 
-  const isCNPJ = usuario.tipo === 'locador';
+  const isCNPJ = tipoFormulario === 'locador';
 
   const triggerShake = (field: string) => {
     setShakes((prev) => ({ ...prev, [field]: { ...prev[field], shake: false } }));
@@ -74,7 +80,11 @@ export function useEditarPerfilForm(usuario: Usuario) {
   };
 
   const onInvalidSubmit = (formErrors: typeof errors) => {
-    let hasEmptyFields = false;
+  console.log("ERROS DO FORMULÁRIO:", formErrors);
+
+  let hasEmptyFields = false;
+
+
 
     FIELDS.forEach((field) => {
       const val = getValues(field);

@@ -2,10 +2,12 @@ import { createContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 
 import type { Usuario } from "../../types/Auth/usuario.types";
+
 import {
   buscarUsuarioPorEmail,
   criarUsuarioFallback,
 } from "../../mocks/usuarios.mock";
+
 import {
   carregarSessao,
   limparSessao,
@@ -24,18 +26,12 @@ interface AuthContextType {
 
   /**
    * Indica se o app ainda está checando se existe uma sessão salva
-   * (AsyncStorage) na inicialização. Enquanto `true`, telas protegidas
-   * (`ProtectedRoute`) NÃO devem redirecionar para o Login — senão o
-   * usuário é jogado pra fora antes mesmo da sessão salva ser lida.
+   * (AsyncStorage) na inicialização.
    */
   isInitializing: boolean;
 
   /**
    * Realiza o login validando e-mail e senha.
-   *
-   * Resolve com o usuário autenticado em caso de sucesso.
-   * Rejeita com um `Error` com mensagem amigável em caso de falha
-   * (credenciais inválidas, campos vazios, etc).
    */
   login: (email: string, senha: string) => Promise<Usuario>;
 
@@ -43,7 +39,7 @@ interface AuthContextType {
   logout: () => void;
 
   /** Atualiza os dados do usuário atualmente autenticado. */
-  atualizarUsuario: (dados: Partial<Usuario>) => void;
+  atualizarUsuario: (dados: Partial<Usuario>) => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -53,19 +49,14 @@ export function AuthProvider({
 }: {
   children: ReactNode;
 }) {
-  // Nenhum usuário fica autenticado inicialmente — até a checagem de
-  // sessão salva (abaixo) terminar e, possivelmente, repopular o estado.
   const [usuario, setUsuario] = useState<Usuario | null>(null);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
   const [isInitializing, setIsInitializing] = useState(true);
 
+  const API_URL = "http://10.0.2.2:5033";
+
   /**
-   * Reautenticação automática no carregamento inicial do app.
-   *
-   * Roda uma única vez: lê a sessão persistida no AsyncStorage e, se
-   * existir, repopula `usuario` sem exigir novo login. É isso que faz o
-   * usuário continuar logado depois de fechar/reabrir o app ou dar
-   * refresh na versão Web.
+   * Reautenticação automática no carregamento inicial.
    */
   useEffect(() => {
     let ativo = true;
@@ -90,21 +81,9 @@ export function AuthProvider({
   }, []);
 
   /**
-   * Realiza o login do usuário.
-   *
-   * Como a API ainda não está implementada, o usuário é buscado nos mocks:
-   * - E-mail encontrado: a senha precisa bater com a senha do mock,
-   *   caso contrário o login falha com "credenciais inválidas".
-   * - E-mail não encontrado: um usuário de fallback é criado (simulando
-   *   um cadastro implícito, comportamento já documentado em usuarios.mock).
-   *
-   * Esta função é a ÚNICA responsável por popular o estado de autenticação:
-   * qualquer tela que faça login DEVE chamar `login` (via `useAuth`) em vez
-   * de ler os mocks diretamente, ou o app nunca saberá que existe uma sessão.
+   * Login.
    */
- const API_URL = "http://10.0.2.2:5033";
-
-const login: AuthContextType["login"] = async (email, senha) => {
+  const login: AuthContextType["login"] = async (email, senha) => {
     setIsAuthenticating(true);
 
     try {
@@ -114,100 +93,140 @@ const login: AuthContextType["login"] = async (email, senha) => {
         throw new Error("Informe e-mail e senha para continuar.");
       }
 
-      // ======================================================================
-      // 1. USUÁRIOS DE TESTE MOCKADOS (Locador e Locatária)
-      // ======================================================================
-      // Delega a busca para o seu arquivo mock
+      // ============================================================
+      // USUÁRIOS MOCKADOS
+      // ============================================================
+
       const usuarioMock = buscarUsuarioPorEmail(emailNormalizado);
 
       if (usuarioMock) {
-        await new Promise((resolve) => setTimeout(resolve, 500)); // Delay simulado
+        await new Promise((resolve) => setTimeout(resolve, 500));
 
         if (senha !== usuarioMock.senha) {
           throw new Error("E-mail ou senha inválidos.");
         }
 
-        // Se a senha bater, loga o usuário do mock
         setUsuario(usuarioMock);
         await salvarSessao(usuarioMock);
+
         return usuarioMock;
       }
 
-      // ======================================================================
-      // 1.1. (OPCIONAL) USUÁRIO DE FALLBACK
-      // ======================================================================
-      // Se você quiser testar o app offline sem bater na API do .NET,
-      // você pode usar o seu fallback aqui. 
-      // Para ativar o fluxo da API real, basta apagar ou comentar este bloco `if`.
-      const USAR_API_REAL = false; // Mude para true quando a API estiver pronta
+      // ============================================================
+      // FALLBACK MOCK
+      // ============================================================
+
+      const USAR_API_REAL = true;
 
       if (!USAR_API_REAL) {
         await new Promise((resolve) => setTimeout(resolve, 500));
 
-        // Cria o usuário dinâmico (ex: teste@email.com vira "Teste")
-        const usuarioFallback = criarUsuarioFallback(emailNormalizado);
+        const usuarioFallback =
+          criarUsuarioFallback(emailNormalizado);
 
         if (senha !== usuarioFallback.senha) {
-          throw new Error("Para usuários de teste, a senha deve ser 123456.");
+          throw new Error(
+            "Para usuários de teste, a senha deve ser 123456."
+          );
         }
 
         setUsuario(usuarioFallback);
         await salvarSessao(usuarioFallback);
+
         return usuarioFallback;
       }
 
-      // ======================================================================
-      // 2. FLUXO NORMAL (CHAMADA À API REAL DO .NET)
-      // ======================================================================
-      const response = await fetch(`${API_URL}/api/Login/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: emailNormalizado,
-          senha: senha,
-        }),
-      });
+      // ============================================================
+      // LOGIN REAL - API .NET
+      // ============================================================
+
+      const response = await fetch(
+        `${API_URL}/api/Login/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: emailNormalizado,
+            senha: senha,
+          }),
+        }
+      );
 
       const resultado = await response.json();
 
       if (!response.ok) {
-        throw new Error(resultado.mensagem || "E-mail ou senha inválidos.");
+        throw new Error(
+          resultado.mensagem ||
+            "E-mail ou senha inválidos."
+        );
       }
 
-      const usuarioApi: Usuario = {
-        tipoUsuario: resultado.tipoUsuario,
-        token: resultado.token,
-        id: resultado.id || "1",
-        nome: resultado.nome || "Usuário",
-        email: emailNormalizado,
-        senha: resultado.senha || "",
-        telefone: resultado.telefone || "",
-        documento: resultado.documento || "",
-        endereco: resultado.endereco || "",
-        tipo: resultado.tipoUsuario || "Cliente",
-        fotoUrl: resultado.fotoUrl || "",
-        emailVerificado: resultado.emailVerificado || false,
-        desde: resultado.desde || 0,
-        reputacao: resultado.reputacao || { rating: 0, totalAvaliacoes: 0, locacoesConcluidas: 0 },
+      // ============================================================
+      // BUSCA DADOS COMPLETOS DO USUÁRIO
+      // ============================================================
+
+      const perfilResponse = await fetch(
+        `${API_URL}/api/Usuarios/me`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${resultado.token}`,
+            Accept: "application/json",
+          },
+        }
+      );
+
+      const perfil = await perfilResponse.json();
+
+      if (!perfilResponse.ok) {
+        throw new Error(
+          "Não foi possível carregar os dados do usuário."
+        );
+      }
+
+      // ============================================================
+      // MONTA USUÁRIO DO MOBILE
+      // ============================================================
+const usuarioApi: Usuario = {
+    tipoUsuario: perfil.tipoUsuario,
+    token: resultado.token,
+    id: String(perfil.id),
+    nome: perfil.nome || "Usuário",
+    email: perfil.email || emailNormalizado,
+    senha: "",
+    telefone: perfil.telefone || "",
+    documento: perfil.documento || "",
+    endereco: perfil.endereco || "",
+    tipo: perfil.tipoUsuario.toLowerCase() as "locatario" | "locador",
+    fotoUrl: perfil.fotoUrl || "",
+    emailVerificado: false,
+    desde: perfil.desde || 0,
+    reputacao: perfil.reputacao || {
+    rating: 0,
+    totalAvaliacoes: 0,
+    locacoesConcluidas: 0,
+    entregasNoPrazoPercentual: 0,
+        },
       } as Usuario;
 
       setUsuario(usuarioApi);
       await salvarSessao(usuarioApi);
-      return usuarioApi;
 
+      return usuarioApi;
     } catch (error: any) {
-      throw new Error(error.message || "Não foi possível conectar ao servidor.");
+      throw new Error(
+        error.message ||
+          "Não foi possível conectar ao servidor."
+      );
     } finally {
       setIsAuthenticating(false);
     }
   };
 
   /**
-   * Encerra a sessão do usuário — tanto em memória quanto no
-   * armazenamento persistido, para não ser "readotado" no próximo
-   * carregamento do app.
+   * Logout.
    */
   const logout = () => {
     setUsuario(null);
@@ -215,25 +234,81 @@ const login: AuthContextType["login"] = async (email, senha) => {
   };
 
   /**
-   * Atualiza os dados do usuário autenticado.
-   *
-   * O Partial<Usuario> permite alterar somente os campos necessários.
-   * A versão atualizada também é persistida, senão uma edição de perfil
-   * seria perdida no próximo carregamento do app.
+   * Atualiza o perfil no Backend e depois atualiza
+   * o estado local + sessão persistida.
    */
-  const atualizarUsuario: AuthContextType["atualizarUsuario"] = (
-    dados
-  ) => {
-    setUsuario((usuarioAtual) => {
+  const atualizarUsuario: AuthContextType["atualizarUsuario"] =
+    async (dados) => {
+      const usuarioAtual = usuario;
+
       if (!usuarioAtual) {
-        return usuarioAtual;
+        return;
       }
 
-      const usuarioAtualizado = { ...usuarioAtual, ...dados };
-      salvarSessao(usuarioAtualizado);
-      return usuarioAtualizado;
-    });
-  };
+      const response = await fetch(
+        `${API_URL}/api/Usuarios/me`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${usuarioAtual.token}`,
+          },
+          body: JSON.stringify({
+            nome: dados.nome,
+            telefone: dados.telefone,
+            documento: dados.documento?.replace(/\D/g, ""),
+            endereco: dados.endereco,
+          }),
+        }
+      );
+
+      const resultado = await response.json();
+
+      if (!response.ok) {
+        throw new Error(
+          resultado.mensagem ||
+            "Não foi possível atualizar o perfil."
+        );
+      }
+      const perfilResponse = await fetch(
+  `${API_URL}/api/Usuarios/me`,
+  {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${usuarioAtual.token}`,
+      Accept: "application/json",
+    },
+  }
+);
+
+const perfilAtualizado = await perfilResponse.json();
+
+if (!perfilResponse.ok) {
+  throw new Error(
+    "Perfil atualizado, mas não foi possível recarregar os dados."
+  );
+}
+
+    const usuarioAtualizado: Usuario = {
+  ...usuarioAtual,
+  id: String(perfilAtualizado.id),
+  nome: perfilAtualizado.nome || usuarioAtual.nome,
+  email: perfilAtualizado.email || usuarioAtual.email,
+  telefone: perfilAtualizado.telefone || "",
+  documento: perfilAtualizado.documento || "",
+  endereco: perfilAtualizado.endereco || "",
+  tipo: perfilAtualizado.tipoUsuario
+    ?.toLowerCase() as "locatario" | "locador",
+  fotoUrl: perfilAtualizado.fotoUrl || "",
+  desde: perfilAtualizado.desde || 0,
+  reputacao: perfilAtualizado.reputacao || usuarioAtual.reputacao,
+  token: usuarioAtual.token,
+};
+
+      setUsuario(usuarioAtualizado);
+      await salvarSessao(usuarioAtualizado);
+
+    };
 
   return (
     <AuthContext.Provider
