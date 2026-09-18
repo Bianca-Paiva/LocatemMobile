@@ -1,11 +1,16 @@
 // Contexto global de "Minhas Ferramentas".
-// Guarda em memória (sem backend por enquanto) as ferramentas que o usuário
-// cadastrou, e expõe as ações que a tela "Minhas Ferramentas" e a tela
-// "Cadastrar Ferramenta" precisam: adicionar, editar, remover e
-// ativar/desativar um anúncio.
-import React, { createContext, useContext, useState, useMemo } from 'react';
+// Guarda em memória as ferramentas do usuário
+// e agora também carrega as ferramentas do backend.
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useMemo,
+  useEffect,
+} from 'react';
 import type { ReactNode } from 'react';
 import type { CadastroFerramentaFormState } from '../../pages/Ferramentas/CadastroFerramenta/types';
+import { listarFerramentas } from '../../services/ferramentaService';
 
 export type StatusFerramenta = 'ativa' | 'inativa';
 
@@ -24,10 +29,28 @@ interface FerramentasContextData {
   obterFerramenta: (id: string) => Ferramenta | undefined;
 }
 
-const FerramentasContext = createContext<FerramentasContextData | undefined>(undefined);
+const FerramentasContext = createContext<FerramentasContextData | undefined>(
+  undefined,
+);
 
 export function FerramentasProvider({ children }: { children: ReactNode }) {
   const [ferramentas, setFerramentas] = useState<Ferramenta[]>([]);
+
+  useEffect(() => {
+    async function carregarFerramentas() {
+      try {
+        const dados = await listarFerramentas();
+
+        console.log('FERRAMENTAS RECEBIDAS:', dados);
+
+        setFerramentas(dados);
+      } catch (erro) {
+        console.error('ERRO AO CARREGAR FERRAMENTAS:', erro);
+      }
+    }
+
+    carregarFerramentas();
+  }, []);
 
   const adicionarFerramenta = (form: CadastroFerramentaFormState) => {
     const nova: Ferramenta = {
@@ -36,10 +59,14 @@ export function FerramentasProvider({ children }: { children: ReactNode }) {
       status: 'ativa',
       criadoEm: new Date().toISOString(),
     };
+
     setFerramentas((atual) => [nova, ...atual]);
   };
 
-  const editarFerramenta = (id: string, form: CadastroFerramentaFormState) => {
+  const editarFerramenta = (
+    id: string,
+    form: CadastroFerramentaFormState,
+  ) => {
     setFerramentas((atual) =>
       atual.map((f) => (f.id === id ? { ...f, ...form } : f)),
     );
@@ -53,13 +80,17 @@ export function FerramentasProvider({ children }: { children: ReactNode }) {
     setFerramentas((atual) =>
       atual.map((f) =>
         f.id === id
-          ? { ...f, status: f.status === 'ativa' ? 'inativa' : 'ativa' }
+          ? {
+              ...f,
+              status: f.status === 'ativa' ? 'inativa' : 'ativa',
+            }
           : f,
       ),
     );
   };
 
-  const obterFerramenta = (id: string) => ferramentas.find((f) => f.id === id);
+  const obterFerramenta = (id: string) =>
+    ferramentas.find((f) => f.id === id);
 
   const value = useMemo(
     () => ({
@@ -82,8 +113,12 @@ export function FerramentasProvider({ children }: { children: ReactNode }) {
 
 export function useFerramentas() {
   const context = useContext(FerramentasContext);
+
   if (!context) {
-    throw new Error('useFerramentas precisa ser usado dentro de um <FerramentasProvider>.');
+    throw new Error(
+      'useFerramentas precisa ser usado dentro de um <FerramentasProvider>.',
+    );
   }
+
   return context;
 }
