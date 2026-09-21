@@ -41,9 +41,41 @@ export function FerramentasProvider({ children }: { children: ReactNode }) {
       try {
         const dados = await listarFerramentas();
 
-        console.log('FERRAMENTAS RECEBIDAS:', dados);
+console.log('FERRAMENTAS RECEBIDAS:', dados);
 
-        setFerramentas(dados);
+const ferramentasConvertidas: Ferramenta[] = dados.map((item: any) => ({
+  id: String(item.ferramentaId),
+  nome: item.nome ?? '',
+  marca: item.marca ?? '',
+  modelo: item.modelo ?? '',
+  categoria: item.categoria?.nome ?? '',
+  estadoConservacao: '',
+  quantidadeDisponivel: 1,
+  fonteAlimentacao: '',
+  cep: '',
+  ruaAvenida: '',
+  numero: '',
+  complemento: '',
+  usarMesmoEnderecoDevolucao: true,
+  cepDevolucao: '',
+  ruaAvenidaDevolucao: '',
+  numeroDevolucao: '',
+  complementoDevolucao: '',
+  descricao: item.descricao ?? '',
+  especificacoes: [],
+  fotos: item.imagens ?? [],
+  valorDiaria: String(item.diaria ?? 0),
+  caucao: String(item.caucao ?? 0),
+  acessorios: item.acessorios
+    ? item.acessorios.split(',').map((a: string) => a.trim())
+    : [],
+  tipoAprovacao: 'automatica',
+  diasIndisponiveis: [],
+  status: item.status === 1 ? 'ativa' : 'inativa',
+  criadoEm: item.dataCadastro,
+}));
+
+setFerramentas(ferramentasConvertidas);
       } catch (erro) {
         console.error('ERRO AO CARREGAR FERRAMENTAS:', erro);
       }

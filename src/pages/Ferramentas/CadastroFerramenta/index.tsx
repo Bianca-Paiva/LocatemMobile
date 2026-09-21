@@ -17,6 +17,7 @@ import AprovacaoLocacao from '../../../components/Ferramentas/CadastroFerramenta
 import CalendarioDisponibilidade from '../../../components/Ferramentas/CadastroFerramenta/CalendarioDisponibilidade';
 
 import { useFerramentas } from '../../../context/Ferramentas/FerramentasContext';
+import { cadastrarFerramenta, listarCategorias, } from '../../../services/ferramentaService';
 import {
   criarFormularioVazio,
   validarFormulario,
@@ -31,6 +32,7 @@ import type {
 
 import styles from './styles';
 import colors from '../../../theme/colors';
+import { moedaParaNumero } from '../../../utils/Formatacao/masks';
 
 type CadastroFerramentaRoute = RouteProp<RootStackParamList, 'CadastroFerramentaScreen'>;
 
@@ -83,7 +85,7 @@ export default function CadastroFerramentaScreen() {
     });
   };
 
-  const handlePublicar = () => {
+  const handlePublicar = async () => {
     const errosAtuais = validarFormulario(form);
     setTentouPublicar(true);
 
@@ -114,19 +116,45 @@ export default function CadastroFerramentaScreen() {
       return;
     }
 
-    // Sem backend ainda: guarda só em memória (contexto), pra testar o fluxo completo.
-    adicionarFerramenta(form);
+    try {
+    await cadastrarFerramenta({
+    nome: form.nome,
+    marca: form.marca,
+    modelo: form.modelo,
+    descricao: form.descricao,
+    acessorios: form.acessorios,
+    diaria: moedaParaNumero(form.valorDiaria),
+    caucao: moedaParaNumero(form.caucao),
+    categoriaId: Number(form.categoria),
+  });
 
-    Alert.alert('Ferramenta cadastrada!', 'Sua ferramenta foi salva (armazenamento local de testes).', [
+  Alert.alert(
+    'Ferramenta cadastrada!',
+    'Sua ferramenta foi salva com sucesso.',
+    [
       {
         text: 'OK',
         onPress: () => {
           setForm(criarFormularioVazio());
           setTentouPublicar(false);
-          if (navigation.canGoBack()) navigation.goBack();
+
+          if (navigation.canGoBack()) {
+            navigation.goBack();
+          }
         },
       },
-    ]);
+    ],
+  );
+} catch (erro) {
+  console.error('ERRO AO CADASTRAR FERRAMENTA:', erro);
+
+  Alert.alert(
+    'Erro ao cadastrar',
+    erro instanceof Error
+      ? erro.message
+      : 'Não foi possível cadastrar a ferramenta.',
+  );
+   }
   };
 
   const renderConteudoSecao = (id: SecaoId) => {

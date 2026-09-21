@@ -39,3 +39,77 @@ export async function listarFerramentas() {
 
   return JSON.parse(texto);
 }
+
+export async function cadastrarFerramenta(dados: {
+  nome: string;
+  marca: string;
+  modelo: string;
+  descricao: string;
+  acessorios: string[];
+  diaria: number;
+  caucao: number;
+  categoriaId: number;
+}) {
+  const sessao = await carregarSessao();
+  const token = sessao?.token;
+
+  if (!token) {
+    throw new Error('Usuário não autenticado.');
+  }
+
+  const resposta = await fetch(`${API_BASE_URL}/api/Ferramenta`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(dados),
+  });
+
+  const texto = await resposta.text();
+
+  console.log('CADASTRO FERRAMENTA - STATUS:', resposta.status);
+  console.log('CADASTRO FERRAMENTA - RESPOSTA:', texto);
+
+  if (!resposta.ok) {
+    throw new Error(
+      `Erro ${resposta.status}: ${texto || resposta.statusText}`,
+    );
+  }
+
+  if (!texto) {
+    return null;
+  }
+
+  return JSON.parse(texto);
+}
+
+export async function listarCategorias() {
+  const sessao = await carregarSessao();
+  const token = sessao?.token;
+
+  const resposta = await fetch(`${API_BASE_URL}/api/Categoria`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const texto = await resposta.text();
+
+  console.log('CATEGORIAS - STATUS:', resposta.status);
+  console.log('CATEGORIAS - RESPOSTA:', texto);
+
+  if (!resposta.ok) {
+    throw new Error(
+      `Erro ${resposta.status}: ${texto || resposta.statusText}`,
+    );
+  }
+
+  if (!texto) {
+    return [];
+  }
+
+  return JSON.parse(texto);
+}
