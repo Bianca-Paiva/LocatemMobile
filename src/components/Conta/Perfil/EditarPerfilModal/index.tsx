@@ -345,10 +345,6 @@ export default function EditarPerfilModal({
                                     />
                                 )}
                             />
-<BtnPrincipal
-    title="Salvar alterações"
-    onPress={() => {
-        console.log("SALVAR CLICADO");
 
                             {/* BOTÃO DE SALVAR */}
                             <BtnPrincipal
@@ -357,6 +353,7 @@ export default function EditarPerfilModal({
                                 // Ele tenta validar; se houver erro nos campos, ele dispara a animação de shake (tremer)
                                 // Se estiver tudo certo, dispara a função `onValidSubmit`
                                 onPress={() => buildSubmit(onValidSubmit)()}
+                                
                             />
                         </View>
                     </ScrollView>
