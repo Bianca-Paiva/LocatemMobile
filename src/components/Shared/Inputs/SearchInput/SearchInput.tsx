@@ -1,7 +1,6 @@
 import { View, Image, TextInput, StyleSheet, KeyboardTypeOptions, } from "react-native";
-
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 interface InputProps {
-  image:any; 
   placeholder: string;
   keyboardType: KeyboardTypeOptions;
   value: string;
@@ -10,13 +9,15 @@ interface InputProps {
   onSubmitEditing?: () => void;
 }
 
-export default function SearchInput({ image, placeholder, keyboardType, value, onChangeText, style, onSubmitEditing }: InputProps) {
+export default function SearchInput({ placeholder, keyboardType, value, onChangeText, style, onSubmitEditing }: InputProps) {
   return (
     <View style={[styles.searchContainer, style]}>
-      <Image
-        source={image}
-        style={styles.icon}
-      />  
+          <MaterialCommunityIcons
+            name="magnify"
+            size={20}
+            color="#0A0A0A"
+            style={{ opacity: 0.55 }}
+          />
       <TextInput
       
         style={styles.input}

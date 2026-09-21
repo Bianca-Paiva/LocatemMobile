@@ -84,9 +84,11 @@ export default function Header({ cartCount }: HeaderProps) {
         ]).start(() => setDrawerVisible(false));
     };
 
-     const {
-            usuario,
-    } = useAuth();
+     const { usuario,} = useAuth();
+    // Apenas locadores enxergam opções de gestão de ferramentas.
+    // Visitante (usuario = null) e locatário resultam em `false`.
+    const isLocador = usuario?.tipo === "locador" || usuario?.tipo === "adm";
+    const isLocatario = usuario?.tipo === "locatario" || usuario?.tipo === "adm";
 
     useEffect(() => {
         if (drawerVisible) {
@@ -124,6 +126,8 @@ export default function Header({ cartCount }: HeaderProps) {
         closeMenu();
     }
 
+
+    
     // ===========================
     // Itens do menu lateral
     // (routes batendo com o RootStackParamList real, em ../../routes/AppRoutes)
@@ -132,6 +136,7 @@ export default function Header({ cartCount }: HeaderProps) {
         {
             label: "Início",
             route: "HomeScreen" as ScreenName,
+            visible: true,
             renderIcon: (active) => (
                 <MaterialCommunityIcons
                     name={active ? "home" : "home-outline"}
@@ -144,6 +149,7 @@ export default function Header({ cartCount }: HeaderProps) {
         {
             label: "Carrinho",
             route: "CarrinhoScreen" as ScreenName,
+            visible: isLocatario,
             renderIcon: (active) => (
                 <MaterialCommunityIcons
                     name={active ? "cart" : "cart-outline"}
@@ -153,21 +159,11 @@ export default function Header({ cartCount }: HeaderProps) {
                 />
             ),
         },
-        // {
-        //     label: "Cadastrar Ferramenta",
-        //     route: "CadastroFerramentaScreen" as ScreenName,
-        //     renderIcon: (active) => (
-        //         <MaterialCommunityIcons
-        //             name={active ? "plus-box" : "plus-box-outline"}
-        //             size={22}
-        //             color="#0A0A0A"
-        //             style={styles.navItemIcon}
-        //         />
-        //     ),
-        // },
+      
         {
             label: "Minhas Reservas",
             route: "MinhasReservas" as ScreenName,
+            visible: isLocatario,
            
             renderIcon: (active) => (
                 <MaterialCommunityIcons
@@ -181,6 +177,7 @@ export default function Header({ cartCount }: HeaderProps) {
         {
             label: "Minhas Ferramentas",
             route: "MinhasFerramentasScreen" as ScreenName,
+            visible: isLocador,
             renderIcon: (active) => (
                 <MaterialCommunityIcons
                     name={active ? "toolbox" : "toolbox-outline"}
@@ -193,6 +190,8 @@ export default function Header({ cartCount }: HeaderProps) {
         {
             label: "Histórico",
             route: "HistoricoLocacoesScreen" as ScreenName,
+            visible: isLocador,
+
             renderIcon: (active) => (
                 <MaterialCommunityIcons
                     name={active ? "clock" : "clock-outline"}
@@ -205,6 +204,7 @@ export default function Header({ cartCount }: HeaderProps) {
         {
             label: "Avaliações",
             route: "Avaliacao" as ScreenName,
+            visible: true,
 
             renderIcon: (active) => (
                 <MaterialCommunityIcons
@@ -218,6 +218,7 @@ export default function Header({ cartCount }: HeaderProps) {
         {
             label: "Notificações",
             route: "NotificacoesScreen" as ScreenName,
+            visible: true,
             renderIcon: (active) => (
                 <MaterialCommunityIcons
                     name={active ? "bell" : "bell-outline"}
@@ -245,7 +246,8 @@ export default function Header({ cartCount }: HeaderProps) {
                 />
             ),
         },
-        {
+        {   
+            visible: true,
             label: "Suporte",
             renderIcon: () => (
                 <MaterialCommunityIcons
@@ -371,7 +373,9 @@ export default function Header({ cartCount }: HeaderProps) {
                         style={styles.drawerConteudo}
                         showsVerticalScrollIndicator={false}
                     >
-                        {navItems.map((item) => {
+                        {navItems
+                            .filter((item) => item.visible !== false)
+                            .map((item) => {
                             const active = item.route === route.name;
 
                             return (

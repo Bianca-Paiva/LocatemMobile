@@ -75,7 +75,7 @@ export const USUARIOS_MOCK: Usuario[] = [
   },
    {
     id: "u-Adm",
-    nome: "Bianca",
+    nome: "Bianca Heitor",
     email: "gustavo.felipe@exemplo.com",
     senha: "123456",
     telefone: "(11) 98765-4321",
