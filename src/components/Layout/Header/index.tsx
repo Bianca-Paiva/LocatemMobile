@@ -89,6 +89,8 @@ export default function Header({ cartCount }: HeaderProps) {
     // Visitante (usuario = null) e locatário resultam em `false`.
     const isLocador = usuario?.tipo === "locador" || usuario?.tipo === "adm";
     const isLocatario = usuario?.tipo === "locatario" || usuario?.tipo === "adm";
+    // O carrinho ficará visível para quem não é locador (visitantes, locatários e admins)
+    const naoELocador = usuario?.tipo !== "locador";
 
     // Só o locador tem uma Home própria (mesma regra da Web); adm e locatário
     // continuam indo para a HomeScreen.
@@ -272,10 +274,10 @@ export default function Header({ cartCount }: HeaderProps) {
             {/* ── HEADER (topo com gradiente) ── */}
             <LinearGradient
                 colors={["#FFD600", "#F2CB00", "#FFF8DC", "transparent"]}
-                locations={[0, 0.35, 0.7, 1]}
+                locations={[0, 0.38, 0.75, 0.98]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 0, y: 1 }}
-                style={styles.headerContainer}
+                style={[styles.headerContainer, isLocador && styles.headerContainerLocador]}
             >
                 <View style={styles.linhaTopo}>
                     <View style={styles.ladoEsquerdo}>
@@ -295,12 +297,15 @@ export default function Header({ cartCount }: HeaderProps) {
                             <Text style={styles.logoTexto}>LOCATEM</Text>
                         </TouchableOpacity>
                     </View>
-
+                {naoELocador && (
                     <TouchableOpacity
+                        
                         style={styles.carrinhoBtn}
                         onPress={() => handleNavigate("CarrinhoScreen" as ScreenName)}
                         accessibilityLabel="Abrir carrinho"
+                    
                     >
+                        
                         <MaterialCommunityIcons
                             name="cart-outline"
                             size={24}
@@ -314,8 +319,9 @@ export default function Header({ cartCount }: HeaderProps) {
                             </View>
                         )}
                     </TouchableOpacity>
+                )}
                 </View>
-
+                {naoELocador &&(
                 <View style={styles.barraPesquisa}>
                     <MaterialCommunityIcons
                         name="magnify"
@@ -333,6 +339,8 @@ export default function Header({ cartCount }: HeaderProps) {
                         returnKeyType="search"
                     />
                 </View>
+                )}
+              
             </LinearGradient>
 
             {/* ── MENU LATERAL (drawer) ── */}

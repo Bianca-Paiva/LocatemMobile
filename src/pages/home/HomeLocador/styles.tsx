@@ -14,7 +14,6 @@ export const styles = StyleSheet.create({
   },
 
   pagina: {
-    paddingTop: 20,
     paddingHorizontal: 16,
     paddingBottom: 48,
     gap: 24,

@@ -16,6 +16,10 @@ const styles = StyleSheet.create({
         paddingBottom: 24,
         gap: 15,
     },
+    headerContainerLocador: {
+        paddingBottom: 45, 
+        
+    },
 
     linhaTopo: {
         width: "100%",
