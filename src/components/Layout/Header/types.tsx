@@ -17,4 +17,5 @@ export interface NavItem {
     route?: ScreenName;
     renderIcon: (active: boolean) => ReactNode;
     if?: boolean;
+    visible?: boolean; // Propriedade para controlar a exibição
 }

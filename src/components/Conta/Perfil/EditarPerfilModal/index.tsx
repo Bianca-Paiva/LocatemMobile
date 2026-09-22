@@ -345,18 +345,20 @@ export default function EditarPerfilModal({
                                     />
                                 )}
                             />
-{/* BOTÃO DE SALVAR */}
-<BtnPrincipal
-    title="Salvar alterações"
-    // `buildSubmit` encapsula o `handleSubmit` do hook-form
-    // Ele tenta validar; se houver erro nos campos, ele dispara a animação de shake
-    // Se estiver tudo certo, dispara a função `onValidSubmit`
-    onPress={() => buildSubmit(onValidSubmit)()}
-/>
-</View>
-</ScrollView>
-</View>
-</KeyboardAvoidingView>
-</Modal>
-);
+
+                            {/* BOTÃO DE SALVAR */}
+                            <BtnPrincipal
+                                title="Salvar alterações"
+                                // `buildSubmit` encapsula o `handleSubmit` do hook-form
+                                // Ele tenta validar; se houver erro nos campos, ele dispara a animação de shake (tremer)
+                                // Se estiver tudo certo, dispara a função `onValidSubmit`
+                                onPress={() => buildSubmit(onValidSubmit)()}
+                                
+                            />
+                        </View>
+                    </ScrollView>
+                </View>
+            </KeyboardAvoidingView>
+        </Modal>
+    );
 }
