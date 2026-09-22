@@ -167,8 +167,8 @@ export default function Header({ cartCount }: HeaderProps) {
         },
       
         {
-            label: "Minhas Reservas",
-            route: "MinhasReservas" as ScreenName,
+            label: "Minhas Locacoes",
+            route: "MinhasLocacoes" as ScreenName,
             visible: isLocatario,
            
             renderIcon: (active) => (

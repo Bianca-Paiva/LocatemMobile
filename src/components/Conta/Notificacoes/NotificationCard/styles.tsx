@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 // Cores de fundo/ícone por `type`, usadas apenas quando a notificação não está
-// atrelada a uma reserva (equivalente às classes .icon_success, .icon_warning etc
+// atrelada a uma locacao (equivalente às classes .icon_success, .icon_warning etc
 // do CSS na versão Web).
 export const ICON_BG_BY_TYPE: Record<string, { fundo: string; cor: string }> = {
   success: { fundo: '#DCF5E3', cor: '#2EAE60' },

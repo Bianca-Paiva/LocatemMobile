@@ -19,12 +19,12 @@ import {
 import type {
   LocacaoHistoricoData,
   StatusHistorico,
-} from '../../../../../pages/Reservas/HistoricoLocacoes/HistoricoLocacoes.types';
+} from '../../../../../pages/Locacoes/HistoricoLocacoes/HistoricoLocacoes.types';
 
-import EtiquetaStatus from '../../../../Reservas/MinhasReservas/EtiquetaStatus/EtiquetaStatus';
-import { STATUS_CONFIG } from '../../../../Reservas/MinhasReservas/EtiquetaStatus/statusConfig';
+import EtiquetaStatus from '../../../../Locacoes/MinhasLocacoes/EtiquetaStatus/EtiquetaStatus';
+import { STATUS_CONFIG } from '../../../../Locacoes/MinhasLocacoes/EtiquetaStatus/statusConfig';
 
-import { styles } from '../../../../../pages/Reservas/HistoricoLocacoes/styles';
+import { styles } from '../../../../../pages/Locacoes/HistoricoLocacoes/styles';
 
 interface LocacaoHistoricoCardProps {
   locacao: LocacaoHistoricoData;

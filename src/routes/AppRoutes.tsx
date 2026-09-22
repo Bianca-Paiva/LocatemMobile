@@ -12,16 +12,16 @@ import ReceiveTokenScreen from "../pages/Auth/RecuperarSenha/receiveToken/Receiv
 import { RecoveryRequisitionScreen } from "../pages/Auth/RecuperarSenha/recoveryRequisition/RecoveryRequisition";
 import RecoveryPasswordScreen from "../pages/Auth/RecuperarSenha/recoveryPassword/RecoveryPasswordScreen";
 import { Avaliacao } from "../pages/Avaliacao/Avaliacao";
-import DetalhesReserva from "../pages/Reservas/DetalhesReserva/DetalhesReserva";
-import MinhasReservas from "../pages/Reservas/MinhasReservas/MinhasReservas";
-import SolicitarReserva from "../pages/Reservas/SolicitarReserva/SolicitarReserva";
-import SolicitacaoEnviada from "../pages/Reservas/SolicitacaoEnviada/SolicitacaoEnviada";
+import DetalhesLocacao from "../pages/Locacoes/DetalhesLocacao/DetalhesLocacao";
+import MinhasLocacoes from "../pages/Locacoes/MinhasLocacoes/MinhasLocacoes";
+import SolicitarLocacao from "../pages/Locacoes/SolicitarLocacao/SolicitarLocacao";
+import SolicitacaoEnviada from "../pages/Locacoes/SolicitacaoEnviada/SolicitacaoEnviada";
 import CadastroFerramentaScreen from "../pages/Ferramentas/CadastroFerramenta";
 import MinhasFerramentasScreen from "../pages/Ferramentas/MinhasFerramentas";
 import Carrinho from "../pages/Checkout/Carrinho/Carrinho";
 import SolicitarLocacaoCarrinho from "../pages/Checkout/Carrinho/SolicitarLocacaoCarrinho/SolicitarLocacaoCarrinho";
 import Notificacoes from "../pages/Conta/Notificacoes/Notificacoes";
-import HistoricoLocacoes from "../pages/Reservas/HistoricoLocacoes/HistoricoLocacoes";
+import HistoricoLocacoes from "../pages/Locacoes/HistoricoLocacoes/HistoricoLocacoes";
 import HomeLocador from "../pages/home/HomeLocador/HomeLocador";
 
 // Fluxo de Pagamento (Carrinho -> Método de Pagamento -> Selecionar Cartão/Pix -> Processando -> Aprovado)
@@ -44,9 +44,9 @@ export type RootStackParamList = {
   ReceiveTokenScreen: undefined,
   RecoveryPasswordScreen:undefined,
   Avaliacao: undefined,
-  DetalhesReserva: undefined,
-  MinhasReservas: undefined,
-  SolicitarReserva: undefined,
+  DetalhesLocacao: undefined,
+  MinhasLocacoes: undefined,
+  SolicitarLocacao: undefined,
   SolicitacaoEnviada: undefined,
   ProductScreen: undefined,
   CadastroFerramentaScreen: { ferramentaId?: string } | undefined,
@@ -87,11 +87,11 @@ export type RootStackParamList = {
 }
 
 /**
- * As telas do fluxo de Reservas (DetalhesReserva, MinhasReservas,
- * SolicitarReserva, SolicitacaoEnviada) foram escritas recebendo uma prop
+ * As telas do fluxo de Locacoes (DetalhesLocacao, MinhasLocacoes,
+ * SolicitarLocacao, SolicitacaoEnviada) foram escritas recebendo uma prop
  * `navigate: (route: string) => void`, usando chaves "de tela" em minúsculo
- * (ex.: 'minhasReservas', 'detalhesReserva') em vez dos nomes registrados
- * no `RootStackParamList` (ex.: 'MinhasReservas', 'DetalhesReserva').
+ * (ex.: 'minhasLocacoes', 'detalhesLocacao') em vez dos nomes registrados
+ * no `RootStackParamList` (ex.: 'MinhasLocacoes', 'DetalhesLocacao').
  *
  * Esse mapa traduz essas chaves para os nomes reais de rota, e o hook abaixo
  * gera a função `navigate` que essas telas esperam a partir da navegação
@@ -106,9 +106,9 @@ const MAPA_ROTAS_LEGADAS: Record<string, keyof RootStackParamList> = {
   HomeScreen: "HomeScreen",
   busca: "SearchScreen",
   avaliacao: "Avaliacao",
-  detalhesReserva: "DetalhesReserva",
-  minhasReservas: "MinhasReservas",
-  solicitarReserva: "SolicitarReserva",
+  detalhesLocacao: "DetalhesLocacao",
+  minhasLocacoes: "MinhasLocacoes",
+  solicitarLocacao: "SolicitarLocacao",
   solicitacaoEnviada: "SolicitacaoEnviada",
   produtoDetalhe: "HomeScreen",
   CadastroFerramentaScreen: "CadastroFerramentaScreen",
@@ -123,11 +123,11 @@ const MAPA_ROTAS_LEGADAS: Record<string, keyof RootStackParamList> = {
   processandoPagamento: "ProcessandoPagamentoScreen",
   pagamentoAprovado: "PagamentoAprovadoScreen",
   PerfilScreen: "PerfilScreen",
-  // Saída de "Pagamento Aprovado" para "Minhas Reservas". Chave própria (em vez de
-  // reaproveitar "minhasReservas") porque só esta saída precisa do reset de pilha
-  // abaixo — os demais usos de "minhasReservas" (ex.: DetalhesReserva, SolicitacaoEnviada)
+  // Saída de "Pagamento Aprovado" para "Minhas Locacoes". Chave própria (em vez de
+  // reaproveitar "minhasLocacoes") porque só esta saída precisa do reset de pilha
+  // abaixo — os demais usos de "minhasLocacoes" (ex.: DetalhesLocacao, SolicitacaoEnviada)
   // devem continuar empilhando normalmente.
-  minhasReservasPosPagamento: "MinhasReservas",
+  minhasLocacoesPosPagamento: "MinhasLocacoes",
   historicoLocacoes: "HistoricoLocacoesScreen",
   homeLocador: "HomeLocadorScreen",
   HomeLocadorScreen: "HomeLocadorScreen",
@@ -142,7 +142,7 @@ const MAPA_ROTAS_LEGADAS: Record<string, keyof RootStackParamList> = {
 // esses guards disparariam pouco depois (de forma assíncrona) e empurrariam o
 // Carrinho por cima do destino correto. Resetar a pilha remove essas telas antes que
 // os guards tenham chance de agir.
-const ROTAS_QUE_RESETAM_PILHA = new Set<string>(['home', 'HomeScreen', 'homeLocador', 'minhasReservasPosPagamento']);
+const ROTAS_QUE_RESETAM_PILHA = new Set<string>(['home', 'HomeScreen', 'homeLocador', 'minhasLocacoesPosPagamento']);
 
 function useLegacyNavigate() {
   const navigation =
@@ -166,19 +166,19 @@ function useLegacyNavigate() {
   };
 }
 
-function DetalhesReservaScreen() {
+function DetalhesLocacaoScreen() {
   const navigate = useLegacyNavigate();
-  return <DetalhesReserva navigate={navigate} />;
+  return <DetalhesLocacao navigate={navigate} />;
 }
 
-function MinhasReservasScreen() {
+function MinhasLocacoesScreen() {
   const navigate = useLegacyNavigate();
-  return <MinhasReservas navigate={navigate} />;
+  return <MinhasLocacoes navigate={navigate} />;
 }
 
-function SolicitarReservaScreen() {
+function SolicitarLocacaoScreen() {
   const navigate = useLegacyNavigate();
-  return <SolicitarReserva navigate={navigate} />;
+  return <SolicitarLocacao navigate={navigate} />;
 }
 
 function SolicitacaoEnviadaScreen() {
@@ -366,8 +366,8 @@ export default function AppRoutes() {
           }}
         />
         <Stack.Screen
-          name="DetalhesReserva"
-          component={withAuthGuard(DetalhesReservaScreen)}
+          name="DetalhesLocacao"
+          component={withAuthGuard(DetalhesLocacaoScreen)}
           options={{
             headerShown: false,
             title:"",
@@ -375,8 +375,8 @@ export default function AppRoutes() {
           }}
           />
           <Stack.Screen
-          name="MinhasReservas"
-          component={withAuthGuard(MinhasReservasScreen)}
+          name="MinhasLocacoes"
+          component={withAuthGuard(MinhasLocacoesScreen)}
            options={{
             headerShown: false,
             title:"",
@@ -384,8 +384,8 @@ export default function AppRoutes() {
           }}
           />
           <Stack.Screen
-          name="SolicitarReserva"
-          component={withAuthGuard(SolicitarReservaScreen)}
+          name="SolicitarLocacao"
+          component={withAuthGuard(SolicitarLocacaoScreen)}
            options={{
             headerShown: false,
             title:"",

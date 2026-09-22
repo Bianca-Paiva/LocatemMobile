@@ -10,7 +10,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../routes/AppRoutes';
 
 import Header from '../../../components/Layout/Header';
-import EstadoVazio from '../../../components/Reservas/MinhasReservas/EstadoVazio/EstadoVazio';
+import EstadoVazio from '../../../components/Locacoes/MinhasLocacoes/EstadoVazio/EstadoVazio';
 import FerramentaCard from '../../../components/Ferramentas/MinhasFerramentas/FerramentaCard';
 
 import { useFerramentas } from '../../../context/Ferramentas/FerramentasContext';

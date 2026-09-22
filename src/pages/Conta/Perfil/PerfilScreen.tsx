@@ -24,7 +24,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 interface Props {
     onNavigate?: (
-        route: 'minhasReservas' | 'notificacoes' | 'LoginScreen' 
+        route: 'minhasLocacoes' | 'notificacoes' | 'LoginScreen' 
     ) => void;
     /** Chamado quando o usuário sem sessão toca em "Entrar na conta" (espelha o botão equivalente da Web). */
     onEntrar?: () => void;

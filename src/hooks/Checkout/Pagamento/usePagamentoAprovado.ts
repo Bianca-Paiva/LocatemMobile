@@ -86,7 +86,7 @@ export function usePagamentoAprovado(navigate: (route: string) => void): UsePaga
   // Itens pagos = os que estavam selecionados no carrinho ao continuar para o pagamento.
   // Capturado em estado (não recalculado a partir do carrinho) apenas para exibição na
   // seção "Itens alugados" — não sumir da tela quando a limpeza abaixo remover os itens
-  // do contexto. A reserva desses itens já foi criada antes de chegar nesta tela (ver
+  // do contexto. A locacao desses itens já foi criada antes de chegar nesta tela (ver
   // useProcessandoPagamento.ts): esta tela só exibe o resultado do pagamento, não grava
   // nenhum dado de negócio.
   const [itensPagos] = useState<ItemCarrinho[]>(() => itens.filter((item) => item.selecionado));
@@ -139,12 +139,12 @@ export function usePagamentoAprovado(navigate: (route: string) => void): UsePaga
 
   function verDetalhesDoAluguel() {
     limparFunilDePagamento();
-    // Usa a chave dedicada 'minhasReservasPosPagamento' (resolvida em AppRoutes.tsx
-    // para a rota real "MinhasReservas" com reset de pilha), e não 'MinhasFerramentasScreen'
+    // Usa a chave dedicada 'minhasLocacoesPosPagamento' (resolvida em AppRoutes.tsx
+    // para a rota real "MinhasLocacoes" com reset de pilha), e não 'MinhasFerramentasScreen'
     // (tela de gerenciamento de anúncios do locador, tela errada) nem a chave genérica
-    // 'minhasReservas' (que apenas empilha e fica sujeita ao redirecionamento indevido
+    // 'minhasLocacoes' (que apenas empilha e fica sujeita ao redirecionamento indevido
     // para o Carrinho — ver comentário em AppRoutes.tsx).
-    navigate('minhasReservasPosPagamento');
+    navigate('minhasLocacoesPosPagamento');
   }
 
   function voltarParaInicio() {

@@ -1,6 +1,6 @@
 import type { ImageSourcePropType } from 'react-native';
 
-import type { LocacaoHistoricoData } from '../../Reservas/HistoricoLocacoes/HistoricoLocacoes.types';
+import type { LocacaoHistoricoData } from '../../Locacoes/HistoricoLocacoes/HistoricoLocacoes.types';
 
 /**
  * 'coletaParaEntrega': transportadora indo buscar a ferramenta COM O LOCADOR para entregar ao locatário.

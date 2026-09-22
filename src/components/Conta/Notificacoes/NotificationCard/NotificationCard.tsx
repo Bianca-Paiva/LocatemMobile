@@ -21,7 +21,7 @@ import {
 } from 'lucide-react-native';
 import type { LucideIcon } from 'lucide-react-native';
 
-import { STATUS_CONFIG } from '../../../Reservas/MinhasReservas/EtiquetaStatus/statusConfig';
+import { STATUS_CONFIG } from '../../../Locacoes/MinhasLocacoes/EtiquetaStatus/statusConfig';
 import type { NotificationData } from '../../../../pages/Conta/Notificacoes/Notificacoes.types';
 import { styles, ICON_BG_BY_TYPE } from './styles';
 
@@ -32,9 +32,9 @@ interface NotificationCardProps {
 }
 
 // Mapeia o "type" (estilo visual) ao ícone correspondente. Usado como fallback quando a
-// notificação não possui `statusReserva` (ex: promoção, mensagem, pagamento recusado).
+// notificação não possui `statusLocacao` (ex: promoção, mensagem, pagamento recusado).
 // Todos os ícones desta tela usam a biblioteca lucide-react-native, incluindo os mesmos
-// ícones usados em EtiquetaStatus (STATUS_CONFIG) para as notificações de reservas.
+// ícones usados em EtiquetaStatus (STATUS_CONFIG) para as notificações de locacoes.
 const ICON_BY_TYPE: Record<NotificationData['type'], LucideIcon> = {
   success: CheckCircle2,
   warning: AlertTriangle,
@@ -51,13 +51,13 @@ export default function NotificationCard({
   onRenovar,
   onVerDetalhes,
 }: NotificationCardProps) {
-  const { id, type, title, description, timestamp, extraInfo, showRenovar, statusReserva } =
+  const { id, type, title, description, timestamp, extraInfo, showRenovar, statusLocacao } =
     notification;
 
-  // Quando a notificação está atrelada a uma reserva, usa o mesmo ícone/cor de
-  // `STATUS_CONFIG` (o mesmo exibido em 'Minhas Reservas'); caso contrário, cai no
+  // Quando a notificação está atrelada a uma locacao, usa o mesmo ícone/cor de
+  // `STATUS_CONFIG` (o mesmo exibido em 'Minhas Locacoes'); caso contrário, cai no
   // ícone genérico baseado em `type`.
-  const configStatus = statusReserva ? STATUS_CONFIG[statusReserva] : null;
+  const configStatus = statusLocacao ? STATUS_CONFIG[statusLocacao] : null;
   const Icon = configStatus ? configStatus.icon : ICON_BY_TYPE[type];
   const iconBg = configStatus ? configStatus.fundo : ICON_BG_BY_TYPE[type].fundo;
   const iconColor = configStatus ? configStatus.cor : ICON_BG_BY_TYPE[type].cor;

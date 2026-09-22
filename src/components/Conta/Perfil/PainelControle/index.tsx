@@ -22,7 +22,7 @@ import type { TipoUsuario } from '../../../../types/Auth/usuario.types';
 import colors from '../../../../theme/colors';
 import { styles } from './styles';
 
-type RotaPainel = 'minhasReservas' | 'notificacoes';
+type RotaPainel = 'minhasLocacoes' | 'notificacoes';
 
 interface OpcaoPainel {
     icon: typeof Wrench;
@@ -37,7 +37,7 @@ interface OpcaoPainel {
 // precisar de uma opção exclusiva (ex: "Meus Anúncios"), mas hoje a lista é
 // única para os dois tipos de usuário.
 const OPCOES: OpcaoPainel[] = [
-    { icon: Wrench, titulo: 'Aluguéis Ativos', descricao: 'Visualize seus equipamentos alugados atualmente.', rota: 'minhasReservas' },
+    { icon: Wrench, titulo: 'Aluguéis Ativos', descricao: 'Visualize seus equipamentos alugados atualmente.', rota: 'minhasLocacoes' },
     { icon: Clock, titulo: 'Histórico de Locações', descricao: 'Consulte todas as suas locações anteriores.' },
     { icon: Heart, titulo: 'Favoritos', descricao: 'Ferramentas e equipamentos salvos.' },
     { icon: Wallet, titulo: 'Pagamentos', descricao: 'Visualize pagamentos, cauções e reembolsos.' },
@@ -74,7 +74,7 @@ export default function PainelControle({
                             // título ("Notificações" ? ... : 'minhasLocacoes'),
                             // o que fazia qualquer nova opção ativa cair sempre
                             // em 'minhasLocacoes' — uma rota que nem existe no
-                            // Stack.Navigator (o nome real é 'MinhasReservas').
+                            // Stack.Navigator (o nome real é 'MinhasLocacoes').
                             // Agora cada opção carrega sua própria rota, igual
                             // à Web (campo `route` de OpcaoPainel).
                             onPress={() => ativo && opcao.rota && onNavigate?.(opcao.rota)}

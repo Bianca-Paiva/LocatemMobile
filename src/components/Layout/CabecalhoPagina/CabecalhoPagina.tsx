@@ -5,7 +5,7 @@ import type { ViewStyle, StyleProp } from 'react-native';
 import { styles } from './styles';
 
 interface CabecalhoPaginaProps {
-    /** Título principal da página (ex: "Minhas Reservas") */
+    /** Título principal da página (ex: "Minhas Locacoes") */
     titulo: string;
     /** Texto de apoio abaixo do título (opcional) */
     subtitulo?: string;

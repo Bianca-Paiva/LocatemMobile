@@ -10,26 +10,26 @@ import { produtosAvaliacaoMock } from '../../pages/Avaliacao/Avaliacao.mock';
 import { obterLogoLocador } from '../../pages/Avaliacao/logoLocador';
 
 import type {
-  ReservaData,
-} from '../../pages/Reservas/MinhasReservas/MinhasReservas.types';
+  LocacaoData,
+} from '../../pages/Locacoes/MinhasLocacoes/MinhasLocacoes.types';
 
 const DURACAO_TOAST_MS = 3000;
 
 /**
- * Converte uma reserva finalizada
+ * Converte uma locacao finalizada
  * para um ProdutoAvaliacao.
  */
-function criarProdutoAvaliacaoAPartirDaReserva(
-  reserva: ReservaData
+function criarProdutoAvaliacaoAPartirDaLocacao(
+  locacao: LocacaoData
 ): ProdutoAvaliacao {
   return {
-    id: reserva.id,
+    id: locacao.id,
 
-    nome: reserva.produto,
+    nome: locacao.produto,
 
-    dataLocacao: `Locado em ${reserva.periodo}`,
+    dataLocacao: `Locado em ${locacao.periodo}`,
 
-    imagem: reserva.imagem,
+    imagem: locacao.imagem,
 
     status: 'pendente',
 
@@ -44,9 +44,9 @@ function criarProdutoAvaliacaoAPartirDaReserva(
     observacao: '',
 
     loja: {
-      nome: reserva.locador,
+      nome: locacao.locador,
       logo: obterLogoLocador(
-        reserva.locador
+        locacao.locador
       ),
     },
   };
@@ -158,28 +158,28 @@ export function useAvaliacoes() {
   }
 
   /**
-   * Inicia avaliação vinda da reserva.
+   * Inicia avaliação vinda da locacao.
    */
-  function iniciarAvaliacaoDaReserva(
-    reserva: ReservaData
+  function iniciarAvaliacaoDaLocacao(
+    locacao: LocacaoData
   ) {
     setProdutos((atual) => {
       const jaExiste = atual.some(
         (produto) =>
-          produto.id === reserva.id
+          produto.id === locacao.id
       );
 
       return jaExiste
         ? atual
         : [
-            criarProdutoAvaliacaoAPartirDaReserva(
-              reserva
+            criarProdutoAvaliacaoAPartirDaLocacao(
+              locacao
             ),
             ...atual,
           ];
     });
 
-    setIdAtual(reserva.id);
+    setIdAtual(locacao.id);
   }
 
   /**
@@ -359,7 +359,7 @@ export function useAvaliacoes() {
 
     abrirModal,
 
-    iniciarAvaliacaoDaReserva,
+    iniciarAvaliacaoDaLocacao,
 
     fecharModal,
 
