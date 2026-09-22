@@ -75,17 +75,17 @@ export const USUARIOS_MOCK: Usuario[] = [
   },
    {
     id: "u-Adm",
-    nome: "Bianca Heitor",
-    email: "gustavo.felipe@exemplo.com",
+    nome: "Administrador",
+    email: "tds03@exemplo.com",
     senha: "123456",
-    telefone: "(11) 98765-4321",
-    documento: "12.345.678/0001-90",
+    telefone: "0",
+    documento: "0",
     endereco:
       "Rua das Acácias, 247 – Apto 32, São Paulo, SP · 01310-100",
 
     tipo: "adm",
 
-    emailVerificado: false,
+    emailVerificado: true,
 
     desde: 2026,
 
