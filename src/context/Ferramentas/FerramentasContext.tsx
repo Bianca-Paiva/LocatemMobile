@@ -1,17 +1,17 @@
 // Contexto global de "Minhas Ferramentas".
 // Guarda em memória as ferramentas do usuário
 // e agora também carrega as ferramentas do backend.
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useMemo,
-  useEffect,
-} from 'react';
+import React, {createContext, useContext, useState, useMemo, useEffect,} from 'react';
 import type { ReactNode } from 'react';
 import type { CadastroFerramentaFormState } from '../../pages/Ferramentas/CadastroFerramenta/types';
-import { listarFerramentas } from '../../services/ferramentaService';
+import {
+  listarFerramentas,
+  listarCategorias,
+  editarFerramenta as editarFerramentaApi,
+  desativarFerramenta,
+} from '../../services/ferramentaService';
 
+import { moedaParaNumero } from '../../utils/Formatacao/masks';
 export type StatusFerramenta = 'ativa' | 'inativa';
 
 export interface Ferramenta extends CadastroFerramentaFormState {
@@ -95,31 +95,80 @@ setFerramentas(ferramentasConvertidas);
     setFerramentas((atual) => [nova, ...atual]);
   };
 
-  const editarFerramenta = (
-    id: string,
-    form: CadastroFerramentaFormState,
-  ) => {
-    setFerramentas((atual) =>
-      atual.map((f) => (f.id === id ? { ...f, ...form } : f)),
+  const editarFerramenta = async (
+  id: string,
+  form: CadastroFerramentaFormState,
+) => {
+  try {
+    // Busca as categorias para descobrir o ID da categoria escolhida
+    const categorias = await listarCategorias();
+
+    const categoriaSelecionada = categorias.find(
+      (categoria: { id: number; nome: string }) =>
+        categoria.nome === form.categoria,
     );
-  };
 
-  const removerFerramenta = (id: string) => {
-    setFerramentas((atual) => atual.filter((f) => f.id !== id));
-  };
+    if (!categoriaSelecionada) {
+      throw new Error(
+        'A categoria selecionada não foi encontrada.',
+      );
+    }
 
-  const alternarStatusFerramenta = (id: string) => {
+    await editarFerramentaApi(id, {
+      nome: form.nome,
+      marca: form.marca,
+      modelo: form.modelo,
+      descricao: form.descricao,
+      acessorios: form.acessorios,
+      diaria: moedaParaNumero(form.valorDiaria),
+      caucao: moedaParaNumero(form.caucao),
+      categoriaId: Number(categoriaSelecionada.id),
+    });
+
+    // Atualiza a lista da tela somente depois que a API respondeu com sucesso
     setFerramentas((atual) =>
       atual.map((f) =>
         f.id === id
           ? {
               ...f,
-              status: f.status === 'ativa' ? 'inativa' : 'ativa',
+              ...form,
             }
           : f,
       ),
     );
-  };
+  } catch (erro) {
+    console.error('ERRO AO EDITAR FERRAMENTA:', erro);
+    throw erro;
+  }
+};
+
+const removerFerramenta = async (id: string) => {
+  try {
+    // Desativa a ferramenta no banco
+    await desativarFerramenta(id);
+
+    // Depois que o banco confirmou, remove da lista da tela
+    setFerramentas((atual) =>
+      atual.filter((f) => f.id !== id),
+    );
+  } catch (erro) {
+    console.error('ERRO AO REMOVER FERRAMENTA:', erro);
+    throw erro;
+  }
+};
+
+const alternarStatusFerramenta = (id: string) => {
+  setFerramentas((atual) =>
+    atual.map((f) =>
+      f.id === id
+        ? {
+            ...f,
+            status: f.status === 'ativa' ? 'inativa' : 'ativa',
+          }
+        : f,
+    ),
+  );
+};
 
   const obterFerramenta = (id: string) =>
     ferramentas.find((f) => f.id === id);

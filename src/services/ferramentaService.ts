@@ -113,3 +113,82 @@ export async function listarCategorias() {
 
   return JSON.parse(texto);
 }
+
+export async function editarFerramenta(
+  id: string,
+  dados: {
+    nome: string;
+    marca: string;
+    modelo: string;
+    descricao: string;
+    acessorios: string[];
+    diaria: number;
+    caucao: number;
+    categoriaId: number;
+  },
+) {
+  const sessao = await carregarSessao();
+  const token = sessao?.token;
+
+  if (!token) {
+    throw new Error('Usuário não autenticado.');
+  }
+
+  const resposta = await fetch(
+    `${API_BASE_URL}/api/Ferramenta/${id}`,
+    {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(dados),
+    },
+  );
+
+  const texto = await resposta.text();
+
+  console.log('EDIÇÃO FERRAMENTA - STATUS:', resposta.status);
+  console.log('EDIÇÃO FERRAMENTA - RESPOSTA:', texto);
+
+  if (!resposta.ok) {
+    throw new Error(
+      `Erro ${resposta.status}: ${texto || resposta.statusText}`,
+    );
+  }
+
+ return texto;
+}
+
+export async function desativarFerramenta(id: string) {
+  const sessao = await carregarSessao();
+  const token = sessao?.token;
+
+  if (!token) {
+    throw new Error('Usuário não autenticado.');
+  }
+
+  const resposta = await fetch(
+    `${API_BASE_URL}/api/Ferramenta/${id}/Desativar`,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  const texto = await resposta.text();
+
+  console.log('DESATIVAR FERRAMENTA - STATUS:', resposta.status);
+  console.log('DESATIVAR FERRAMENTA - RESPOSTA:', texto);
+
+  if (!resposta.ok) {
+    throw new Error(
+      `Erro ${resposta.status}: ${texto || resposta.statusText}`,
+    );
+  }
+
+  return texto;
+}
