@@ -90,6 +90,10 @@ export default function Header({ cartCount }: HeaderProps) {
     const isLocador = usuario?.tipo === "locador" || usuario?.tipo === "adm";
     const isLocatario = usuario?.tipo === "locatario" || usuario?.tipo === "adm";
 
+    // Só o locador tem uma Home própria (mesma regra da Web); adm e locatário
+    // continuam indo para a HomeScreen.
+    const rotaInicio = (usuario?.tipo === "locador" ? "HomeLocadorScreen" : "HomeScreen") as ScreenName;
+
     useEffect(() => {
         if (drawerVisible) {
             Animated.parallel([
@@ -135,7 +139,7 @@ export default function Header({ cartCount }: HeaderProps) {
     const navItems: NavItem[] = [
         {
             label: "Início",
-            route: "HomeScreen" as ScreenName,
+            route: rotaInicio,
             visible: true,
             renderIcon: (active) => (
                 <MaterialCommunityIcons
@@ -285,7 +289,7 @@ export default function Header({ cartCount }: HeaderProps) {
 
                         <TouchableOpacity
                             style={styles.logo}
-                            onPress={() => handleNavigate("HomeScreen" as ScreenName)}
+                            onPress={() => handleNavigate(rotaInicio)}
                         >
                             <Image source={logoIcon} style={styles.logoImg} />
                             <Text style={styles.logoTexto}>LOCATEM</Text>
@@ -354,7 +358,7 @@ export default function Header({ cartCount }: HeaderProps) {
                     <View style={styles.drawerCabecalho}>
                         <TouchableOpacity
                             style={styles.drawerLogo}
-                            onPress={() => handleNavigate("HomeScreen" as ScreenName)}
+                            onPress={() => handleNavigate(rotaInicio)}
                         >
                             <Image source={logoIcon} style={styles.drawerLogoImg} />
                             <Text style={styles.drawerLogoTexto}>LOCATEM</Text>

@@ -22,6 +22,7 @@ import Carrinho from "../pages/Checkout/Carrinho/Carrinho";
 import SolicitarLocacaoCarrinho from "../pages/Checkout/Carrinho/SolicitarLocacaoCarrinho/SolicitarLocacaoCarrinho";
 import Notificacoes from "../pages/Conta/Notificacoes/Notificacoes";
 import HistoricoLocacoes from "../pages/Reservas/HistoricoLocacoes/HistoricoLocacoes";
+import HomeLocador from "../pages/home/HomeLocador/HomeLocador";
 
 // Fluxo de Pagamento (Carrinho -> Método de Pagamento -> Selecionar Cartão/Pix -> Processando -> Aprovado)
 import MetodoPagamento from "../pages/Checkout/Pagamento/MetodoPagamento/MetodoPagamento";
@@ -54,6 +55,7 @@ export type RootStackParamList = {
   NotificacoesScreen: undefined,
   PerfilScreen: undefined,
   HistoricoLocacoesScreen: undefined,
+  HomeLocadorScreen: undefined,
   /**
    * Tela "Detalhes da Locação" do fluxo "Adicionar ao carrinho" — equivalente,
    * no Mobile, ao modal `SolicitarLocacaoModal` da Web. Os parâmetros são a
@@ -127,6 +129,8 @@ const MAPA_ROTAS_LEGADAS: Record<string, keyof RootStackParamList> = {
   // devem continuar empilhando normalmente.
   minhasReservasPosPagamento: "MinhasReservas",
   historicoLocacoes: "HistoricoLocacoesScreen",
+  homeLocador: "HomeLocadorScreen",
+  HomeLocadorScreen: "HomeLocadorScreen",
 };
 
 // Rotas cujo destino deve substituir toda a pilha de navegação (equivalente a um
@@ -138,7 +142,7 @@ const MAPA_ROTAS_LEGADAS: Record<string, keyof RootStackParamList> = {
 // esses guards disparariam pouco depois (de forma assíncrona) e empurrariam o
 // Carrinho por cima do destino correto. Resetar a pilha remove essas telas antes que
 // os guards tenham chance de agir.
-const ROTAS_QUE_RESETAM_PILHA = new Set<string>(['home', 'HomeScreen', 'minhasReservasPosPagamento']);
+const ROTAS_QUE_RESETAM_PILHA = new Set<string>(['home', 'HomeScreen', 'homeLocador', 'minhasReservasPosPagamento']);
 
 function useLegacyNavigate() {
   const navigation =
@@ -243,6 +247,11 @@ function PerfilRoute() {
 function HistoricoLocacoesScreen() {
   const navigate = useLegacyNavigate();
   return <HistoricoLocacoes navigate={navigate} />;
+}
+
+function HomeLocadorRoute() {
+  const navigate = useLegacyNavigate();
+  return <HomeLocador navigate={navigate} />;
 }
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -493,6 +502,12 @@ export default function AppRoutes() {
       <Stack.Screen
         name="HistoricoLocacoesScreen"
         component={withAuthGuard(HistoricoLocacoesScreen)}
+        options={{ headerShown: false, title: "" }}
+      />
+
+      <Stack.Screen
+        name="HomeLocadorScreen"
+        component={withAuthGuard(HomeLocadorRoute)}
         options={{ headerShown: false, title: "" }}
       />
 

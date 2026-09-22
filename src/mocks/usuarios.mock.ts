@@ -30,7 +30,7 @@ export const USUARIOS_MOCK: Usuario[] = [
     email: "joao.silva@exemplo.com",
     senha: "123456",
     telefone: "(11) 98765-4321",
-    documento: "12.345.678/0001-90",
+    documento: "75.315.333/0001-09",
     endereco:
       "Rua das Acácias, 247 – Apto 32, São Paulo, SP · 01310-100",
 
