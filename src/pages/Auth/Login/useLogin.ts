@@ -58,14 +58,15 @@ export function useLogin(navigationParam?: LoginNavigation) {
     try {
       // Chama a função login do contexto. 
       // Ela já valida com os mocks, salva a sessão no AsyncStorage e atualiza o estado global.
-      await login(data.email, data.password);
+      const usuario = await login(data.email, data.password);
 
       setLoginSuccessMessage("Logado com Sucesso!!");
       
       setTimeout(() => {
         navigation.reset({
           index: 0,
-          routes: [{ name: "HomeScreen" }],
+          // Locador entra na Home própria (mesma regra da Web); os demais na HomeScreen.
+          routes: [{ name: usuario.tipo === "locador" ? "HomeLocadorScreen" : "HomeScreen" }],
         });
       }, 1200);
       

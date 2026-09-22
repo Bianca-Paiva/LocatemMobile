@@ -23,6 +23,9 @@ interface EstrelasAvaliacaoProps {
   variante?: VarianteEstrelas;
 
   descricaoContexto?: string;
+
+  /** Cor das estrelas preenchidas (padrão: azul do app). */
+  corAtiva?: string;
 }
 
 const QUANTIDADE_ESTRELAS = 5;
@@ -31,6 +34,7 @@ export function EstrelasAvaliacao({
   notaAtual,
   aoSelecionar,
   variante = 'lista',
+  corAtiva = '#1554F0',
 }: EstrelasAvaliacaoProps) {
   const interativo =
     Boolean(aoSelecionar);
@@ -78,7 +82,7 @@ export function EstrelasAvaliacao({
                 size={tamanho}
                 color={
                 preenchida
-                    ? '#1554F0'
+                    ? corAtiva
                     : '#DDDBD5'
                 }
             />
