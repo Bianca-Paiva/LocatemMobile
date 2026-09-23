@@ -390,7 +390,7 @@ export default function CadastroFerramentaScreen() {
     <SafeAreaView style={styles.safe} edges={['bottom', 'left', 'right']}>
       
       <View style={styles.tela}>
-        <View style={styles.cabecalho}>
+        {/* <View style={styles.cabecalho}>
           <TouchableOpacity
             style={styles.botaoVoltar}
             onPress={() =>
@@ -417,7 +417,7 @@ export default function CadastroFerramentaScreen() {
               Toque em cada card para preencher a seção
             </Text>
           </View>
-        </View>
+        </View> */}
 
         <ScrollView
           contentContainerStyle={styles.conteudo}

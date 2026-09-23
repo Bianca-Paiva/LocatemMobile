@@ -29,7 +29,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   cabecalhoTextos: {
-    flex: 1,
+    marginTop:10,
   },
   titulo: {
     fontSize: 18,

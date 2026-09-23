@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator, Text } from 'react-native';
+import styles from '../pages/Ferramentas/CadastroFerramenta/styles';
+import colors from '../theme/colors';
 
 import { createStackNavigator } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
@@ -381,17 +383,29 @@ export default function AppRoutes() {
         }}
         />
 
-        <Stack.Screen
+<Stack.Screen
           name="CadastroFerramentaScreen"
           component={withAuthGuard(CadastroFerramentaScreen)}
           options={{
              headerShown: true,
-             title:"",
-             headerTitle:"",
              headerShadowVisible: false,
+             // Substitua o 'title' padrão pelo 'headerTitle' customizado
+             headerTitle: () => (
+               
+                 <View style={styles.cabecalhoTextos}>
+                            <Text style={styles.titulo}>
+                                Cadastrar Ferramenta
+                            </Text>
+                
+                            <Text style={styles.subtitulo}>
+                              Toque em cada card para preencher a seção
+                            </Text>
+                  </View>
+             ),
              headerStyle: {
-            
-            },
+                 backgroundColor: '#fff',
+             },
+             headerTintColor: colors.textDark, 
           }}
         />
 
