@@ -10,9 +10,9 @@ import type { Produto } from '../../../../types/Ferramentas/produto.types';
 
 import Header from '../../../../components/Layout/Header';
 import CabecalhoPagina from '../../../../components/Layout/CabecalhoPagina/CabecalhoPagina';
-import ProdutoResumoCard from '../../../../components/Reservas/SolicitarReserva/ProdutoResumoCard/ProdutoResumoCard';
-import CampoData from '../../../../components/Reservas/SolicitarReserva/CampoData/CampoData';
-import HorarioDropdown from '../../../../components/Reservas/SolicitarReserva/HorarioDropdown/HorarioDropdown';
+import ProdutoResumoCard from '../../../../components/Locacoes/SolicitarLocacao/ProdutoResumoCard/ProdutoResumoCard';
+import CampoData from '../../../../components/Locacoes/SolicitarLocacao/CampoData/CampoData';
+import HorarioDropdown from '../../../../components/Locacoes/SolicitarLocacao/HorarioDropdown/HorarioDropdown';
 import SeletorQuantidade from '../../../../components/Shared/Inputs/SeletorQuantidade/SeletorQuantidade';
 
 import { usePagamentoStore } from '../../../../hooks/Checkout/Pagamento/usePagamentoStore';

@@ -1,5 +1,5 @@
 import type { Produto } from '../types/Ferramentas/produto.types';
-import type { ReservaData } from '../pages/Reservas/MinhasReservas/MinhasReservas.types';
+import type { LocacaoData } from '../pages/Locacoes/MinhasLocacoes/MinhasLocacoes.types';
 import type { ProdutoBusca } from '../pages/Search/Searchtypes';
 import type { Product } from '../components/Ferramentas/ProductCard/types';
 import type { ProdutoSemelhante } from '../pages/Ferramentas/ProductScreen/components/ProdutoSemelhantes/types';
@@ -54,16 +54,16 @@ export function toLegacyProduct(produto: ProdutoBusca): Product {
 
 /**
  * Recorta de um `Produto` do catálogo (`PRODUTOS_MOCK`) apenas os campos
- * que toda `ReservaData` reaproveita (ferramenta, imagem, locador, categoria,
- * avaliações e localização), evitando duplicar esses dados em cada mock de reserva.
+ * que toda `LocacaoData` reaproveita (ferramenta, imagem, locador, categoria,
+ * avaliações e localização), evitando duplicar esses dados em cada mock de locacao.
  *
  * Os campos retornados aqui não fazem parte de `DadosSolicitacao`: são sempre
  * derivados do produto de origem, nunca da própria solicitação.
  */
-export function toReservaProdutoBase(
+export function toLocacaoProdutoBase(
   produto: Produto
 ): Pick<
-  ReservaData,
+  LocacaoData,
   | 'produto'
   | 'imagem'
   | 'locador'

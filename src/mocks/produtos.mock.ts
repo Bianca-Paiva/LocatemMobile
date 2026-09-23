@@ -161,7 +161,7 @@ export const PRODUTOS_MOCK: Produto[] = [
             { label: 'Comprimento do cabo', valor: '8 metros' },
             { label: 'Peso', valor: '3,1 kg' },
         ],
-        acessorios: ['Bobina de fio de nylon reserva', 'Protetor de segurança', 'Manual de instruções'],
+        acessorios: ['Bobina de fio de nylon locacao', 'Protetor de segurança', 'Manual de instruções'],
         avaliacoes: [
             { nome: 'Roberto Aquino', rating: 4, tempo: 'Há 5 dias', texto: 'Corta bem grama alta, só senti um pouco de peso depois de um tempo de uso contínuo.', fotos: [], utilCount: 4 },
             { nome: 'Vanessa Melo', rating: 4, tempo: 'Há 2 semanas', texto: 'Boa pra manutenção do quintal, o fio dura bastante e não precisei recarregar no meio.', fotos: [], utilCount: 2 },
@@ -379,7 +379,7 @@ export const PRODUTOS_MOCK: Produto[] = [
             { label: 'Comprimento do cabo', valor: '8 metros' },
             { label: 'Peso', valor: '3,1 kg' },
         ],
-        acessorios: ['Bobina de fio de nylon reserva', 'Protetor de segurança', 'Manual de instruções'],
+        acessorios: ['Bobina de fio de nylon locacao', 'Protetor de segurança', 'Manual de instruções'],
         avaliacoes: [
             { nome: 'Roberto Aquino', rating: 5, tempo: 'Há 5 dias', texto: 'Corta bem grama alta, só senti um pouco de peso depois de um tempo de uso contínuo.', fotos: [], utilCount: 4 },
             { nome: 'Vanessa Melo', rating: 4, tempo: 'Há 2 semanas', texto: 'Boa pra manutenção do quintal, o fio dura bastante e não precisei recarregar no meio.', fotos: [], utilCount: 2 },
@@ -822,7 +822,7 @@ export const PRODUTOS_MOCK: Produto[] = [
             { label: 'Haste', valor: 'Telescópica extensível' },
             { label: 'Coleta de pó', valor: 'Saco coletor acoplado' },
         ],
-        acessorios: ['Saco coletor de pó', 'Disco de lixa reserva', 'Haste telescópica', 'Cabo extensor'],
+        acessorios: ['Saco coletor de pó', 'Disco de lixa locacao', 'Haste telescópica', 'Cabo extensor'],
         avaliacoes: [
             { nome: 'Wagner Siqueira', rating: 4, tempo: 'Há 4 dias', texto: 'Economizou muito tempo pra lixar o teto sem escada. O LED ajuda a enxergar falhas na massa.', fotos: [], utilCount: 5 },
             { nome: 'Cristiane Moraes', rating: 4, tempo: 'Há 2 semanas', texto: 'Saco coletor segura boa parte do pó, mas ainda suja um pouco o ambiente. No geral, bom custo-benefício.', fotos: [require('../../assets/images/imagesProdutos/lixadeiraTeto.png')], utilCount: 4 },

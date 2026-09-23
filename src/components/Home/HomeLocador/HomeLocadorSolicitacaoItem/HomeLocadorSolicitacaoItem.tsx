@@ -2,7 +2,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Calendar, ChevronRight } from 'lucide-react-native';
 
 import colors from '../../../../theme/colors';
-import EtiquetaStatus from '../../../Reservas/MinhasReservas/EtiquetaStatus/EtiquetaStatus';
+import EtiquetaStatus from '../../../Locacoes/MinhasLocacoes/EtiquetaStatus/EtiquetaStatus';
 import type { SolicitacaoRecenteLocador } from '../../../../pages/home/HomeLocador/HomeLocador.types';
 
 import { styles } from './styles';

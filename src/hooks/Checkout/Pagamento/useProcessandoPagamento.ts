@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { usePagamentoStore } from './usePagamentoStore';
 import { useCarrinhoStore } from '../../Carrinho/useCarrinhoStore';
-import { useReservaStore } from '../../Reservas/useReservaStore';
+import { useLocacaoStore } from '../../Locacoes/useLocacaoStore';
 import { calcularResumoAvaliacoes } from '../../../utils/Avaliacao/avaliacoesResumo';
 import {
   adicionarDias,
@@ -11,12 +11,12 @@ import {
   parseDataIso,
 } from '../../../utils/Locacoes/dataLocacao';
 import type { ItemCarrinho } from '../../../context/Checkout/Carrinho/CarrinhoContext';
-import type { ReservaData } from '../../../pages/Reservas/MinhasReservas/MinhasReservas.types';
+import type { LocacaoData } from '../../../pages/Locacoes/MinhasLocacoes/MinhasLocacoes.types';
 
 const TEMPO_PROCESSAMENTO_MS = 5000;
 
-// Mesma mensagem usada em MinhasReservas.mock.ts para reservas com pagamento
-// já confirmado — mantém o texto consistente com o restante da tela "Minhas Reservas".
+// Mesma mensagem usada em MinhasLocacoes.mock.ts para locacoes com pagamento
+// já confirmado — mantém o texto consistente com o restante da tela "Minhas Locacoes".
 const MENSAGEM_PAGAMENTO_CONFIRMADO = 'O pagamento foi confirmado e a entrega está sendo preparada';
 
 function formatarMoeda(valor: number): string {
@@ -24,13 +24,13 @@ function formatarMoeda(valor: number): string {
 }
 
 /**
- * Converte um item pago do carrinho em uma ReservaData, para que ele passe a
- * aparecer em "Minhas Reservas" assim que o pagamento é aprovado. O fluxo de
+ * Converte um item pago do carrinho em uma LocacaoData, para que ele passe a
+ * aparecer em "Minhas Locacoes" assim que o pagamento é aprovado. O fluxo de
  * Carrinho não coleta data/horário de entrega (diferente de "Solicitar
- * Reserva"), então o período é contado a partir de hoje pelos `dias` de
+ * Locacao"), então o período é contado a partir de hoje pelos `dias` de
  * locação escolhidos no carrinho.
  */
-function montarDadosReservaPago(item: ItemCarrinho): Omit<ReservaData, 'id'> {
+function montarDadosLocacaoPago(item: ItemCarrinho): Omit<LocacaoData, 'id'> {
   const hojeIso = getHojeIso();
   const fimIso = adicionarDias(hojeIso, item.dias);
   const anoFim = parseDataIso(fimIso)?.getFullYear() ?? new Date().getFullYear();
@@ -40,11 +40,11 @@ function montarDadosReservaPago(item: ItemCarrinho): Omit<ReservaData, 'id'> {
 
   // Média/quantidade de avaliações sempre calculadas a partir das avaliações
   // reais do produto, nunca de `rating`/`reviewCount` fixos — mesma regra
-  // usada em useSolicitarReserva.ts e ProductScreen.
+  // usada em useSolicitarLocacao.ts e ProductScreen.
   const resumoAvaliacoes = calcularResumoAvaliacoes(item.produto.avaliacoes);
 
   // Sem horário de entrega escolhido neste fluxo (diferente de "Solicitar
-  // Reserva"): usa a hora atual como início da janela, coerente com o aviso
+  // Locacao"): usa a hora atual como início da janela, coerente com o aviso
   // "Seu aluguel será entregue em até 3 horas" exibido na tela de sucesso.
   const horaAtual = `${String(new Date().getHours()).padStart(2, '0')}:00`;
 
@@ -77,7 +77,7 @@ export function useProcessandoPagamento(navigate: (route: string) => void): UseP
   // Método de pagamento já deve ter sido escolhido (Carrinho -> Método de Pagamento) antes de chegar aqui — sem ele, não há o que processar.
   const { metodo, marcarPagamentoProcessado } = usePagamentoStore();
   const { itens } = useCarrinhoStore();
-  const { adicionarReserva } = useReservaStore();
+  const { adicionarLocacao } = useLocacaoStore();
   const metodoValido = metodo !== null;
 
   // Itens pagos = os que estavam selecionados no carrinho ao continuar para o
@@ -95,11 +95,11 @@ export function useProcessandoPagamento(navigate: (route: string) => void): UseP
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [metodoValido]);
 
-  // CORREÇÃO: a reserva/aluguel de cada item pago não era criada em nenhum
+  // CORREÇÃO: a locacao/aluguel de cada item pago não era criada em nenhum
   // ponto do fluxo Carrinho -> Pagamento, então a ferramenta paga nunca
-  // chegava a existir em "Minhas Reservas" (a tela só lê do ReservaContext,
-  // via useReservaStore). Este é o único lugar do funil onde "pagamento
-  // aprovado" é, de fato, decidido — por isso a reserva é criada exatamente
+  // chegava a existir em "Minhas Locacoes" (a tela só lê do LocacaoContext,
+  // via useLocacaoStore). Este é o único lugar do funil onde "pagamento
+  // aprovado" é, de fato, decidido — por isso a locacao é criada exatamente
   // aqui, junto com marcarPagamentoProcessado(), e não como efeito colateral
   // da tela de sucesso (PagamentoAprovado é apenas exibição: sua montagem não
   // deveria ser a responsável por gravar dados de negócio).
@@ -108,7 +108,7 @@ export function useProcessandoPagamento(navigate: (route: string) => void): UseP
 
     const timer = setTimeout(() => {
       itensPagosRef.current.forEach((item) => {
-        adicionarReserva(montarDadosReservaPago(item));
+        adicionarLocacao(montarDadosLocacaoPago(item));
       });
 
       marcarPagamentoProcessado();

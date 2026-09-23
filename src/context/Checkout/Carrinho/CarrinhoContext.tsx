@@ -37,7 +37,7 @@ export const CarrinhoContext = createContext<CarrinhoContextType | null>(null);
 export function CarrinhoProvider({ children }: { children: ReactNode }) {
   const [itens, setItens] = useState<ItemCarrinho[]>([]);
 
-  // Só adiciona a ferramenta ao carrinho — não cria reserva, notificação nem
+  // Só adiciona a ferramenta ao carrinho — não cria locacao, notificação nem
   // dispara nenhum fluxo de aprovação/pagamento, igual ao "Adicionar ao
   // carrinho" da versão Web.
   const adicionarItem = (produto: Produto, quantidade = 1, dias = 1, entrega?: EntregaItemCarrinho) => {

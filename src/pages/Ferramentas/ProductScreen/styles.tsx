@@ -14,12 +14,13 @@ export const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
     paddingBottom: 40, // Respiro final para não colar no rodapé (Home Indicator do iPhone)
+     backgroundColor: '#ffffff',
   },
 
   // Um container invisível para agrupar as seções, caso precise de cor de fundo global
   contentContainer: {
     flex: 1,
-    backgroundColor: '#ffffff',
+   
   },
 
   // ── 2. SEÇÃO HERO (Imagem + Infos) ───────────────────────────────

@@ -43,7 +43,7 @@ const MESES_ABREVIADOS = [
   'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez',
 ];
 
-/** Formata "yyyy-mm-dd" para "dd Mmm" (ex: "10 Ago"), usado em resumos curtos de período (ex: ReservaData.periodo). */
+/** Formata "yyyy-mm-dd" para "dd Mmm" (ex: "10 Ago"), usado em resumos curtos de período (ex: LocacaoData.periodo). */
 export function formatarDataCurta(dataIso: string): string {
   const data = parseDataIso(dataIso);
   if (!data) return '';

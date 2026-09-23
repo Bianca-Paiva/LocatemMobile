@@ -21,7 +21,7 @@ import { styles } from './styles';
 ============================================================ */
 
 // Preço do produto vem como string ("599,98") vinda do cadastro — mesma
-// conversão usada em useSolicitarReserva.ts.
+// conversão usada em useSolicitarLocacao.ts.
 function precoDiariaDoProduto(price: string): number {
   const preco = Number(String(price).replace(',', '.'));
   return Number.isFinite(preco) ? preco : 0;
