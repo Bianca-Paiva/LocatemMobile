@@ -24,20 +24,15 @@ export const styles = StyleSheet.create({
   },
 
   // Overlay ocupa a tela toda só pra permitir fechar o menu tocando fora dele;
-  // o menu em si fica ancorado próximo ao topo direito, logo abaixo do botão.
+  // o menu em si é posicionado dinamicamente (veja `menuPosition` no componente),
+  // logo abaixo do botão que o abriu.
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.15)',
-    alignItems: 'flex-end',
-    paddingTop: 20,
-    paddingRight: 52,
   },
 
 menu: {
   position: 'absolute',
-
-  top: 150,
-  right: 52,
 
   width: 170,
 

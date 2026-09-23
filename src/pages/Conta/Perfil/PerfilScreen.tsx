@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { LogOut } from 'lucide-react-native';
 import {
-    Alert,
     Pressable,
     ScrollView,
     Text,
@@ -17,11 +16,13 @@ import InformacoesPessoais from '../../../components/Conta/Perfil/InformacoesPes
 import ReputacaoCard from '../../../components/Conta/Perfil/ReputacaoCard';
 import PainelControle from '../../../components/Conta/Perfil/PainelControle';
 import EditarPerfilModal from '../../../components/Conta/Perfil/EditarPerfilModal';
+import ConfirmModal from '../../../components/Shared/ConfirmModal/ConfirmModal';
 import { styles } from './styles';
 import Header from '../../../components/Layout/Header';
 import type { ScreenName } from '../../../components/Layout/Header/types';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
+/** Callbacks opcionais usados pela rota que hospeda a tela de perfil. */
 interface Props {
     onNavigate?: (
         route: 'minhasLocacoes' | 'notificacoes' | 'LoginScreen' 
@@ -44,14 +45,19 @@ export default function PerfilScreen({
     onLogout,
     onAlterarFoto,
 }: Props) {
+    // Controla a exibição do modal de edição dos dados do usuário.
     const [editando, setEditando] = useState(false);
+    // Controla a confirmação antes de encerrar a sessão atual.
+    const [confirmandoSaida, setConfirmandoSaida] = useState(false);
 
+    // Estado e ações globais da sessão autenticada.
     const {
         usuario,
         logout,
         atualizarUsuario,
     } = useAuth();
 
+    // Calcula o progresso e a orientação para completar o perfil do usuário.
     const {
         percentual,
         mensagemDica,
@@ -73,47 +79,42 @@ export default function PerfilScreen({
         ) : null );
     }
 
+    // Abre a confirmação para evitar saídas acidentais.
     const handleLogout = () => {
-        Alert.alert(
-            'Sair da conta',
-            'Deseja realmente sair?',
-            [
-                {
-                    text: 'Cancelar',
-                    style: 'cancel',
-                },
-                {
-                    text: 'Sair',
-                    style: 'destructive',
-                    onPress: () => {
-                        logout();
-                        onLogout?.();
-                    },
-                },
-            ]
-        );
+        setConfirmandoSaida(true);
+    };
+
+    // Fecha o modal, encerra a sessão e informa a rota para redirecionar.
+    const handleConfirmarLogout = () => {
+        setConfirmandoSaida(false);
+        logout();
+        onLogout?.();
     };
 
     return (
        <>
       
         <SafeAreaView style={styles.safe} edges={['bottom', 'left', 'right']}>
+            {/* Mantém todo o conteúdo rolável em telas menores. */}
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={styles.page}
             >
              <Header/>
             <View style={styles.containerCont}>
+                {/* Resumo visual do perfil e acesso à edição. */}
                 <PerfilHeader
                     usuario={usuario}
                     onEditar={() => setEditando(true)}
                 />
 
+                {/* Indicador de dados pendentes no cadastro. */}
                 <CompletarPerfil
                     percentual={percentual}
                     mensagemDica={mensagemDica}
                 />
 
+                {/* Informações da conta e reputação agrupadas na mesma seção. */}
                 <View style={styles.columns}>
                     <InformacoesPessoais
                         usuario={usuario}
@@ -126,11 +127,14 @@ export default function PerfilScreen({
                     />
                 </View>
 
+                {/* Atalhos disponíveis de acordo com o tipo de usuário. */}
                 <PainelControle
                     tipo={usuario.tipo}
                     onNavigate={onNavigate}
                 />
 
+                {/* Sair da Conta */}
+                
                 <Pressable
                     style={styles.logout}
                     onPress={handleLogout}
@@ -147,6 +151,7 @@ export default function PerfilScreen({
               </View>
             </ScrollView>
 
+            {/* O modal é montado apenas durante a edição. */}
             {editando && (
                 <EditarPerfilModal
                     usuario={usuario}
@@ -156,6 +161,17 @@ export default function PerfilScreen({
                 />
                 
             )}
+
+            {/* Solicita confirmação explícita antes de executar o logout. */}
+            <ConfirmModal
+                open={confirmandoSaida}
+                title="Sair da conta"
+                message="Deseja realmente sair?"
+                confirmLabel="Sair"
+                cancelLabel="Cancelar"
+                onConfirm={handleConfirmarLogout}
+                onCancel={() => setConfirmandoSaida(false)}
+            />
         </SafeAreaView>
      </> 
     );
