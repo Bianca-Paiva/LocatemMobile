@@ -11,7 +11,7 @@ import {
 } from '@expo-google-fonts/inter';
 
 import { FerramentasProvider } from './src/context/Ferramentas/FerramentasContext';
-import { ReservaProvider } from './src/context/Reservas/ReservaContext';
+import { LocacaoProvider } from './src/context/Locacoes/LocacaoContext';
 import { CarrinhoProvider } from "./src/context/Checkout/Carrinho/CarrinhoContext";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { CatalogoProvider } from './src/context/Ferramentas/Catalogo/CatalogoContext';
@@ -34,7 +34,7 @@ export default function App() {
     <AuthProvider>
       <CatalogoProvider>
         <FerramentasProvider>
-          <ReservaProvider>
+          <LocacaoProvider>
             <CarrinhoProvider>
               <PagamentoProvider>
                 <NavigationContainer>
@@ -42,7 +42,7 @@ export default function App() {
                 </NavigationContainer>
               </PagamentoProvider>
             </CarrinhoProvider>
-          </ReservaProvider>
+          </LocacaoProvider>
        </FerramentasProvider>
       </CatalogoProvider>
     </AuthProvider>

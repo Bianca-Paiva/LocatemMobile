@@ -24,7 +24,7 @@ import type { RootStackParamList } from "../../../routes/AppRoutes";
  * decidir se redireciona.
  *
  * Uso:
- *   <Stack.Screen name="MinhasReservas" component={withAuthGuard(MinhasReservasScreen)} />
+ *   <Stack.Screen name="MinhasLocacoes" component={withAuthGuard(MinhasLocacoesScreen)} />
  */
 export function withAuthGuard<P extends object>(
   Component: React.ComponentType<P>

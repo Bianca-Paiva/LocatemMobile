@@ -13,7 +13,7 @@ import type {
 //  Na Web esses dados ficam no localStorage (sobrevivem a reload de página).
 //  No app mobile não existe localStorage e a navegação é uma pilha de telas,
 //  então o mesmo papel é cumprido por um Context em memória — igual ao
-//  padrão já usado em CarrinhoContext/ProdutoContext/ReservaContext.
+//  padrão já usado em CarrinhoContext/ProdutoContext/LocacaoContext.
 // ============================================================
 
 /** Item exibido em "Itens alugados" quando a locação não passa pelo carrinho

@@ -5,7 +5,7 @@ import type { AvaliacaoProduto } from '../../types/Ferramentas/produto.types';
  * ferramenta a partir das avaliações reais dela (`Produto.avaliacoes`).
  *
  * Adaptado de `web/src/utils/avaliacoesResumo.ts`: a mesma conta é usada em
- * mais de um lugar no Mobile (tela de Produto e resumo de reserva), então
+ * mais de um lugar no Mobile (tela de Produto e resumo de locacao), então
  * fica centralizada aqui em vez de reimplementada em cada tela/adapter — e,
  * principalmente, evita depender de `rating`/`reviewCount`/`distribuicaoAvaliacoes`
  * fixos do mock, que podem ficar desatualizados em relação às avaliações reais.

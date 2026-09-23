@@ -1,19 +1,19 @@
 // Portado de LOCATEM-WEB-REACT/src/hooks/Home/useHomeLocador.ts, adaptado às
 // fontes de dados do Mobile:
 //  - ferramentas do locador: `useFerramentas()` (FerramentasContext);
-//  - locações do locador: `useReservaStore()` (mesmo store das demais telas).
+//  - locações do locador: `useLocacaoStore()` (mesmo store das demais telas).
 
 import { useMemo } from 'react';
 
 import { useAuth } from '../Auth/useAuth';
-import { useReservaStore } from '../Reservas/useReservaStore';
+import { useLocacaoStore } from '../Locacoes/useLocacaoStore';
 import { useFerramentas } from '../../context/Ferramentas/FerramentasContext';
 
 import { paraDataBr } from '../../utils/Formatacao/formatoDataBr';
 import { paraNumero } from '../../utils/Formatacao/valorMonetario';
 
-import type { StatusReserva } from '../../pages/Reservas/MinhasReservas/MinhasReservas.types';
-import type { LocacaoHistoricoData } from '../../pages/Reservas/HistoricoLocacoes/HistoricoLocacoes.types';
+import type { StatusLocacao } from '../../pages/Locacoes/MinhasLocacoes/MinhasLocacoes.types';
+import type { LocacaoHistoricoData } from '../../pages/Locacoes/HistoricoLocacoes/HistoricoLocacoes.types';
 import type {
   AgendaSemanaLocadorItem,
   ResumoHomeLocador,
@@ -26,13 +26,13 @@ const LIMITE_SOLICITACOES_RECENTES = 4;
 const LIMITE_AGENDA_SEMANA = 4;
 
 // A Web também considera 'confirmada' aqui, mas esse status ainda não existe
-// em `StatusReserva` no Mobile.
-const STATUS_COLETA_PARA_ENTREGA: StatusReserva[] = ['preparandoEntrega', 'emTransporte'];
-const STATUS_RETORNO_AO_LOCADOR: StatusReserva[] = ['aguardandoDevolucao', 'devolucaoEmTransporte'];
+// em `StatusLocacao` no Mobile.
+const STATUS_COLETA_PARA_ENTREGA: StatusLocacao[] = ['preparandoEntrega', 'emTransporte'];
+const STATUS_RETORNO_AO_LOCADOR: StatusLocacao[] = ['aguardandoDevolucao', 'devolucaoEmTransporte'];
 
 /**
  * Chave numérica para ordenar da mais recente para a mais antiga.
- * Assume os ids gerados pelo ReservaContext (`r-<timestamp>-<n>`); ids
+ * Assume os ids gerados pelo LocacaoContext (`r-<timestamp>-<n>`); ids
  * puramente numéricos (mocks) são usados como estão.
  */
 function chaveRecencia(id: string): number {
@@ -48,7 +48,7 @@ function valorLocacaoParaNumero(valor: string): number {
   return paraNumero(valor.replace('R$', '').trim());
 }
 
-/** Data em "dd/mm/aaaa" (formato das reservas). */
+/** Data em "dd/mm/aaaa" (formato das locacoes). */
 function estaNoMes(dataBr: string | undefined, mes: number, ano: number): boolean {
   if (!dataBr) return false;
 
@@ -65,7 +65,7 @@ function estaNoMesIso(dataIso: string, mes: number, ano: number): boolean {
 export function useHomeLocador() {
   const { usuario } = useAuth();
   const { ferramentas } = useFerramentas();
-  const { reservas } = useReservaStore();
+  const { locacoes } = useLocacaoStore();
 
   // `locadorId` ainda não existe no tipo `Usuario` do Mobile (só na Web) —
   // mesmo cast usado em HistoricoLocacoes.
@@ -79,14 +79,14 @@ export function useHomeLocador() {
 
   // Sem `locadorId` no usuário, não filtra (mesmo comportamento de HistoricoLocacoes).
   const minhasLocacoes = useMemo<LocacaoHistoricoData[]>(() => {
-    const todas = reservas as LocacaoHistoricoData[];
+    const todas = locacoes as LocacaoHistoricoData[];
 
     if (!locadorIdAtual) {
       return todas;
     }
 
     return todas.filter((l) => l.locadorId && l.locadorId === locadorIdAtual);
-  }, [reservas, locadorIdAtual]);
+  }, [locacoes, locadorIdAtual]);
 
   const resumo = useMemo<ResumoHomeLocador>(() => {
     const agora = new Date();

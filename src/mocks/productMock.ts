@@ -60,7 +60,7 @@ export const FALLBACK_PRODUTO = {
   locador: "HomePro Pro Store",
   estoqueDisponivel: 5,
   opcoesTensao: ["127V", "220V", "Bivolt"],
-  tipoAprovacao: 'manual', // Importante para o fluxo de reserva que construímos
+  tipoAprovacao: 'manual', // Importante para o fluxo de locacao que construímos
   
   // ATENÇÃO: Ajuste os caminhos dos requires conforme a sua pasta 'assets' real
   images: [

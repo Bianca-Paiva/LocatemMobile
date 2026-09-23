@@ -14,7 +14,7 @@ import { styles } from './styles';
 /**
  * Barra de abas de filtro com contador (ex: "Todas (18)", "Finalizadas (9)").
  *
- * Mesmo padrão visual de components/Reservas/MinhasReservas/ReservaAbas,
+ * Mesmo padrão visual de components/Locacoes/MinhasLocacoes/LocacaoAbas,
  * generalizado para qualquer conjunto de chaves — usado em Minhas Ferramentas,
  * Gerenciar Locações e Histórico de Locações.
  *

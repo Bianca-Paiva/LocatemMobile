@@ -18,7 +18,7 @@ import HomeLocadorCardNovaFerramenta from '../../../components/Home/HomeLocador/
 
 import { useExigirPerfil } from '../../../hooks/Auth/useProtegerRotaPorPerfil';
 import { useHomeLocador } from '../../../hooks/Home/useHomeLocador';
-import { useReservaStore } from '../../../hooks/Reservas/useReservaStore';
+import { useLocacaoStore } from '../../../hooks/Locacoes/useLocacaoStore';
 import { formatarValorMonetario } from '../../../utils/Formatacao/valorMonetario';
 import colors from '../../../theme/colors';
 
@@ -74,7 +74,7 @@ export default function HomeLocador({ navigate }: HomeLocadorProps) {
   const acessoPermitido = useExigirPerfil(navigate, 'locador', 'home');
   const { usuario, resumo, solicitacoesRecentes, agendaSemana, minhasFerramentas } =
     useHomeLocador();
-  const { setReservaSelecionada } = useReservaStore();
+  const { setLocacaoSelecionada } = useLocacaoStore();
 
   // `navigate` (prop) só recebe a rota; editar precisa do param `ferramentaId`,
   // então usamos a navegação do React Navigation direto nesse caso — mesmo
@@ -86,8 +86,8 @@ export default function HomeLocador({ navigate }: HomeLocadorProps) {
   }
 
   const handleVerDetalhesSolicitacao = (solicitacao: SolicitacaoRecenteLocador) => {
-    setReservaSelecionada(solicitacao);
-    navigate('detalhesReserva');
+    setLocacaoSelecionada(solicitacao);
+    navigate('detalhesLocacao');
   };
 
   // TODO: ainda não existe a tela de detalhe da ferramenta (a Web tem "Ver"

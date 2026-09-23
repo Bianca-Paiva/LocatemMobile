@@ -26,7 +26,7 @@ import {
 } from 'lucide-react-native';
 import type { LucideIcon } from 'lucide-react-native';
 
-import { STATUS_CONFIG } from '../../../Reservas/MinhasReservas/EtiquetaStatus/statusConfig';
+import { STATUS_CONFIG } from '../../../Locacoes/MinhasLocacoes/EtiquetaStatus/statusConfig';
 import type {
   NotificationCategory,
   NotificationData,
@@ -37,18 +37,18 @@ interface NotificationDetailsModalProps {
   notification: NotificationData | null; // null = modal fechado
   onClose: () => void;
   onRenovar?: (id: string) => void;
-  /** Leva o usuário até 'Detalhes da Reserva' com a reserva já selecionada
-   * (usado para "Ver reserva", "Efetuar pagamento", "Tentar pagamento novamente" etc). */
-  onVerReserva?: (reservaId: string) => void;
-  /** Leva o usuário até o fluxo de avaliação da reserva finalizada. */
-  onAvaliar?: (reservaId: string) => void;
+  /** Leva o usuário até 'Detalhes da Locacao' com a locacao já selecionada
+   * (usado para "Ver locacao", "Efetuar pagamento", "Tentar pagamento novamente" etc). */
+  onVerLocacao?: (locacaoId: string) => void;
+  /** Leva o usuário até o fluxo de avaliação da locacao finalizada. */
+  onAvaliar?: (locacaoId: string) => void;
   /** Leva o usuário até a busca de ferramentas (notificações de promoção). */
   onVerOfertas?: () => void;
 }
 
 // Ícone/cor genéricos por `type`, usados apenas quando a notificação não está atrelada
-// a uma reserva (ex: promoção, nova mensagem, pagamento recusado). Notificações de
-// reservas usam o mesmo ícone/cor de STATUS_CONFIG (EtiquetaStatus).
+// a uma locacao (ex: promoção, nova mensagem, pagamento recusado). Notificações de
+// locacoes usam o mesmo ícone/cor de STATUS_CONFIG (EtiquetaStatus).
 const ICON_BY_TYPE: Record<NotificationData['type'], LucideIcon> = {
   success: CheckCircle2,
   warning: AlertTriangle,
@@ -70,12 +70,12 @@ function getDetailRows(notification: NotificationData): DetailRow[] {
   const { categoria, details } = notification;
 
   switch (categoria) {
-    case 'reserva-confirmada':
+    case 'locacao-confirmada':
       return [
         { label: 'Equipamento', value: details.equipamento ?? '-' },
         { label: 'Status', value: details.status ?? '-' },
         { label: 'Confirmado em', value: details.dataConfirmacao ?? '-' },
-        { label: 'Período da reserva', value: details.periodoReserva ?? '-' },
+        { label: 'Período da locacao', value: details.periodoLocacao ?? '-' },
         { label: 'Valor', value: details.valor ?? '-' },
         { label: 'Forma de pagamento', value: details.formaPagamento ?? '-' },
       ];
@@ -108,7 +108,7 @@ function getDetailRows(notification: NotificationData): DetailRow[] {
         { label: 'Valor', value: details.valor ?? '-' },
       ];
 
-    case 'reserva-cancelada':
+    case 'locacao-cancelada':
       return [
         { label: 'Equipamento', value: details.equipamento ?? '-' },
         { label: 'Motivo', value: details.motivoCancelamento ?? '-' },
@@ -172,7 +172,7 @@ function getDetailRows(notification: NotificationData): DetailRow[] {
   }
 }
 
-type AlvoAcao = 'reserva' | 'avaliacao' | 'ofertas';
+type AlvoAcao = 'locacao' | 'avaliacao' | 'ofertas';
 
 interface AcaoConfig {
   label: string;
@@ -182,29 +182,29 @@ interface AcaoConfig {
 
 // Define o botão de ação principal do modal de acordo com a categoria da notificação,
 // levando o usuário para o próximo passo natural daquele fluxo (pagamento, avaliação,
-// detalhes da reserva, etc).
+// detalhes da locacao, etc).
 function getAcaoConfig(categoria: NotificationCategory): AcaoConfig | null {
   switch (categoria) {
-    case 'reserva-confirmada':
+    case 'locacao-confirmada':
     case 'entrega-andamento':
     case 'entrega-concluida':
     case 'devolucao-pendente':
     case 'devolucao-atrasada':
     case 'ferramenta-devolvida':
     case 'pagamento-confirmado':
-      return { label: 'Ver reserva', Icon: Eye, alvo: 'reserva' };
+      return { label: 'Ver locacao', Icon: Eye, alvo: 'locacao' };
 
-    case 'reserva-cancelada':
-      return { label: 'Ver detalhes', Icon: Eye, alvo: 'reserva' };
+    case 'locacao-cancelada':
+      return { label: 'Ver detalhes', Icon: Eye, alvo: 'locacao' };
 
     case 'pagamento-pendente':
-      return { label: 'Efetuar pagamento', Icon: CreditCard, alvo: 'reserva' };
+      return { label: 'Efetuar pagamento', Icon: CreditCard, alvo: 'locacao' };
 
     case 'pagamento-recusado':
-      return { label: 'Tentar pagamento novamente', Icon: CreditCard, alvo: 'reserva' };
+      return { label: 'Tentar pagamento novamente', Icon: CreditCard, alvo: 'locacao' };
 
     case 'avaliacao-pendente':
-      return { label: 'Avaliar reserva', Icon: Star, alvo: 'avaliacao' };
+      return { label: 'Avaliar locacao', Icon: Star, alvo: 'avaliacao' };
 
     case 'promocao-disponivel':
       return { label: 'Ver ofertas', Icon: Tag, alvo: 'ofertas' };
@@ -219,19 +219,19 @@ export default function NotificationDetailsModal({
   notification,
   onClose,
   onRenovar,
-  onVerReserva,
+  onVerLocacao,
   onAvaliar,
   onVerOfertas,
 }: NotificationDetailsModalProps) {
   if (!notification) return null; // nada selecionado, modal não renderiza
 
-  const { id, type, categoria, title, description, showRenovar, statusReserva, reservaId } =
+  const { id, type, categoria, title, description, showRenovar, statusLocacao, locacaoId } =
     notification;
 
-  // Quando a notificação está atrelada a uma reserva, usa o mesmo ícone/cor de
-  // STATUS_CONFIG (o mesmo exibido em 'Minhas Reservas'); caso contrário, cai no
+  // Quando a notificação está atrelada a uma locacao, usa o mesmo ícone/cor de
+  // STATUS_CONFIG (o mesmo exibido em 'Minhas Locacoes'); caso contrário, cai no
   // ícone genérico baseado em `type`.
-  const configStatus = statusReserva ? STATUS_CONFIG[statusReserva] : null;
+  const configStatus = statusLocacao ? STATUS_CONFIG[statusLocacao] : null;
   const Icon = configStatus ? configStatus.icon : ICON_BY_TYPE[type];
   const iconBg = configStatus ? configStatus.fundo : ICON_BG_BY_TYPE[type].fundo;
   const iconColor = configStatus ? configStatus.cor : ICON_BG_BY_TYPE[type].cor;
@@ -242,10 +242,10 @@ export default function NotificationDetailsModal({
   const showRenovarButton =
     (categoria === 'devolucao-pendente' || categoria === 'devolucao-atrasada') && showRenovar;
 
-  // Botão de ação contextual (avaliação, pagamento, ver reserva, ofertas...) de acordo
+  // Botão de ação contextual (avaliação, pagamento, ver locacao, ofertas...) de acordo
   // com a categoria da notificação. Só é exibido quando há para onde navegar.
   const acaoConfig = getAcaoConfig(categoria);
-  const showAcaoButton = !!acaoConfig && (acaoConfig.alvo === 'ofertas' || !!reservaId);
+  const showAcaoButton = !!acaoConfig && (acaoConfig.alvo === 'ofertas' || !!locacaoId);
 
   const handleRenovar = () => {
     onRenovar?.(id);
@@ -255,10 +255,10 @@ export default function NotificationDetailsModal({
   const handleAcao = () => {
     if (!acaoConfig) return;
 
-    if (acaoConfig.alvo === 'reserva' && reservaId) {
-      onVerReserva?.(reservaId);
-    } else if (acaoConfig.alvo === 'avaliacao' && reservaId) {
-      onAvaliar?.(reservaId);
+    if (acaoConfig.alvo === 'locacao' && locacaoId) {
+      onVerLocacao?.(locacaoId);
+    } else if (acaoConfig.alvo === 'avaliacao' && locacaoId) {
+      onAvaliar?.(locacaoId);
     } else if (acaoConfig.alvo === 'ofertas') {
       onVerOfertas?.();
     }
@@ -302,7 +302,7 @@ export default function NotificationDetailsModal({
                 {showRenovarButton ? (
                   <Pressable style={styles.actionButton} onPress={handleRenovar}>
                     <RefreshCw size={14} color="#1A1A1A" />
-                    <Text style={styles.actionButtonText}>Renovar reserva</Text>
+                    <Text style={styles.actionButtonText}>Renovar locacao</Text>
                   </Pressable>
                 ) : null}
 
