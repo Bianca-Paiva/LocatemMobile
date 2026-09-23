@@ -47,6 +47,7 @@ export default function CadastroFerramentaScreen() {
   const route = useRoute<CadastroFerramentaRoute>();
 
   const {
+    adicionarFerramenta,
     editarFerramenta,
     obterFerramenta,
   } = useFerramentas();
@@ -82,8 +83,8 @@ export default function CadastroFerramentaScreen() {
   const erros = tentouPublicar ? errosCalculados : {};
 
   const totalCompletas = modoEdicao
-  ? SECOES.length
-  : SECOES.filter(
+    ? SECOES.length
+    : SECOES.filter(
       (s) => secaoEstaCompleta(s.id, form),
     ).length;
 
@@ -201,16 +202,7 @@ export default function CadastroFerramentaScreen() {
         return;
       }
 
-      await cadastrarFerramenta({
-        nome: form.nome,
-        marca: form.marca,
-        modelo: form.modelo,
-        descricao: form.descricao,
-        acessorios: form.acessorios,
-        diaria: moedaParaNumero(form.valorDiaria),
-        caucao: moedaParaNumero(form.caucao),
-        categoriaId: Number(categoriaSelecionada.id),
-      });
+      await adicionarFerramenta(form);
 
       Alert.alert(
         'Ferramenta cadastrada!',
@@ -422,26 +414,26 @@ export default function CadastroFerramentaScreen() {
         <View style={styles.grid}>
           {SECOES.map((secao) => (
             <SecaoCard
-            key={secao.id}
-            icone={secao.icone}
-            titulo={secao.titulo}
-            obrigatorio={modoEdicao ? false : secao.obrigatorio}
-            completo={
-            modoEdicao
-            ? true
-            : secaoEstaCompleta(secao.id, form)
-           }
-           comErro={
-           !modoEdicao &&
-           tentouPublicar &&
-           secaoTemErro(
-           secao.id,
-           errosCalculados,
-           )
-          }
-          onPress={() =>
-          setSecaoAberta(secao.id)
-          }
+              key={secao.id}
+              icone={secao.icone}
+              titulo={secao.titulo}
+              obrigatorio={modoEdicao ? false : secao.obrigatorio}
+              completo={
+                modoEdicao
+                  ? true
+                  : secaoEstaCompleta(secao.id, form)
+              }
+              comErro={
+                !modoEdicao &&
+                tentouPublicar &&
+                secaoTemErro(
+                  secao.id,
+                  errosCalculados,
+                )
+              }
+              onPress={() =>
+                setSecaoAberta(secao.id)
+              }
             />
           ))}
         </View>
