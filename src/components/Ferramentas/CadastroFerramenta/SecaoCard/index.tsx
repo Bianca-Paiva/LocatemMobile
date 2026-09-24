@@ -24,26 +24,28 @@ export default function SecaoCard({
         <MaterialCommunityIcons name={icone as any} size={20} color={colors.amber} />
       </View>
 
-      <View>
-        <Text style={styles.titulo} numberOfLines={2}>
-          {titulo}
-          {obrigatorio ? <Text style={styles.obrigatorio}> *</Text> : null}
-        </Text>
+      <View style={{ flex: 1, justifyContent: 'flex-end' }}>
+              {/* O minHeight (ex: 40 a 44) garante o alinhamento de todos os cards */}
+              <Text style={[styles.titulo, { minHeight: 40 }]} numberOfLines={2}>
+                {titulo}
+                {/* Renderiza o asterisco apenas se for obrigatório */}
+                {obrigatorio && <Text style={styles.obrigatorio}> *</Text>}
+              </Text>
 
-        <View style={styles.statusRow}>
-          {comErro ? (
-            <>
-              <MaterialCommunityIcons name="alert-circle" size={13} color={colors.error} />
-              <Text style={[styles.statusTexto, styles.statusTextoErro]}>Pendente</Text>
-            </>
-          ) : completo ? (
-            <>
-              <MaterialCommunityIcons name="check-circle" size={13} color={colors.success} />
-              <Text style={[styles.statusTexto, styles.statusTextoCompleto]}>Completo</Text>
-            </>
-          ) : (
-            <Text style={styles.statusTexto}>Toque para preencher</Text>
-          )}
+              <View style={styles.statusRow}>
+                {comErro ? (
+                  <>
+                    <MaterialCommunityIcons name="alert-circle" size={13} color={colors.error} />
+                    <Text style={[styles.statusTexto, styles.statusTextoErro]}>Pendente</Text>
+                  </>
+                ) : completo ? (
+                  <>
+                    <MaterialCommunityIcons name="check-circle" size={13} color={colors.success} />
+                    <Text style={[styles.statusTexto, styles.statusTextoCompleto]}>Completo</Text>
+                  </>
+                ) : (
+                  <Text style={styles.statusTexto}>Toque para preencher</Text>
+                )}
         </View>
       </View>
     </TouchableOpacity>
