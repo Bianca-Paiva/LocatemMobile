@@ -1,3 +1,8 @@
+import React, { useEffect, useState } from 'react';
+import { View, ActivityIndicator, Text } from 'react-native';
+import styles from '../pages/Ferramentas/CadastroFerramenta/styles';
+import colors from '../theme/colors';
+
 import { createStackNavigator } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
 import type { StackNavigationProp} from "@react-navigation/stack";
@@ -257,8 +262,45 @@ function HomeLocadorRoute() {
 const Stack = createStackNavigator<RootStackParamList>();
 
 export default function AppRoutes() {
+
+  // Obtenm os dados do usuário e o status de carregamento do seu gerenciador de estado
+  // const { user, isLoading } = useAuth(); 
+  
+  // MOCK PARA EXEMPLO (substitua pelo seu hook real):
+  const isLoading = false;
+  const user = { tipo: 'locador' }; 
+
+  // Segura a renderização das rotas enquanto verifica o usuário
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+  //  Define qual será a tela inicial com base no tipo
+  let telaInicial: keyof RootStackParamList = "HomeScreen"; // Padrão para não logado / locatário
+
+  if (user) {
+    switch (user.tipo) {
+      case 'locador':
+        telaInicial = "HomeLocadorScreen";
+        break;
+      case 'adm':
+        // telaInicial = "HomeAdmScreen"; // Crie/adicione a tela de ADM
+        telaInicial = "HomeScreen";
+        break;
+      case 'locatario':
+        telaInicial = "HomeScreen"; 
+        break;
+      default:
+        telaInicial = "HomeScreen";
+    }
+  }
+
   return (
     <Stack.Navigator
+      initialRouteName={telaInicial}
       screenOptions={{
         headerShown: false,
       }}
@@ -341,11 +383,29 @@ export default function AppRoutes() {
         }}
         />
 
-        <Stack.Screen
+<Stack.Screen
           name="CadastroFerramentaScreen"
           component={withAuthGuard(CadastroFerramentaScreen)}
           options={{
-            headerShown: false,
+             headerShown: true,
+             headerShadowVisible: false,
+             // Substitua o 'title' padrão pelo 'headerTitle' customizado
+             headerTitle: () => (
+               
+                 <View style={styles.cabecalhoTextos}>
+                            <Text style={styles.titulo}>
+                                Cadastrar Ferramenta
+                            </Text>
+                
+                            <Text style={styles.subtitulo}>
+                              Toque em cada card para preencher a seção
+                            </Text>
+                  </View>
+             ),
+             headerStyle: {
+                 backgroundColor: '#fff',
+             },
+             headerTintColor: colors.textDark, 
           }}
         />
 

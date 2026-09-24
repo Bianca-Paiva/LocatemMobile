@@ -176,6 +176,7 @@ setFerramentas(ferramentasConvertidas);
   } catch (erro) {
     console.error('ERRO AO EDITAR FERRAMENTA:', erro);
     throw erro;
+    
   }
 };
 

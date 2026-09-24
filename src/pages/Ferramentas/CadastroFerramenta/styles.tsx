@@ -2,6 +2,10 @@ import { StyleSheet, Platform } from 'react-native';
 import colors from '../../../theme/colors';
 
 export default StyleSheet.create({
+      safe: {
+        flex: 1,
+        paddingTop: Platform.OS === 'ios' ? 58 : 24,
+    },
   tela: {
     flex: 1,
     backgroundColor: colors.bgApp,
@@ -25,7 +29,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   cabecalhoTextos: {
-    flex: 1,
+    marginTop:10,
   },
   titulo: {
     fontSize: 18,

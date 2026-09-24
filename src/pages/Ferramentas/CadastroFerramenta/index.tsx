@@ -37,6 +37,8 @@ import styles from './styles';
 import colors from '../../../theme/colors';
 import { moedaParaNumero } from '../../../utils/Formatacao/masks';
 
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 type CadastroFerramentaRoute = RouteProp<
   RootStackParamList,
   'CadastroFerramentaScreen'
@@ -377,104 +379,107 @@ export default function CadastroFerramentaScreen() {
   };
 
   return (
-    <View style={styles.tela}>
-      <View style={styles.cabecalho}>
-        <TouchableOpacity
-          style={styles.botaoVoltar}
-          onPress={() =>
-            navigation.canGoBack() &&
-            navigation.goBack()
-          }
-          accessibilityLabel="Voltar"
+    <SafeAreaView style={styles.safe} edges={['bottom', 'left', 'right']}>
+      
+      <View style={styles.tela}>
+        {/* <View style={styles.cabecalho}>
+          <TouchableOpacity
+            style={styles.botaoVoltar}
+            onPress={() =>
+              navigation.canGoBack() &&
+              navigation.goBack()
+            }
+            accessibilityLabel="Voltar"
+          >
+            <MaterialCommunityIcons
+              name="arrow-left"
+              size={22}
+              color={colors.textDark}
+            />
+          </TouchableOpacity>
+
+          <View style={styles.cabecalhoTextos}>
+            <Text style={styles.titulo}>
+              {modoEdicao
+                ? 'Editar Ferramenta'
+                : 'Cadastrar Ferramenta'}
+            </Text>
+
+            <Text style={styles.subtitulo}>
+              Toque em cada card para preencher a seção
+            </Text>
+          </View>
+        </View> */}
+
+        <ScrollView
+          contentContainerStyle={styles.conteudo}
+          showsVerticalScrollIndicator={false}
         >
-          <MaterialCommunityIcons
-            name="arrow-left"
-            size={22}
-            color={colors.textDark}
-          />
-        </TouchableOpacity>
-
-        <View style={styles.cabecalhoTextos}>
-          <Text style={styles.titulo}>
-            {modoEdicao
-              ? 'Editar Ferramenta'
-              : 'Cadastrar Ferramenta'}
-          </Text>
-
-          <Text style={styles.subtitulo}>
-            Toque em cada card para preencher a seção
-          </Text>
-        </View>
-      </View>
-
-      <ScrollView
-        contentContainerStyle={styles.conteudo}
-        showsVerticalScrollIndicator={false}
-      >
-        <View style={styles.grid}>
-          {SECOES.map((secao) => (
-            <SecaoCard
+          <View style={styles.grid}>
+            {SECOES.map((secao) => (
+              <SecaoCard
               key={secao.id}
               icone={secao.icone}
               titulo={secao.titulo}
               obrigatorio={modoEdicao ? false : secao.obrigatorio}
               completo={
-                modoEdicao
-                  ? true
-                  : secaoEstaCompleta(secao.id, form)
-              }
-              comErro={
-                !modoEdicao &&
-                tentouPublicar &&
-                secaoTemErro(
-                  secao.id,
-                  errosCalculados,
-                )
-              }
-              onPress={() =>
-                setSecaoAberta(secao.id)
-              }
-            />
-          ))}
-        </View>
-      </ScrollView>
+              modoEdicao
+              ? true
+              : secaoEstaCompleta(secao.id, form)
+            }
+            comErro={
+            !modoEdicao &&
+            tentouPublicar &&
+            secaoTemErro(
+            secao.id,
+            errosCalculados,
+            )
+            }
+            onPress={() =>
+            setSecaoAberta(secao.id)
+            }
+              />
+            ))}
+          </View>
+        </ScrollView>
 
-      <View style={styles.barraInferior}>
-        <Text style={styles.progresso}>
-          {totalCompletas} de {SECOES.length} seções completas
-        </Text>
-
-        <TouchableOpacity
-          style={styles.botaoPublicar}
-          onPress={handlePublicar}
-          activeOpacity={0.85}
-        >
-          <Text style={styles.botaoPublicarTexto}>
-            {modoEdicao
-              ? 'Salvar Alterações'
-              : 'Publicar Ferramenta'}
+        <View style={styles.barraInferior}>
+          <Text style={styles.progresso}>
+            {totalCompletas} de {SECOES.length} seções completas
           </Text>
-        </TouchableOpacity>
-      </View>
 
-      {SECOES.map((secao) => (
-        <SecaoModal
-          key={secao.id}
-          visible={secaoAberta === secao.id}
-          onClose={() => setSecaoAberta(null)}
-          icone={secao.icone}
-          titulo={secao.titulo}
-          obrigatorio={secao.obrigatorio}
-          subtitulo={secao.subtitulo}
-          scrollEnabled={
-            secao.id === 'fotos'
-              ? !arrastandoFoto
-              : true
-          }
-        >
-          {renderConteudoSecao(secao.id)}
-        </SecaoModal>
-      ))}
-    </View>
+          <TouchableOpacity
+            style={styles.botaoPublicar}
+            onPress={handlePublicar}
+            activeOpacity={0.85}
+          >
+            <Text style={styles.botaoPublicarTexto}>
+              {modoEdicao
+                ? 'Salvar Alterações'
+                : 'Publicar Ferramenta'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {SECOES.map((secao) => (
+          <SecaoModal
+            key={secao.id}
+            visible={secaoAberta === secao.id}
+            onClose={() => setSecaoAberta(null)}
+            icone={secao.icone}
+            titulo={secao.titulo}
+            obrigatorio={secao.obrigatorio}
+            subtitulo={secao.subtitulo}
+            scrollEnabled={
+              secao.id === 'fotos'
+                ? !arrastandoFoto
+                : true
+            }
+          >
+            {renderConteudoSecao(secao.id)}
+          </SecaoModal>
+        ))}
+      </View>
+    </SafeAreaView>
   );
 }
