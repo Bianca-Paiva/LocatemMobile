@@ -1,10 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  View,
-  Text,
-} from "react-native";
+import { ScrollView, View } from "react-native";
 import { styles } from "./styles";
 // ===========================
 // Navegação
@@ -25,6 +20,8 @@ import SortFilter from "../../components/Busca/SortFilter";
 import FilterDrawer from "../../components/Busca/FilterDrawer";
 import Paginacao from "../../components/Busca/Paginacao";
 import { ProductCard } from "../../components/Ferramentas/ProductCard";
+import EstadoVazioBusca from "../../components/Busca/EstadoVazioBusca";
+import ProdutosRecomendados from "../../components/Busca/ProdutosRecomendados";
 
 // ===========================
 // Catálogo real, tipos e adapters
@@ -34,6 +31,8 @@ import { useCatalogoStore } from "../../hooks/Ferramentas/useCatalogoStore";
 import { useProdutoStore } from "../../hooks/Ferramentas/useProdutoStore";
 import { toProdutoBusca, toLegacyProduct } from "../../mocks/produtos.adapters";
 import { derivarCategorias, derivarMarcas } from "../../utils/Ferramentas/Catalogo/categorias";
+import { filtrarProdutos } from "../../utils/Busca/filtrarProdutos";
+import { useDebouncedValue } from "../../hooks/useDebouncedValue";
 import type { ProdutoBusca, FilterState } from "./Searchtypes";
 import { FILTROS_VAZIOS } from "./Searchtypes";
 
@@ -76,7 +75,13 @@ export const SearchScreen = () => {
   // ===========================
 
   // Texto pesquisado (a barra de pesquisa do cabeçalho funciona em qualquer momento).
+  // `search` muda a cada tecla digitada — o input precisa refletir isso
+  // imediatamente pra não parecer travado. `debouncedSearch` só atualiza
+  // 300ms depois que o usuário parar de digitar, e é esse valor que
+  // realmente dispara a filtragem da lista (ver `filteredProducts` abaixo).
+  // Isso evita refiltrar o catálogo inteiro a cada caractere digitado.
   const [search, setSearch] = useState(pesquisaInicial);
+  const debouncedSearch = useDebouncedValue(search, 300);
 
   // Sempre que a tela receber um novo termo de pesquisa vindo de outra tela
   // (ex: usuário pesquisou de novo a partir da Home), atualiza o texto local.
@@ -95,65 +100,24 @@ export const SearchScreen = () => {
   // Página atual da listagem
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Sempre que o termo pesquisado, a ordenação ou os filtros mudarem, volta
-  // pra primeira página pra não deixar a paginação "presa" fora do range.
+  // Sempre que o termo pesquisado (já com debounce), a ordenação ou os
+  // filtros mudarem, volta pra primeira página pra não deixar a paginação
+  // "presa" fora do range.
   useEffect(() => {
     setCurrentPage(1);
-  }, [search, sort, filters]);
+  }, [debouncedSearch, sort, filters]);
 
   // ===========================
   // Filtragem (mesma lógica usada na página de Busca do Web)
+  // Lógica extraída para `src/utils/Busca/filtrarProdutos.ts` — pura e
+  // coberta por testes automatizados, ver roteiro/testes nesse arquivo.
+  // Usa o termo com debounce (ver abaixo) em vez do valor "cru" do input,
+  // pra não refiltrar a cada tecla digitada.
   // ===========================
-  const filteredProducts = useMemo(() => {
-    return produtosBusca.filter((product) => {
-      const productPrice = parseFloat(product.price.replace(",", "."));
-
-      if (filters.categories.length > 0 && !filters.categories.includes(product.categoria)) {
-        return false;
-      }
-      if (filters.brands.length > 0 && !filters.brands.includes(product.marca)) {
-        return false;
-      }
-      if (filters.brandSearch && !product.marca.toLowerCase().includes(filters.brandSearch.toLowerCase())) {
-        return false;
-      }
-      if (filters.voltagens.length > 0) {
-        if (!product.voltagem || !filters.voltagens.includes(product.voltagem)) return false;
-      }
-      if (filters.priceRanges.length > 0) {
-        const matchRange = filters.priceRanges.some((range) => {
-          if (range === "R$0 - R$50") return productPrice >= 0 && productPrice <= 50;
-          if (range === "R$51 - R$100") return productPrice >= 51 && productPrice <= 100;
-          if (range === "R$101 - R$200") return productPrice >= 101 && productPrice <= 200;
-          if (range === "R$201+") return productPrice > 200;
-          return false;
-        });
-        if (!matchRange) return false;
-      }
-      if (filters.paymentMethods.length > 0) {
-        const matchPayment = product.paymentMethods.some((method) =>
-          filters.paymentMethods.includes(method)
-        );
-        if (!matchPayment) return false;
-      }
-      if (filters.availability) {
-        if (filters.availability === "Disponível para Aluguel" && !product.available) return false;
-        if (filters.availability === "Indisponível para Aluguel" && product.available) return false;
-      }
-      if (filters.minRating !== null && product.rating < filters.minRating) return false;
-
-      if (search.trim()) {
-        const termo = search.trim().toLowerCase();
-        const correspondeTermo =
-          product.title.toLowerCase().includes(termo) ||
-          product.marca.toLowerCase().includes(termo) ||
-          product.categoria.toLowerCase().includes(termo);
-        if (!correspondeTermo) return false;
-      }
-
-      return true;
-    });
-  }, [produtosBusca, filters, search]);
+  const filteredProducts = useMemo(
+    () => filtrarProdutos(produtosBusca, filters, debouncedSearch),
+    [produtosBusca, filters, debouncedSearch]
+  );
 
   // ===========================
   // Ordenação
@@ -177,6 +141,26 @@ export const SearchScreen = () => {
   const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
   const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
   const currentProducts = sortedProducts.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Indica se algum filtro do FilterDrawer está ativo — usado pra decidir
+  // a mensagem do estado vazio e se o botão "Limpar filtros" aparece.
+  const temFiltrosAtivos = useMemo(
+    () =>
+      filters.categories.length > 0 ||
+      filters.brands.length > 0 ||
+      filters.brandSearch.trim().length > 0 ||
+      filters.voltagens.length > 0 ||
+      filters.priceRanges.length > 0 ||
+      filters.paymentMethods.length > 0 ||
+      filters.availability !== null ||
+      filters.minRating !== null,
+    [filters]
+  );
+
+  const limparBuscaEFiltros = () => {
+    setSearch("");
+    setFilters(FILTROS_VAZIOS);
+  };
 
   // ===========================
   // Navegação para o produto
@@ -219,30 +203,42 @@ export const SearchScreen = () => {
         </View>
 
         {/* Lista */}
-        <View style={styles.gridContainer}>
-          {currentProducts.length > 0 ? (
-            currentProducts.map((product) => (
-              <ProductCard
-                key={product.id}
-                product={toLegacyProduct(product)}
-                onPress={() => handleCardPress(product)}
-              />
-            ))
-          ) : (
-            <View style={styles.resultadoContainer}>
-              <Text style={styles.resultadoText}>
-                Nenhum produto encontrado com os filtros selecionados.
-              </Text>
+        {currentProducts.length > 0 ? (
+          <>
+            <View style={styles.gridContainer}>
+              {currentProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={toLegacyProduct(product)}
+                  onPress={() => handleCardPress(product)}
+                />
+              ))}
             </View>
-          )}
-        </View>
 
-        <Paginacao
-          totalItems={totalItems}
-          itemsPerPage={ITEMS_PER_PAGE}
-          currentPage={currentPage}
-          onPageChange={setCurrentPage}
-        />
+            <Paginacao
+              totalItems={totalItems}
+              itemsPerPage={ITEMS_PER_PAGE}
+              currentPage={currentPage}
+              onPageChange={setCurrentPage}
+            />
+          </>
+        ) : (
+          <>
+            <EstadoVazioBusca
+              termoBusca={debouncedSearch.trim()}
+              temFiltrosAtivos={temFiltrosAtivos}
+              onLimpar={limparBuscaEFiltros}
+            />
+
+            {/* Recomendações a partir do catálogo completo (não filtrado),
+                pra sempre ter algo relevante pra sugerir mesmo quando a
+                busca/filtros não retornam nada. */}
+            <ProdutosRecomendados
+              produtos={produtosBusca}
+              onSelect={handleCardPress}
+            />
+          </>
+        )}
 
       </ScrollView>
     </View>

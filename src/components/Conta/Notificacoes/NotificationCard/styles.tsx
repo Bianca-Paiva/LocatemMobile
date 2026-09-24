@@ -24,6 +24,24 @@ export const styles = StyleSheet.create({
     gap: 14,
   },
 
+  // Notificação ainda não visualizada: borda mais forte pra chamar atenção.
+  cardNaoLida: {
+    borderColor: '#F6C945',
+  },
+
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+
+  unreadDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#F6C945',
+  },
+
   header: {
     flexDirection: 'row',
     alignItems: 'flex-start',

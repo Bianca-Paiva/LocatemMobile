@@ -92,4 +92,8 @@ export interface NotificationData {
   /** Id da locacao (LocacaoData) relacionada, usado para levar o usuário até
    * 'Detalhes da Locacao' ou 'Avaliação' já com a locacao certa selecionada. */
   locacaoId?: string;
+
+  /** Se a notificação já foi visualizada pelo usuário (ex: abriu "Ver detalhes").
+   * Ausente/`undefined` é tratado como não lida. */
+  lida?: boolean;
 }

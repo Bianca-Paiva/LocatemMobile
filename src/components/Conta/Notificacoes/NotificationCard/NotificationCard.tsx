@@ -51,7 +51,7 @@ export default function NotificationCard({
   onRenovar,
   onVerDetalhes,
 }: NotificationCardProps) {
-  const { id, type, title, description, timestamp, extraInfo, showRenovar, statusLocacao } =
+  const { id, type, title, description, timestamp, extraInfo, showRenovar, statusLocacao, lida } =
     notification;
 
   // Quando a notificação está atrelada a uma locacao, usa o mesmo ícone/cor de
@@ -63,14 +63,17 @@ export default function NotificationCard({
   const iconColor = configStatus ? configStatus.cor : ICON_BG_BY_TYPE[type].cor;
 
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, !lida && styles.cardNaoLida]}>
       <View style={styles.header}>
         <View style={[styles.iconWrapper, { backgroundColor: iconBg }]}>
           <Icon size={18} strokeWidth={2.25} color={iconColor} />
         </View>
 
         <View style={styles.content}>
-          <Text style={styles.title}>{title}</Text>
+          <View style={styles.titleRow}>
+            <Text style={styles.title}>{title}</Text>
+            {!lida && <View style={styles.unreadDot} />}
+          </View>
           <Text style={styles.description}>{description}</Text>
 
           {/* Linha extra usada apenas pelo card de entrega */}
