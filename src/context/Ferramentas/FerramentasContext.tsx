@@ -7,8 +7,9 @@ import type { CadastroFerramentaFormState } from '../../pages/Ferramentas/Cadast
 import {
   listarFerramentas,
   listarCategorias,
+  cadastrarFerramenta,
   editarFerramenta as editarFerramentaApi,
-  desativarFerramenta,
+  desativarFerramenta, ativarFerramenta,
 } from '../../services/ferramentaService';
 
 import { moedaParaNumero } from '../../utils/Formatacao/masks';
@@ -43,7 +44,9 @@ export function FerramentasProvider({ children }: { children: ReactNode }) {
 
 console.log('FERRAMENTAS RECEBIDAS:', dados);
 
-const ferramentasConvertidas: Ferramenta[] = dados.map((item: any) => ({
+const ferramentasAtivas = dados.filter(  (item: any) => item.status === 1,);
+const ferramentasConvertidas: Ferramenta[] = ferramentasAtivas.map((item: any) => ({
+
   id: String(item.ferramentaId),
   nome: item.nome ?? '',
   marca: item.marca ?? '',
@@ -84,16 +87,50 @@ setFerramentas(ferramentasConvertidas);
     carregarFerramentas();
   }, []);
 
-  const adicionarFerramenta = (form: CadastroFerramentaFormState) => {
-    const nova: Ferramenta = {
+  const adicionarFerramenta = async (
+  form: CadastroFerramentaFormState,
+) => {
+  try {
+    const categorias = await listarCategorias();
+
+    const categoriaSelecionada = categorias.find(
+      (categoria: { id: number; nome: string }) =>
+        categoria.nome === form.categoria,
+    );
+
+    if (!categoriaSelecionada) {
+      throw new Error(
+        'A categoria selecionada não foi encontrada.',
+      );
+    }
+
+    const nova = await cadastrarFerramenta({
+      nome: form.nome,
+      marca: form.marca,
+      modelo: form.modelo,
+      descricao: form.descricao,
+      acessorios: form.acessorios,
+      diaria: moedaParaNumero(form.valorDiaria),
+      caucao: moedaParaNumero(form.caucao),
+      categoriaId: Number(categoriaSelecionada.id),
+    });
+
+    const ferramentaNova: Ferramenta = {
       ...form,
-      id: `ferramenta-${Date.now()}`,
+      id: String(nova.ferramentaId),
       status: 'ativa',
-      criadoEm: new Date().toISOString(),
+      criadoEm: nova.dataCadastro ?? new Date().toISOString(),
     };
 
-    setFerramentas((atual) => [nova, ...atual]);
-  };
+    setFerramentas((atual) => [
+      ferramentaNova,
+      ...atual,
+    ]);
+  } catch (erro) {
+    console.error('ERRO AO CADASTRAR FERRAMENTA:', erro);
+    throw erro;
+  }
+};
 
   const editarFerramenta = async (
   id: string,
@@ -158,17 +195,34 @@ const removerFerramenta = async (id: string) => {
   }
 };
 
-const alternarStatusFerramenta = (id: string) => {
-  setFerramentas((atual) =>
-    atual.map((f) =>
-      f.id === id
-        ? {
-            ...f,
-            status: f.status === 'ativa' ? 'inativa' : 'ativa',
-          }
-        : f,
-    ),
-  );
+const alternarStatusFerramenta = async (id: string) => {
+  try {
+    const ferramentaAtual = ferramentas.find((f) => f.id === id);
+
+    if (!ferramentaAtual) {
+      return;
+    }
+
+    if (ferramentaAtual.status === 'ativa') {
+      await desativarFerramenta(id);
+    } else {
+      await ativarFerramenta(id);
+    }
+
+    setFerramentas((atual) =>
+      atual.map((f) =>
+        f.id === id
+          ? {
+              ...f,
+              status: f.status === 'ativa' ? 'inativa' : 'ativa',
+            }
+          : f,
+      ),
+    );
+  } catch (erro) {
+    console.error('ERRO AO ALTERAR STATUS DA FERRAMENTA:', erro);
+    throw erro;
+  }
 };
 
   const obterFerramenta = (id: string) =>

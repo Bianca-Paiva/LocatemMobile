@@ -192,3 +192,36 @@ export async function desativarFerramenta(id: string) {
 
   return texto;
 }
+
+export async function ativarFerramenta(id: string) {
+  const sessao = await carregarSessao();
+  const token = sessao?.token;
+
+  if (!token) {
+    throw new Error('Usuário não autenticado.');
+  }
+
+  const resposta = await fetch(
+    `${API_BASE_URL}/api/Ferramenta/${id}/Ativar`,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+
+  const texto = await resposta.text();
+
+  console.log('ATIVAR FERRAMENTA - STATUS:', resposta.status);
+  console.log('ATIVAR FERRAMENTA - RESPOSTA:', texto);
+
+  if (!resposta.ok) {
+    throw new Error(
+      `Erro ${resposta.status}: ${texto || resposta.statusText}`,
+    );
+  }
+
+  return texto;
+}
