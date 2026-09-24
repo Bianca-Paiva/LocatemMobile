@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import type { FilterOption, NotificationData } from '../../../pages/Conta/Notificacoes/Notificacoes.types';
-import { PAGE_SIZE, mockNotifications } from '../../../pages/Conta/Notificacoes/Notificacao.mock';
+import { PAGE_SIZE } from '../../../pages/Conta/Notificacoes/Notificacao.mock';
+import { useNotificationStore } from './useNotificationStore';
 
 interface UseNotificationsReturn {
   notifications: NotificationData[];
@@ -14,6 +15,8 @@ interface UseNotificationsReturn {
   goToNextPage: () => void;
   clearAll: () => void;
   renovar: (id: string) => void;
+  /** Marca uma notificação como lida (ex: ao abrir "Ver detalhes"). */
+  marcarComoLida: (id: string) => void;
 }
 
 // Compara apenas ano/mês/dia, ignorando o horário
@@ -69,8 +72,13 @@ function matchesFilter(notification: NotificationData, filter: FilterOption, now
 }
 
 export function useNotifications(): UseNotificationsReturn {
-  // Fonte da verdade: todas as notificações, sem filtro de período
-  const [allNotifications, setAllNotifications] = useState<NotificationData[]>(mockNotifications);
+  // Fonte da verdade: o store global de notificações (único lugar que guarda
+  // a lista real — ver useNotificationStore.ts para o porquê da mudança).
+  const allNotifications = useNotificationStore((state) => state.notificacoes);
+  const removerNotificacao = useNotificationStore((state) => state.removerNotificacao);
+  const limparTodasDoStore = useNotificationStore((state) => state.limparTodas);
+  const marcarComoLida = useNotificationStore((state) => state.marcarComoLida);
+
   const [filter, setFilterState] = useState<FilterOption>('Todas');
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -103,12 +111,12 @@ export function useNotifications(): UseNotificationsReturn {
 
   // Limpa a lista completa, não apenas o que está filtrado no momento
   const clearAll = () => {
-    setAllNotifications([]);
+    limparTodasDoStore();
     setCurrentPage(1);
   };
 
   const renovar = (id: string) => {
-    setAllNotifications((prev) => prev.filter((notification) => notification.id !== id));
+    removerNotificacao(id);
   };
 
   return {
@@ -123,5 +131,6 @@ export function useNotifications(): UseNotificationsReturn {
     goToNextPage,
     clearAll,
     renovar,
+    marcarComoLida,
   };
 }

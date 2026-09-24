@@ -35,6 +35,13 @@ export default function ProductScreen() {
   const scrollViewRef = useRef<ScrollView>(null); 
 
   const { produtoSelecionado, setProdutoSelecionado } = useProdutoStore();
+  // NOTA (revisão de notificações): `adicionarNotificacao` é importada aqui mas
+  // ainda não é chamada em nenhum fluxo desta tela. `handleAlugar`/
+  // `handleAdicionarCarrinho` abaixo só navegam pra 'SolicitarLocacaoCarrinho' —
+  // a locacao só é efetivamente criada na tela seguinte. Faz mais sentido
+  // disparar a notificação de "locacao solicitada" lá (ex: em
+  // `SolicitacaoEnviada.tsx`, quando a solicitação é de fato confirmada) do
+  // que aqui. Mantido disponível pra quando esse fluxo for implementado.
   const { adicionarNotificacao } = useNotificationStore();
 
   const produto = produtoSelecionado ?? FALLBACK_PRODUTO;

@@ -35,6 +35,7 @@ export default function Notificacoes({ navigate }: NotificacoesProps) {
     goToNextPage,
     clearAll,
     renovar,
+    marcarComoLida,
   } = useNotifications();
 
   // Fonte das locacoes reais (mesma usada em 'Minhas Locacoes' e 'Detalhes da Locacao')
@@ -46,6 +47,7 @@ export default function Notificacoes({ navigate }: NotificacoesProps) {
   const handleVerDetalhes = (id: string) => {
     const notification = pageItems.find((item) => item.id === id) ?? null;
     setSelectedNotification(notification);
+    marcarComoLida(id);
   };
 
   const handleCloseModal = () => setSelectedNotification(null);
