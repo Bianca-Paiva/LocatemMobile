@@ -19,6 +19,7 @@ import { Acessorios } from './components/Acessorios';
 // ── 2. IMPORTAÇÃO DOS HOOKS GLOBAIS (ZUSTAND) E TEMAS ──────────────
 import { useProdutoStore } from '../../../hooks/Ferramentas/useProdutoStore';
 import { useNotificationStore } from '../../../hooks/Conta/Notificacoes/useNotificationStore';
+import { useFavoritosStore } from '../../../hooks/Ferramentas/useFavoritosStore';
 import colors from '../../../theme/colors';
 
 // ── 3. IMPORTAÇÃO DE MOCKS E UTILITÁRIOS ───────────────────────────
@@ -38,6 +39,10 @@ export default function ProductScreen() {
 
   const { produtoSelecionado, setProdutoSelecionado } = useProdutoStore();
   const { adicionarNotificacao } = useNotificationStore();
+  // Favoritos vêm do FavoritosContext (estado global), o mesmo usado pelo
+  // CardFerramentaLoja na loja do Locador — assim favoritar aqui também
+  // reflete em "Meus Favoritos" e na vitrine da loja, e vice-versa.
+  const { isFavorito, alternarFavorito } = useFavoritosStore();
 
   const produto = produtoSelecionado ?? FALLBACK_PRODUTO;
   const locador = getLocadorByNome(produto.locador);
@@ -57,9 +62,10 @@ export default function ProductScreen() {
   const [modoModal, setModoModal] = useState<'locar' | 'carrinho'>('locar');
   const [successAberto, setSuccessAberto] = useState(false);
   const [scrollBloqueado, setScrollBloqueado] = useState(false);
-  
-  // Estado para o botão de Favoritar
-  const [favoritado, setFavoritado] = useState(false);
+
+  // Estado de favorito derivado da store global (não mais local),
+  // para o produto atualmente exibido.
+  const favoritado = isFavorito(produto.id);
 
   const [selecaoProduto, setSelecaoProduto] = useState<{
     quantidade: number;
@@ -120,7 +126,7 @@ export default function ProductScreen() {
               
               <TouchableOpacity
                 style={styles.HeartConteiner}
-                onPress={() => setFavoritado(!favoritado)}
+                onPress={() => alternarFavorito(produto.id)}
                 accessibilityRole="button"
                 accessibilityLabel={favoritado ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
               >
