@@ -12,6 +12,7 @@ import {
 import { FerramentasProvider } from './src/context/Ferramentas/FerramentasContext';
 import { LocacaoProvider } from './src/context/Locacoes/LocacaoContext';
 import { CarrinhoProvider } from "./src/context/Checkout/Carrinho/CarrinhoContext";
+import { FavoritosProvider } from "./src/context/Ferramentas/Favoritos/FavoritosContext";
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { CatalogoProvider } from './src/context/Ferramentas/Catalogo/CatalogoContext';
 import { PagamentoProvider } from './src/context/Checkout/Pagamento/PagamentoContext';
@@ -35,11 +36,13 @@ export default function App() {
         <FerramentasProvider>
           <LocacaoProvider>
             <CarrinhoProvider>
-              <PagamentoProvider>
-                <NavigationContainer>
-                    <AppRoutes />
-                </NavigationContainer>
-              </PagamentoProvider>
+              <FavoritosProvider>
+                <PagamentoProvider>
+                  <NavigationContainer>
+                      <AppRoutes />
+                  </NavigationContainer>
+                </PagamentoProvider>
+              </FavoritosProvider>
             </CarrinhoProvider>
           </LocacaoProvider>
        </FerramentasProvider>

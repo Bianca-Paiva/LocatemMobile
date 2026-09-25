@@ -29,6 +29,7 @@ import Notificacoes from "../pages/Conta/Notificacoes/Notificacoes";
 import HistoricoLocacoes from "../pages/Locacoes/HistoricoLocacoes/HistoricoLocacoes";
 import HomeLocador from "../pages/home/HomeLocador/HomeLocador";
 import PerfilLojaScreen from "../pages/Ferramentas/PerfilLoja/PerfilLojaScreen";
+import FavoritosScreen from "../pages/Conta/Favoritos/FavoritosScreen";
 
 // Fluxo de Pagamento (Carrinho -> Método de Pagamento -> Selecionar Cartão/Pix -> Processando -> Aprovado)
 import MetodoPagamento from "../pages/Checkout/Pagamento/MetodoPagamento/MetodoPagamento";
@@ -64,6 +65,8 @@ export type RootStackParamList = {
   HomeLocadorScreen: undefined,
   /** Tela "Loja do Locador" — perfil público de uma loja, com a vitrine de ferramentas dela. */
   PerfilLojaScreen: { locadorNome: string },
+  /** Tela "Meus Favoritos", acessada pelo Painel de Controle do Perfil. */
+  FavoritosScreen: undefined,
   /**
    * Tela "Detalhes da Locação" do fluxo "Adicionar ao carrinho" — equivalente,
    * no Mobile, ao modal `SolicitarLocacaoModal` da Web. Os parâmetros são a
@@ -122,6 +125,7 @@ const MAPA_ROTAS_LEGADAS: Record<string, keyof RootStackParamList> = {
   CadastroFerramentaScreen: "CadastroFerramentaScreen",
   carrinho: "CarrinhoScreen",
   notificacoes: "NotificacoesScreen",
+  favoritos: "FavoritosScreen",
   // Fluxo de Pagamento — chaves usadas pelos hooks em hooks/Pagamento/*.
   metodoPagamento: "MetodoPagamentoScreen",
   selecionarCartao: "SelecionarCartaoScreen",
@@ -577,6 +581,12 @@ export default function AppRoutes() {
       <Stack.Screen
         name="PerfilLojaScreen"
         component={PerfilLojaScreen}
+        options={{ headerShown: false, title: "" }}
+      />
+
+      <Stack.Screen
+        name="FavoritosScreen"
+        component={withAuthGuard(FavoritosScreen)}
         options={{ headerShown: false, title: "" }}
       />
 

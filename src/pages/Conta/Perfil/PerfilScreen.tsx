@@ -25,7 +25,7 @@ import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 /** Callbacks opcionais usados pela rota que hospeda a tela de perfil. */
 interface Props {
     onNavigate?: (
-        route: 'minhasLocacoes' | 'notificacoes' | 'LoginScreen' 
+        route: 'minhasLocacoes' | 'notificacoes' | 'favoritos' | 'LoginScreen'
     ) => void;
     /** Chamado quando o usuário sem sessão toca em "Entrar na conta" (espelha o botão equivalente da Web). */
     onEntrar?: () => void;

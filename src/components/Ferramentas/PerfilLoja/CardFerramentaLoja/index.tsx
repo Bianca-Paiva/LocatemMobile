@@ -38,23 +38,28 @@ export function CardFerramentaLoja({
       <View style={styles.imagemWrapper}>
         <Image source={produto.images[0]} style={styles.imagem} resizeMode="cover" />
 
-        {/* Badge renderiza sempre, mudando de cor e texto de acordo com o estado */}
-        <View style={[
-          styles.badge, 
-          ultimaUnidade && styles.badgeUltimaUnidade,
-          indisponivel && styles.badgeIndisponivel
-        ]}>
-          <View style={[
-            styles.badgePonto, 
-            ultimaUnidade && styles.badgePontoUltimaUnidade,
-            indisponivel && styles.badgePontoIndisponivel
-          ]} />
-          <Text style={[
-            styles.badgeTexto, 
-            ultimaUnidade && styles.badgeTextoUltimaUnidade,
-            indisponivel && styles.badgeTextoIndisponivel
-          ]}>
-            {indisponivel ? 'Indisponível' : (ultimaUnidade ? 'Última unidade' : 'Disponível')}
+        <View
+          style={[
+            styles.badge,
+            ultimaUnidade && styles.badgeUltimaUnidade,
+            !disponivel && styles.badgeIndisponivel,
+          ]}
+        >
+          <View
+            style={[
+              styles.badgePonto,
+              ultimaUnidade && styles.badgePontoUltimaUnidade,
+              !disponivel && styles.badgePontoIndisponivel,
+            ]}
+          />
+          <Text
+            style={[
+              styles.badgeTexto,
+              ultimaUnidade && styles.badgeTextoUltimaUnidade,
+              !disponivel && styles.badgeTextoIndisponivel,
+            ]}
+          >
+            {!disponivel ? 'Indisponível' : ultimaUnidade ? 'Última unidade' : 'Disponível'}
           </Text>
         </View>
 
