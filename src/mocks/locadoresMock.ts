@@ -10,6 +10,12 @@ export interface Locador {
   reviewCount: number;
   locacoes: number;
   verificado: boolean;
+  /** Mês/ano de entrada na plataforma, ex: "jan. 2022". Exibido na Loja do Locador. */
+  desde?: string;
+  /** Cidade/UF onde a loja está localizada. Exibido na Loja do Locador. */
+  localizacao?: string;
+  /** Texto curto de apresentação da loja. Exibido na Loja do Locador. */
+  descricao?: string;
 }
 
 /**
@@ -31,6 +37,9 @@ export const LOCADORES_MOCK: Locador[] = [
     reviewCount: 20,
     locacoes: 500,
     verificado: true,
+    desde: 'mar. 2021',
+    localizacao: 'São Paulo, SP',
+    descricao: 'Ferramentas elétricas e de corte com manutenção em dia. Retirada rápida e suporte durante toda a locação.',
   },
   {
     nome: 'WZ Ferramentas',
@@ -38,6 +47,9 @@ export const LOCADORES_MOCK: Locador[] = [
     reviewCount: 96,
     locacoes: 180,
     verificado: true,
+    desde: 'jul. 2023',
+    localizacao: 'Guarulhos, SP',
+    descricao: 'Equipamentos revisados a cada locação. Atendimento próximo e flexível pra pequenas e grandes reformas.',
   },
   {
     nome: 'JB Ferramentas',
@@ -46,6 +58,9 @@ export const LOCADORES_MOCK: Locador[] = [
     reviewCount: 200,
     locacoes: 500,
     verificado: true,
+    desde: 'jan. 2022',
+    localizacao: 'São Paulo, SP',
+    descricao: 'Ferramentas profissionais e bem cuidadas para o seu projeto. Atendimento rápido e suporte durante toda a locação.',
   },
 ];
 

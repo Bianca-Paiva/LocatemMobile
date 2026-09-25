@@ -10,7 +10,7 @@ export default StyleSheet.create({
 
   button: {
     height: 35,
-    borderWidth: 2,
+    borderWidth: 1.5,
     borderColor: "#8A8A8A",
     borderRadius: 25,
 
