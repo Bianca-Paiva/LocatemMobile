@@ -1,12 +1,13 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import { Heart } from 'lucide-react-native';
 
 // ── 1. IMPORTAÇÃO DE COMPONENTES VISUAIS ───────────────────────────
 import Header from '../../../components/Layout/Header';
-import {ImagemCarrossel} from './components/ImageCarrosel';
+import { ImagemCarrossel } from './components/ImageCarrosel';
 import { ProdutoInfo } from './components/ProdutoInfo';
 import { ProdutosSemelhantes } from './components/ProdutoSemelhantes';
 import { Descricao } from './components/Descricao';
@@ -15,9 +16,10 @@ import { InfoVendedor } from './components/InfoVendedor';
 import { AvaliacaoSection } from './components/AvaliacaoSection';
 import { Acessorios } from './components/Acessorios';
 
-// ── 2. IMPORTAÇÃO DOS HOOKS GLOBAIS (ZUSTAND) ──────────────────────
+// ── 2. IMPORTAÇÃO DOS HOOKS GLOBAIS (ZUSTAND) E TEMAS ──────────────
 import { useProdutoStore } from '../../../hooks/Ferramentas/useProdutoStore';
 import { useNotificationStore } from '../../../hooks/Conta/Notificacoes/useNotificationStore';
+import colors from '../../../theme/colors';
 
 // ── 3. IMPORTAÇÃO DE MOCKS E UTILITÁRIOS ───────────────────────────
 import { getLocadorByNome } from '../../../mocks/locadoresMock';
@@ -35,28 +37,13 @@ export default function ProductScreen() {
   const scrollViewRef = useRef<ScrollView>(null); 
 
   const { produtoSelecionado, setProdutoSelecionado } = useProdutoStore();
-  // NOTA (revisão de notificações): `adicionarNotificacao` é importada aqui mas
-  // ainda não é chamada em nenhum fluxo desta tela. `handleAlugar`/
-  // `handleAdicionarCarrinho` abaixo só navegam pra 'SolicitarLocacaoCarrinho' —
-  // a locacao só é efetivamente criada na tela seguinte. Faz mais sentido
-  // disparar a notificação de "locacao solicitada" lá (ex: em
-  // `SolicitacaoEnviada.tsx`, quando a solicitação é de fato confirmada) do
-  // que aqui. Mantido disponível pra quando esse fluxo for implementado.
   const { adicionarNotificacao } = useNotificationStore();
 
   const produto = produtoSelecionado ?? FALLBACK_PRODUTO;
   const locador = getLocadorByNome(produto.locador);
 
-  // Média, quantidade e distribuição por estrela desta ferramenta são sempre
-  // calculadas a partir das avaliações reais dela (`produto.avaliacoes`), nunca
-  // lidas direto de `produto.rating`/`produto.reviewCount` (campos fixos do mock,
-  // que podem ficar desatualizados) — mesma regra usada no Web (ver
-  // utils/avaliacoesResumo.ts e components/ProdutoDetalhe/AvaliacaoSection no Web).
   const resumoAvaliacoes = calcularResumoAvaliacoes(produto.avaliacoes);
 
-  // Ferramentas semelhantes = mesma categoria do produto atual, excluindo ele
-  // mesmo — calculado a partir do catálogo real, nunca de uma lista estática
-  // desatualizada (mesma ideia usada no Web em ProdutoDetalhe.tsx).
   const produtosSemelhantes = useMemo<ProdutoSemelhante[]>(
     () =>
       PRODUTOS_MOCK
@@ -69,9 +56,10 @@ export default function ProductScreen() {
   const [modalAberto, setModalAberto] = useState(false);
   const [modoModal, setModoModal] = useState<'locar' | 'carrinho'>('locar');
   const [successAberto, setSuccessAberto] = useState(false);
-  
-  // 🚀 ARQUITETURA: Estado que controla o travamento da tela principal
   const [scrollBloqueado, setScrollBloqueado] = useState(false);
+  
+  // Estado para o botão de Favoritar
+  const [favoritado, setFavoritado] = useState(false);
 
   const [selecaoProduto, setSelecaoProduto] = useState<{
     quantidade: number;
@@ -81,10 +69,6 @@ export default function ProductScreen() {
 
   // ── REGRAS DE NEGÓCIO E AÇÕES ────────────────────────────────────
   const handleSemelhante = (p: ProdutoSemelhante) => {
-    // `p` é só o recorte usado pro card (ver toProdutoSemelhante) — busca o
-    // produto completo no catálogo pelo `id` real antes de selecionar, pra
-    // não jogar dados parciais no store (mesmo cuidado do clique nos cards
-    // da Home/Busca, ver HomeScreen/SearchScreen).
     const produtoCompleto = PRODUTOS_MOCK.find((item) => item.id === p.id);
     if (produtoCompleto) {
       setProdutoSelecionado(produtoCompleto);
@@ -93,31 +77,19 @@ export default function ProductScreen() {
   };
 
   const handleAlugar = () => {
-    // Direciona para a tela "Detalhes da Locação" (SolicitarLocacaoCarrinho),
-    // já existente no projeto, levando a quantidade/tempo/tensão
-    // selecionados aqui na tela do produto — mesmo destino e mesmos
-    // parâmetros usados pelo botão "Adicionar ao carrinho" logo abaixo
-    // (handleAdicionarCarrinho). O produto em si já está disponível na
-    // tela seguinte via useProdutoStore (produtoSelecionado).
     navigation.navigate('SolicitarLocacaoCarrinho', {
       quantidadeInicial: selecaoProduto.quantidade,
       diariasInicial: selecaoProduto.diarias,
       tensaoInicial: selecaoProduto.tensao,
-      // Identifica que a navegação partiu do botão "Locar", para a tela
-      // seguinte exibir o texto correto no botão amarelo.
       origem: 'locar',
     });
   };
 
   const handleAdicionarCarrinho = () => {
-    // Abre a tela "Detalhes da Locação" (equivalente, no Mobile, ao modal
-    // SolicitarLocacaoModal da Web) já com a quantidade/tempo/tensão
-    // selecionados aqui na tela do produto.
     navigation.navigate('SolicitarLocacaoCarrinho', {
       quantidadeInicial: selecaoProduto.quantidade,
       diariasInicial: selecaoProduto.diarias,
       tensaoInicial: selecaoProduto.tensao,
-      // Identifica que a navegação partiu do botão "Adicionar ao carrinho".
       origem: 'carrinho',
     });
   };
@@ -130,7 +102,6 @@ export default function ProductScreen() {
   return (
     <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
       
-      {/* 🚀 UX MOBILE: scrollEnabled dinâmico impede a tela de rolar quando o dropdown abre */}
       <ScrollView 
         ref={scrollViewRef}
         contentContainerStyle={styles.scrollContainer}
@@ -143,7 +114,23 @@ export default function ProductScreen() {
 
           {/* ── SEÇÃO HERO (Imagens e Ações Principais) ── */}
           <View style={styles.heroSection}>
-            <ImagemCarrossel images={produto.images} />
+            {/* Wrapper adicionado para permitir o position: absolute do botão */}
+            <View style={{ position: 'relative' }}>
+              <ImagemCarrossel images={produto.images} />
+              
+              <TouchableOpacity
+                style={styles.HeartConteiner}
+                onPress={() => setFavoritado(!favoritado)}
+                accessibilityRole="button"
+                accessibilityLabel={favoritado ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+              >
+                <Heart 
+                  size={20} 
+                  color={favoritado ? colors.error : colors.textDark} 
+                  fill={favoritado ? colors.error : 'transparent'} 
+                />
+              </TouchableOpacity>
+            </View>
             
             <ProdutoInfo
               title={produto.title}
@@ -158,8 +145,8 @@ export default function ProductScreen() {
               onAlugar={handleAlugar}
               onReservar={handleAlugar} 
               onAddCarrinho={handleAdicionarCarrinho}
-              onTempoDropdownOpen={setScrollBloqueado} // 🚀 Repassando a função para o ProdutoInfo
-              onSelecaoChange={setSelecaoProduto} // eleva quantidade/diárias/tensão para a tela do produto
+              onTempoDropdownOpen={setScrollBloqueado}
+              onSelecaoChange={setSelecaoProduto} 
             />
           </View>
 

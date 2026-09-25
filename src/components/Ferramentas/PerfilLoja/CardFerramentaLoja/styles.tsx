@@ -70,16 +70,10 @@ export const styles = StyleSheet.create({
     color: '#C2410C',
   },
 
-  badgeIndisponivel: {
-    backgroundColor: '#F3F4F6',
-  },
-
-  badgePontoIndisponivel: {
-    backgroundColor: '#9CA3AF',
-  },
+  
 
   badgeTextoIndisponivel: {
-    color: colors.textMuted,
+    color: '#C2410C',
   },
 
   favoritoBtn: {

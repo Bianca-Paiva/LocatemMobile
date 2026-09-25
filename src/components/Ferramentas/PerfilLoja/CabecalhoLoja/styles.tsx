@@ -27,8 +27,8 @@ export const styles = StyleSheet.create({
   },
 
   avatarImg: {
-    width: '93%',
-    height: '50%',
+    width: '90%',
+    height: '90%',
   },
 
   avatarInitials: {

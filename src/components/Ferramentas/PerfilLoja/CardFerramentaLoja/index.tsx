@@ -1,12 +1,10 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { Heart } from 'lucide-react-native';
 
 import colors from '../../../../theme/colors';
 import { styles } from './styles';
 import type { CardFerramentaLojaProps } from './types';
-
-const iconLike = require('../../../../../assets/images/IconLike.png');
-const iconLikePreenchido = require('../../../../../assets/images/IconLikePreenchido.png');
 
 /**
  * Card de ferramenta da grade "Ferramentas da loja" (tela Loja do Locador).
@@ -69,10 +67,10 @@ export function CardFerramentaLoja({
           accessibilityRole="button"
           accessibilityLabel={favoritado ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
         >
-          <Image
-            source={favoritado ? iconLikePreenchido : iconLike}
-            style={styles.favoritoIcone}
-            resizeMode="contain"
+          <Heart 
+            size={16} 
+            color={favoritado ? colors.error : colors.textDark} 
+            fill={favoritado ? colors.error : 'transparent'} 
           />
         </TouchableOpacity>
       </View>
