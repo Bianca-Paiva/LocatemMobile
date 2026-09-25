@@ -27,24 +27,36 @@ export function CardFerramentaLoja({
 
   const ultimaUnidade = produto.available && produto.estoqueDisponivel === 1;
   const disponivel = produto.available && produto.estoqueDisponivel > 0;
+  const indisponivel = !disponivel;
 
   return (
-     <TouchableOpacity
-     style={styles.container}
-     onPress={() => onVerDetalhes(produto)}
-     >
-
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => onVerDetalhes(produto)}
+      activeOpacity={0.9}
+    >
       <View style={styles.imagemWrapper}>
         <Image source={produto.images[0]} style={styles.imagem} resizeMode="cover" />
 
-        {disponivel && (
-          <View style={[styles.badge, ultimaUnidade && styles.badgeUltimaUnidade]}>
-            <View style={[styles.badgePonto, ultimaUnidade && styles.badgePontoUltimaUnidade]} />
-            <Text style={[styles.badgeTexto, ultimaUnidade && styles.badgeTextoUltimaUnidade]}>
-              {ultimaUnidade ? 'Última unidade' : 'Disponível'}
-            </Text>
-          </View>
-        )}
+        {/* Badge renderiza sempre, mudando de cor e texto de acordo com o estado */}
+        <View style={[
+          styles.badge, 
+          ultimaUnidade && styles.badgeUltimaUnidade,
+          indisponivel && styles.badgeIndisponivel
+        ]}>
+          <View style={[
+            styles.badgePonto, 
+            ultimaUnidade && styles.badgePontoUltimaUnidade,
+            indisponivel && styles.badgePontoIndisponivel
+          ]} />
+          <Text style={[
+            styles.badgeTexto, 
+            ultimaUnidade && styles.badgeTextoUltimaUnidade,
+            indisponivel && styles.badgeTextoIndisponivel
+          ]}>
+            {indisponivel ? 'Indisponível' : (ultimaUnidade ? 'Última unidade' : 'Disponível')}
+          </Text>
+        </View>
 
         <TouchableOpacity
           style={styles.favoritoBtn}
@@ -80,9 +92,7 @@ export function CardFerramentaLoja({
             <Text style={styles.ratingCount}>({produto.reviewCount})</Text>
           </View>
         </View>
-
       </View>
-      
-  </TouchableOpacity>
+    </TouchableOpacity>
   );
 }

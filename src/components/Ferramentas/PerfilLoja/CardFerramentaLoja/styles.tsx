@@ -41,6 +41,10 @@ export const styles = StyleSheet.create({
     backgroundColor: '#FFF1E6',
   },
 
+  badgeIndisponivel: {
+    backgroundColor: '#FEE2E2',
+  },
+
   badgePonto: {
     width: 6,
     height: 6,
@@ -52,6 +56,10 @@ export const styles = StyleSheet.create({
     backgroundColor: '#F97316',
   },
 
+  badgePontoIndisponivel: {
+    backgroundColor: '#DC2626',
+  },
+
   badgeTexto: {
     fontSize: 11,
     fontWeight: '700',
@@ -60,6 +68,10 @@ export const styles = StyleSheet.create({
 
   badgeTextoUltimaUnidade: {
     color: '#C2410C',
+  },
+
+  badgeTextoIndisponivel: {
+    color: '#B91C1C',
   },
 
   favoritoBtn: {
