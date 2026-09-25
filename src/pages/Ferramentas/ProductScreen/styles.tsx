@@ -8,6 +8,23 @@ export const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
+
+  HeartConteiner:{
+      position: 'absolute',
+      top: 16,
+      right: 16,
+      width: 36,
+      height: 36,
+      borderRadius: 18,
+      backgroundColor: 'rgba(255,255,255,0.9)',
+      alignItems: 'center',
+      justifyContent: 'center',
+      elevation: 3, // Sombra no Android
+      shadowColor: '#000', // Sombra no iOS
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+  },
   
   // Substitui a .produtoDetalheMain
   // O flexGrow garante que a rolagem funcione corretamente caso o conteúdo seja menor que a tela

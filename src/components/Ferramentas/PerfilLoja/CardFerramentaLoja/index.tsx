@@ -1,12 +1,10 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { Heart } from 'lucide-react-native';
 
 import colors from '../../../../theme/colors';
 import { styles } from './styles';
 import type { CardFerramentaLojaProps } from './types';
-
-const iconLike = require('../../../../../assets/images/IconLike.png');
-const iconLikePreenchido = require('../../../../../assets/images/IconLikePreenchido.png');
 
 /**
  * Card de ferramenta da grade "Ferramentas da loja" (tela Loja do Locador).
@@ -27,24 +25,41 @@ export function CardFerramentaLoja({
 
   const ultimaUnidade = produto.available && produto.estoqueDisponivel === 1;
   const disponivel = produto.available && produto.estoqueDisponivel > 0;
+  const indisponivel = !disponivel;
 
   return (
-     <TouchableOpacity
-     style={styles.container}
-     onPress={() => onVerDetalhes(produto)}
-     >
-
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => onVerDetalhes(produto)}
+      activeOpacity={0.9}
+    >
       <View style={styles.imagemWrapper}>
         <Image source={produto.images[0]} style={styles.imagem} resizeMode="cover" />
 
-        {disponivel && (
-          <View style={[styles.badge, ultimaUnidade && styles.badgeUltimaUnidade]}>
-            <View style={[styles.badgePonto, ultimaUnidade && styles.badgePontoUltimaUnidade]} />
-            <Text style={[styles.badgeTexto, ultimaUnidade && styles.badgeTextoUltimaUnidade]}>
-              {ultimaUnidade ? 'Última unidade' : 'Disponível'}
-            </Text>
-          </View>
-        )}
+        <View
+          style={[
+            styles.badge,
+            ultimaUnidade && styles.badgeUltimaUnidade,
+            !disponivel && styles.badgeIndisponivel,
+          ]}
+        >
+          <View
+            style={[
+              styles.badgePonto,
+              ultimaUnidade && styles.badgePontoUltimaUnidade,
+              !disponivel && styles.badgePontoIndisponivel,
+            ]}
+          />
+          <Text
+            style={[
+              styles.badgeTexto,
+              ultimaUnidade && styles.badgeTextoUltimaUnidade,
+              !disponivel && styles.badgeTextoIndisponivel,
+            ]}
+          >
+            {!disponivel ? 'Indisponível' : ultimaUnidade ? 'Última unidade' : 'Disponível'}
+          </Text>
+        </View>
 
         <TouchableOpacity
           style={styles.favoritoBtn}
@@ -52,10 +67,10 @@ export function CardFerramentaLoja({
           accessibilityRole="button"
           accessibilityLabel={favoritado ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
         >
-          <Image
-            source={favoritado ? iconLikePreenchido : iconLike}
-            style={styles.favoritoIcone}
-            resizeMode="contain"
+          <Heart 
+            size={16} 
+            color={favoritado ? colors.error : colors.textDark} 
+            fill={favoritado ? colors.error : 'transparent'} 
           />
         </TouchableOpacity>
       </View>
@@ -80,9 +95,7 @@ export function CardFerramentaLoja({
             <Text style={styles.ratingCount}>({produto.reviewCount})</Text>
           </View>
         </View>
-
       </View>
-      
-  </TouchableOpacity>
+    </TouchableOpacity>
   );
 }

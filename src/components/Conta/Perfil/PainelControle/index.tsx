@@ -22,7 +22,7 @@ import type { TipoUsuario } from '../../../../types/Auth/usuario.types';
 import colors from '../../../../theme/colors';
 import { styles } from './styles';
 
-type RotaPainel = 'minhasLocacoes' | 'notificacoes';
+type RotaPainel = 'minhasLocacoes' | 'notificacoes' | 'favoritos';
 
 interface OpcaoPainel {
     icon: typeof Wrench;
@@ -39,7 +39,7 @@ interface OpcaoPainel {
 const OPCOES: OpcaoPainel[] = [
     { icon: Wrench, titulo: 'Aluguéis Ativos', descricao: 'Visualize seus equipamentos alugados atualmente.', rota: 'minhasLocacoes' },
     { icon: Clock, titulo: 'Histórico de Locações', descricao: 'Consulte todas as suas locações anteriores.' },
-    { icon: Heart, titulo: 'Favoritos', descricao: 'Ferramentas e equipamentos salvos.' },
+    { icon: Heart, titulo: 'Favoritos', descricao: 'Ferramentas e equipamentos salvos.', rota: 'favoritos' },
     { icon: Wallet, titulo: 'Pagamentos', descricao: 'Visualize pagamentos, cauções e reembolsos.' },
     { icon: FileText, titulo: 'Contratos', descricao: 'Acesse todos os contratos digitais.' },
     { icon: MapPin, titulo: 'Endereços', descricao: 'Gerencie seus endereços cadastrados.' },

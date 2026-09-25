@@ -11,6 +11,7 @@ import { CardFerramentaLoja } from '../../../components/Ferramentas/PerfilLoja/C
 
 import { useCatalogoStore } from '../../../hooks/Ferramentas/useCatalogoStore';
 import { useProdutoStore } from '../../../hooks/Ferramentas/useProdutoStore';
+import { useFavoritosStore } from '../../../hooks/Ferramentas/useFavoritosStore';
 import { getLocadorByNome } from '../../../mocks/locadoresMock';
 import { extrairCategoriaTopo } from '../../../utils/Ferramentas/Catalogo/categorias';
 import type { Produto } from '../../../types/Ferramentas/produto.types';
@@ -58,7 +59,10 @@ export default function PerfilLojaScreen() {
 
   const [categoriaAtiva, setCategoriaAtiva] = useState(CATEGORIA_TODAS);
   const [sort, setSort] = useState('Mais relevantes');
-  const [favoritos, setFavoritos] = useState<number[]>([]);
+  // Favoritos vivem no FavoritosContext (estado global), não mais numa lista
+  // local — assim curtir uma ferramenta aqui também a coloca na tela
+  // "Meus Favoritos" (Conta > Painel de Controle > Favoritos).
+  const { favoritos, alternarFavorito } = useFavoritosStore();
 
   const [search, setSearch] = useState('');
 
@@ -80,12 +84,6 @@ export default function PerfilLojaScreen() {
       return 0;
     });
   }, [produtosDaLoja, categoriaAtiva, sort]);
-
-  const toggleFavorito = (id: number) => {
-    setFavoritos((atuais) =>
-      atuais.includes(id) ? atuais.filter((item) => item !== id) : [...atuais, id],
-    );
-  };
 
   const handleVerDetalhes = (produto: Produto) => {
     setProdutoSelecionado(produto);
@@ -147,7 +145,7 @@ export default function PerfilLojaScreen() {
                   key={produto.id}
                   produto={produto}
                   favoritado={favoritos.includes(produto.id)}
-                  onToggleFavorito={toggleFavorito}
+                  onToggleFavorito={alternarFavorito}
                   onVerDetalhes={handleVerDetalhes}
                 />
               ))}
