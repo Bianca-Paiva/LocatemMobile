@@ -28,6 +28,7 @@ import SolicitarLocacaoCarrinho from "../pages/Checkout/Carrinho/SolicitarLocaca
 import Notificacoes from "../pages/Conta/Notificacoes/Notificacoes";
 import HistoricoLocacoes from "../pages/Locacoes/HistoricoLocacoes/HistoricoLocacoes";
 import HomeLocador from "../pages/home/HomeLocador/HomeLocador";
+import PerfilLojaScreen from "../pages/Ferramentas/PerfilLoja/PerfilLojaScreen";
 
 // Fluxo de Pagamento (Carrinho -> Método de Pagamento -> Selecionar Cartão/Pix -> Processando -> Aprovado)
 import MetodoPagamento from "../pages/Checkout/Pagamento/MetodoPagamento/MetodoPagamento";
@@ -61,6 +62,8 @@ export type RootStackParamList = {
   PerfilScreen: undefined,
   HistoricoLocacoesScreen: undefined,
   HomeLocadorScreen: undefined,
+  /** Tela "Loja do Locador" — perfil público de uma loja, com a vitrine de ferramentas dela. */
+  PerfilLojaScreen: { locadorNome: string },
   /**
    * Tela "Detalhes da Locação" do fluxo "Adicionar ao carrinho" — equivalente,
    * no Mobile, ao modal `SolicitarLocacaoModal` da Web. Os parâmetros são a
@@ -568,6 +571,12 @@ export default function AppRoutes() {
       <Stack.Screen
         name="HomeLocadorScreen"
         component={withAuthGuard(HomeLocadorRoute)}
+        options={{ headerShown: false, title: "" }}
+      />
+
+      <Stack.Screen
+        name="PerfilLojaScreen"
+        component={PerfilLojaScreen}
         options={{ headerShown: false, title: "" }}
       />
 

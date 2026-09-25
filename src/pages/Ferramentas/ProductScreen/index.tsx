@@ -181,6 +181,9 @@ export default function ProductScreen() {
               locacoes={locador.locacoes}
               verificado={locador.verificado}
               imageNota={produto.imageNota}
+              onVerPerfil={() =>
+                navigation.navigate('PerfilLojaScreen', { locadorNome: locador.nome })
+              }
             />
 
             <EspecificacoesTecnicas especificacoes={produto.especificacoes ?? []} />
