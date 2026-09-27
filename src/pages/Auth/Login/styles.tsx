@@ -1,5 +1,8 @@
 import { StyleSheet } from "react-native";
 
+// Estilos visuais da tela de Login (index.tsx).
+// Dividido em: container/título/formulário base, texto de erro de campo,
+// card de "Dados inválidos" (vermelho) e card de "Logado com sucesso" (verde).
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: "#f9fafb",

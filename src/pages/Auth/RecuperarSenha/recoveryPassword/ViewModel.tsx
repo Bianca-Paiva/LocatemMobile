@@ -4,6 +4,15 @@ import { Alert } from "react-native";
 // valores da força  da senha
 export type PasswordStrength = "empty" | "weak" | "good" | "strong";
 
+// ============================================================================
+// useRecoveryPasswordViewModel
+// ----------------------------------------------------------------------------
+// Lógica da última etapa da recuperação de senha: controla os campos de
+// nova senha/confirmação e calcula em tempo real a força da senha digitada
+// (getPasswordStrength). ATENÇÃO: handleSubmit ainda não chama a API — só
+// valida se as duas senhas são iguais e mostra um Alert de sucesso/erro.
+// Esse é o ponto de integração futuro com o endpoint de troca de senha.
+// ============================================================================
 export default function useRecoveryPasswordViewModel() {
   //Estados que vão guardar o que o usurario digita
   const [password, setPassword] = useState("");

@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
 
+// Estilos visuais da tela de Cadastro (index.tsx): container/título, cards de
+// seleção de tipo de usuário, campos do formulário e o card verde de sucesso.
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: "#f9fafb",

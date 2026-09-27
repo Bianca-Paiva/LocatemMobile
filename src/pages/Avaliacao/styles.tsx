@@ -1,6 +1,8 @@
 import { StyleSheet, Dimensions } from 'react-native';
 const { width } = Dimensions.get('window');
 
+// Estilos da tela Avaliacao.tsx: container geral, abas (Pendentes/Realizadas)
+// com indicador de aba ativa (borda azul) e espaçamentos da listagem.
 export const styles = StyleSheet.create({
   container: {
     flex: 1,

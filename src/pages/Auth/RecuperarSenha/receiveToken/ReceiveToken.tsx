@@ -25,6 +25,14 @@ type ReceiveTokenScreenProp = StackNavigationProp<
   "ReceiveTokenScreen"
 >;
 
+// ============================================================================
+// ReceiveTokenScreen
+// ----------------------------------------------------------------------------
+// Etapa 2 do fluxo "Esqueci minha senha": usuário digita o código de 5
+// dígitos recebido por e-mail. Tem um cronômetro (timer) que bloqueia o
+// reenvio do token por alguns segundos. Ao verificar com sucesso, navega
+// para RecoveryPasswordScreen (etapa 3, onde a nova senha é definida).
+// ============================================================================
 export default function ReceiveTokenScreen() {
   const navigation = useNavigation<ReceiveTokenScreenProp>();
 

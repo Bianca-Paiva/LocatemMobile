@@ -1,6 +1,8 @@
 import { StyleSheet } from 'react-native';
 import colors from '../../../theme/colors';
 
+// Estilos da tela Carrinho.tsx: container/scroll, card "Selecionar todos"
+// com checkbox e o espaçamento entre os grupos de lojas (LojaGroup).
 export const styles = StyleSheet.create({
   safeArea: {
     flex: 1,

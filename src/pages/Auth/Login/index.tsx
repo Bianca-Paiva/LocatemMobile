@@ -27,6 +27,14 @@ import { styles } from "./styles";
 // Importando (Custom Hook)
 import { useLogin } from "./useLogin";
 
+// ============================================================================
+// LoginScreen
+// ----------------------------------------------------------------------------
+// Tela de autenticação. Toda a lógica (validação, chamada de login, navegação,
+// mensagens de erro/sucesso) fica no hook useLogin(); este componente cuida
+// apenas da parte visual: inputs controlados via Controller do React Hook
+// Form, animações de "shake" no erro e "fade/pop" no sucesso (Reanimated).
+// ============================================================================
 export default function LoginScreen() {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   
