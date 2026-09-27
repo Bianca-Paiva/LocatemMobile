@@ -1,6 +1,15 @@
 import { useState, useEffect } from "react";
 import { Alert } from "react-native";
 
+// ============================================================================
+// useReceiveTokenViewModel
+// ----------------------------------------------------------------------------
+// Lógica da tela de verificação de token (etapa 2 da recuperação de senha):
+// controla o código digitado, o cronômetro de reenvio e a validação do
+// código. IMPORTANTE: a verificação ainda é mockada (MOCK_TOKEN_CORRETO)
+// — quando a API de recuperação existir, handleVerifyToken deve ser trocado
+// por uma chamada real ao backend.
+// ============================================================================
 const useReceiveTokenViewModel = () => {
   // 1. ESTADOS: Armazenam os dados que mudam e afetam o visual da tela
   const [token, setToken] = useState(""); // Guarda os 5 dígitos do código

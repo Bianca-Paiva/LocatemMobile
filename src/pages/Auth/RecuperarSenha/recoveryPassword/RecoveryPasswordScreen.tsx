@@ -20,6 +20,14 @@ import { RootStackParamList } from "../../../../routes/AppRoutes";
 // ViewModel
 import useRecoveryPasswordViewModel from "./ViewModel";
 
+// ============================================================================
+// RecoveryPasswordScreen
+// ----------------------------------------------------------------------------
+// Etapa 3 (final) do fluxo "Esqueci minha senha": usuário define a nova
+// senha e a confirma. Exibe um indicador visual de força da senha (3 barras
+// que enchem de acordo com "strength": empty/weak/good/strong), calculado
+// no ViewModel. Ao confirmar, handleSubmit valida e conclui o fluxo.
+// ============================================================================
 export default function RecoveryPasswordScreen() {
   // Consome as variáveis e funções da inteligência da tela
   const {
@@ -31,7 +39,9 @@ export default function RecoveryPasswordScreen() {
     handleSubmit,
   } = useRecoveryPasswordViewModel();
 
-  // Dicionário visual para as barras de força
+  // Dicionário visual para as barras de força: cada nível de "strength"
+  // (calculado no ViewModel a partir da senha digitada) mapeia para uma cor,
+  // um texto e a quantidade de barras que devem ficar coloridas.
   const strengthConfig = {
     empty: { color: "#D9D9D9", text: "", bars: 0 },
     weak: { color: "#E11D48", text: "Fraca", bars: 1 },

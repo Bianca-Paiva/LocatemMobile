@@ -68,9 +68,18 @@ function agruparPorLoja(itens: ItemCarrinhoContexto[]): LojaGroupData[] {
 ============================================================ */
 
 interface CarrinhoProps {
-  navigate: (route: string) => void;
+  navigate: (route: string) => void; // Navegação simplificada (recebe o nome da rota) injetada pelo pai/stack.
 }
 
+// ============================================================================
+// Carrinho (tela)
+// ----------------------------------------------------------------------------
+// Tela do carrinho de compras. Lê os itens do CarrinhoContext/Store global
+// (useCarrinhoStore), agrupa-os por locador/loja e calcula subtotal, desconto
+// (cupom) e frete para exibir no ResumoPedido. Ao confirmar, guarda o total
+// final no PagamentoStore e navega para a etapa de escolha do método de
+// pagamento.
+// ============================================================================
 export default function Carrinho({ navigate }: CarrinhoProps) {
   const {
     itens,
@@ -99,6 +108,9 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
   // resumo do pedido), mas nada impedia o usuário de tocar em "Continuar
   // para Pagamento" sem nunca ter informado um CEP válido. Agora isso
   // também bloqueia o CTA, igual à falta de itens selecionados.
+  // Observação: esta flag é calculada mas atualmente NÃO está incluída em
+  // "ctaDisabled" mais abaixo — vale revisar se o bloqueio do CTA por falta
+  // de frete realmente precisa entrar em produção.
   const freteNaoInformado = freteValor === null;
 
   /*
@@ -136,13 +148,15 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
   // devolve um resultado que o ResumoPedido usa pra marcar o campo em
   // vermelho e mostrar uma mensagem de erro.
   function handleCalcularFrete(cep: string): { sucesso: boolean; mensagem?: string } {
+    // Remove tudo que não é dígito (traço, espaço) antes de validar o tamanho.
     const cepNormalizado = cep.replace(/\D/g, '');
 
     if (cepNormalizado.length !== 8) {
       return { sucesso: false, mensagem: 'Informe um CEP válido com 8 dígitos.' };
     }
 
-    // Frete temporário fixo. Depois este trecho deve chamar a API de frete.
+    // Frete temporário fixo (R$ 10). Depois este trecho deve chamar a API de frete
+    // real, usando o CEP normalizado para calcular o valor de acordo com a distância.
     setFreteValor(10);
     return { sucesso: true };
   }
@@ -155,6 +169,9 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
     navigate('metodoPagamento');
   }
 
+  // Cupons aceitos são fixos (mock): "LOCATEM10" dá 10% de desconto no
+  // subtotal e "FRETEGRATIS" zera o valor do frete (ver freteComCupom acima).
+  // Qualquer outro código limpa o cupom aplicado e retorna erro.
   function handleAplicarCupom(codigo: string) {
     const codigoNormalizado = codigo.trim().toUpperCase();
 

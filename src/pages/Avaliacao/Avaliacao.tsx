@@ -21,35 +21,45 @@ import { useAvaliacoes } from '../../hooks/Avaliacao/useAvaliacoes';
 
 import { styles } from './styles';
 
+// ============================================================================
+// Avaliacao (tela)
+// ----------------------------------------------------------------------------
+// Tela de avaliações do locatário: lista os produtos alugados que ainda
+// precisam ser avaliados ("Pendentes") e os que já foram ("Realizadas"),
+// separados em abas. Toda a lógica de dados, seleção de nota e envio da
+// avaliação vem do hook useAvaliacoes(); este componente só decide o que
+// renderizar (lista, estado vazio, modal de avaliação e toast de sucesso).
+// ============================================================================
 export const Avaliacao = () => {
+  // Controla qual aba está selecionada no momento.
   const [abaAtiva, setAbaAtiva] =
     useState<'pendentes' | 'realizadas'>(
       'pendentes'
     );
 
   const {
-    produtosPendentes,
-    produtosRealizados,
+    produtosPendentes,   // Lista de produtos aguardando avaliação
+    produtosRealizados,  // Lista de produtos já avaliados
 
-    produtoAtual,
-    itensCarrossel,
+    produtoAtual,         // Produto selecionado no momento (abre o modal quando != null)
+    itensCarrossel,        // Itens exibidos no carrossel dentro do modal de avaliação
 
-    observacaoRascunho,
+    observacaoRascunho,   // Texto do comentário sendo digitado no modal
 
-    camposComErro,
-    erroVisivel,
+    camposComErro,        // Quais campos do formulário de avaliação estão com erro
+    erroVisivel,           // Se a mensagem de erro deve aparecer no modal
 
-    toastVisivel,
+    toastVisivel,          // Controla a exibição do toast "Avaliação enviada"
 
     setObservacaoRascunho,
 
-    abrirModal,
+    abrirModal,             // Abre o modal de avaliação para um produto específico
     fecharModal,
 
-    selecionarNotaGlobalEAbrir,
-    selecionarSubNota,
+    selecionarNotaGlobalEAbrir, // Seleciona a nota geral (estrelas do card) e já abre o modal
+    selecionarSubNota,          // Seleciona uma nota específica (ex: qualidade, atendimento) dentro do modal
 
-    enviarAvaliacao,
+    enviarAvaliacao,        // Envia a avaliação preenchida
   } = useAvaliacoes();
 
   return (
@@ -63,7 +73,7 @@ export const Avaliacao = () => {
 
               
 
-        {/* Tabs */}
+        {/* Tabs: alterna entre produtos "Pendentes" e "Realizadas" */}
 
         <View style={styles.tabs}>
           <Pressable
@@ -114,7 +124,10 @@ export const Avaliacao = () => {
          
         </View>
 
-        {/* Pendentes */}
+        {/* Aba Pendentes: mostra estado vazio ou a lista de produtos a avaliar.
+            Cada card permite abrir o modal diretamente (aoClicarCard) ou já
+            selecionar uma nota clicando nas estrelas do próprio card
+            (aoSelecionarEstrela), que abre o modal já com a nota preenchida. */}
 
         {abaAtiva === 'pendentes' && (
           produtosPendentes.length === 0 ? (
@@ -145,7 +158,8 @@ export const Avaliacao = () => {
           )
         )}
 
-        {/* Realizadas */}
+        {/* Aba Realizadas: mesma estrutura, mas somente para consulta
+            (sem seleção rápida de estrela no card, pois já foi avaliado). */}
 
         {abaAtiva === 'realizadas' && (
           produtosRealizados.length === 0 ? (
@@ -173,6 +187,9 @@ export const Avaliacao = () => {
           )
         )}
 
+        {/* Modal de avaliação: só fica visível quando produtoAtual != null
+            (controlado dentro do próprio ModalAvaliacao). Recebe todo o
+            estado do formulário de avaliação e os handlers do hook. */}
         <ModalAvaliacao
           produto={produtoAtual}
           itensCarrossel={itensCarrossel}
@@ -196,6 +213,7 @@ export const Avaliacao = () => {
           aoEnviar={enviarAvaliacao}
         />
 
+        {/* Toast de confirmação exibido brevemente após o envio da avaliação */}
         <ToastConfirmacao
           visivel={toastVisivel}
         />
