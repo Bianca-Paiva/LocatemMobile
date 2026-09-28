@@ -1,3 +1,6 @@
+/**
+ * Hook de ferramentas: expõe stores e contextos de catalogo, produto ou favoritos.
+ */
 import { useContext } from 'react';
 import { CatalogoContext } from '../../context/Ferramentas/Catalogo/CatalogoContext';
 

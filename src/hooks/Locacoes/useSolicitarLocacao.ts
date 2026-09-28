@@ -1,3 +1,6 @@
+/**
+ * Hook de locacoes: calcula estados, filtros e acoes dos fluxos de aluguel.
+ */
 import { useMemo, useState } from 'react';
 import type { ProdutoSelecionado } from '../../context/Ferramentas/Produto/ProdutoContext';
 import type {

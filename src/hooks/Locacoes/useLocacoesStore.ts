@@ -1,3 +1,6 @@
+/**
+ * Hook de locacoes: calcula estados, filtros e acoes dos fluxos de aluguel.
+ */
 import { useContext } from 'react';
 import { LocacaoContext } from '../../context/Locacoes/LocacaoContext';
 

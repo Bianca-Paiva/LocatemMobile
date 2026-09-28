@@ -1,3 +1,6 @@
+/**
+ * Fluxo de avaliacao: permite avaliar produtos e lojas apos uma locacao concluida.
+ */
 import React, { useState } from 'react';
 
 import {

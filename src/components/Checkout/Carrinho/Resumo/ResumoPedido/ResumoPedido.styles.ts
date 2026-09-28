@@ -1,3 +1,6 @@
+/**
+ * Componente de checkout: compoe carrinho, pagamento e resumo dos itens alugados.
+ */
 import { StyleSheet } from 'react-native';
 import colors from '../../../../../theme/colors';
 

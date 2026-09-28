@@ -1,3 +1,6 @@
+/**
+ * Hook de conta: concentra regras de perfil, completude, foto ou notificacoes.
+ */
 import { create } from 'zustand';
 import type { NotificationData } from '../../../pages/Conta/Notificacoes/Notificacoes.types';
 import { mockNotifications } from '../../../pages/Conta/Notificacoes/Notificacao.mock';

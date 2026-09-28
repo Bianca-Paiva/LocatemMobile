@@ -1,3 +1,6 @@
+/**
+ * Fluxo de autenticacao: concentra telas, formularios e navegacao de login, cadastro e recuperacao de senha.
+ */
 import React from "react";
 import {
   StyleSheet,

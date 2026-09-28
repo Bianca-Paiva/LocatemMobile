@@ -1,3 +1,6 @@
+/**
+ * Utilitario puro: centraliza formatacao, validacao ou transformacao de dados reutilizada no app.
+ */
 export type UserType = "locatario" | "locador";
 
 export const formatDocument = ( value: string, userType: UserType ): string => {

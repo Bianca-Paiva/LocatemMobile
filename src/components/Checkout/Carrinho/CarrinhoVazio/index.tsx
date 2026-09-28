@@ -1,3 +1,6 @@
+/**
+ * Componente de checkout: compoe carrinho, pagamento e resumo dos itens alugados.
+ */
 import { View, Text } from 'react-native';
 import { ShoppingCart } from 'lucide-react-native';
 

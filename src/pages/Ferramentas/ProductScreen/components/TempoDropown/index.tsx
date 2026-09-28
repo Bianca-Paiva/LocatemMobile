@@ -1,3 +1,6 @@
+/**
+ * Detalhe da ferramenta: apresenta dados do produto e inicia fluxos de carrinho ou locacao.
+ */
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 // Importante: ScrollView vem daqui (react-native-gesture-handler), não de

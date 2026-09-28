@@ -1,3 +1,6 @@
+/**
+ * Home do locador: resume solicitacoes, agenda e ferramentas anunciadas pelo usuario locador.
+ */
 import React from 'react';
 
 import { ScrollView, View, Text, TouchableOpacity } from 'react-native';

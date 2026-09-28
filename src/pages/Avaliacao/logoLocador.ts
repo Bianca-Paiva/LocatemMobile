@@ -1,3 +1,6 @@
+/**
+ * Fluxo de avaliacao: permite avaliar produtos e lojas apos uma locacao concluida.
+ */
 import { ImageSourcePropType } from 'react-native';
 
 // Mapa estático "nome do locador/loja" -> imagem da logo (bundle local, via

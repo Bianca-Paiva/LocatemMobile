@@ -1,3 +1,6 @@
+/**
+ * Hook de avaliacao: organiza pendencias, envio e resumo de notas do usuario.
+ */
 import { useMemo, useState } from 'react';
 
 import type {

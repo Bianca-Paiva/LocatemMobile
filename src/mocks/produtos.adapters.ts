@@ -1,3 +1,6 @@
+/**
+ * Mock de dados: simula respostas e cenarios da LOCATEM enquanto a API real nao cobre todo o fluxo.
+ */
 import type { Produto } from '../types/Ferramentas/produto.types';
 import type { LocacaoData } from '../pages/Locacoes/MinhasLocacoes/MinhasLocacoes.types';
 import type { ProdutoBusca } from '../pages/Search/Searchtypes';

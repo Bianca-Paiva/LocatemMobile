@@ -1,3 +1,6 @@
+/**
+ * Componente compartilhado: fornece UI reutilizavel em diferentes fluxos do app.
+ */
 
 import React from 'react';
 import {

@@ -1,3 +1,6 @@
+/**
+ * Hook de carrinho: centraliza calculos e acoes usadas no fluxo de solicitacao pelo carrinho.
+ */
 import { useMemo, useState } from 'react';
 
 import type { ProdutoSelecionado } from '../../../context/Ferramentas/Produto/ProdutoContext';

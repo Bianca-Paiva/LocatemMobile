@@ -1,3 +1,6 @@
+/**
+ * Hook de ferramentas: expõe stores e contextos de catalogo, produto ou favoritos.
+ */
 import { create } from 'zustand';
 
 // 🚀 ARQUITETURA: Definimos o contrato do estado para blindar a aplicação de erros.

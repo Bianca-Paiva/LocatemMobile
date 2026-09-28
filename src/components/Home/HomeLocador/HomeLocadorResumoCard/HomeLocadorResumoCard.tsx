@@ -1,3 +1,6 @@
+/**
+ * Componente da home: resume informacoes de entrada para locador ou locatario.
+ */
 import type { ReactNode } from 'react';
 import { View, Text } from 'react-native';
 

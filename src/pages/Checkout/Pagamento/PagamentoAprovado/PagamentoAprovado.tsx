@@ -1,3 +1,6 @@
+/**
+ * Fluxo de pagamento: conduz escolha de metodo, dados do pagamento, processamento simulado e confirmacao.
+ */
 import { Image, ScrollView, Text, View } from 'react-native';
 import { Calendar, CheckCircle2, CreditCard, Info, QrCode, Truck } from 'lucide-react-native';
 import { LinearGradient } from 'expo-linear-gradient';

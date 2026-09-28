@@ -1,3 +1,6 @@
+/**
+ * Componente de layout: padroniza cabecalhos e estruturas visuais reutilizadas nas telas.
+ */
 import type { ReactNode } from 'react';
 import { View, Text } from 'react-native';
 import type { ViewStyle, StyleProp } from 'react-native';

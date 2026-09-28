@@ -1,3 +1,6 @@
+/**
+ * Componente de autenticacao: apoia login, cadastro, recuperacao de senha ou protecao de rotas.
+ */
 import { Image, ImageSourcePropType, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {UserTypeCardProps} from './types';
 import styles from "./styles";

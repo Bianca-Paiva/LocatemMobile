@@ -1,3 +1,6 @@
+/**
+ * Hook de conta: concentra regras de perfil, completude, foto ou notificacoes.
+ */
 import { z } from 'zod';
 import { cpf, cnpj } from 'cpf-cnpj-validator';
 import { validateFullName, validatePhone, validateCEP } from '../../../utils/Formatacao/masks';

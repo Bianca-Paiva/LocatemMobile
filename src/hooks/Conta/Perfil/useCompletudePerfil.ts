@@ -1,3 +1,6 @@
+/**
+ * Hook de conta: concentra regras de perfil, completude, foto ou notificacoes.
+ */
 import { useMemo } from 'react';
 import type { Usuario } from '../../../types/Auth/usuario.types';
 

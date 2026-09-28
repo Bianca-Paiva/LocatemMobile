@@ -1,3 +1,6 @@
+/**
+ * Hook de conta: concentra regras de perfil, completude, foto ou notificacoes.
+ */
 import { useCallback, useState } from 'react';
 import { Alert, Linking } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';

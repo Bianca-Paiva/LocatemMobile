@@ -1,3 +1,6 @@
+/**
+ * Hook de pagamento: controla estado e navegacao das etapas do checkout.
+ */
 import { useEffect, useRef } from 'react';
 import { usePagamentoStore } from './usePagamentoStore';
 import { useCarrinhoStore } from '../../Carrinho/useCarrinhoStore';

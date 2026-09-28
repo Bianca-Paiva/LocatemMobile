@@ -1,3 +1,6 @@
+/**
+ * Fluxo de avaliacao: permite avaliar produtos e lojas apos uma locacao concluida.
+ */
 import type { ProdutoAvaliacao } from './Avaliacao.types';
 import { obterLogoLocador } from './logoLocador';
 

@@ -1,3 +1,6 @@
+/**
+ * Componente compartilhado: fornece UI reutilizavel em diferentes fluxos do app.
+ */
 import FormInput from '../FormInput/FormInput';
 import type { FormInputProps } from '../FormInput/FormInput';
 

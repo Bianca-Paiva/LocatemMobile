@@ -1,3 +1,6 @@
+/**
+ * Secao do cadastro de ferramenta: captura uma parte do anuncio criado pelo locador.
+ */
 import { useState } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';

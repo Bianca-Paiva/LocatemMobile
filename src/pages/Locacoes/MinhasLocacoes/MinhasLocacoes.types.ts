@@ -1,3 +1,6 @@
+/**
+ * Fluxo de locacoes: acompanha solicitacoes, status, detalhes e historico de alugueis.
+ */
 import { ImageSourcePropType } from "react-native";
 
 /** Status possíveis de uma solicitação de locacao */

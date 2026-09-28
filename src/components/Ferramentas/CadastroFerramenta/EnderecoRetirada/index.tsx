@@ -1,3 +1,6 @@
+/**
+ * Secao do cadastro de ferramenta: captura uma parte do anuncio criado pelo locador.
+ */
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import FormInput from '../../../Shared/Inputs/FormInput/FormInput';
 import FormTextarea from '../../../Shared/Inputs/FormTextArea/FromTextArea';

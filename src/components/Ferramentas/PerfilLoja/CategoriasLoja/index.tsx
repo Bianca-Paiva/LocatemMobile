@@ -1,3 +1,6 @@
+/**
+ * Componente de ferramentas: exibe cards, detalhes ou informacoes relacionadas a anuncios.
+ */
 import React from 'react';
 import { ScrollView, Pressable, Text } from 'react-native';
 

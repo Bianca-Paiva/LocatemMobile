@@ -1,3 +1,6 @@
+/**
+ * Componente de checkout: compoe carrinho, pagamento e resumo dos itens alugados.
+ */
 import { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Tag, Lock } from 'lucide-react-native';

@@ -1,3 +1,6 @@
+/**
+ * Hook de pagamento: controla estado e navegacao das etapas do checkout.
+ */
 import { useState } from 'react';
 import type { Cartao, MetodoPagamento } from '../../../types/Checkout/Pagamento/cartao.types';
 import {

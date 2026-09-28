@@ -1,3 +1,6 @@
+/**
+ * Service de infraestrutura: isola persistencia local ou comunicacao HTTP usada pelas telas.
+ */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import type { Usuario } from '../types/Auth/usuario.types';

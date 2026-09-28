@@ -1,3 +1,6 @@
+/**
+ * Contrato de tipos: define o formato dos dados compartilhados entre telas, contextos e componentes.
+ */
 import { ImageSourcePropType } from 'react-native';
 
 /**

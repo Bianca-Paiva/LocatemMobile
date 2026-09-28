@@ -1,3 +1,6 @@
+/**
+ * Componente de layout: padroniza cabecalhos e estruturas visuais reutilizadas nas telas.
+ */
 import { useEffect, useRef, useState } from "react";
 import {
     View,

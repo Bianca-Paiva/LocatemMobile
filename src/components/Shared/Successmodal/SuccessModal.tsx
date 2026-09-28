@@ -1,3 +1,6 @@
+/**
+ * Componente compartilhado: fornece UI reutilizavel em diferentes fluxos do app.
+ */
 import { Modal, View, Text, Pressable, StyleSheet, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 

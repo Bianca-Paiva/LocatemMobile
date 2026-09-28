@@ -1,3 +1,6 @@
+/**
+ * Componente de locacoes: mostra status, resumo, acoes ou dados de uma solicitacao de aluguel.
+ */
 import type { LocacaoData } from '../../../pages/Locacoes/MinhasLocacoes/MinhasLocacoes.types';
 import { View, Text } from 'react-native';
 

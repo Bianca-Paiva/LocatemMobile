@@ -1,3 +1,6 @@
+/**
+ * Area da conta: exibe e altera dados de perfil, favoritos e notificacoes do usuario.
+ */
 import React, { useState } from 'react';
 
 import { View, Text, ScrollView, Pressable } from 'react-native';

@@ -1,3 +1,6 @@
+/**
+ * Home do locador: resume solicitacoes, agenda e ferramentas anunciadas pelo usuario locador.
+ */
 import type { ImageSourcePropType } from 'react-native';
 
 import type { LocacaoHistoricoData } from '../../Locacoes/HistoricoLocacoes/HistoricoLocacoes.types';

@@ -1,3 +1,6 @@
+/**
+ * Secao do cadastro de ferramenta: captura uma parte do anuncio criado pelo locador.
+ */
 export interface SecaoCardProps {
   /** nome de ícone do MaterialCommunityIcons */
   icone: string;

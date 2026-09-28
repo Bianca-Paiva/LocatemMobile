@@ -1,3 +1,6 @@
+/**
+ * Componente de ferramentas: exibe cards, detalhes ou informacoes relacionadas a anuncios.
+ */
 import type { Ferramenta } from '../../../../context/Ferramentas/FerramentasContext';
 
 export interface FerramentaCardProps {

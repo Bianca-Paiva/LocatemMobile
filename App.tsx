@@ -1,3 +1,7 @@
+/**
+ * Ponto de entrada visual do app LOCATEM.
+ * Carrega fontes, monta providers globais e entrega a navegacao principal.
+ */
 import { NavigationContainer } from '@react-navigation/native';
 
 import AppRoutes from './src/routes/AppRoutes';
@@ -19,6 +23,8 @@ import { PagamentoProvider } from './src/context/Checkout/Pagamento/PagamentoCon
 import { AuthProvider } from './src/context/Auth/AuthContext';
 
 export default function App() {
+  // As telas usam a familia Inter como base visual; enquanto ela carrega,
+  // evitamos renderizar textos com fonte incorreta e trocar depois.
   const [fontsLoaded] = useFonts({
     Inter_400Regular,
     Inter_500Medium,
@@ -31,6 +37,7 @@ export default function App() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+    {/* Ordem dos providers: estados globais primeiro, navegacao por ultimo. */}
     <AuthProvider>
       <CatalogoProvider>
         <FerramentasProvider>

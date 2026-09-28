@@ -1,3 +1,6 @@
+/**
+ * Componente compartilhado: fornece UI reutilizavel em diferentes fluxos do app.
+ */
 import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, Image } from "react-native";
 import styles from "./styles";

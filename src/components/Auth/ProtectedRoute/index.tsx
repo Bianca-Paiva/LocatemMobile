@@ -1,3 +1,6 @@
+/**
+ * Componente de autenticacao: apoia login, cadastro, recuperacao de senha ou protecao de rotas.
+ */
 import React, { useCallback } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";

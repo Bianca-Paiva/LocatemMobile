@@ -1,3 +1,6 @@
+/**
+ * Componente de ferramentas: exibe cards, detalhes ou informacoes relacionadas a anuncios.
+ */
 import { ImageSourcePropType } from 'react-native';
 
 export interface CabecalhoLojaProps {

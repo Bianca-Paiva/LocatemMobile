@@ -1,3 +1,6 @@
+/**
+ * Detalhe da ferramenta: apresenta dados do produto e inicia fluxos de carrinho ou locacao.
+ */
 import type { ImageSourcePropType } from 'react-native';
 
 export interface ProdutoSemelhante {

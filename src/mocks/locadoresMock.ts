@@ -1,3 +1,6 @@
+/**
+ * Mock de dados: simula respostas e cenarios da LOCATEM enquanto a API real nao cobre todo o fluxo.
+ */
 import { ImageSourcePropType } from 'react-native';
 
 import logoLojaMS from '../../assets/images/LogosLojas/logoLojaMS.png';

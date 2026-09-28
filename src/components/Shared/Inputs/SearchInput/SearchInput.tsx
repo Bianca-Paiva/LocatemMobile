@@ -1,3 +1,6 @@
+/**
+ * Componente compartilhado: fornece UI reutilizavel em diferentes fluxos do app.
+ */
 import { View, Image, TextInput, StyleSheet, KeyboardTypeOptions, } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 interface InputProps {

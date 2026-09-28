@@ -1,3 +1,6 @@
+/**
+ * Utilitario puro: centraliza formatacao, validacao ou transformacao de dados reutilizada no app.
+ */
 import { cpf, cnpj } from "cpf-cnpj-validator";
 
 export const validateName = (name: string): boolean => {

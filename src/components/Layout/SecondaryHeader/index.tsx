@@ -1,3 +1,6 @@
+/**
+ * Componente de layout: padroniza cabecalhos e estruturas visuais reutilizadas nas telas.
+ */
 import { StyleSheet, View , TouchableOpacity,Image, Text
  } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";

@@ -1,3 +1,6 @@
+/**
+ * Secao do cadastro de ferramenta: captura uma parte do anuncio criado pelo locador.
+ */
 export interface FotosFerramentaProps {
   fotos: string[];
   onChange: (fotos: string[]) => void;

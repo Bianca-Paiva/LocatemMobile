@@ -1,3 +1,6 @@
+/**
+ * Componente de busca: apresenta filtros, ordenacao, paginacao ou resultados do catalogo.
+ */
 import type { FilterState } from '../../../pages/Search/Searchtypes';
 
 export type { FilterState };

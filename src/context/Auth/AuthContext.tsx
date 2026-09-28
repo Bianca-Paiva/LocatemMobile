@@ -1,3 +1,6 @@
+/**
+ * Contexto global: compartilha estado e acoes entre telas sem repassar props manualmente.
+ */
 import { createContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 

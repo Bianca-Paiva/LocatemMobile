@@ -1,3 +1,6 @@
+/**
+ * Componente de checkout: compoe carrinho, pagamento e resumo dos itens alugados.
+ */
 import { View, Text, TouchableOpacity } from 'react-native';
 import { AlertTriangle, Check, Copy } from 'lucide-react-native';
 import QRCode from 'react-native-qrcode-svg';

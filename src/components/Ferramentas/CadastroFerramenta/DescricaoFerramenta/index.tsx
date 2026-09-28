@@ -1,3 +1,6 @@
+/**
+ * Secao do cadastro de ferramenta: captura uma parte do anuncio criado pelo locador.
+ */
 import { View, Text } from 'react-native';
 import FormTextarea from '../../../Shared/Inputs/FormTextArea/FromTextArea';
 import styles from './styles';

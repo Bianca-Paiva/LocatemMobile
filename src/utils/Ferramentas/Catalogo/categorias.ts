@@ -1,3 +1,6 @@
+/**
+ * Utilitario puro: centraliza formatacao, validacao ou transformacao de dados reutilizada no app.
+ */
 import type { Produto } from '../../../types/Ferramentas/produto.types';
 
 /**

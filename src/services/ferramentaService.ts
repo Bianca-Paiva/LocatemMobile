@@ -1,3 +1,6 @@
+/**
+ * Service de infraestrutura: isola persistencia local ou comunicacao HTTP usada pelas telas.
+ */
 import { carregarSessao } from './authStorage';
 
 const API_BASE_URL = 'http://10.0.2.2:5033';

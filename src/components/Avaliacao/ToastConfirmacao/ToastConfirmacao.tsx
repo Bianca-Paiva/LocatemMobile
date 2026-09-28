@@ -1,3 +1,6 @@
+/**
+ * Componente de avaliacao: exibe notas, formularios, estados vazios ou confirmacoes de avaliacao.
+ */
 import React from 'react';
 
 import {

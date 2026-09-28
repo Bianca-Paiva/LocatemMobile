@@ -1,3 +1,6 @@
+/**
+ * Contrato de tipos: define o formato dos dados compartilhados entre telas, contextos e componentes.
+ */
 export type TipoUsuario = 'locatario' | 'locador' | 'adm';
 
 export interface ReputacaoUsuario {

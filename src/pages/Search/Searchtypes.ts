@@ -1,3 +1,6 @@
+/**
+ * Busca de ferramentas: controla termo, filtros, ordenacao e exibicao do catalogo filtrado.
+ */
 import type { ImageSourcePropType } from 'react-native';
 
 /**

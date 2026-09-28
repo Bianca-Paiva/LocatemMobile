@@ -1,3 +1,6 @@
+/**
+ * Busca de ferramentas: controla termo, filtros, ordenacao e exibicao do catalogo filtrado.
+ */
 import { useEffect, useMemo, useState } from "react";
 import { ScrollView, View } from "react-native";
 import { styles } from "./styles";

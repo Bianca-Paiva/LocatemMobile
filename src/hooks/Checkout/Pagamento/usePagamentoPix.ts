@@ -1,3 +1,6 @@
+/**
+ * Hook de pagamento: controla estado e navegacao das etapas do checkout.
+ */
 import { useEffect, useState } from 'react';
 import * as Clipboard from 'expo-clipboard';
 import type { PrazoPagamento } from '../../../types/Checkout/Pagamento/checkout';

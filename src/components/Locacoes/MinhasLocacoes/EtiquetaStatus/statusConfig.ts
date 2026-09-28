@@ -1,3 +1,6 @@
+/**
+ * Componente de locacoes: mostra status, resumo, acoes ou dados de uma solicitacao de aluguel.
+ */
 import {
   Clock3,
   CreditCard,

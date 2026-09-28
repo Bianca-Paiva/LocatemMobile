@@ -1,3 +1,6 @@
+/**
+ * Fluxo de ferramentas: lista, detalha ou organiza anuncios e vitrines de locadores.
+ */
 import React, { useMemo, useState } from 'react';
 import { ScrollView, View, Text } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';

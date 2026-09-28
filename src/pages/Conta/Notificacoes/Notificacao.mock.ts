@@ -1,3 +1,6 @@
+/**
+ * Area da conta: exibe e altera dados de perfil, favoritos e notificacoes do usuario.
+ */
 import type { NotificationData } from './Notificacoes.types';
 
 // Mock de notificações. "details" contém dados fictícios até integração com API real.

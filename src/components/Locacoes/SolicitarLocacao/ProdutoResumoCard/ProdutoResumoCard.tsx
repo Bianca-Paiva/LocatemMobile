@@ -1,3 +1,6 @@
+/**
+ * Componente de locacoes: mostra status, resumo, acoes ou dados de uma solicitacao de aluguel.
+ */
 import { Image, Text, View } from 'react-native';
 
 import {User} from 'lucide-react-native'

@@ -1,3 +1,6 @@
+/**
+ * Componente compartilhado: fornece UI reutilizavel em diferentes fluxos do app.
+ */
 import { useEffect, useRef, useState } from 'react';
 import {
   Animated,

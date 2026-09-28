@@ -1,3 +1,6 @@
+/**
+ * Componente de busca: apresenta filtros, ordenacao, paginacao ou resultados do catalogo.
+ */
 import React from 'react';
 import { Text, View } from 'react-native';
 import { ProductCard } from '../../Ferramentas/ProductCard';

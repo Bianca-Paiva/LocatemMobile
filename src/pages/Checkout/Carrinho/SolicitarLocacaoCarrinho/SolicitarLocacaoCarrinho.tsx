@@ -1,3 +1,6 @@
+/**
+ * Fluxo de carrinho: organiza itens selecionados, resumo da locacao e passagem para pagamento.
+ */
 import { useEffect, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';

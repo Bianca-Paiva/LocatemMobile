@@ -1,3 +1,6 @@
+/**
+ * Home do locatario: apresenta banners, categorias e ferramentas recomendadas para aluguel.
+ */
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 // importacao dos elementos de navegação

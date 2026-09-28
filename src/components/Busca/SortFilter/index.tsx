@@ -1,3 +1,6 @@
+/**
+ * Componente de busca: apresenta filtros, ordenacao, paginacao ou resultados do catalogo.
+ */
 import React, { useState } from "react";
 import {
   View,

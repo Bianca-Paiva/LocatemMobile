@@ -1,3 +1,6 @@
+/**
+ * Fluxo de avaliacao: permite avaliar produtos e lojas apos uma locacao concluida.
+ */
 import { ImageSourcePropType } from 'react-native';
 /**
     * Tipos do fluxo de Avaliações.

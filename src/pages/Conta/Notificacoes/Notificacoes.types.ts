@@ -1,3 +1,6 @@
+/**
+ * Area da conta: exibe e altera dados de perfil, favoritos e notificacoes do usuario.
+ */
 import type { StatusLocacao } from '../../Locacoes/MinhasLocacoes/MinhasLocacoes.types';
 
 export type NotificationType =

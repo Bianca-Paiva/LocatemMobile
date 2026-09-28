@@ -1,3 +1,6 @@
+/**
+ * Area da conta: exibe e altera dados de perfil, favoritos e notificacoes do usuario.
+ */
 import React, { useState } from 'react';
 import { LogOut } from 'lucide-react-native';
 import {

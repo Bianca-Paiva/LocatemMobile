@@ -1,3 +1,6 @@
+/**
+ * Detalhe da ferramenta: apresenta dados do produto e inicia fluxos de carrinho ou locacao.
+ */
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 

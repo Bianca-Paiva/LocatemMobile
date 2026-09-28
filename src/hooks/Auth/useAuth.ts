@@ -1,3 +1,7 @@
+/**
+ * Hook de autenticacao: expoe a sessao atual, login, logout
+ * e atualizacao de perfil para telas e componentes.
+ */
 import { useContext } from 'react';
 import { AuthContext } from '../../context/Auth/AuthContext';
 

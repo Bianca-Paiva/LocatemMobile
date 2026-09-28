@@ -1,3 +1,6 @@
+/**
+ * Componente da home: resume informacoes de entrada para locador ou locatario.
+ */
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Calendar, ChevronRight } from 'lucide-react-native';
 

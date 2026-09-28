@@ -1,3 +1,6 @@
+/**
+ * Componente de ferramentas: exibe cards, detalhes ou informacoes relacionadas a anuncios.
+ */
 import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Heart } from 'lucide-react-native';

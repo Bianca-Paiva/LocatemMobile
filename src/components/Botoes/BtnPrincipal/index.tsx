@@ -1,3 +1,6 @@
+/**
+ * Botao reutilizavel: centraliza estilos e estados de interacao usados em varias telas.
+ */
 import React from "react";
 import { TouchableOpacity, Text } from "react-native";
 import { BtnPrincipalProps } from "./types";

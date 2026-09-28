@@ -1,3 +1,6 @@
+/**
+ * Hook de locacoes: calcula estados, filtros e acoes dos fluxos de aluguel.
+ */
 import { create } from 'zustand';
 
 interface LocacaoStore {

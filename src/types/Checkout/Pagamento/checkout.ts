@@ -1,3 +1,6 @@
+/**
+ * Contrato de tipos: define o formato dos dados compartilhados entre telas, contextos e componentes.
+ */
 import type { ImageSourcePropType } from 'react-native';
 
 // Tipos compartilhados do fluxo de Carrinho (equivalente a src/types/checkout.ts do Web)

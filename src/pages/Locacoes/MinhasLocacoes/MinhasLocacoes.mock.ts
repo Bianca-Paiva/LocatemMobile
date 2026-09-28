@@ -1,3 +1,6 @@
+/**
+ * Fluxo de locacoes: acompanha solicitacoes, status, detalhes e historico de alugueis.
+ */
 import type { LocacaoData, StatusLocacao } from './MinhasLocacoes.types';
 import { PRODUTOS_MOCK } from '../../../mocks/produtos.mock';
 import { toLocacaoProdutoBase } from '../../../mocks/produtos.adapters';

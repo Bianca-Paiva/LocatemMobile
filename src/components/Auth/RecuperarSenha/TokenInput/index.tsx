@@ -1,3 +1,6 @@
+/**
+ * Componente de autenticacao: apoia login, cadastro, recuperacao de senha ou protecao de rotas.
+ */
 import { useRef, useState } from "react";
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, KeyboardTypeOptions, NativeSyntheticEvent, TextInputKeyPressEvent } from "react-native";
 import {TokenInputProps} from './types';

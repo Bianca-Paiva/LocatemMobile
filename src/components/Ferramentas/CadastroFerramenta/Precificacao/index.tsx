@@ -1,3 +1,6 @@
+/**
+ * Secao do cadastro de ferramenta: captura uma parte do anuncio criado pelo locador.
+ */
 import { View, Text } from 'react-native';
 import FormInput from '../../../Shared/Inputs/FormInput/FormInput';
 import { maskMoeda } from '../../../../utils/Formatacao/masks';

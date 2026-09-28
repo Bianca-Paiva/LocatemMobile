@@ -1,3 +1,6 @@
+/**
+ * Fluxo de locacoes: acompanha solicitacoes, status, detalhes e historico de alugueis.
+ */
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { ScrollView, View } from 'react-native';

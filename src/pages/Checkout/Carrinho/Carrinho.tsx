@@ -1,3 +1,6 @@
+/**
+ * Fluxo de carrinho: organiza itens selecionados, resumo da locacao e passagem para pagamento.
+ */
 import { useMemo, useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Check } from 'lucide-react-native';

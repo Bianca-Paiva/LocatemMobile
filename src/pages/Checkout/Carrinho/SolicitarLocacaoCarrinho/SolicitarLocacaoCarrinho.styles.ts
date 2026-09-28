@@ -1,3 +1,6 @@
+/**
+ * Fluxo de carrinho: organiza itens selecionados, resumo da locacao e passagem para pagamento.
+ */
 import { StyleSheet } from 'react-native';
 import colors from '../../../../theme/colors';
 

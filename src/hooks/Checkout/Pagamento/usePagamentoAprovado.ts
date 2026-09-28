@@ -1,3 +1,6 @@
+/**
+ * Hook de pagamento: controla estado e navegacao das etapas do checkout.
+ */
 import { useEffect, useMemo, useState } from 'react';
 import type { ImageSourcePropType } from 'react-native';
 

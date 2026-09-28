@@ -1,3 +1,6 @@
+/**
+ * Componente de conta: apresenta perfil, notificacoes, reputacao ou dados pessoais do usuario.
+ */
 import React from 'react';
 
 import { View, Text, Pressable } from 'react-native';

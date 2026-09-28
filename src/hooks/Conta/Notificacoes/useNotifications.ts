@@ -1,3 +1,6 @@
+/**
+ * Hook de conta: concentra regras de perfil, completude, foto ou notificacoes.
+ */
 import { useMemo, useState } from 'react';
 import type { FilterOption, NotificationData } from '../../../pages/Conta/Notificacoes/Notificacoes.types';
 import { PAGE_SIZE } from '../../../pages/Conta/Notificacoes/Notificacao.mock';

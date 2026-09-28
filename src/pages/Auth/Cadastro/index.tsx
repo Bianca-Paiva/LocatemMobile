@@ -1,3 +1,6 @@
+/**
+ * Fluxo de autenticacao: concentra telas, formularios e navegacao de login, cadastro e recuperacao de senha.
+ */
 import { useEffect } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { Controller } from "react-hook-form"; // O Adaptador

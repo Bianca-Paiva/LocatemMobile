@@ -1,6 +1,6 @@
 // Contexto global de "Minhas Ferramentas".
-// Guarda em memória as ferramentas do usuário
-// e agora também carrega as ferramentas do backend.
+// Guarda em memoria os anuncios do locador e sincroniza criacao,
+// edicao e status com a API quando o usuario esta autenticado.
 import React, {createContext, useContext, useState, useMemo, useEffect,} from 'react';
 import type { ReactNode } from 'react';
 import type { CadastroFerramentaFormState } from '../../pages/Ferramentas/CadastroFerramenta/types';
@@ -137,7 +137,7 @@ setFerramentas(ferramentasConvertidas);
   form: CadastroFerramentaFormState,
 ) => {
   try {
-    // Busca as categorias para descobrir o ID da categoria escolhida
+    // A API recebe categoria por ID; a tela trabalha com o nome exibido ao usuario.
     const categorias = await listarCategorias();
 
     const categoriaSelecionada = categorias.find(
@@ -162,7 +162,7 @@ setFerramentas(ferramentasConvertidas);
       categoriaId: Number(categoriaSelecionada.id),
     });
 
-    // Atualiza a lista da tela somente depois que a API respondeu com sucesso
+    // So atualiza a UI depois da API confirmar, evitando mostrar alteracao nao persistida.
     setFerramentas((atual) =>
       atual.map((f) =>
         f.id === id
@@ -182,10 +182,10 @@ setFerramentas(ferramentasConvertidas);
 
 const removerFerramenta = async (id: string) => {
   try {
-    // Desativa a ferramenta no banco
+    // Na LOCATEM, remover anuncio significa desativar a ferramenta no backend.
     await desativarFerramenta(id);
 
-    // Depois que o banco confirmou, remove da lista da tela
+    // Depois da confirmacao, o anuncio sai da lista ativa do locador.
     setFerramentas((atual) =>
       atual.filter((f) => f.id !== id),
     );
