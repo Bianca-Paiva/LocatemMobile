@@ -34,8 +34,7 @@ export const USUARIOS_MOCK: Usuario[] = [
     senha: "123456",
     telefone: "(11) 98765-4321",
     documento: "75.315.333/0001-09",
-    endereco:
-      "Rua das Acácias, 247 – Apto 32, São Paulo, SP · 01310-100",
+    endereco: "Rua das Acácias, 247 – Apto 32, São Paulo, SP · 01310-100",
 
     tipo: "locador",
 
@@ -58,13 +57,11 @@ export const USUARIOS_MOCK: Usuario[] = [
     senha: "123456",
     telefone: "(11) 91234-5678",
     documento: "987.654.321-00",
-    endereco:
-      "Av. Sapopemba, 1500, São Paulo, SP · 03988-000",
+    endereco: "Av. Sapopemba, 1500, São Paulo, SP · 03988-000",
 
     tipo: "locatario",
 
-    fotoUrl:
-      "https://i.pravatar.cc/150?u=maria.oliveira",
+    fotoUrl: "https://i.pravatar.cc/150?u=maria.oliveira",
 
     emailVerificado: true,
 
@@ -76,15 +73,14 @@ export const USUARIOS_MOCK: Usuario[] = [
       locacoesConcluidas: 20,
     },
   },
-   {
+  {
     id: "u-Adm",
     nome: "Administrador",
     email: "tds03@exemplo.com",
     senha: "123456",
     telefone: "0",
     documento: "0",
-    endereco:
-      "Rua das Acácias, 247 – Apto 32, São Paulo, SP · 01310-100",
+    endereco: "Rua das Acácias, 247 – Apto 32, São Paulo, SP · 01310-100",
 
     tipo: "adm",
 
@@ -108,13 +104,9 @@ export const USUARIOS_MOCK: Usuario[] = [
  * - letras maiúsculas/minúsculas
  * - espaços extras antes ou depois do e-mail
  */
-export function buscarUsuarioPorEmail(
-  email: string
-): Usuario | undefined {
+export function buscarUsuarioPorEmail(email: string): Usuario | undefined {
   return USUARIOS_MOCK.find(
-    (usuario) =>
-      usuario.email.toLowerCase() ===
-      email.trim().toLowerCase()
+    (usuario) => usuario.email.toLowerCase() === email.trim().toLowerCase(),
   );
 }
 
@@ -131,18 +123,12 @@ export function buscarUsuarioPorEmail(
  *        ↓
  * Gustavo Silva
  */
-export function criarUsuarioFallback(
-  email: string
-): Usuario {
+export function criarUsuarioFallback(email: string): Usuario {
   const nomeBase =
-    email
-      .split("@")[0]
-      ?.replace(/[._]/g, " ")
-      .trim() || "Usuário";
+    email.split("@")[0]?.replace(/[._]/g, " ").trim() || "Usuário";
 
-  const nomeFormatado = nomeBase.replace(
-    /\b\w/g,
-    (letra) => letra.toUpperCase()
+  const nomeFormatado = nomeBase.replace(/\b\w/g, (letra) =>
+    letra.toUpperCase(),
   );
 
   return {
@@ -175,4 +161,3 @@ export function criarUsuarioFallback(
     },
   };
 }
-

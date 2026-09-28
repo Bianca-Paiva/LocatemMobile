@@ -31,18 +31,28 @@ interface OpcaoPainel {
     icon: typeof Wrench;
     titulo: string;
     descricao: string;
-    /** Ausente = opção ainda não tem tela própria no app (mesmo critério da Web). */
     rota?: RotaPainel;
+    // NOVA PROPRIEDADE: Array com os tipos que podem acessar essa opção. 
+    // Se não for definida (undefined), todos podem acessar.
+    tiposPermitidos?: TipoUsuario[]; 
 }
 
-// Espelha OPCOES_BASE de PainelControle.tsx da Web: mesmas 9 opções, mesmos
-// textos. `tipo` fica disponível (como na Web) para o dia em que Locador
-// precisar de uma opção exclusiva (ex: "Meus Anúncios"), mas hoje a lista é
-// única para os dois tipos de usuário.
 const OPCOES: OpcaoPainel[] = [
-    { icon: Wrench, titulo: 'Aluguéis Ativos', descricao: 'Visualize seus equipamentos alugados atualmente.', rota: 'minhasLocacoes' },
+    { 
+        icon: Wrench, 
+        titulo: 'Aluguéis Ativos', 
+        descricao: 'Visualize seus equipamentos alugados atualmente.', 
+        rota: 'minhasLocacoes',
+        tiposPermitidos: ['locador'] // <-- Exemplo: Apenas locatário acessa
+    },
     { icon: Clock, titulo: 'Histórico de Locações', descricao: 'Consulte todas as suas locações anteriores.' },
-    { icon: Heart, titulo: 'Favoritos', descricao: 'Ferramentas e equipamentos salvos.', rota: 'favoritos' },
+    { 
+        icon: Heart, 
+        titulo: 'Favoritos', 
+        descricao: 'Ferramentas e equipamentos salvos.', 
+        rota: 'favoritos',
+        tiposPermitidos: ['locatario'] // <-- Exemplo: Apenas locatário acessa
+    },
     { icon: Wallet, titulo: 'Pagamentos', descricao: 'Visualize pagamentos, cauções e reembolsos.' },
     { icon: FileText, titulo: 'Contratos', descricao: 'Acesse todos os contratos digitais.' },
     { icon: MapPin, titulo: 'Endereços', descricao: 'Gerencie seus endereços cadastrados.' },
@@ -58,6 +68,17 @@ export default function PainelControle({
     tipo: TipoUsuario;
     onNavigate?: (route: RotaPainel) => void;
 }) {
+
+    // LÓGICA DE FILTRAGEM:
+    const opcoesPermitidas = OPCOES.filter((opcao) => {
+        // Se a opção não tem restrição de tipos, permite para todos
+        if (!opcao.tiposPermitidos) {
+            return true;
+        }
+        // Se tiver restrição, verifica se o tipo atual está na lista
+        return opcao.tiposPermitidos.includes(tipo);
+    });
+
     return (
         <View style={styles.card}>
             <Text style={styles.title}>
@@ -65,7 +86,8 @@ export default function PainelControle({
             </Text>
 
             <View style={styles.grid}>
-                {OPCOES.map((opcao) => {
+                {/* AQUI: Use 'opcoesPermitidas' em vez de 'OPCOES' */}
+                {opcoesPermitidas.map((opcao) => {
                     const Icon = opcao.icon;
                     const ativo = Boolean(opcao.rota);
 
@@ -73,13 +95,6 @@ export default function PainelControle({
                         <Pressable
                             key={opcao.titulo}
                             disabled={!ativo}
-                            // Antes a rota era decidida comparando o TEXTO do
-                            // título ("Notificações" ? ... : 'minhasLocacoes'),
-                            // o que fazia qualquer nova opção ativa cair sempre
-                            // em 'minhasLocacoes' — uma rota que nem existe no
-                            // Stack.Navigator (o nome real é 'MinhasLocacoes').
-                            // Agora cada opção carrega sua própria rota, igual
-                            // à Web (campo `route` de OpcaoPainel).
                             onPress={() => ativo && opcao.rota && onNavigate?.(opcao.rota)}
                             style={({ pressed }) => [
                                 styles.option,
