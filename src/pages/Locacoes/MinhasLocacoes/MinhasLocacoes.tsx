@@ -101,6 +101,7 @@ const ESTADO_VAZIO_TEXTO = {
   },
 };
 
+/** Tela que organiza as locacoes do usuario e permite abrir cada solicitacao. */
 export default function MinhasLocacoes({
   navigate,
 }: MinhasLocacoesProps) {

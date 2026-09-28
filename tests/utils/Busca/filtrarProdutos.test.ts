@@ -1,3 +1,4 @@
+/** Cenarios cobertos pelos testes de filtrarProdutos. */
 import { filtrarProdutos } from '../../../src/utils/Busca/filtrarProdutos';
 import type { FilterState, ProdutoBusca } from '../../../src/pages/Search/Searchtypes';
 import { FILTROS_VAZIOS } from '../../../src/pages/Search/Searchtypes';
@@ -14,6 +15,7 @@ import { FILTROS_VAZIOS } from '../../../src/pages/Search/Searchtypes';
 // Função auxiliar (Factory Pattern) para gerar produtos "mockados" (falsos) para os testes.
 // Ela recebe um objeto 'overrides' opcional para sobrescrever propriedades específicas,
 // retornando um produto base válido. Isso evita a repetição de dezenas de linhas em cada teste.
+/** Cria um produto de teste valido e aplica as substituicoes do cenario. */
 function criarProduto(overrides: Partial<ProdutoBusca> = {}): ProdutoBusca {
   return {
     id: 1,

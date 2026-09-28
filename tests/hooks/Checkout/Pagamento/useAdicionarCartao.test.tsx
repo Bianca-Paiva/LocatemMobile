@@ -1,9 +1,11 @@
+/** Cenarios cobertos pelos testes de useAdicionarCartao. */
 import { act } from 'react-test-renderer';
 import { renderHook } from '../../../testUtils/renderHook';
 import { PagamentoWrapper } from '../../../testUtils/PagamentoWrapper';
 import { useAdicionarCartao, PARCELAS_PADRAO } from '../../../../src/hooks/Checkout/Pagamento/useAdicionarCartao';
 import { usePagamentoStore } from '../../../../src/hooks/Checkout/Pagamento/usePagamentoStore';
 
+/** Renderiza o hook com seus providers e prepara os dados usados no teste. */
 function setup(metodo: 'credito' | 'debito' = 'credito', navigate = jest.fn()) {
   const rendered = renderHook(
     () => ({
@@ -156,6 +158,7 @@ describe('useAdicionarCartao', () => {
   });
 
   describe('confirmar (fluxo completo)', () => {
+  /** Preenche os campos com dados validos de cartao. */
     function preencherCartaoValido(result: any) {
       act(() => {
         result.current.adicionarCartao.onNumeroChange('4111111111111111');

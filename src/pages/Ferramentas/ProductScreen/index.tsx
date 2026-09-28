@@ -35,6 +35,7 @@ import { styles } from './styles';
 import type { RootStackParamList } from '../../../routes/AppRoutes';
 import type { ProdutoSemelhante } from './components/ProdutoSemelhantes/types';
 
+/** Tela de detalhes da ferramenta, com informacoes e acoes para iniciar uma locacao. */
 export default function ProductScreen() {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const scrollViewRef = useRef<ScrollView>(null); 

@@ -1,8 +1,10 @@
+/** Cenarios cobertos pelos testes de useSolicitarLocacao. */
 import { act } from 'react-test-renderer';
 import { renderHook } from '../../testUtils/renderHook';
 import { useSolicitarLocacao } from '../../../src/hooks/Locacoes/useSolicitarLocacao';
 import type { ProdutoSelecionado } from '../../../src/context/Ferramentas/Produto/ProdutoContext';
 
+/** Cria um produto de teste valido e aplica as substituicoes do cenario. */
 function criarProduto(overrides: Partial<ProdutoSelecionado> = {}): ProdutoSelecionado {
   return {
     id: 1,
@@ -141,6 +143,7 @@ describe('useSolicitarLocacao', () => {
   });
 
   describe('validação de endereço e contato', () => {
+  /** Preenche datas e horarios para avancar os cenarios de validacao. */
     function preencherPeriodoEHorarios(result: any) {
       act(() => {
         result.current.setCampo('dataEntrega', '2025-07-10');

@@ -1,9 +1,11 @@
+/** Cenarios cobertos pelos testes de useCarrinhoStore. */
 import { act } from 'react-test-renderer';
 import { renderHook } from '../../testUtils/renderHook';
 import { CarrinhoWrapper } from '../../testUtils/CarrinhoWrapper';
 import { useCarrinhoStore } from '../../../src/hooks/Carrinho/useCarrinhoStore';
 import type { Produto } from '../../../src/types/Ferramentas/produto.types';
 
+/** Cria um produto de teste valido e aplica as substituicoes do cenario. */
 function criarProduto(overrides: Partial<Produto> = {}): Produto {
   return {
     id: 1,
@@ -25,6 +27,7 @@ function criarProduto(overrides: Partial<Produto> = {}): Produto {
   };
 }
 
+/** Renderiza o hook com seus providers e prepara os dados usados no teste. */
 function setup() {
   return renderHook(() => useCarrinhoStore(), { wrapper: CarrinhoWrapper });
 }

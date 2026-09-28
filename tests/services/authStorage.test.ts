@@ -1,3 +1,4 @@
+/** Cenarios cobertos pelos testes de authStorage. */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { salvarSessao, carregarSessao, limparSessao } from '../../src/services/authStorage';
 import type { Usuario } from '../../src/types/Auth/usuario.types';
@@ -8,6 +9,7 @@ jest.mock('@react-native-async-storage/async-storage', () =>
 
 const CHAVE_SESSAO = '@locatemMobile:sessaoUsuario';
 
+/** Cria um usuario de teste valido e aplica as substituicoes do cenario. */
 function criarUsuario(overrides: Partial<Usuario> = {}): Usuario {
   return {
     id: '1',

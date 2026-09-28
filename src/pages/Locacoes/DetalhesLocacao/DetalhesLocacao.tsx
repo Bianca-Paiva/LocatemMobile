@@ -25,6 +25,7 @@ interface DetalhesLocacaoProps {
   navigate: (route: string) => void;
 }
 
+/** Tela que apresenta os dados e as acoes disponiveis para uma locacao. */
 export default function DetalhesLocacao({
   navigate,
 }: DetalhesLocacaoProps) {

@@ -1,3 +1,4 @@
+/** Cenarios cobertos pelos testes de renderHook. */
 import React from 'react';
 import { act, create } from 'react-test-renderer';
 
@@ -22,6 +23,7 @@ export function renderHook<TProps, TResult>(
     error: undefined,
   };
 
+  /** Executa o hook durante a renderizacao e guarda seu resultado atual. */
   function TestComponent({ hookProps }: { hookProps: TProps }) {
     try {
       result.current = callback(hookProps);
@@ -33,6 +35,7 @@ export function renderHook<TProps, TResult>(
 
   const Wrapper = options?.wrapper;
 
+  /** Monta o componente de teste, opcionalmente dentro do provider configurado. */
   function renderElement(hookProps: TProps) {
     const element = <TestComponent hookProps={hookProps} />;
     return Wrapper ? <Wrapper>{element}</Wrapper> : element;

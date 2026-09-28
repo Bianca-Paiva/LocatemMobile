@@ -62,6 +62,7 @@ function estaNoMesIso(dataIso: string, mes: number, ano: number): boolean {
   return data.getMonth() === mes && data.getFullYear() === ano;
 }
 
+/** Prepara os dados resumidos do painel inicial do locador. */
 export function useHomeLocador() {
   const { usuario } = useAuth();
   const { ferramentas } = useFerramentas();
@@ -88,6 +89,7 @@ export function useHomeLocador() {
     return todas.filter((l) => l.locadorId && l.locadorId === locadorIdAtual);
   }, [locacoes, locadorIdAtual]);
 
+  /** Calcula os indicadores resumidos do painel para o periodo atual. */
   const resumo = useMemo<ResumoHomeLocador>(() => {
     const agora = new Date();
     const mesAtual = agora.getMonth();
@@ -97,6 +99,7 @@ export function useHomeLocador() {
     const mesAnterior = primeiroDiaMesAnterior.getMonth();
     const anoDoMesAnterior = primeiroDiaMesAnterior.getFullYear();
 
+    /** Soma os valores das locacoes do locador no mes indicado. */
     const faturamentoDoMes = (mes: number, ano: number) =>
       minhasLocacoes
         .filter((l) => l.status === 'finalizada' && estaNoMes(l.dataInicio, mes, ano))
@@ -122,6 +125,7 @@ export function useHomeLocador() {
     [minhasLocacoes]
   );
 
+  /** Monta a agenda de locacoes da semana exibida no painel. */
   const agendaSemana = useMemo<AgendaSemanaLocadorItem[]>(() => {
     const eventos: AgendaSemanaLocadorItem[] = [];
 

@@ -50,6 +50,7 @@ interface UseSolicitarLocacaoCarrinhoParams {
   produto: ProdutoSelecionado;
 }
 
+/** Coordena datas, quantidades, valores e dados de locacao dos itens do carrinho. */
 export function useSolicitarLocacaoCarrinho({
   produto,
   quantidadeInicial,

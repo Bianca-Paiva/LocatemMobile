@@ -4,6 +4,7 @@
 import { useContext } from 'react';
 import { LocacaoContext } from '../../context/Locacoes/LocacaoContext';
 
+/** Acessa a store global de locacoes e suas operacoes. */
 export function useLocacaoStore() {
   const ctx = useContext(LocacaoContext);
 

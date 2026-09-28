@@ -20,17 +20,21 @@ interface FavoritosContextType {
 
 export const FavoritosContext = createContext<FavoritosContextType | null>(null);
 
+/** Compartilha a lista de favoritos e as operacoes para atualiza-la. */
 export function FavoritosProvider({ children }: { children: ReactNode }) {
   const [favoritos, setFavoritos] = useState<number[]>([]);
 
+  /** Verifica se o produto informado esta marcado como favorito. */
   const isFavorito = (id: number) => favoritos.includes(id);
 
+  /** Adiciona o produto aos favoritos ou remove-o caso ja esteja salvo. */
   const alternarFavorito = (id: number) => {
     setFavoritos((atuais) =>
       atuais.includes(id) ? atuais.filter((item) => item !== id) : [...atuais, id],
     );
   };
 
+  /** Remove o produto indicado da lista de favoritos. */
   const removerFavorito = (id: number) => {
     setFavoritos((atuais) => atuais.filter((item) => item !== id));
   };

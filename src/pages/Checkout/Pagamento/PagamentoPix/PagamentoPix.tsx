@@ -17,6 +17,7 @@ interface PagamentoPixProps {
   navigate: (route: string) => void;
 }
 
+/** Tela que apresenta os dados do Pix para concluir o pagamento. */
 export default function PagamentoPix({ navigate }: PagamentoPixProps) {
   const {
     total,

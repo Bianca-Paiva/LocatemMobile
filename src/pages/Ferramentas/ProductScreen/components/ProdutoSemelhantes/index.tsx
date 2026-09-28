@@ -10,6 +10,7 @@ import { Product } from '../../../../../components/Ferramentas/ProductCard/types
 import { ProdutosSemelhantesProps } from './types';
 import { styles } from './styles';
 
+/** Secao que apresenta produtos relacionados e encaminha a selecao feita. */
 export function ProdutosSemelhantes({ produtos, onCardClick }: ProdutosSemelhantesProps) {
   // Validação Defensiva: não renderiza a seção se a lista estiver vazia
   if (!produtos || produtos.length === 0) return null;

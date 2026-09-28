@@ -30,6 +30,7 @@ type Aba = 'todos' | 'disponiveis' | 'indisponiveis';
 
 const OPCOES_ORDENACAO = ['Mais recentes', 'Menor preço', 'Maior preço', 'Melhores avaliações'];
 
+/** Tela que lista os produtos favoritos e permite abrir seus detalhes. */
 export default function FavoritosScreen() {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 

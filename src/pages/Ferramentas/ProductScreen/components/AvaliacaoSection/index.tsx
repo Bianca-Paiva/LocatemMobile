@@ -31,6 +31,7 @@ function Estrelas({ rating, size = 14 }: { rating: number; size?: number }) {
   );
 }
 
+/** Extrai as iniciais do nome para exibi-las como identificacao do avaliador. */
 function getIniciais(nome: string) {
   if (!nome) return '';
   const partes = nome.trim().split(/\s+/);

@@ -1,3 +1,4 @@
+/** Cenarios cobertos pelos testes de useMinhasLocacoes. */
 import { act } from 'react-test-renderer';
 import { renderHook } from '../../testUtils/renderHook';
 import { useMinhasLocacoes } from '../../../src/hooks/Locacoes/useMinhasLocacoes';
@@ -12,6 +13,7 @@ beforeEach(() => {
   });
 });
 
+/** Adiciona locacoes com os status informados a store usada no teste. */
 function popularLocacoes(statusList: string[]) {
   act(() => {
     statusList.forEach((status, index) => {

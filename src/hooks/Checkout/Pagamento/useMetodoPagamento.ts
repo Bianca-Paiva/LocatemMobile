@@ -19,10 +19,12 @@ interface UseMetodoPagamentoReturn {
   continuarPagamento: () => void;
 }
 
+/** Mantem a forma de pagamento selecionada e conduz a proxima etapa do fluxo. */
 export function useMetodoPagamento(navigate: (route: string) => void): UseMetodoPagamentoReturn {
   const { valor: total, setMetodoPagamento } = usePagamentoStore();
   const [formaSelecionada, setFormaSelecionada] = useState<FormaPagamento | null>(null);
 
+  /** Navega para a etapa adequada conforme a forma de pagamento escolhida. */
   function irParaProximaTela(forma: FormaPagamento) {
     // Guarda a forma escolhida no contexto para a próxima tela (Selecionar Cartão/Pix já leem daqui).
     setMetodoPagamento(forma);
@@ -35,12 +37,14 @@ export function useMetodoPagamento(navigate: (route: string) => void): UseMetodo
     navigate('pagamentoPix');
   }
 
+  /** Registra a forma de pagamento escolhida. */
   function selecionarForma(forma: FormaPagamento) {
     // Apenas marca a forma escolhida — o avanço para a próxima tela (Selecionar Cartão/Pix)
     // só acontece ao tocar em "Continuar Pagamento", para qualquer forma de pagamento.
     setFormaSelecionada(forma);
   }
 
+  /** Valida a selecao atual e avanca para a proxima etapa. */
   function continuarPagamento() {
     if (!formaSelecionada) return;
 

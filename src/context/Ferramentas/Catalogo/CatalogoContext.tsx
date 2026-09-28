@@ -15,6 +15,7 @@ interface CatalogoContextType {
 
 export const CatalogoContext = createContext<CatalogoContextType | null>(null);
 
+/** Compartilha os dados e as operacoes do catalogo de ferramentas. */
 export function CatalogoProvider({ children }: { children: ReactNode }) {
   // Copia o catálogo mockado pra dentro do state — a partir daqui, o catálogo
   // central (produtos.mock.ts) continua sendo a fonte inicial, mas quem manda

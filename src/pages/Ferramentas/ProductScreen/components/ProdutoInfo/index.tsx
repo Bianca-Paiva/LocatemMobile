@@ -38,6 +38,7 @@ interface ProdutoInfoProps {
   }) => void;
 }
 
+/** Secao com preco, disponibilidade e controles das opcoes de locacao do produto. */
 export function ProdutoInfo({
   title,
   price,

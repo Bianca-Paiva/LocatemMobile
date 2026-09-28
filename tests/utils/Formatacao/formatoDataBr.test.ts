@@ -1,3 +1,4 @@
+/** Cenarios cobertos pelos testes de formatoDataBr. */
 import {
   paraDataBr,
   formatarDiaMes,

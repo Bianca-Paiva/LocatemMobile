@@ -56,6 +56,7 @@ const PRODUTO_VAZIO: Produto = {
   available: false,
 };
 
+/** Formulario para completar os dados de locacao dos itens selecionados no carrinho. */
 export default function SolicitarLocacaoCarrinho() {
   // Controla a navegação entre as telas.
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();

@@ -1,3 +1,4 @@
+/** Cenarios cobertos pelos testes de masks. */
 import {
   maskCEP,
   maskMoeda,

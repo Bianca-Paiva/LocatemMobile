@@ -72,6 +72,7 @@ function CabecalhoSecao({ titulo, subtitulo, linkLabel, onPressLink }: Cabecalho
   );
 }
 
+/** Painel inicial do locador com solicitacoes recentes e atalhos para ferramentas. */
 export default function HomeLocador({ navigate }: HomeLocadorProps) {
   // Todos os hooks ficam ANTES do `return null` (regra dos hooks).
   const acessoPermitido = useExigirPerfil(navigate, 'locador', 'home');

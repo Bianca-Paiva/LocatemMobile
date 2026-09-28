@@ -1,7 +1,8 @@
+/** Cenarios cobertos pelos testes de componentQueries. */
 import { act } from 'react-test-renderer';
 import type { ReactTestInstance } from 'react-test-renderer';
 
-/** Simula um toque, chamando o onPress do elemento (TouchableOpacity/Pressable/etc). */
+/** Aciona o callback de toque do elemento dentro de act. */
 export function pressionar(elemento: ReactTestInstance) {
   act(() => {
     elemento.props.onPress?.();
@@ -33,14 +34,14 @@ export function encontrarPorAccessibilityLabel(
   return renderer.root.find((no) => no.props.accessibilityLabel === label && 'onPress' in no.props);
 }
 
-/** Simula digitação, chamando onChangeText do TextInput. */
+/** Simula a digitacao de texto no elemento dentro de act. */
 export function digitar(elemento: ReactTestInstance, texto: string) {
   act(() => {
     elemento.props.onChangeText?.(texto);
   });
 }
 
-/** Concatena o texto de um elemento <Text>, mesmo quando os children são um array/fragmentado. */
+/** Reune o texto exibido pelo elemento e seus descendentes. */
 export function textoDe(elemento: ReactTestInstance): string {
   const { children } = elemento.props;
   if (children == null) return '';

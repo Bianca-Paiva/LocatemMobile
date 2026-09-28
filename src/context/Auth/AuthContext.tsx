@@ -47,6 +47,7 @@ interface AuthContextType {
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
+/** Disponibiliza o estado e as operacoes de autenticacao para a arvore da aplicacao. */
 export function AuthProvider({
   children,
 }: {
@@ -64,6 +65,7 @@ export function AuthProvider({
   useEffect(() => {
     let ativo = true;
 
+    /** Restaura a sessao salva e atualiza o estado de autenticacao durante a inicializacao. */
     async function reautenticar() {
       const usuarioSalvo = await carregarSessao();
 

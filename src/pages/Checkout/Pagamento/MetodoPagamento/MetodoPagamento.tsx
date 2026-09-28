@@ -21,6 +21,7 @@ interface MetodoPagamentoProps {
   navigate: (route: string) => void;
 }
 
+/** Tela para escolher o metodo de pagamento da locacao. */
 export default function MetodoPagamento({ navigate }: MetodoPagamentoProps) {
   const { total, formaSelecionada, selecionarForma, continuarPagamento } = useMetodoPagamento(navigate);
 

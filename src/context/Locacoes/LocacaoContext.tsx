@@ -27,6 +27,7 @@ const MENSAGEM_CANCELAMENTO_AUTOMATICO =
 // `Date.now()` nesse caso gera o mesmo ID para locacoes diferentes.
 let contadorLocacao = 0;
 
+/** Gera um identificador para uma nova locacao. */
 function gerarIdLocacao(): string {
   contadorLocacao += 1;
   return `r-${Date.now()}-${contadorLocacao}`;
@@ -35,6 +36,7 @@ function gerarIdLocacao(): string {
 // Frequência de verificação do prazo de pagamento das locacoes
 const INTERVALO_VERIFICACAO_MS = 60 * 1000; // 1 minuto
 
+/** Disponibiliza o estado de locacoes e as operacoes para altera-lo. */
 export function LocacaoProvider({ children }: { children: ReactNode }) {
   // Fonte única de verdade de todas as locacoes (futuramente virá da API)
   const [locacoes, setLocacoes] = useState<LocacaoData[]>(mockLocacoes);
@@ -69,14 +71,17 @@ export function LocacaoProvider({ children }: { children: ReactNode }) {
   // prazo expirado e, se sim, cancela automaticamente — atualizando tanto o
   // status quanto a mensagem exibida na listagem e nos detalhes da locacao.
   useEffect(() => {
+    /** Localiza e cancela locacoes cujo prazo de pagamento expirou. */
     const cancelarLocacoesComPagamentoVencido = () => {
       const agora = Date.now();
 
+      /** Verifica se o prazo para pagar a locacao ja foi ultrapassado. */
       const prazoExpirou = (locacao: LocacaoData) =>
         locacao.status === 'aguardandoPagamento' &&
         !!locacao.prazoPagamento &&
         agora > new Date(locacao.prazoPagamento).getTime();
 
+      /** Atualiza a locacao para cancelada quando o prazo de pagamento expirou. */
       const cancelarSeVencida = (locacao: LocacaoData): LocacaoData =>
         prazoExpirou(locacao)
           ? {

@@ -34,10 +34,12 @@ const FerramentasContext = createContext<FerramentasContextData | undefined>(
   undefined,
 );
 
+/** Compartilha a lista de ferramentas e suas operacoes de carregamento e atualizacao. */
 export function FerramentasProvider({ children }: { children: ReactNode }) {
   const [ferramentas, setFerramentas] = useState<Ferramenta[]>([]);
 
   useEffect(() => {
+    /** Busca as ferramentas do usuario e atualiza o estado de carregamento e erro. */
     async function carregarFerramentas() {
       try {
         const dados = await listarFerramentas();
@@ -180,6 +182,7 @@ setFerramentas(ferramentasConvertidas);
   }
 };
 
+/** Remove a ferramenta indicada da lista gerenciada pelo contexto. */
 const removerFerramenta = async (id: string) => {
   try {
     // Na LOCATEM, remover anuncio significa desativar a ferramenta no backend.
@@ -195,6 +198,7 @@ const removerFerramenta = async (id: string) => {
   }
 };
 
+/** Alterna a disponibilidade da ferramenta indicada. */
 const alternarStatusFerramenta = async (id: string) => {
   try {
     const ferramentaAtual = ferramentas.find((f) => f.id === id);
@@ -225,6 +229,7 @@ const alternarStatusFerramenta = async (id: string) => {
   }
 };
 
+  /** Retorna a ferramenta correspondente ao identificador informado. */
   const obterFerramenta = (id: string) =>
     ferramentas.find((f) => f.id === id);
 
@@ -247,6 +252,7 @@ const alternarStatusFerramenta = async (id: string) => {
   );
 }
 
+/** Retorna o contexto de ferramentas e valida se o provider foi montado. */
 export function useFerramentas() {
   const context = useContext(FerramentasContext);
 

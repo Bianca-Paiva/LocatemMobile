@@ -1,3 +1,4 @@
+/** Cenarios cobertos pelos testes de categorias. */
 import {
   extrairCategoriaTopo,
   extrairNomeSubcategoria,
@@ -6,6 +7,7 @@ import {
 } from '../../../src/utils/Ferramentas/Catalogo/categorias';
 import type { Produto } from '../../../src/types/Ferramentas/produto.types';
 
+/** Cria um produto de teste valido e aplica as substituicoes do cenario. */
 function criarProduto(overrides: Partial<Produto> = {}): Produto {
   return {
     id: 1,

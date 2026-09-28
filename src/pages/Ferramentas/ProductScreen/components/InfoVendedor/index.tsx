@@ -9,6 +9,7 @@ import { styles } from './styles';
 
 const verificadoImg = require('../../../../../../assets/images/verificadoAzul.png');
 
+/** Secao com dados de identificacao e contato do vendedor. */
 export function InfoVendedor({
   nome,
   logoUrl,

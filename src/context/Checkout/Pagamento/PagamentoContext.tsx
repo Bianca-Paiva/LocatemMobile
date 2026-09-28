@@ -71,6 +71,7 @@ interface PagamentoContextType {
 
 export const PagamentoContext = createContext<PagamentoContextType | null>(null);
 
+/** Disponibiliza os dados e as acoes compartilhadas pelo fluxo de pagamento. */
 export function PagamentoProvider({ children }: { children: ReactNode }) {
   const [valor, setValor] = useState(0);
   const [metodo, setMetodo] = useState<FormaPagamento | null>(null);
@@ -79,26 +80,32 @@ export function PagamentoProvider({ children }: { children: ReactNode }) {
   const [itemAvulso, setItemAvulso] = useState<ItemPagamentoAvulso | null>(null);
   const [cartoesSalvos, setCartoesSalvos] = useState<Cartao[]>(CARTOES_PADRAO);
 
+  /** Atualiza o valor associado ao pagamento em andamento. */
   function setValorPagamento(novoValor: number) {
     setValor(Number.isFinite(novoValor) ? novoValor : 0);
   }
 
+  /** Define a forma de pagamento escolhida pelo usuario. */
   function setMetodoPagamento(novoMetodo: FormaPagamento) {
     setMetodo(novoMetodo);
   }
 
+  /** Registra o cartao selecionado para o pagamento. */
   function setCartaoPagamento(novoCartao: CartaoPagamentoArmazenado) {
     setCartao(novoCartao);
   }
 
+  /** Marca o pagamento atual como processado. */
   function marcarPagamentoProcessado() {
     setProcessado(true);
   }
 
+  /** Define um item individual usado no pagamento fora do fluxo do carrinho. */
   function setItemPagamentoAvulso(item: ItemPagamentoAvulso) {
     setItemAvulso(item);
   }
 
+  /** Adiciona um cartao a lista de cartoes salvos no contexto. */
   function adicionarCartaoSalvo(novoCartao: Cartao) {
     setCartoesSalvos((atuais) => [...atuais, novoCartao]);
   }

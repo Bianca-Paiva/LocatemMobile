@@ -1,9 +1,11 @@
+/** Cenarios cobertos pelos testes de useSolicitarLocacaoCarrinho. */
 import { act } from 'react-test-renderer';
 import { renderHook } from '../../testUtils/renderHook';
 import { useSolicitarLocacaoCarrinho } from '../../../src/hooks/Locacoes/useSolicitarLocacaoCarrinho';
 import type { ProdutoSelecionado } from '../../../src/context/Ferramentas/Produto/ProdutoContext';
 import { getHojeIso, adicionarDias, adicionarHorasAPartirDeAgora } from '../../../src/utils/Locacoes/dataLocacao';
 
+/** Cria um produto de teste valido e aplica as substituicoes do cenario. */
 function criarProduto(overrides: Partial<ProdutoSelecionado> = {}): ProdutoSelecionado {
   return {
     id: 1,

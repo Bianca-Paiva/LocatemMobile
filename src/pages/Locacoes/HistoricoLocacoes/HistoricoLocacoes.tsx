@@ -41,6 +41,7 @@ const STATUS_ENCERRADOS: StatusHistorico[] = [
   'cancelada',
 ];
 
+/** Tela que lista locacoes encerradas e permite consultar seus detalhes. */
 export default function HistoricoLocacoes({navigate,}: HistoricoLocacoesProps) {
   const { usuario } = useAuth();
   const { locacoes, setLocacaoSelecionada } = useLocacaoStore();

@@ -22,6 +22,7 @@ interface SolicitacaoEnviadaProps {
   navigate: (route: string) => void;
 }
 
+/** Tela de confirmacao exibida depois do envio de uma solicitacao de locacao. */
 export default function SolicitacaoEnviada({
   navigate,
 }: SolicitacaoEnviadaProps) {

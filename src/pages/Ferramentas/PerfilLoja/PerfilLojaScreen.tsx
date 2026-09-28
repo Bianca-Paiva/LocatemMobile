@@ -27,6 +27,7 @@ const CATEGORIA_TODAS = 'Todas';
 
 type PerfilLojaRouteProp = RouteProp<RootStackParamList, 'PerfilLojaScreen'>;
 
+/** Tela de perfil da loja com informacoes do locador e suas ferramentas. */
 export default function PerfilLojaScreen() {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const route = useRoute<PerfilLojaRouteProp>();
