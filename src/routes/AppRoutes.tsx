@@ -126,6 +126,7 @@ const MAPA_ROTAS_LEGADAS: Record<string, keyof RootStackParamList> = {
   carrinho: "CarrinhoScreen",
   notificacoes: "NotificacoesScreen",
   favoritos: "FavoritosScreen",
+  minhasFerramentas:"MinhasFerramentasScreen",
   // Fluxo de Pagamento — chaves usadas pelos hooks em hooks/Pagamento/*.
   metodoPagamento: "MetodoPagamentoScreen",
   selecionarCartao: "SelecionarCartaoScreen",
