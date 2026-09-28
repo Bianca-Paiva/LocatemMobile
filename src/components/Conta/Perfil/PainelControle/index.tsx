@@ -25,7 +25,7 @@ import type { TipoUsuario } from '../../../../types/Auth/usuario.types';
 import colors from '../../../../theme/colors';
 import { styles } from './styles';
 
-type RotaPainel = 'minhasLocacoes' | 'notificacoes' | 'favoritos' | 'minhasFerramentas';
+type RotaPainel = 'minhasLocacoes' | 'notificacoes' | 'favoritos' | 'minhasFerramentas' | 'historicoLocacoes';
 
 interface OpcaoPainel {
     icon: typeof Wrench;
@@ -45,7 +45,7 @@ const OPCOES: OpcaoPainel[] = [
         rota: 'minhasFerramentas',
         tiposPermitidos: ['locador'] 
     },
-    { icon: Clock, titulo: 'Histórico de Locações', descricao: 'Consulte todas as suas locações anteriores.', },
+    { icon: Clock, titulo: 'Histórico de Locações', descricao: 'Consulte todas as suas locações anteriores.', rota: 'historicoLocacoes', tiposPermitidos: ['locador']  },
     { 
         icon: Heart, 
         titulo: 'Favoritos', 
