@@ -64,6 +64,7 @@ export function useEditarPerfilForm(usuario: Usuario) {
 
   const isCNPJ = tipoFormulario === 'locador';
 
+  /** Ativa a animacao de alerta do campo informado. */
   const triggerShake = (field: string) => {
     setShakes((prev) => ({ ...prev, [field]: { ...prev[field], shake: false } }));
 
@@ -76,12 +77,14 @@ export function useEditarPerfilForm(usuario: Usuario) {
     }, 410);
   };
 
+  /** Desativa a animacao de alerta do campo informado. */
   const clearShake = (field: string) => {
     if (shakes[field]?.active) {
       setShakes((prev) => ({ ...prev, [field]: INITIAL_ERROR }));
     }
   };
 
+  /** Trata erros de validacao do formulario e destaca os campos correspondentes. */
   const onInvalidSubmit = (formErrors: typeof errors) => {
   console.log("ERROS DO FORMULÁRIO:", formErrors);
 
@@ -112,6 +115,7 @@ export function useEditarPerfilForm(usuario: Usuario) {
     if (formErrors.cep) return setAlerta(CADASTRO_MESSAGES.INVALID_CEP);
   };
 
+  /** Cria o callback de envio que aplica a atualizacao valida do perfil. */
   const buildSubmit = (onValid: (data: PerfilFormData) => void) =>
     handleSubmit(onValid, onInvalidSubmit);
 

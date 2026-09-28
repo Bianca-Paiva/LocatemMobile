@@ -47,6 +47,7 @@ type CadastroFerramentaRoute = RouteProp<
   'CadastroFerramentaScreen'
 >;
 
+/** Tela de cadastro que coleta os dados e publica uma ferramenta para locacao. */
 export default function CadastroFerramentaScreen() {
   const navigation = useNavigation();
   const route = useRoute<CadastroFerramentaRoute>();

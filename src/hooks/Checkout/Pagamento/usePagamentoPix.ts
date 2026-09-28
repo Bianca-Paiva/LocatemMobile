@@ -21,6 +21,7 @@ function gerarCodigoPixMock(valor: number): string {
   return `00020126580014BR.GOV.BCB.PIX0136LOCATEM-${timestamp}5204000053039865406${valorFormatado}5802BR5913LOCATEM LTDA6009SAO PAULO62070503***6304`;
 }
 
+/** Formata o prazo limite de pagamento para exibicao. */
 function formatarPrazo(dataLimite: Date): string {
   return new Intl.DateTimeFormat('pt-BR', {
     day: '2-digit',
@@ -62,6 +63,7 @@ interface UsePagamentoPixReturn {
   confirmarPagamento: () => void;
 }
 
+/** Gera e controla o codigo Pix, o prazo para pagamento e a confirmacao. */
 export function usePagamentoPix(navigate: (route: string) => void): UsePagamentoPixReturn {
   const { valor: total, metodo } = usePagamentoStore();
   const metodoValido = metodo === 'pix';
@@ -105,6 +107,7 @@ export function usePagamentoPix(navigate: (route: string) => void): UsePagamento
     expirado,
   };
 
+  /** Gera outro codigo Pix e reinicia o prazo de pagamento. */
   function gerarNovoCodigo() {
     const novaDataLimite = calcularDataLimite();
     setCodigoPix(gerarCodigoPixMock(total));
@@ -114,6 +117,7 @@ export function usePagamentoPix(navigate: (route: string) => void): UsePagamento
 
   const [copiado, setCopiado] = useState(false);
 
+  /** Copia o codigo Pix para a area de transferencia do dispositivo. */
   function copiarCodigo() {
     Clipboard.setStringAsync(codigoPix)
       .then(() => {

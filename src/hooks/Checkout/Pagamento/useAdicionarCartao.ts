@@ -48,6 +48,7 @@ const dadosIniciais: DadosNovoCartao = {
   salvarCartao: true,
 };
 
+/** Gerencia os campos, validacoes e confirmacao do cadastro de cartao. */
 export function useAdicionarCartao(metodoPagamento: MetodoPagamento, navigate: (route: string) => void) {
   const { valor, adicionarCartaoSalvo } = usePagamentoStore();
   const [dados, setDados] = useState<DadosNovoCartao>(dadosIniciais);
@@ -55,6 +56,7 @@ export function useAdicionarCartao(metodoPagamento: MetodoPagamento, navigate: (
   const [erros, setErros] = useState<Partial<Record<CampoCartao, string>>>({});
   const [processando, setProcessando] = useState(false);
 
+  /** Remove a mensagem de validacao do campo de cartao indicado. */
   function limparErro(campo: CampoCartao) {
     setErros((atuais) => {
       if (!atuais[campo]) return atuais;
@@ -64,6 +66,7 @@ export function useAdicionarCartao(metodoPagamento: MetodoPagamento, navigate: (
     });
   }
 
+  /** Formata o numero digitado e atualiza os erros relacionados ao cartao. */
   function onNumeroChange(valor: string) {
     limparErro('numero');
     const formatado = maskNumeroCartao(valor);
@@ -71,6 +74,7 @@ export function useAdicionarCartao(metodoPagamento: MetodoPagamento, navigate: (
     setBandeira(detectarBandeiraCartao(formatado));
   }
 
+  /** Atualiza o nome do titular e limpa a validacao correspondente. */
   function onNomeTitularChange(valor: string) {
     limparErro('nomeTitular');
     // Permite apenas letras e espaços, limita a 40 caracteres e converte para maiúsculo.
@@ -78,11 +82,13 @@ export function useAdicionarCartao(metodoPagamento: MetodoPagamento, navigate: (
     setDados((atuais) => ({ ...atuais, nomeTitular: somenteLetras.toUpperCase() }));
   }
 
+  /** Formata a validade informada e atualiza a validacao do campo. */
   function onValidadeChange(valor: string) {
     limparErro('validade');
     setDados((atuais) => ({ ...atuais, validade: maskValidadeCartao(valor) }));
   }
 
+  /** Valida a validade do cartao quando o campo perde o foco. */
   function onValidadeBlur() {
     if (dados.validade.length !== 5) return;
 
@@ -92,19 +98,23 @@ export function useAdicionarCartao(metodoPagamento: MetodoPagamento, navigate: (
     }
   }
 
+  /** Atualiza o codigo de seguranca e remove erros ja corrigidos. */
   function onCvvChange(valor: string) {
     limparErro('cvv');
     setDados((atuais) => ({ ...atuais, cvv: maskCVV(valor) }));
   }
 
+  /** Atualiza a quantidade de parcelas selecionada. */
   function onParcelamentoChange(valor: string) {
     setDados((atuais) => ({ ...atuais, parcelamento: valor }));
   }
 
+  /** Atualiza a preferencia de salvar o cartao para uso futuro. */
   function onSalvarCartaoChange(valor: boolean) {
     setDados((atuais) => ({ ...atuais, salvarCartao: valor }));
   }
 
+  /** Valida os campos obrigatorios antes de permitir o cadastro do cartao. */
   function validarTudo(): boolean {
     const novosErros: Partial<Record<CampoCartao, string>> = {};
 
@@ -128,6 +138,7 @@ export function useAdicionarCartao(metodoPagamento: MetodoPagamento, navigate: (
     return Object.keys(novosErros).length === 0;
   }
 
+  /** Armazena o cartao validado quando o usuario optou por salva-lo. */
   function salvarNaLista() {
     const novoCartao: Cartao = {
       id: Date.now(),
@@ -140,6 +151,7 @@ export function useAdicionarCartao(metodoPagamento: MetodoPagamento, navigate: (
     adicionarCartaoSalvo(novoCartao);
   }
 
+  /** Conclui o cadastro do cartao e continua o fluxo de pagamento. */
   function confirmar() {
     if (processando) return;
 

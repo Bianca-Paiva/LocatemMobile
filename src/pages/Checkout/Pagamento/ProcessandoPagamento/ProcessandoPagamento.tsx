@@ -18,6 +18,7 @@ interface ProcessandoPagamentoProps {
   navigate: (route: string) => void;
 }
 
+/** Tela de espera que acompanha a confirmacao do pagamento. */
 export default function ProcessandoPagamento({ navigate }: ProcessandoPagamentoProps) {
   const { metodoValido } = useProcessandoPagamento(navigate);
 

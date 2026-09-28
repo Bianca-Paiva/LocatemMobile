@@ -46,6 +46,7 @@ type SearchScreenRouteProp = RouteProp<RootStackParamList, "SearchScreen">;
 
 const ITEMS_PER_PAGE = 10;
 
+/** Tela de busca que combina texto, filtros e ordenacao para exibir ferramentas. */
 export const SearchScreen = () => {
 
   // ===========================

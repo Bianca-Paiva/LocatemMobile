@@ -20,6 +20,7 @@ const CRITERIOS: CriterioPerfil[] = [
   { peso: 7, acao: 'verifique seu e-mail', atendido: u => u.emailVerificado },
 ];
 
+/** Calcula quais dados do perfil do usuario ainda precisam ser preenchidos. */
 export function useCompletudePerfil(usuario: Usuario | null) {
   return useMemo(() => {
     if (!usuario) return { percentual: 0, completo: false, mensagemDica: '' };

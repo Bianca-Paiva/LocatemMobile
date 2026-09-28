@@ -8,6 +8,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 import { styles } from './styles';
 import { SeletorQuantidadeProps } from './types';
 
+/** Controle visual para ajustar a quantidade respeitando os limites disponiveis. */
 export default function SeletorQuantidade({
   quantidade,
   estoqueDisponivel,

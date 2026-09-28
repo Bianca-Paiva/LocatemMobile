@@ -22,6 +22,7 @@ const TEMPO_PROCESSAMENTO_MS = 5000;
 // já confirmado — mantém o texto consistente com o restante da tela "Minhas Locacoes".
 const MENSAGEM_PAGAMENTO_CONFIRMADO = 'O pagamento foi confirmado e a entrega está sendo preparada';
 
+/** Converte um valor numerico para exibicao no formato monetario brasileiro. */
 function formatarMoeda(valor: number): string {
   return `R$ ${valor.toFixed(2).replace('.', ',')}`;
 }
@@ -76,6 +77,7 @@ interface UseProcessandoPagamentoReturn {
   metodoValido: boolean;
 }
 
+/** Registra o resultado do pagamento e cria os dados de locacao correspondentes. */
 export function useProcessandoPagamento(navigate: (route: string) => void): UseProcessandoPagamentoReturn {
   // Método de pagamento já deve ter sido escolhido (Carrinho -> Método de Pagamento) antes de chegar aqui — sem ele, não há o que processar.
   const { metodo, marcarPagamentoProcessado } = usePagamentoStore();

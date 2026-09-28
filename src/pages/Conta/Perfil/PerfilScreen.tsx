@@ -42,6 +42,7 @@ interface Props {
     onAlterarFoto?: () => Promise<string | null | undefined> | string | null | undefined;
 }
 
+/** Tela de perfil do usuario com acesso aos dados da conta e ao encerramento da sessao. */
 export default function PerfilScreen({
     onNavigate,
     onEntrar,

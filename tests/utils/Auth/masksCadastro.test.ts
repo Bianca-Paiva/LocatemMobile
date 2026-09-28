@@ -1,3 +1,4 @@
+/** Cenarios cobertos pelos testes de masksCadastro. */
 import { formatDocument } from '../../../src/utils/Auth/masksCadastro';
 
 describe('formatDocument', () => {

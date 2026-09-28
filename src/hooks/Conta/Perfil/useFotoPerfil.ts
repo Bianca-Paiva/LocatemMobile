@@ -90,6 +90,7 @@ function avisarPermissaoNegada(
 // HOOK PRINCIPAL: useFotoPerfil
 // ==========================================
 
+/** Solicita permissao e permite escolher ou atualizar a foto do perfil. */
 export function useFotoPerfil(): UseFotoPerfilReturn {
   // Estado para indicar se o aplicativo está processando a imagem/abrindo a câmera
   const [carregando, setCarregando] = useState(false);

@@ -23,6 +23,7 @@ interface PagamentoAprovadoProps {
 
 const formatarPreco = (valor: number) => `R$ ${valor.toFixed(2).replace('.', ',')}`;
 
+/** Tela de confirmacao do pagamento aprovado e resumo da locacao. */
 export default function PagamentoAprovado({ navigate }: PagamentoAprovadoProps) {
   const {
     acessoValido,

@@ -1,3 +1,4 @@
+/** Cenarios cobertos pelos testes de horario. */
 import { formatarIntervaloHorario } from '../../../src/utils/Formatacao/horario';
 
 describe('formatarIntervaloHorario', () => {

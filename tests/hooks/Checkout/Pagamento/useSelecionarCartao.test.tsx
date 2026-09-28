@@ -1,9 +1,11 @@
+/** Cenarios cobertos pelos testes de useSelecionarCartao. */
 import { act } from 'react-test-renderer';
 import { renderHook } from '../../../testUtils/renderHook';
 import { PagamentoWrapper } from '../../../testUtils/PagamentoWrapper';
 import { useSelecionarCartao } from '../../../../src/hooks/Checkout/Pagamento/useSelecionarCartao';
 import { usePagamentoStore } from '../../../../src/hooks/Checkout/Pagamento/usePagamentoStore';
 
+/** Renderiza o hook com seus providers e prepara os dados usados no teste. */
 function setup(navigate = jest.fn()) {
   const rendered = renderHook(
     () => ({

@@ -1,15 +1,18 @@
 /**
  * Componente de checkout: compoe carrinho, pagamento e resumo dos itens alugados.
  */
-import { useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import { Tag, Lock } from 'lucide-react-native';
+import { useEffect, useState } from "react";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { Tag, Lock } from "lucide-react-native";
 
-import BtnPrincipal from '../../../../Botoes/BtnPrincipal';
-import { maskCEP, validateCEP } from '../../../../../utils/Formatacao/masks';
-import colors from '../../../../../theme/colors';
-import styles from './ResumoPedido.styles';
-import type { PrazoPagamento, ResumoPedidoVariant } from '../../../../../types/Checkout/Pagamento/checkout';
+import BtnPrincipal from "../../../../Botoes/BtnPrincipal";
+import { maskCEP, validateCEP } from "../../../../../utils/Formatacao/masks";
+import colors from "../../../../../theme/colors";
+import styles from "./ResumoPedido.styles";
+import type {
+  PrazoPagamento,
+  ResumoPedidoVariant,
+} from "../../../../../types/Auth/Pagamento/checkout";
 
 /** Resultado de uma tentativa de calcular frete ou aplicar cupom. */
 interface ResultadoValidacao {
@@ -38,12 +41,15 @@ interface ResumoPedidoProps {
   mostrarSeguro?: boolean;
 }
 
-const formatarPreco = (valor: number) => `R$ ${valor.toFixed(2).replace('.', ',')}`;
+const formatarPreco = (valor: number) =>
+  `R$ ${valor.toFixed(2).replace(".", ",")}`;
 
 // Converte segundos em "MM:SS" para o contador do prazo do Pix.
 function formatarTempo(segundos: number): string {
-  const minutos = Math.floor(segundos / 60).toString().padStart(2, '0');
-  const segundosRestantes = (segundos % 60).toString().padStart(2, '0');
+  const minutos = Math.floor(segundos / 60)
+    .toString()
+    .padStart(2, "0");
+  const segundosRestantes = (segundos % 60).toString().padStart(2, "0");
   return `${minutos}:${segundosRestantes}`;
 }
 
@@ -62,10 +68,10 @@ export default function ResumoPedido({
   ctaDisabled,
   prazoPagamento,
   tempoRestanteSegundos = 0,
-  mostrarSeguro = variant === 'pagamento' || variant === 'metodoPagamento',
+  mostrarSeguro = variant === "pagamento" || variant === "metodoPagamento",
 }: ResumoPedidoProps) {
-  const [cepInput, setCepInput] = useState('');
-  const [cupomInput, setCupomInput] = useState('');
+  const [cepInput, setCepInput] = useState("");
+  const [cupomInput, setCupomInput] = useState("");
 
   // BUG CORRIGIDO: nem CEP inválido nem cupom inválido davam qualquer
   // feedback visual — o "Usar"/"Aplicar" simplesmente não fazia nada
@@ -92,13 +98,16 @@ export default function ResumoPedido({
 
   function handleUsarCep() {
     if (!cepValido) {
-      setCepErro('Informe um CEP válido com 8 dígitos.');
+      setCepErro("Informe um CEP válido com 8 dígitos.");
       return;
     }
 
     const resultado = onCalcularFrete?.(cepInput);
     if (resultado && !resultado.sucesso) {
-      setCepErro(resultado.mensagem ?? 'Não foi possível calcular o frete para esse CEP.');
+      setCepErro(
+        resultado.mensagem ??
+          "Não foi possível calcular o frete para esse CEP.",
+      );
       return;
     }
 
@@ -113,7 +122,7 @@ export default function ResumoPedido({
   function handleAplicarCupom() {
     const resultado = onAplicarCupom?.(cupomInput);
     if (resultado && !resultado.sucesso) {
-      setCupomErro(resultado.mensagem ?? 'Cupom inválido.');
+      setCupomErro(resultado.mensagem ?? "Cupom inválido.");
       return;
     }
 
@@ -124,13 +133,14 @@ export default function ResumoPedido({
     <View style={styles.card}>
       <Text style={styles.titulo}>Resumo do Pedido</Text>
 
-      {variant === 'vazio' && (
+      {variant === "vazio" && (
         <Text style={styles.textoVazio}>
-          Aqui você vai encontrar os valores da sua compra assim que adicionar produtos.
+          Aqui você vai encontrar os valores da sua compra assim que adicionar
+          produtos.
         </Text>
       )}
 
-      {variant === 'carrinho' && (
+      {variant === "carrinho" && (
         <View style={styles.corpo}>
           <View style={styles.linha}>
             <Text style={styles.linhaLabel}>Subtotal</Text>
@@ -144,8 +154,12 @@ export default function ResumoPedido({
               </Text>
 
               {freteValor != null && (
-                <Text style={freteValor === 0 ? styles.freteGratis : styles.freteValor}>
-                  {freteValor === 0 ? 'Grátis' : formatarPreco(freteValor)}
+                <Text
+                  style={
+                    freteValor === 0 ? styles.freteGratis : styles.freteValor
+                  }
+                >
+                  {freteValor === 0 ? "Grátis" : formatarPreco(freteValor)}
                 </Text>
               )}
             </View>
@@ -154,7 +168,10 @@ export default function ResumoPedido({
               style={[
                 styles.inputContainer,
                 cepErro && styles.inputContainerErro,
-                !cepErro && cepTocado && !cepValido && styles.inputContainerAlerta,
+                !cepErro &&
+                  cepTocado &&
+                  !cepValido &&
+                  styles.inputContainerAlerta,
               ]}
             >
               <TextInput
@@ -165,11 +182,13 @@ export default function ResumoPedido({
                 keyboardType="numeric"
                 onChangeText={handleCepChange}
                 accessibilityLabel="CEP"
-               
               />
 
               <TouchableOpacity
-                style={[styles.btnInterno, !cepValido && styles.btnInternoDesabilitado]}
+                style={[
+                  styles.btnInterno,
+                  !cepValido && styles.btnInternoDesabilitado,
+                ]}
                 onPress={handleUsarCep}
                 disabled={!cepValido}
               >
@@ -181,8 +200,16 @@ export default function ResumoPedido({
           </View>
 
           <View style={styles.cupomBloco}>
-            <View style={[styles.inputComIcone, cupomErro && styles.inputContainerErro]}>
-              <Tag size={18} color={cupomErro ? colors.error : colors.textMuted2} />
+            <View
+              style={[
+                styles.inputComIcone,
+                cupomErro && styles.inputContainerErro,
+              ]}
+            >
+              <Tag
+                size={18}
+                color={cupomErro ? colors.error : colors.textMuted2}
+              />
 
               <TextInput
                 style={styles.inputSemBorda}
@@ -192,11 +219,13 @@ export default function ResumoPedido({
                 autoCapitalize="characters"
                 onChangeText={handleCupomChange}
                 accessibilityLabel="Código do cupom"
-            
               />
 
               <TouchableOpacity
-                style={[styles.btnInterno, !cupomInput.trim() && styles.btnInternoDesabilitado]}
+                style={[
+                  styles.btnInterno,
+                  !cupomInput.trim() && styles.btnInternoDesabilitado,
+                ]}
                 onPress={handleAplicarCupom}
                 disabled={!cupomInput.trim()}
               >
@@ -206,7 +235,9 @@ export default function ResumoPedido({
 
             {cupomErro && <Text style={styles.erroTexto}>{cupomErro}</Text>}
             {!cupomErro && cupomAviso && (
-              <Text style={styles.cupomAplicadoTexto}>Cupom {cupomAviso} aplicado</Text>
+              <Text style={styles.cupomAplicadoTexto}>
+                Cupom {cupomAviso} aplicado
+              </Text>
             )}
 
             {desconto > 0 && (
@@ -227,19 +258,26 @@ export default function ResumoPedido({
               o motivo — parecia só "travado". */}
           {ctaDisabled && freteValor == null && (
             <Text style={styles.ctaAvisoTexto}>
-              Informe um CEP e toque em "Usar" para calcular o frete antes de continuar.
+              Informe um CEP e toque em "Usar" para calcular o frete antes de
+              continuar.
             </Text>
           )}
 
-          <View style={ctaDisabled ? styles.ctaDesabilitado : undefined} pointerEvents={ctaDisabled ? 'none' : 'auto'}>
-            <BtnPrincipal title={ctaLabel ?? 'Continuar para Pagamento'} onPress={() => onCtaClick?.()} />
+          <View
+            style={ctaDisabled ? styles.ctaDesabilitado : undefined}
+            pointerEvents={ctaDisabled ? "none" : "auto"}
+          >
+            <BtnPrincipal
+              title={ctaLabel ?? "Continuar para Pagamento"}
+              onPress={() => onCtaClick?.()}
+            />
           </View>
         </View>
       )}
 
       {/* Tela "Escolha como Pagar" e tela de Pix: mostra só o Total (+ prazo, quando houver) e o CTA.
           Sem este bloco, o card ficava com o título mas sem nenhum conteúdo (bug corrigido). */}
-      {(variant === 'metodoPagamento' || variant === 'pagamento') && (
+      {(variant === "metodoPagamento" || variant === "pagamento") && (
         <View style={styles.corpo}>
           <View style={styles.linhaTotal}>
             <Text style={styles.totalLabel}>Total</Text>
@@ -249,12 +287,14 @@ export default function ResumoPedido({
           {prazoPagamento && (
             <View style={styles.prazoBloco}>
               <Text style={styles.prazoLabel}>
-                {prazoPagamento.expirado ? 'Expirado' : 'Pague em até'}
+                {prazoPagamento.expirado ? "Expirado" : "Pague em até"}
               </Text>
 
               {!prazoPagamento.expirado && (
                 <View style={styles.prazoValores}>
-                  <Text style={styles.prazoContador}>{formatarTempo(tempoRestanteSegundos)}</Text>
+                  <Text style={styles.prazoContador}>
+                    {formatarTempo(tempoRestanteSegundos)}
+                  </Text>
                   <Text style={styles.prazoData}>{prazoPagamento.texto}</Text>
                 </View>
               )}
@@ -262,7 +302,10 @@ export default function ResumoPedido({
           )}
 
           {ctaLabel && (
-            <View style={ctaDisabled ? styles.ctaDesabilitado : undefined} pointerEvents={ctaDisabled ? 'none' : 'auto'}>
+            <View
+              style={ctaDisabled ? styles.ctaDesabilitado : undefined}
+              pointerEvents={ctaDisabled ? "none" : "auto"}
+            >
               <BtnPrincipal title={ctaLabel} onPress={() => onCtaClick?.()} />
             </View>
           )}

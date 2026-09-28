@@ -7,6 +7,7 @@ import { View, Text } from 'react-native';
 import { EspecificacoesTecnicasProps } from './types';
 import { styles } from './styles';
 
+/** Secao que organiza e exibe as especificacoes tecnicas da ferramenta. */
 export function EspecificacoesTecnicas({ especificacoes }: EspecificacoesTecnicasProps) {
   // Validação defensiva: se não houver especificações, não renderiza o bloco vazio
   if (!especificacoes || especificacoes.length === 0) {

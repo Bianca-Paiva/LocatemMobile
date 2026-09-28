@@ -17,6 +17,7 @@ import { useFerramentas } from '../../../context/Ferramentas/FerramentasContext'
 import colors from '../../../theme/colors';
 import styles from './styles';
 
+/** Tela que lista as ferramentas do locador e oferece cadastro e edicao. */
 export default function MinhasFerramentasScreen() {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const {

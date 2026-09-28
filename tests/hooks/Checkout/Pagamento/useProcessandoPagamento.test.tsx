@@ -1,3 +1,4 @@
+/** Cenarios cobertos pelos testes de useProcessandoPagamento. */
 import React from 'react';
 import { act, create } from 'react-test-renderer';
 import { CarrinhoProvider } from '../../../../src/context/Checkout/Carrinho/CarrinhoContext';
@@ -30,6 +31,7 @@ afterEach(() => {
   jest.useRealTimers();
 });
 
+/** Cria um produto de teste valido e aplica as substituicoes do cenario. */
 function criarProduto(overrides: Partial<Produto> = {}): Produto {
   return {
     id: 1,
@@ -51,17 +53,20 @@ function criarProduto(overrides: Partial<Produto> = {}): Produto {
   };
 }
 
+/** Componente auxiliar que executa o hook da tela de processamento. */
 function ComProcessando({ navigate, api }: { navigate: (r: string) => void; api: any }) {
   api.processando = useProcessandoPagamento(navigate);
   return null;
 }
 
+/** Componente auxiliar que renderiza o contexto sob teste e expoe seu estado. */
 function Harness({ mostrarProcessando, navigate, api }: { mostrarProcessando: boolean; navigate: any; api: any }) {
   api.carrinhoStore = useCarrinhoStore();
   api.pagamentoStore = usePagamentoStore();
   return mostrarProcessando ? <ComProcessando navigate={navigate} api={api} /> : null;
 }
 
+/** Prepara contexto e dependencias usados pelo hook na tela. */
 function montarHarness(navigate = jest.fn()) {
   const api: any = {};
   let renderer: any;
@@ -75,6 +80,7 @@ function montarHarness(navigate = jest.fn()) {
     );
   });
 
+  /** Monta a tela de processamento com carrinho e pagamento preparados. */
   function montarTelaProcessando() {
     act(() => {
       renderer.update(

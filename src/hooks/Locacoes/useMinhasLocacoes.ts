@@ -12,6 +12,7 @@ interface UseMinhasLocacoesReturn {
   contagem: Record<FiltroLocacao, number>;
 }
 
+/** Seleciona e organiza as locacoes apresentadas ao usuario. */
 export function useMinhasLocacoes(): UseMinhasLocacoesReturn {
   // Locacoes vêm do contexto global, garantindo que alterações feitas em
   // DetalhesLocacao (ex: cancelamento) reflitam aqui também

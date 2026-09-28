@@ -23,6 +23,7 @@ import { useProdutoStore } from "../../hooks/Ferramentas/useProdutoStore";
 // Catálogo principal exibido na Home (ver faixas de id em produtos.mock.ts).
 const PRODUTOS_HOME = PRODUTOS_MOCK.filter((produto) => produto.id <= 9);
 
+/** Tela inicial do locatario, com acesso a busca e produtos em destaque. */
 export const HomeScreen = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
     const { setProdutoSelecionado } = useProdutoStore();

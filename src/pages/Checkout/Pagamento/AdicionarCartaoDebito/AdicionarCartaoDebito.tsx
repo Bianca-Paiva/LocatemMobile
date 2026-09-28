@@ -17,6 +17,7 @@ interface AdicionarCartaoDebitoProps {
   navigate: (route: string) => void;
 }
 
+/** Formulario para cadastrar um cartao de debito e seguir no fluxo de pagamento. */
 export default function AdicionarCartaoDebito({ navigate }: AdicionarCartaoDebitoProps) {
   const {
     valor,

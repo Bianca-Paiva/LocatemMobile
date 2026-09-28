@@ -1,3 +1,4 @@
+/** Cenarios cobertos pelos testes de usePagamentoPix. */
 import { act } from 'react-test-renderer';
 import { renderHook } from '../../../testUtils/renderHook';
 import { PagamentoWrapper } from '../../../testUtils/PagamentoWrapper';

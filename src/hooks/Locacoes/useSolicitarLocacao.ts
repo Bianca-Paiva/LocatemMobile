@@ -36,6 +36,7 @@ function formatarDataCurta(dataIso: string): string {
     if (!data) return '';
     return `${String(data.getDate()).padStart(2, '0')} ${MESES_ABREVIADOS[data.getMonth()]}`;
 }
+/** Converte um valor numerico para exibicao no formato monetario brasileiro. */
 function formatarMoeda(valor: number): string {
     return `R$ ${valor.toFixed(2).replace('.', ',')}`;
 }
@@ -60,6 +61,7 @@ const FRETE_PADRAO = 15;
 interface UseSolicitarLocacaoParams {
     produto: ProdutoSelecionado;
 }
+/** Mantem os campos do pedido de locacao, calcula valores e valida os dados enviados. */
 export function useSolicitarLocacao({ produto }: UseSolicitarLocacaoParams) {
     const [form, setForm] = useState<SolicitarLocacaoFormState>({
         dataEntrega: '',
@@ -75,6 +77,7 @@ export function useSolicitarLocacao({ produto }: UseSolicitarLocacaoParams) {
         nomeCompleto: '',
         telefoneContato: '',
     });
+    /** Converte o preco do produto para o valor numerico usado nos calculos. */
     const precoDiaria = useMemo(() => {
         const preco = Number(String(produto.price).replace(',', '.'));
         return Number.isFinite(preco) ? preco : 0;

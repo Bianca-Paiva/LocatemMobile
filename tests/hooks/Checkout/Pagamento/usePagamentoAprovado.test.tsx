@@ -1,3 +1,4 @@
+/** Cenarios cobertos pelos testes de usePagamentoAprovado. */
 import React from 'react';
 import { act, create } from 'react-test-renderer';
 import { CarrinhoProvider } from '../../../../src/context/Checkout/Carrinho/CarrinhoContext';
@@ -11,6 +12,7 @@ import type { Produto } from '../../../../src/types/Ferramentas/produto.types';
 // tela monta (useState com inicializador preguiçoso), então usamos o mesmo
 // harness de duas fases do teste de useProcessandoPagamento.
 
+/** Cria um produto de teste valido e aplica as substituicoes do cenario. */
 function criarProduto(overrides: Partial<Produto> = {}): Produto {
   return {
     id: 1,
@@ -32,17 +34,20 @@ function criarProduto(overrides: Partial<Produto> = {}): Produto {
   };
 }
 
+/** Componente auxiliar que executa o hook da tela de pagamento aprovado. */
 function ComAprovado({ navigate, api }: { navigate: (r: string) => void; api: any }) {
   api.aprovado = usePagamentoAprovado(navigate);
   return null;
 }
 
+/** Componente auxiliar que renderiza o contexto sob teste e expoe seu estado. */
 function Harness({ mostrarAprovado, navigate, api }: { mostrarAprovado: boolean; navigate: any; api: any }) {
   api.carrinhoStore = useCarrinhoStore();
   api.pagamentoStore = usePagamentoStore();
   return mostrarAprovado ? <ComAprovado navigate={navigate} api={api} /> : null;
 }
 
+/** Prepara contexto e dependencias usados pelo hook na tela. */
 function montarHarness(navigate = jest.fn()) {
   const api: any = {};
   let renderer: any;
@@ -56,6 +61,7 @@ function montarHarness(navigate = jest.fn()) {
     );
   });
 
+  /** Monta a tela de aprovacao apos preparar o estado do fluxo. */
   function montarTelaAprovado() {
     act(() => {
       renderer.update(

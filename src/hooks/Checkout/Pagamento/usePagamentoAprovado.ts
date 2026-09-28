@@ -16,6 +16,7 @@ const ROTULOS_METODO: Record<FormaPagamento, string> = {
   pix: 'PIX',
 };
 
+/** Formata a data e hora atuais para o resumo de pagamento. */
 function formatarDataHoraAtual(): string {
   const agora = new Date();
   const data = agora.toLocaleDateString('pt-BR');
@@ -58,6 +59,7 @@ interface UsePagamentoAprovadoReturn {
   voltarParaInicio: () => void;
 }
 
+/** Prepara os dados de confirmacao e as acoes disponiveis apos a aprovacao. */
 export function usePagamentoAprovado(navigate: (route: string) => void): UsePagamentoAprovadoReturn {
   const { itens, removerItem } = useCarrinhoStore();
   const { valor: total, metodo, cartao, processado, limparDadosPagamento } = usePagamentoStore();
@@ -140,6 +142,7 @@ export function usePagamentoAprovado(navigate: (route: string) => void): UsePaga
       .forEach((item) => removerItem(item.id));
   }
 
+  /** Navega para os detalhes da locacao confirmada. */
   function verDetalhesDoAluguel() {
     limparFunilDePagamento();
     // Usa a chave dedicada 'minhasLocacoesPosPagamento' (resolvida em AppRoutes.tsx
@@ -150,6 +153,7 @@ export function usePagamentoAprovado(navigate: (route: string) => void): UsePaga
     navigate('minhasLocacoesPosPagamento');
   }
 
+  /** Retorna o usuario a tela inicial depois da confirmacao. */
   function voltarParaInicio() {
     limparFunilDePagamento();
     navigate('HomeScreen');

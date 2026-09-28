@@ -25,6 +25,7 @@ const TEMPO_OPTIONS = [
   }),
 ];
 
+/** Menu de selecao da duracao da locacao e comunicacao de sua abertura. */
 export default function TempoDropdown({ value, onChange, onOpenChange }: TempoDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
 

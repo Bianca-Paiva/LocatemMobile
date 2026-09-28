@@ -1,6 +1,8 @@
+/** Cenarios cobertos pelos testes de avaliacoesResumo. */
 import { calcularResumoAvaliacoes } from '../../../src/utils/Avaliacao/avaliacoesResumo';
 import type { AvaliacaoProduto } from '../../../src/types/Ferramentas/produto.types';
 
+/** Cria uma avaliacao de teste com a nota recebida. */
 function criarAvaliacao(rating: number): AvaliacaoProduto {
   return {
     nome: 'Usuário Teste',

@@ -23,6 +23,7 @@ export const ProdutoContext =
     null
   );
 
+/** Disponibiliza o produto selecionado e seus dados para as telas consumidoras. */
 export function ProdutoProvider({
   children,
 }: {

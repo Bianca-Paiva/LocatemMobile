@@ -1,12 +1,12 @@
 /**
  * Componente de checkout: compoe carrinho, pagamento e resumo dos itens alugados.
  */
-import { View, Text, TouchableOpacity } from 'react-native';
-import { CreditCard, QrCode, Landmark } from 'lucide-react-native';
+import { View, Text, TouchableOpacity } from "react-native";
+import { CreditCard, QrCode, Landmark } from "lucide-react-native";
 
-import type { FormaPagamento } from '../../../../types/Checkout/Pagamento/cartao.types';
-import colors from '../../../../theme/colors';
-import styles from './styles';
+import type { FormaPagamento } from "../../../../types/Auth/Pagamento/cartao.types";
+import colors from "../../../../theme/colors";
+import styles from "./styles";
 
 interface Opcao {
   id: FormaPagamento;
@@ -15,9 +15,9 @@ interface Opcao {
 }
 
 const OPCOES: Opcao[] = [
-  { id: 'credito', label: 'Cartão de Crédito', Icone: CreditCard },
-  { id: 'debito', label: 'Cartão de Débito', Icone: Landmark },
-  { id: 'pix', label: 'PIX', Icone: QrCode },
+  { id: "credito", label: "Cartão de Crédito", Icone: CreditCard },
+  { id: "debito", label: "Cartão de Débito", Icone: Landmark },
+  { id: "pix", label: "PIX", Icone: QrCode },
 ];
 
 interface SeletorFormaPagamentoProps {
@@ -27,9 +27,16 @@ interface SeletorFormaPagamentoProps {
   onSelecionar: (forma: FormaPagamento) => void;
 }
 
-export function SeletorFormaPagamento({ selecionado, onSelecionar }: SeletorFormaPagamentoProps) {
+export function SeletorFormaPagamento({
+  selecionado,
+  onSelecionar,
+}: SeletorFormaPagamentoProps) {
   return (
-    <View style={styles.card} accessibilityRole="radiogroup" accessibilityLabel="Forma de pagamento">
+    <View
+      style={styles.card}
+      accessibilityRole="radiogroup"
+      accessibilityLabel="Forma de pagamento"
+    >
       <Text style={styles.titulo}>Forma de Pagamento</Text>
 
       <View style={styles.grupo}>
@@ -44,8 +51,15 @@ export function SeletorFormaPagamento({ selecionado, onSelecionar }: SeletorForm
               accessibilityRole="radio"
               accessibilityState={{ checked: ativo }}
             >
-              <Icone size={18} color={ativo ? colors.textDark : colors.textMuted} />
-              <Text style={[styles.botaoTexto, ativo && styles.botaoTextoAtivo]}>{label}</Text>
+              <Icone
+                size={18}
+                color={ativo ? colors.textDark : colors.textMuted}
+              />
+              <Text
+                style={[styles.botaoTexto, ativo && styles.botaoTextoAtivo]}
+              >
+                {label}
+              </Text>
             </TouchableOpacity>
           );
         })}

@@ -1,12 +1,12 @@
 /**
  * Componente de checkout: compoe carrinho, pagamento e resumo dos itens alugados.
  */
-import { View, Text, TouchableOpacity } from 'react-native';
-import { Check } from 'lucide-react-native';
+import { View, Text, TouchableOpacity } from "react-native";
+import { Check } from "lucide-react-native";
 
-import ItemCarrinho from '../ItemCarrinho';
-import styles from './styles';
-import type { LojaGroupData } from '../../../../types/Checkout/Pagamento/checkout';
+import ItemCarrinho from "../ItemCarrinho";
+import styles from "./styles";
+import type { LojaGroupData } from "../../../../types/Auth/Pagamento/checkout";
 
 interface LojaGroupProps {
   loja: LojaGroupData;
@@ -25,18 +25,31 @@ export default function LojaGroup({
   onSelecionarItem,
   onSelecionarLoja,
 }: LojaGroupProps) {
-  const todosSelecionados = loja.itens.length > 0 && loja.itens.every((item) => item.selecionado);
+  const todosSelecionados =
+    loja.itens.length > 0 && loja.itens.every((item) => item.selecionado);
 
   return (
     <View style={styles.card}>
       <View style={styles.cabecalho}>
         <TouchableOpacity
           style={styles.selecionarLoja}
-          onPress={() => onSelecionarLoja(loja.itens.map((item) => item.id), !todosSelecionados)}
+          onPress={() =>
+            onSelecionarLoja(
+              loja.itens.map((item) => item.id),
+              !todosSelecionados,
+            )
+          }
           accessibilityLabel={`Selecionar todos os produtos de ${loja.nomeLoja}`}
         >
-          <View style={[styles.checkbox, todosSelecionados && styles.checkboxMarcado]}>
-            {todosSelecionados && <Check size={12} color="#FFFFFF" strokeWidth={3} />}
+          <View
+            style={[
+              styles.checkbox,
+              todosSelecionados && styles.checkboxMarcado,
+            ]}
+          >
+            {todosSelecionados && (
+              <Check size={12} color="#FFFFFF" strokeWidth={3} />
+            )}
           </View>
 
           <Text style={styles.nomeLoja}>{loja.nomeLoja}</Text>

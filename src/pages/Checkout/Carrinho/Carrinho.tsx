@@ -1,23 +1,26 @@
 /**
  * Fluxo de carrinho: organiza itens selecionados, resumo da locacao e passagem para pagamento.
  */
-import { useMemo, useState } from 'react';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { Check } from 'lucide-react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { useMemo, useState } from "react";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { Check } from "lucide-react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import Header from '../../../components/Layout/Header';
-import CabecalhoPagina from '../../../components/Layout/CabecalhoPagina/CabecalhoPagina';
-import CarrinhoVazio from '../../../components/Checkout/Carrinho/CarrinhoVazio';
-import LojaGroup from '../../../components/Checkout/Carrinho/LojaGroup';
-import ResumoPedido from '../../../components/Checkout/Carrinho/Resumo/ResumoPedido/ResumoPedido.index';
+import Header from "../../../components/Layout/Header";
+import CabecalhoPagina from "../../../components/Layout/CabecalhoPagina/CabecalhoPagina";
+import CarrinhoVazio from "../../../components/Checkout/Carrinho/CarrinhoVazio";
+import LojaGroup from "../../../components/Checkout/Carrinho/LojaGroup";
+import ResumoPedido from "../../../components/Checkout/Carrinho/Resumo/ResumoPedido/ResumoPedido.index";
 
-import { useCarrinhoStore } from '../../../hooks/Carrinho/useCarrinhoStore';
-import { usePagamentoStore } from '../../../hooks/Checkout/Pagamento/usePagamentoStore';
-import type { ItemCarrinho as ItemCarrinhoContexto } from '../../../context/Checkout/Carrinho/CarrinhoContext';
-import type { CarrinhoItemData, LojaGroupData } from '../../../types/Checkout/Pagamento/checkout';
+import { useCarrinhoStore } from "../../../hooks/Carrinho/useCarrinhoStore";
+import { usePagamentoStore } from "../../../hooks/Checkout/Pagamento/usePagamentoStore";
+import type { ItemCarrinho as ItemCarrinhoContexto } from "../../../context/Checkout/Carrinho/CarrinhoContext";
+import type {
+  CarrinhoItemData,
+  LojaGroupData,
+} from "../../../types/Auth/Pagamento/checkout";
 
-import { styles } from './styles';
+import { styles } from "./styles";
 
 /* ============================================================
    HELPERS
@@ -26,7 +29,7 @@ import { styles } from './styles';
 // Preço do produto vem como string ("599,98") vinda do cadastro — mesma
 // conversão usada em useSolicitarLocacao.ts.
 function precoDiariaDoProduto(price: string): number {
-  const preco = Number(String(price).replace(',', '.'));
+  const preco = Number(String(price).replace(",", "."));
   return Number.isFinite(preco) ? preco : 0;
 }
 
@@ -104,8 +107,10 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
   const [percentualDesconto, setPercentualDesconto] = useState(0);
 
   const carrinhoVazio = itens.length === 0;
-  const todosSelecionados = itens.length > 0 && itens.every((item) => item.selecionado);
-  const nenhumSelecionado = itens.length === 0 || itens.every((item) => !item.selecionado);
+  const todosSelecionados =
+    itens.length > 0 && itens.every((item) => item.selecionado);
+  const nenhumSelecionado =
+    itens.length === 0 || itens.every((item) => !item.selecionado);
 
   // BUG CORRIGIDO: o frete é um dado obrigatório (marcado com "*" no
   // resumo do pedido), mas nada impedia o usuário de tocar em "Continuar
@@ -128,7 +133,10 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
           totalDasLojas +
           loja.itens.reduce(
             (totalDosItens, item) =>
-              totalDosItens + (item.selecionado ? item.precoUnitario * item.quantidade * item.dias : 0),
+              totalDosItens +
+              (item.selecionado
+                ? item.precoUnitario * item.quantidade * item.dias
+                : 0),
             0,
           ),
         0,
@@ -136,9 +144,12 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
     [lojas],
   );
 
-  const desconto = useMemo(() => subtotal * percentualDesconto, [subtotal, percentualDesconto]);
+  const desconto = useMemo(
+    () => subtotal * percentualDesconto,
+    [subtotal, percentualDesconto],
+  );
 
-  const freteComCupom = cupomAplicado === 'FRETEGRATIS' ? 0 : freteValor;
+  const freteComCupom = cupomAplicado === "FRETEGRATIS" ? 0 : freteValor;
 
   const total = useMemo(
     () => subtotal - desconto + (freteComCupom ?? 0),
@@ -150,12 +161,18 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
   // botão não estava desabilitado) e nada visível acontecia. Agora
   // devolve um resultado que o ResumoPedido usa pra marcar o campo em
   // vermelho e mostrar uma mensagem de erro.
-  function handleCalcularFrete(cep: string): { sucesso: boolean; mensagem?: string } {
+  function handleCalcularFrete(cep: string): {
+    sucesso: boolean;
+    mensagem?: string;
+  } {
     // Remove tudo que não é dígito (traço, espaço) antes de validar o tamanho.
-    const cepNormalizado = cep.replace(/\D/g, '');
+    const cepNormalizado = cep.replace(/\D/g, "");
 
     if (cepNormalizado.length !== 8) {
-      return { sucesso: false, mensagem: 'Informe um CEP válido com 8 dígitos.' };
+      return {
+        sucesso: false,
+        mensagem: "Informe um CEP válido com 8 dígitos.",
+      };
     }
 
     // Frete temporário fixo (R$ 10). Depois este trecho deve chamar a API de frete
@@ -169,7 +186,7 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
   // tela de Método de Pagamento e as seguintes lerem o mesmo valor.
   function handleContinuarParaPagamento() {
     setValorPagamento(total);
-    navigate('metodoPagamento');
+    navigate("metodoPagamento");
   }
 
   // Cupons aceitos são fixos (mock): "LOCATEM10" dá 10% de desconto no
@@ -179,17 +196,17 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
     const codigoNormalizado = codigo.trim().toUpperCase();
 
     if (!codigoNormalizado) {
-      return { sucesso: false, mensagem: 'Informe um código de cupom.' };
+      return { sucesso: false, mensagem: "Informe um código de cupom." };
     }
 
-    if (codigoNormalizado === 'LOCATEM10') {
+    if (codigoNormalizado === "LOCATEM10") {
       setCupomAplicado(codigoNormalizado);
       setCupomAviso(codigoNormalizado);
       setPercentualDesconto(0.1);
       return { sucesso: true };
     }
 
-    if (codigoNormalizado === 'FRETEGRATIS') {
+    if (codigoNormalizado === "FRETEGRATIS") {
       setCupomAplicado(codigoNormalizado);
       setCupomAviso(codigoNormalizado);
       setPercentualDesconto(0);
@@ -199,68 +216,71 @@ export default function Carrinho({ navigate }: CarrinhoProps) {
     setCupomAplicado(null);
     setCupomAviso(null);
     setPercentualDesconto(0);
-    return { sucesso: false, mensagem: 'Cupom inválido ou expirado.' };
+    return { sucesso: false, mensagem: "Cupom inválido ou expirado." };
   }
 
   return (
-    <SafeAreaView style={styles.safeArea} edges={['bottom', 'left', 'right']}>
-      
+    <SafeAreaView style={styles.safeArea} edges={["bottom", "left", "right"]}>
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        <Header />
+        <View style={styles.containerCont}>
+          <CabecalhoPagina titulo="Carrinho" />
 
-      <ScrollView
-        style={styles.container}
-        showsVerticalScrollIndicator={false}
-      >
-      <Header />
-       <View style={styles.containerCont}>
-      
-        <CabecalhoPagina titulo="Carrinho" />
+          {carrinhoVazio ? (
+            <CarrinhoVazio onConferirProdutos={() => navigate("busca")} />
+          ) : (
+            <>
+              <TouchableOpacity
+                style={styles.selecionarTodosCard}
+                onPress={() => selecionarTodos(!todosSelecionados)}
+              >
+                <View
+                  style={[
+                    styles.checkbox,
+                    todosSelecionados && styles.checkboxMarcado,
+                  ]}
+                >
+                  {todosSelecionados && (
+                    <Check size={12} color="#FFFFFF" strokeWidth={3} />
+                  )}
+                </View>
 
-        {carrinhoVazio ? (
-          <CarrinhoVazio onConferirProdutos={() => navigate('busca')} />
-        ) : (
-          <>
-            <TouchableOpacity
-              style={styles.selecionarTodosCard}
-              onPress={() => selecionarTodos(!todosSelecionados)}
-            >
-              <View style={[styles.checkbox, todosSelecionados && styles.checkboxMarcado]}>
-                {todosSelecionados && <Check size={12} color="#FFFFFF" strokeWidth={3} />}
+                <Text style={styles.selecionarTodosTexto}>
+                  Selecionar todos
+                </Text>
+              </TouchableOpacity>
+
+              <View style={styles.lojas}>
+                {lojas.map((loja) => (
+                  <LojaGroup
+                    key={loja.id}
+                    loja={loja}
+                    onQuantidadeChange={atualizarQuantidade}
+                    onDiasChange={atualizarDias}
+                    onRemoveItem={removerItem}
+                    onSelecionarItem={alternarSelecao}
+                    onSelecionarLoja={selecionarItens}
+                  />
+                ))}
               </View>
+            </>
+          )}
 
-              <Text style={styles.selecionarTodosTexto}>Selecionar todos</Text>
-            </TouchableOpacity>
-
-            <View style={styles.lojas}>
-              {lojas.map((loja) => (
-                <LojaGroup
-                  key={loja.id}
-                  loja={loja}
-                  onQuantidadeChange={atualizarQuantidade}
-                  onDiasChange={atualizarDias}
-                  onRemoveItem={removerItem}
-                  onSelecionarItem={alternarSelecao}
-                  onSelecionarLoja={selecionarItens}
-                />
-              ))}
-            </View>
-          </>
-        )}
-
-        <ResumoPedido
-          variant={carrinhoVazio ? 'vazio' : 'carrinho'}
-          subtotal={subtotal}
-          desconto={desconto}
-          total={total}
-          freteValor={freteComCupom}
-          onCalcularFrete={handleCalcularFrete}
-          onAplicarCupom={handleAplicarCupom}
-          cupomAviso={cupomAviso}
-          onOcultarCupomAviso={() => setCupomAviso(null)}
-          ctaLabel="Continuar para Pagamento"
-          onCtaClick={handleContinuarParaPagamento}
-          ctaDisabled={carrinhoVazio || nenhumSelecionado}
-        />
-      </View>  
+          <ResumoPedido
+            variant={carrinhoVazio ? "vazio" : "carrinho"}
+            subtotal={subtotal}
+            desconto={desconto}
+            total={total}
+            freteValor={freteComCupom}
+            onCalcularFrete={handleCalcularFrete}
+            onAplicarCupom={handleAplicarCupom}
+            cupomAviso={cupomAviso}
+            onOcultarCupomAviso={() => setCupomAviso(null)}
+            ctaLabel="Continuar para Pagamento"
+            onCtaClick={handleContinuarParaPagamento}
+            ctaDisabled={carrinhoVazio || nenhumSelecionado}
+          />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );

@@ -1,3 +1,4 @@
+/** Cenarios cobertos pelos testes de iniciais. */
 import { getIniciais } from '../../../src/utils/Conta/Avatar/iniciais';
 
 describe('getIniciais', () => {

@@ -74,6 +74,7 @@ function matchesFilter(notification: NotificationData, filter: FilterOption, now
   }
 }
 
+/** Filtra notificacoes e oferece acoes para marca-las e gerencia-las. */
 export function useNotifications(): UseNotificationsReturn {
   // Fonte da verdade: o store global de notificações (único lugar que guarda
   // a lista real — ver useNotificationStore.ts para o porquê da mudança).
@@ -99,25 +100,31 @@ export function useNotifications(): UseNotificationsReturn {
     return notifications.slice(start, start + PAGE_SIZE);
   }, [notifications, currentPage]);
 
+  /** Atualiza o filtro ativo e reinicia a paginacao da lista. */
   const setFilter = (next: FilterOption) => {
     setFilterState(next);
     setCurrentPage(1); // evita ficar em página inexistente após trocar o filtro
   };
 
+  /** Muda para a pagina solicitada dentro dos limites disponiveis. */
   const goToPage = (page: number) => {
     if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
   };
 
+  /** Avanca para a pagina anterior da lista de notificacoes. */
   const goToPrevPage = () => goToPage(currentPage - 1);
+  /** Avanca para a proxima pagina da lista de notificacoes. */
   const goToNextPage = () => goToPage(currentPage + 1);
 
   // Limpa a lista completa, não apenas o que está filtrado no momento
+  /** Limpa todas as notificacoes do estado local e da store. */
   const clearAll = () => {
     limparTodasDoStore();
     setCurrentPage(1);
   };
 
+  /** Remove a notificacao associada ao identificador informado. */
   const renovar = (id: string) => {
     removerNotificacao(id);
   };

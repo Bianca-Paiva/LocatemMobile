@@ -24,6 +24,7 @@ interface UseSelecionarCartaoReturn {
   erro: string | null;
 }
 
+/** Gerencia a selecao de cartao e a continuidade do pagamento. */
 export function useSelecionarCartao(navigate: (route: string) => void): UseSelecionarCartaoReturn {
   const { metodo: metodoBruto, cartoesSalvos, setCartaoPagamento } = usePagamentoStore();
   const [cartaoSelecionadoId, setCartaoSelecionadoId] = useState<number | null>(null);
@@ -54,11 +55,13 @@ export function useSelecionarCartao(navigate: (route: string) => void): UseSelec
         ? 'Selecionar Cartão de Débito'
         : 'Selecionar cartão';
 
+  /** Marca o cartao informado como o selecionado para pagamento. */
   function selecionarCartao(id: number) {
     setCartaoSelecionadoId(id);
     setErro(null);
   }
 
+  /** Abre o fluxo de cadastro de um novo cartao. */
   function adicionarNovoCartao() {
     if (!metodoPagamento) return;
 
@@ -68,6 +71,7 @@ export function useSelecionarCartao(navigate: (route: string) => void): UseSelec
     navigate(metodoPagamento === 'credito' ? 'adicionarCartaoCredito' : 'adicionarCartaoDebito');
   }
 
+  /** Confirma o pagamento e conduz para a proxima etapa. */
   function confirmarPagamento() {
     if (!cartaoSelecionadoId) {
       setErro('Selecione um cartão para continuar.');

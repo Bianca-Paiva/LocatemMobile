@@ -5,6 +5,7 @@
 import { useContext } from 'react';
 import { FavoritosContext } from '../../context/Ferramentas/Favoritos/FavoritosContext';
 
+/** Acessa o estado global de favoritos e suas operacoes. */
 export function useFavoritosStore() {
   const ctx = useContext(FavoritosContext);
 

@@ -1,13 +1,13 @@
 /**
  * Componente de checkout: compoe carrinho, pagamento e resumo dos itens alugados.
  */
-import { View, Text, TouchableOpacity, Image } from 'react-native';
-import { Trash2, Check } from 'lucide-react-native';
+import { View, Text, TouchableOpacity, Image } from "react-native";
+import { Trash2, Check } from "lucide-react-native";
 
-import SeletorQuantidade from '../../../Shared/Inputs/SeletorQuantidade/SeletorQuantidade';
-import colors from '../../../../theme/colors';
-import styles from './styles';
-import type { CarrinhoItemData } from '../../../../types/Checkout/Pagamento/checkout';
+import SeletorQuantidade from "../../../Shared/Inputs/SeletorQuantidade/SeletorQuantidade";
+import colors from "../../../../theme/colors";
+import styles from "./styles";
+import type { CarrinhoItemData } from "../../../../types/Auth/Pagamento/checkout";
 
 interface ItemCarrinhoProps {
   item: CarrinhoItemData;
@@ -19,7 +19,8 @@ interface ItemCarrinhoProps {
   onSelecionar: (id: string) => void;
 }
 
-const formatarPreco = (valor: number) => `R$ ${valor.toFixed(2).replace('.', ',')}`;
+const formatarPreco = (valor: number) =>
+  `R$ ${valor.toFixed(2).replace(".", ",")}`;
 
 export default function ItemCarrinho({
   item,
@@ -39,7 +40,9 @@ export default function ItemCarrinho({
           onPress={() => onSelecionar(item.id)}
           accessibilityLabel={`Selecionar ${item.title}`}
         >
-          {item.selecionado && <Check size={12} color="#FFFFFF" strokeWidth={3} />}
+          {item.selecionado && (
+            <Check size={12} color="#FFFFFF" strokeWidth={3} />
+          )}
         </TouchableOpacity>
 
         <Image source={item.image} style={styles.imagem} resizeMode="contain" />
@@ -77,8 +80,12 @@ export default function ItemCarrinho({
             minimo={1}
             maximo={item.estoqueDisponivel ?? 999}
             label="Quantidade"
-            onDecrementar={() => onQuantidadeChange(item.id, item.quantidade - 1)}
-            onIncrementar={() => onQuantidadeChange(item.id, item.quantidade + 1)}
+            onDecrementar={() =>
+              onQuantidadeChange(item.id, item.quantidade - 1)
+            }
+            onIncrementar={() =>
+              onQuantidadeChange(item.id, item.quantidade + 1)
+            }
           />
         </View>
       </View>

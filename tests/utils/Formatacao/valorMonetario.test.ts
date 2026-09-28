@@ -1,3 +1,4 @@
+/** Cenarios cobertos pelos testes de valorMonetario. */
 import { paraNumero, formatarValorMonetario } from '../../../src/utils/Formatacao/valorMonetario';
 
 describe('valorMonetario', () => {

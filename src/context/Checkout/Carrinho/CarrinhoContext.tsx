@@ -37,6 +37,7 @@ interface CarrinhoContextType {
 
 export const CarrinhoContext = createContext<CarrinhoContextType | null>(null);
 
+/** Compartilha os itens do carrinho e as operacoes de compra e selecao. */
 export function CarrinhoProvider({ children }: { children: ReactNode }) {
   const [itens, setItens] = useState<ItemCarrinho[]>([]);
 
@@ -55,10 +56,12 @@ export function CarrinhoProvider({ children }: { children: ReactNode }) {
     setItens((atuais) => [novoItem, ...atuais]);
   };
 
+  /** Remove do carrinho o item que corresponde ao identificador informado. */
   const removerItem = (id: string) => {
     setItens((atuais) => atuais.filter((item) => item.id !== id));
   };
 
+  /** Atualiza a quantidade do item e ignora valores abaixo do minimo permitido. */
   const atualizarQuantidade = (id: string, quantidade: number) => {
     if (quantidade < 1) return;
     setItens((atuais) =>
@@ -66,6 +69,7 @@ export function CarrinhoProvider({ children }: { children: ReactNode }) {
     );
   };
 
+  /** Atualiza a duracao da locacao do item indicado. */
   const atualizarDias = (id: string, dias: number) => {
     if (dias < 1) return;
     setItens((atuais) =>
@@ -73,16 +77,19 @@ export function CarrinhoProvider({ children }: { children: ReactNode }) {
     );
   };
 
+  /** Inverte o estado de selecao do item indicado no carrinho. */
   const alternarSelecao = (id: string) => {
     setItens((atuais) =>
       atuais.map((item) => (item.id === id ? { ...item, selecionado: !item.selecionado } : item)),
     );
   };
 
+  /** Define o estado de selecao para todos os itens do carrinho. */
   const selecionarTodos = (selecionado: boolean) => {
     setItens((atuais) => atuais.map((item) => ({ ...item, selecionado })));
   };
 
+  /** Altera a selecao apenas dos itens cujos identificadores foram informados. */
   const selecionarItens = (ids: string[], selecionado: boolean) => {
     const idsSelecionados = new Set(ids);
     setItens((atuais) =>

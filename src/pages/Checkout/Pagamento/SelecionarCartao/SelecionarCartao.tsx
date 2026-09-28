@@ -19,6 +19,7 @@ interface SelecionarCartaoProps {
   navigate: (route: string) => void;
 }
 
+/** Tela para escolher um cartao salvo ou iniciar o cadastro de outro. */
 export default function SelecionarCartao({ navigate }: SelecionarCartaoProps) {
   const {
     metodoPagamento,
