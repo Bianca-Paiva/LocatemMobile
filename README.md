@@ -106,3 +106,8 @@ npm test
 ```
 
 Nao ha scripts configurados para `lint`, `typecheck`, `check` ou `build` neste momento.
+
+## Equipe
+
+| [<img loading="lazy" src="https://github.com/Cgustav209.png" width=115><br><sub>Claudio Gustavo</sub>](https://github.com/Cgustav209) | [<img loading="lazy" src="https://github.com/Felipe-Aragao-Silva.png" width=115><br><sub>Felipe Aragão</sub>](https://github.com/Felipe-Aragao-Silva) | [<img loading="lazy" src="https://github.com/Heitor-Guimaraes-10.png" width=115><br><sub>Heitor Guimarães</sub>](https://github.com/Heitor-Guimaraes-10) | [<img loading="lazy" src="https://github.com/STEPHANYcalmonS.png" width=115><br><sub>Stephany Calmon</sub>](https://github.com/STEPHANYcalmonS) | [<img loading="lazy" src="https://github.com/Migue1Correia.png" width=115><br><sub>Miguel</sub>](https://github.com/Migue1Correia) | [<img loading="lazy" src="https://github.com/Bianca-Paiva.png" width=115><br><sub>Bianca Paiva</sub>](https://github.com/Bianca-Paiva) |
+| :---: | :---: | :---: | :---: | :---: | :---: |
